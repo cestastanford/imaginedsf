@@ -44,7 +44,7 @@ function create_custom_post_types() {
             ),
             'menu_icon' => 'dashicons-location-alt',
             'public' => true,
-            'rewrite' => array( 'slug' => 'map' ),
+            'rewrite' => array( 'slug' => 'maps' ),
             'show_in_rest' => true,
         )
     );
@@ -74,8 +74,8 @@ function create_custom_post_types() {
             'public' => true,
             'has_archive' => true,
             'hierarchical' => true,
-            'supports' => array( 'page-attributes' ),
-            'rewrite' => array( 'slug' => 'narrative' ),
+            'supports' => array( 'title', 'editor', 'page-attributes' ),
+            'rewrite' => array( 'slug' => 'narratives' ),
         )
     );
 
