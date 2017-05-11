@@ -4,4 +4,4 @@
 *   Updates post types.
 */
 
-require_once 'includes/custom-post-types.php';
+require_once 'inc/custom-post-types.php';
