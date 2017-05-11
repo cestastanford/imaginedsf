@@ -22,7 +22,7 @@ add_action( 'admin_menu', 'remove_unused_menu_options' );
 function create_custom_post_types() {
 
     //  Maps
-    register_post_type( 'isf_map',
+    register_post_type( MAP_POST_TYPE,
         array(
             'labels' => array(
                 'name' => 'Maps',
@@ -33,8 +33,8 @@ function create_custom_post_types() {
                 'new_item' => 'New Map',
                 'view_item' => 'View Map',
                 'view_items' => 'View Maps',
-                'search_items' - 'Search Maps',
-                'not_found' - 'No Maps Found',
+                'search_items' => 'Search Maps',
+                'not_found' => 'No Maps Found',
                 'not_found_in_trash' => 'No Maps found in Trash',
                 'all_items' => 'All Maps',
                 'archives' => 'Map Archives',
@@ -44,13 +44,14 @@ function create_custom_post_types() {
             ),
             'menu_icon' => 'dashicons-location-alt',
             'public' => true,
+            'has_archive' => true,
             'rewrite' => array( 'slug' => 'maps' ),
             'show_in_rest' => true,
         )
     );
 
     //  Narratives
-    register_post_type( 'isf_narrative',
+    register_post_type( NARRATIVE_POST_TYPE,
         array(
             'labels' => array(
                 'name' => 'Narratives',
