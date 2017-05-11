@@ -4,7 +4,7 @@ get_header();
 
 ?>
 
-<div>You've somehow reached index.php!</div>
+<div>Sorry, we couldn't find that page!</div>
 
 <?php
 

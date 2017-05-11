@@ -4,7 +4,7 @@ get_header();
 
 ?>
 
-<div>You've somehow reached index.php!</div>
+<div>This is the Default Page template!</div>
 
 <?php
 
