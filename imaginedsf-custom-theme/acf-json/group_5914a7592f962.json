@@ -1,0 +1,225 @@
+{
+    "key": "group_5914a7592f962",
+    "title": "Maps",
+    "fields": [
+        {
+            "multiple": 0,
+            "allow_null": 0,
+            "choices": {
+                "proposal": "Proposal Map",
+                "basemap": "Basemap"
+            },
+            "default_value": [],
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "return_format": "value",
+            "key": "field_5914a88975675",
+            "label": "Map Type",
+            "name": "map_type",
+            "type": "select",
+            "instructions": "Select whether this map is a proposal map or a basemap.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            }
+        },
+        {
+            "default_value": "",
+            "placeholder": "",
+            "key": "field_5914a94975676",
+            "label": "Raster Map URL",
+            "name": "raster_url",
+            "type": "url",
+            "instructions": "Enter the WMS address for this map's raster image.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            }
+        },
+        {
+            "default_value": "",
+            "placeholder": "",
+            "key": "field_5914a97d75677",
+            "label": "Vector Polygon Set URL",
+            "name": "vector_url",
+            "type": "url",
+            "instructions": "Enter the WMS address for this map's vector polygon set.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_5914a88975675",
+                        "operator": "==",
+                        "value": "proposal"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            }
+        },
+        {
+            "sub_fields": [
+                {
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "key": "field_5914aa1a75679",
+                    "label": "Title",
+                    "name": "title",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    }
+                },
+                {
+                    "default_value": "",
+                    "placeholder": "",
+                    "key": "field_5914aa317567a",
+                    "label": "URL",
+                    "name": "url",
+                    "type": "url",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    }
+                }
+            ],
+            "min": 0,
+            "max": 0,
+            "layout": "table",
+            "button_label": "Add Feature Set",
+            "collapsed": "",
+            "key": "field_5914a9b675678",
+            "label": "Photos & Drawings URLs",
+            "name": "feature_urls",
+            "type": "repeater",
+            "instructions": "Add a title and WMS address for each feature set to be included in Photos & Drawings for this map.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_5914a88975675",
+                        "operator": "==",
+                        "value": "proposal"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            }
+        },
+        {
+            "post_type": [
+                "isf_map"
+            ],
+            "taxonomy": [],
+            "allow_null": 0,
+            "multiple": 0,
+            "return_format": "object",
+            "ui": 1,
+            "key": "field_5914aa617567b",
+            "label": "Linked Basemap",
+            "name": "linked_basemap",
+            "type": "post_object",
+            "instructions": "Choose a default basemap to link to this proposal map.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_5914a88975675",
+                        "operator": "==",
+                        "value": "proposal"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            }
+        },
+        {
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "default_value": "",
+            "delay": 0,
+            "key": "field_5914aafc7567c",
+            "label": "Map Information",
+            "name": "information",
+            "type": "wysiwyg",
+            "instructions": "Insert a written informative description for the map here.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_5914a88975675",
+                        "operator": "==",
+                        "value": "proposal"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            }
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "isf_map"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "permalink",
+        "the_content",
+        "excerpt",
+        "custom_fields",
+        "discussion",
+        "comments",
+        "revisions",
+        "author",
+        "format",
+        "page_attributes",
+        "featured_image",
+        "categories",
+        "tags",
+        "send-trackbacks"
+    ],
+    "active": 1,
+    "description": "",
+    "modified": 1494526847
+}

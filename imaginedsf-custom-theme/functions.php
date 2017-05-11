@@ -1,7 +1,7 @@
 <?php
 
 /*
-*   Creates the custom post types.
+*   Updates post types.
 */
 
 require_once 'includes/custom-post-types.php';

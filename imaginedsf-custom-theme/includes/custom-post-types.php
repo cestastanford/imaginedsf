@@ -73,6 +73,8 @@ function create_custom_post_types() {
             'menu_icon' => 'dashicons-book-alt',
             'public' => true,
             'has_archive' => true,
+            'hierarchical' => true,
+            'supports' => array( 'page-attributes' ),
             'rewrite' => array( 'slug' => 'narrative' ),
         )
     );
