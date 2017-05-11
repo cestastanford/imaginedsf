@@ -4,20 +4,26 @@ services:
   
   wordpress:
     image: wordpress
+    environment:
+     - WORDPRESS_DB_HOST=mysql
+     - WORDPRESS_DB_USER=wordpress
+     - WORDPRESS_DB_PASSWORD=wordpress
     links:
      - mysql
     ports:
      - "50000:80"
     working_dir: /var/www/html
     volumes:
-     - ./dev/wordpress:/var/www/html
+     - ./dev-env/wordpress:/var/www/html
      - ./imaginedsf-custom-theme:/var/www/html/wp-content/themes/imaginedsf-custom-theme
 
   mysql:
     image: mysql:5.7
     environment:
-     - MYSQL_ROOT_PASSWORD=password
+     - MYSQL_ROOT_PASSWORD=root
      - MYSQL_DATABASE=wordpress
+     - MYSQL_USER=wordpress
+     - MYSQL_PASSWORD=wordpress
     volumes:
-     - ./dev/mysql:/var/lib/mysql
-     - ./dev/dumps:/dumps
+     - ./dev-env/mysql:/var/lib/mysql
+     - ./dev-env/dumps:/dumps
