@@ -3,10 +3,10 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     
-    entry: './assets-src/index.js',
+    entry: './static-src/index.js',
     output: {
         filename: 'script.js',
-        path: path.resolve(__dirname, 'imaginedsf-custom-theme/assets'),
+        path: path.resolve(__dirname, 'imaginedsf-custom-theme/static'),
     },
     module: {
         rules: [

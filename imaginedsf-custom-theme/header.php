@@ -7,8 +7,9 @@
     </head>
     <body>
         <header>
-            <div>This is the header!</div>
-            <a href="/">Imagined San Francisco</a>
+            <a href="/">
+                <img class="logo" src="<?php echo get_template_directory_uri() . '/images/logo.svg'; ?>" alt="Imagined San Francisco">
+            </a>
             <?php get_template_part( 'template-parts/nav-secondary' ); ?>
             <?php get_template_part( 'template-parts/nav-main' ); ?>
         </header>

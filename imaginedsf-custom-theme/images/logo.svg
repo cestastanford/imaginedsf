@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="197px" height="49px" viewBox="0 0 197 49" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>Logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Home/Introduction" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-size="48" font-family="TulpenOne-Regular, Tulpen One" font-weight="normal">
+        <g id="Home" transform="translate(-44.000000, -30.000000)">
+            <g id="Header" transform="translate(43.000000, 27.000000)">
+                <g id="Logo">
+                    <text>
+                        <tspan x="0" y="41" fill="#4A4A4A">imagined</tspan>
+                        <tspan x="84.1640625" y="41" fill="#D83A3A">sanfrancisco</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -31,4 +31,4 @@ require_once 'inc/set-homepage.php';
 *   Loads site styles and scripts.
 */
 
-require_once 'inc/assets.php';
+require_once 'inc/static.php';

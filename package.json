@@ -2,7 +2,7 @@
   "name": "imaginedsf",
   "version": "1.0.0",
   "description": "",
-  "main": "assets-src/index.js",
+  "main": "static-src/index.js",
   "scripts": {
     "dev-watch": "webpack -d --watch --progress --colors",
     "prod-build": "webpack -p --progress --colors --display-error-details"
