@@ -21,6 +21,13 @@ require_once 'inc/permalink-structure.php';
 
 
 /*
+*   Sets homepage to the 'Homepage' page.
+*/
+
+require_once 'inc/set-homepage.php';
+
+
+/*
 *   Loads site styles and scripts.
 */
 
