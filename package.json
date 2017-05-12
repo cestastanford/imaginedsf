@@ -12,6 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "buble-loader": "^0.4.1",
+    "bulma": "^0.4.1",
     "css-loader": "^0.28.1",
     "extract-text-webpack-plugin": "^2.1.0",
     "node-sass": "^4.5.2",
