@@ -8,4 +8,4 @@ Follow these instructions to start a local development environment.
 3.  From the WordPress admin, activate the Imagined San Francisco Custom Theme.
 5.  From the WordPress admin panel, import the `./pages.xml` file.
 6.  Import any other WordPress content backups.
-7.  Go!
+7.  Visit `http://localhost:50000`!

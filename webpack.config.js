@@ -16,6 +16,11 @@ module.exports = {
                     use: [ 'css-loader', 'sass-loader' ],
                 })
             },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: 'buble-loader',
+            },
         ]
     },
     plugins: [
