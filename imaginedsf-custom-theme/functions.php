@@ -18,3 +18,10 @@ require_once 'inc/custom-post-types.php';
 */
 
 require_once 'inc/permalink-structure.php';
+
+
+/*
+*   Loads site styles and scripts.
+*/
+
+require_once 'inc/assets.php';

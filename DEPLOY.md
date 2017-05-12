@@ -2,9 +2,9 @@ Steps for Deployment
 ====================
 Follow these instructions to deploy this code to a live WordPress installation.
 
-1.  Upload Advanced Custom Fields Pro with an autoload file to `wp-content/mu-plugins`.
-2.  Upload the `./imaginedsf-custom-theme` directory to `wp-content/themes`.
-3.  In the WordPress admin panel, activate the Imagined San Francisco Custom Theme.
-4.  In the WordPress admin panel, import the `./pages.xml` file.
-5.  Import any other WordPress content backups.
-6.  Go!
+1.  With npm installed, run `npm i && npm run prod-build`.
+2.  From the WordPress admin, install the Advanced Custom Fields Pro plugin and activate it.
+3.  From the WordPress admin, install the `./imaginedsf-custom-theme` theme and activate it.
+5.  From the WordPress admin panel, import the `./pages.xml` file.
+6.  Import any other WordPress content backups.
+7.  Go!
