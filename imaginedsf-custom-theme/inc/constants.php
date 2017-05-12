@@ -6,3 +6,4 @@
 
 define( 'MAP_POST_TYPE', 'isf_map' );
 define( 'NARRATIVE_POST_TYPE', 'isf_narrative' );
+define( 'HOMEPAGE_SLUG', 'homepage' );

@@ -33,7 +33,7 @@
             {
                 "param": "page_template",
                 "operator": "==",
-                "value": "home.php"
+                "value": "homepage.php"
             }
         ]
     ],
@@ -60,5 +60,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1494538539
+    "modified": 1494555561
 }

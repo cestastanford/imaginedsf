@@ -1,0 +1,1 @@
+<div>This is the Home content template!</div>
