@@ -1,10 +1,14 @@
 <?php
 
+/*
+*   This template renders a default page.
+*/
+
 get_header();
 
 ?>
 
-<div>This is the Default Page template!</div>
+<article>This is the Default Page template!</article>
 
 <?php
 

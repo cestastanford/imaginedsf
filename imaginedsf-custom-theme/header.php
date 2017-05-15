@@ -13,3 +13,4 @@
             <?php get_template_part( 'template-parts/nav-secondary' ); ?>
             <?php get_template_part( 'template-parts/nav-main' ); ?>
         </header>
+        <main>

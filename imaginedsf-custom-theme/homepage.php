@@ -2,7 +2,7 @@
 
 /*
 *   Template Name: Homepage
-*   Description: This template renders the site homepage.
+*   This template renders the site homepage.
 */
 
 get_header();

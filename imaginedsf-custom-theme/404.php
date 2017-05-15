@@ -1,10 +1,15 @@
 <?php
 
+/*
+*   This template renders when no matching content or archive
+*   exists.
+*/
+
 get_header();
 
 ?>
 
-<div>Sorry, we couldn't find that page!</div>
+<article>Sorry, we couldn't find that page!</article>
 
 <?php
 

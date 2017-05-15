@@ -1,7 +1,7 @@
 <?php
 
 /*
-*   Serves the contents of the Interactive Maps page.
+*   Redirects to the archive page.
 */
 
-get_template_part( 'template-parts/content-interactive-maps' );
+wp_redirect( get_post_type_archive_link( MAP_POST_TYPE ) );

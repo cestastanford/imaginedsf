@@ -2,16 +2,16 @@
 
 /*
 *   Template Name: Introduction
-*   Description: This template renders an Introduction sub-page,
-*   complete with an Introduction sidebar nav.
+*   This template renders an Introduction sub-page, which has an
+*   Introduction sidebar nav.
 */
 
 get_header();
-get_template_part( 'template-parts/nav-introduction' );
 
 ?>
 
-<div>This is the Introduction template!</div>
+<aside><?php get_template_part( 'template-parts/nav-introduction' ); ?></aside>
+<article>This is the Introduction template!</article>
 
 <?php
 
