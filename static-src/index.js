@@ -1,8 +1,7 @@
 /*
-*   Bundles SCSS into a single CSS file.
+*   Bundles & compiles SCSS files into a single CSS file.
 */
 
-import 'bulma'
 import './styles/main.scss'
 
 

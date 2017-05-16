@@ -1,0 +1,22 @@
+/*
+*   Header styles
+*/
+
+header {
+
+    img.logo {
+        height: 4em;
+        padding-left: .75rem;
+    }
+
+    .search-an-address input {
+        margin-right: 2em;
+        font-weight: bold;
+    }
+
+    nav.main a.nav-item {
+        font-size: 1.15rem;
+        color: $red;
+    }
+
+}

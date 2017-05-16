@@ -1,1 +1,1 @@
-<article>This is the Home content template!</article>
+<article class="container">This is the Home content template!</article>

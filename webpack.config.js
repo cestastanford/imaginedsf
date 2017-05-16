@@ -13,7 +13,10 @@ module.exports = {
             {
                 test: /\.s(c|a)ss$/,
                 use: ExtractTextPlugin.extract({
-                    use: [ 'css-loader', 'sass-loader' ],
+                    use: [
+                        { loader: 'css-loader', options: { sourceMap: true } },
+                        { loader: 'sass-loader', options: { sourceMap: true } }
+                    ],
                 })
             },
             {
@@ -21,6 +24,10 @@ module.exports = {
                 exclude: /node_modules/,
                 use: 'buble-loader',
             },
+            { test: /\.svg/, loader: 'file-loader?mimetype=image/svg+xml' },
+            { test: /\.woff/, loader: "file-loader?mimetype=application/font-woff" },
+            { test: /\.ttf/, loader: "file-loader?mimetype=application/octet-stream" },
+            { test: /\.eot/, loader: "file-loader" },
         ]
     },
     plugins: [

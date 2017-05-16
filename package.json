@@ -4,7 +4,7 @@
   "description": "",
   "main": "static-src/index.js",
   "scripts": {
-    "dev-watch": "webpack -d --watch --progress --colors",
+    "dev-watch": "webpack -d --devtool source-map --watch --progress --colors",
     "prod-build": "webpack -p --progress --colors --display-error-details"
   },
   "keywords": [],
@@ -15,6 +15,8 @@
     "bulma": "^0.4.1",
     "css-loader": "^0.28.1",
     "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.11.1",
+    "font-awesome": "^4.7.0",
     "node-sass": "^4.5.2",
     "sass-loader": "^6.0.5",
     "webpack": "^2.5.1"

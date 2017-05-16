@@ -2,15 +2,30 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>This is the title!</title>
         <?php wp_head(); ?>
     </head>
     <body>
-        <header>
-            <a href="/">
-                <img class="logo" src="<?php echo get_template_directory_uri() . '/images/logo.svg'; ?>" alt="Imagined San Francisco">
-            </a>
-            <?php get_template_part( 'template-parts/nav-secondary' ); ?>
-            <?php get_template_part( 'template-parts/nav-main' ); ?>
+        <header class="section">
+            <div class="container">
+                <div class="level">
+                    <div class="level-left">
+                        <div>
+                            <a href="/">
+                                <img class="logo" src="<?php echo get_template_directory_uri() . '/images/logo.svg'; ?>" alt="Imagined San Francisco">
+                            </a>
+                            <?php get_nav_menu( PRIMARY_MENU ); ?>
+                        </div>
+                    </div>
+                    <div class="level-right">
+                        <div class="level">
+                            <div class="is-pulled-right level-item control has-icons-left search-an-address">
+                                <input class="input is-small" type="text" placeholder="search an address...">
+                                <span class="icon is-small is-left"><i class="fa fa-search"></i></span>
+                            </div>
+                            <div class="level-item"><?php get_nav_menu( SECONDARY_MENU ); ?></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </header>
-        <main>
+        <main class="section">

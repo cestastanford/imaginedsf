@@ -1,7 +1,5 @@
-<nav class="top-right">
-    <ul class="left-nav">
-        <li><a href="/feedback">Feedback</a></li>
-        <li><a href="/credits">Credits</a></li>
-        <li><a href="/bibliography">Bibliography</a></li>
-    </ul>
+<nav class="nav">
+    <a class="nav-item" href="/feedback">Feedback</a>
+    <a class="nav-item" href="/credits">Credits</a>
+    <a class="nav-item" href="/bibliography">Bibliography</a>
 </nav>

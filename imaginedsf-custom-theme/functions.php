@@ -33,3 +33,17 @@ require_once 'inc/set-homepage.php';
 */
 
 require_once 'inc/static.php';
+
+
+/*
+*   Adds Title Tag theme support.
+*/
+
+require_once 'inc/title.php';
+
+
+/*
+*   Defines the theme menus.
+*/
+
+require_once 'inc/menus.php';
