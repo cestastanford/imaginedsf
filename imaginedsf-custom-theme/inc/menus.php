@@ -39,7 +39,7 @@ function get_nav_menu( $theme_location ) {
             $permalink = $item->url;
             $title = $item->title;
 
-            $output .= '<a class="' . $classes . '" href="' . $permalink . '">' . $title;
+            $output .= '<a class="' . $classes . '" href="' . $permalink . '">' . $title . '</a>';
 
         }
         $output .= '</nav>';
