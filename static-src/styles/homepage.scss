@@ -1,0 +1,82 @@
+/*
+*   Homepage styles
+*/
+
+main .homepage {
+
+    .homepage-tile {
+
+        display: block;
+        position: relative;
+        width: 225px;
+        height: 225px;
+        text-align: center;
+
+        &.red {
+            background-color: $red;
+            color: $white;
+        }
+
+        &.grey {
+            background-color: $light-grey;
+            color: $black;
+        }
+
+        &.intro-video img {
+            top: 1.25em;
+        }
+
+        &.search-an-address {
+
+            .centered {
+
+                position: absolute;
+                width: 100%;
+                top: 50%;
+                transform: translateY(-50%);
+
+                .icon {
+
+                    height: auto;
+                    width: auto;
+                    margin-bottom: 1em;
+
+                    i {
+                        font-size: 5em;
+                        color: $light-black;
+                    }
+
+                }
+
+                input {
+                    width: 90%;
+                    font-size: 1.25rem;
+                }
+
+            }
+
+        }
+
+        img {
+            position: absolute;
+            height: 125px;
+            max-width: none;
+            top: 2em;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .text {
+            position: absolute;
+            bottom: 1em;
+            width: 100%;
+            padding: 0 1em;
+            font-weight: bold;
+            text-transform: lowercase;
+            font-size: 1.25em;
+            line-height: 1.25;
+        }
+
+    }
+
+}

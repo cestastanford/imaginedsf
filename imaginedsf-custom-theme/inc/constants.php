@@ -18,7 +18,8 @@ define( 'INTRODUCTION_MENU', 'introduction' );
 
 
 /*
-*   Defines homepage slug.
+*   Defines page slugs that are referenced in the code.
 */
 
 define( 'HOMEPAGE_SLUG', 'homepage' );
+define( 'INTRO_VIDEO_SLUG', 'introduction/intro-video' );

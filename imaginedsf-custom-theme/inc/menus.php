@@ -22,7 +22,7 @@ add_action( 'init', 'register_theme_menus' );
 
 
 /*
-*   Defines function for outputting custom-generated menu.
+*   Defines function for outputting custom-generated nav menu.
 */
 
 function get_nav_menu( $theme_location ) {
