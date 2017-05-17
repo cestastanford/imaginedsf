@@ -19,8 +19,18 @@ header {
         text-transform: lowercase;
         
         &.primary a.nav-item {
+            
             font-size: 1.15rem;
             color: $red;
+
+            &.is-active {
+                color: $black;
+            }
+
+            &:hover {
+                color: $light-black;
+            }
+
         }
 
     }

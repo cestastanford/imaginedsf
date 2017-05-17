@@ -26,7 +26,7 @@ add_action( 'init', 'register_theme_menus' );
 */
 
 function get_nav_menu( $theme_location ) {
-    
+
     $locations = get_nav_menu_locations();
     if ( isset( $locations[$theme_location] ) ) {
     
@@ -35,7 +35,9 @@ function get_nav_menu( $theme_location ) {
         $output = '<nav class="nav ' . $theme_location . '">';
         foreach ($items as $item) {
 
-            $classes = 'nav-item' . ( empty($item->classes) ? '' : ' ' . implode( ' ', $item->classes ) );
+            
+
+            $classes = 'nav-item' . ( is_active( $item ) ? ' is-active' : '' );
             $permalink = $item->url;
             $title = $item->title;
 
@@ -50,5 +52,18 @@ function get_nav_menu( $theme_location ) {
         echo '<div>No menu defined.</div>';
 
     }
+
+}
+
+
+/*
+*   Determining whether a menu link should be active.
+*/
+
+function is_active( $item ) {
+
+    global $wp;
+    $current_url = home_url( add_query_arg( null, null ) );
+    return strrpos( $current_url, $item->url ) !== false;
 
 }

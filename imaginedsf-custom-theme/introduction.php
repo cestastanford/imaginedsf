@@ -10,7 +10,7 @@ get_header();
 
 ?>
 
-<aside><?php get_template_part( 'template-parts/nav-introduction' ); ?></aside>
+<aside><?php get_nav_menu( INTRODUCTION_MENU ); ?></aside>
 <article>This is the Introduction template!</article>
 
 <?php

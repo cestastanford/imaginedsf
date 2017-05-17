@@ -2,11 +2,11 @@
 *   Bundles & compiles SCSS files into a single CSS file.
 */
 
-import './styles/main.scss'
+import './styles/main.scss';
 
 
 /*
 *   Entry point for site scripts.
 */
 
-console.log('hey, it\'s working!');
+console.log('Scripts are working!');
