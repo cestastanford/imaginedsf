@@ -6,7 +6,6 @@ header {
 
     img.logo {
         height: 4em;
-        padding-left: .75rem;
     }
 
     .search-an-address input {
@@ -17,10 +16,11 @@ header {
     nav {
 
         text-transform: lowercase;
-        
+
         &.primary a.nav-item {
             
             font-size: 1.15rem;
+            margin-left: -0.75rem;
             color: $red;
 
             &.is-active {
