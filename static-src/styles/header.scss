@@ -10,13 +10,19 @@ header {
     }
 
     .search-an-address input {
-        margin-right: 2em;
+        margin-right: 1em;
         font-weight: bold;
     }
 
-    nav.main a.nav-item {
-        font-size: 1.15rem;
-        color: $red;
+    nav {
+
+        text-transform: lowercase;
+        
+        &.primary a.nav-item {
+            font-size: 1.15rem;
+            color: $red;
+        }
+
     }
 
 }

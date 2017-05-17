@@ -11,7 +11,7 @@ services:
     links:
      - mysql
     ports:
-     - "50000:80"
+     - "12345:80"
     working_dir: /var/www/html
     volumes:
      - ./dev-env/wordpress:/var/www/html

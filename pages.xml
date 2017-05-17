@@ -16,7 +16,7 @@
 <!-- 7. WordPress will then import each of the posts, pages, comments, categories, etc. -->
 <!--    contained in this file into your site. -->
 
-<!-- generator="WordPress/4.7.4" created="2017-05-12 02:35" -->
+<!-- generator="WordPress/4.7.4" created="2017-05-17 03:20" -->
 <rss version="2.0"
 	xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
@@ -26,23 +26,23 @@
 >
 
 <channel>
-	<title>Imagined San Francisco (Development)</title>
-	<link>http://localhost:50000</link>
+	<title>Imagined San Francisco (dev 3)</title>
+	<link>http://localhost:12345</link>
 	<description>Just another WordPress site</description>
-	<pubDate>Fri, 12 May 2017 02:35:26 +0000</pubDate>
+	<pubDate>Wed, 17 May 2017 03:20:26 +0000</pubDate>
 	<language>en-US</language>
 	<wp:wxr_version>1.2</wp:wxr_version>
-	<wp:base_site_url>http://localhost:50000</wp:base_site_url>
-	<wp:base_blog_url>http://localhost:50000</wp:base_blog_url>
+	<wp:base_site_url>http://localhost:12345</wp:base_site_url>
+	<wp:base_blog_url>http://localhost:12345</wp:base_blog_url>
 
-	<wp:author><wp:author_id>1</wp:author_id><wp:author_login><![CDATA[dev]]></wp:author_login><wp:author_email><![CDATA[codymleff@gmail.com]]></wp:author_email><wp:author_display_name><![CDATA[dev]]></wp:author_display_name><wp:author_first_name><![CDATA[]]></wp:author_first_name><wp:author_last_name><![CDATA[]]></wp:author_last_name></wp:author>
+	<wp:author><wp:author_id>1</wp:author_id><wp:author_login><![CDATA[dev]]></wp:author_login><wp:author_email><![CDATA[mail@codymleff.com]]></wp:author_email><wp:author_display_name><![CDATA[dev]]></wp:author_display_name><wp:author_first_name><![CDATA[]]></wp:author_first_name><wp:author_last_name><![CDATA[]]></wp:author_last_name></wp:author>
 
 
 	<generator>https://wordpress.org/?v=4.7.4</generator>
 
 	<item>
 		<title>Homepage</title>
-		<link>http://localhost:50000/</link>
+		<link>http://localhost:12345/</link>
 		<pubDate>Thu, 11 May 2017 19:53:30 +0000</pubDate>
 		<dc:creator><![CDATA[dev]]></dc:creator>
 		<guid isPermaLink="false">http://localhost:50000/?page_id=33</guid>
@@ -80,7 +80,7 @@
 	</item>
 	<item>
 		<title>Intro Video</title>
-		<link>http://localhost:50000/intro-video/</link>
+		<link>http://localhost:12345/intro-video/</link>
 		<pubDate>Thu, 11 May 2017 20:43:10 +0000</pubDate>
 		<dc:creator><![CDATA[dev]]></dc:creator>
 		<guid isPermaLink="false">http://localhost:50000/?page_id=38</guid>
@@ -107,10 +107,14 @@
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
 			<wp:meta_value><![CDATA[introduction.php]]></wp:meta_value>
 		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
+			<wp:meta_value><![CDATA[introduction.php]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title>Read About The Project</title>
-		<link>http://localhost:50000/read-intro/</link>
+		<link>http://localhost:12345/read-intro/</link>
 		<pubDate>Thu, 11 May 2017 20:44:20 +0000</pubDate>
 		<dc:creator><![CDATA[dev]]></dc:creator>
 		<guid isPermaLink="false">http://localhost:50000/?page_id=40</guid>
@@ -137,10 +141,14 @@
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
 			<wp:meta_value><![CDATA[introduction.php]]></wp:meta_value>
 		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
+			<wp:meta_value><![CDATA[introduction.php]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title>Feedback</title>
-		<link>http://localhost:50000/feedback/</link>
+		<link>http://localhost:12345/feedback/</link>
 		<pubDate>Thu, 11 May 2017 20:46:42 +0000</pubDate>
 		<dc:creator><![CDATA[dev]]></dc:creator>
 		<guid isPermaLink="false">http://localhost:50000/?page_id=43</guid>
@@ -167,10 +175,14 @@
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
 			<wp:meta_value><![CDATA[default]]></wp:meta_value>
 		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
+			<wp:meta_value><![CDATA[default]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title>Credits</title>
-		<link>http://localhost:50000/credits/</link>
+		<link>http://localhost:12345/credits/</link>
 		<pubDate>Thu, 11 May 2017 20:46:56 +0000</pubDate>
 		<dc:creator><![CDATA[dev]]></dc:creator>
 		<guid isPermaLink="false">http://localhost:50000/?page_id=45</guid>
@@ -197,10 +209,14 @@
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
 			<wp:meta_value><![CDATA[default]]></wp:meta_value>
 		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
+			<wp:meta_value><![CDATA[default]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title>Bibliography</title>
-		<link>http://localhost:50000/bibliography/</link>
+		<link>http://localhost:12345/bibliography/</link>
 		<pubDate>Thu, 11 May 2017 20:47:10 +0000</pubDate>
 		<dc:creator><![CDATA[dev]]></dc:creator>
 		<guid isPermaLink="false">http://localhost:50000/?page_id=47</guid>
@@ -222,6 +238,10 @@
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
 			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
+			<wp:meta_value><![CDATA[default]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>

@@ -32,7 +32,7 @@ function get_nav_menu( $theme_location ) {
     
         $menu = get_term( $locations[$theme_location], 'nav_menu' );
         $items = wp_get_nav_menu_items( $menu->term_id );
-        $output = '<nav class="nav">';
+        $output = '<nav class="nav ' . $theme_location . '">';
         foreach ($items as $item) {
 
             $classes = 'nav-item' . ( empty($item->classes) ? '' : ' ' . implode( ' ', $item->classes ) );
