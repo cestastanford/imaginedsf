@@ -8,8 +8,9 @@ main .homepage {
 
         display: block;
         position: relative;
-        width: 225px;
-        height: 225px;
+        width: 100%;
+        padding-bottom: 100%;
+        margin: 0 auto;
         text-align: center;
 
         &.red {
@@ -20,10 +21,6 @@ main .homepage {
         &.grey {
             background-color: $light-grey;
             color: $black;
-        }
-
-        &.intro-video img {
-            top: 1.25em;
         }
 
         &.search-an-address {
@@ -59,44 +56,60 @@ main .homepage {
 
         img {
             position: absolute;
-            height: 125px;
+            height: 50%;
             max-width: none;
-            top: 2em;
+            top: 45%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, -50%);
         }
 
         .text {
+            
             position: absolute;
-            bottom: 1em;
             width: 100%;
+            bottom: 15%;
+            transform: translateY(50%);
             padding: 0 1em;
             font-weight: bold;
             text-transform: lowercase;
             font-size: 1.25em;
             line-height: 1.25;
+
+            @include tablet {
+                font-size: 1em;
+            }
+
         }
 
     }
 
-    .demo {
+    #homepage-demo {
 
         position: relative;
 
-        .image {
-            position: absolute;
-            top: 0;
+        .images {
+
             width: 100%;
             height: 100%;
-            opacity: 0;
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            transition: left .5s, right .5s, opacity .5s;
-        }
 
-        .image.selected {
-            opacity: 1;
+            .image {
+                
+                position: absolute;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                transition: left .5s, right .5s, opacity .5s;
+
+                &.active {
+                    opacity: 1;
+                }
+
+            }
+
         }
 
         .slideshow-control {
@@ -110,12 +123,14 @@ main .homepage {
             border-radius: 8px;
             box-shadow: 0 0 6px 3px $medium-grey;
             text-align: center;
+            background-color: $white;
 
             a {
                 display: block;
                 position: absolute;
                 width: 50%;
                 height: 100%;
+                color: $grey;
 
                 &.previous {
                     left: 0;

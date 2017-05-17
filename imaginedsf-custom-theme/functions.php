@@ -47,3 +47,10 @@ require_once 'inc/title.php';
 */
 
 require_once 'inc/menus.php';
+
+
+/*
+*   Adds custom REST API endpoints.
+*/
+
+require_once 'inc/rest-endpoints.php';
