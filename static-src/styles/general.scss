@@ -13,3 +13,7 @@ a {
 a:hover {
     opacity: .85;
 }
+
+[v-cloak] {
+    visibility: hidden;
+}

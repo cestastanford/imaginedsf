@@ -69,7 +69,20 @@ $right_column_tiles = array(
                     </div>
                 </div>
             </div>
-            <div class="tile is-child gallery">gallery</div>
+
+            <!-- Vue.js -->
+            <div class="tile is-child" id="homepage-demo" v-cloak>
+                <div>{{ msg }}</div>
+                <div v-if="images">
+                    <div v-for="image in images" :class="{ active }" :style="{ backgroundImage }"></div>
+                </div>
+                <div class="slideshow-control" v-if="images">
+                    <a class="previous" :class="{ disabled: isFirst }"><i class="fa fa-arrow-left"></i></a>
+                    <a class="next" :class="{ disabled: isLast }"><i class="fa fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <!-- end Vue.js -->
+
         </div>
     </div>
 </div>

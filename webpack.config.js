@@ -11,7 +11,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.s(c|a)ss$/,
+                test: /\.scss$/,
                 use: ExtractTextPlugin.extract({
                     use: [
                         { loader: 'css-loader', options: { sourceMap: true } },
@@ -33,5 +33,10 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin('styles.css')
     ],
+    resolve: {
+        alias: {
+            'vue$': 'vue/dist/vue.esm.js',
+        }
+    }
 
 };
