@@ -58,7 +58,7 @@ main .homepage {
             position: absolute;
             height: 50%;
             max-width: none;
-            top: 45%;
+            top: 40%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
@@ -67,7 +67,7 @@ main .homepage {
             
             position: absolute;
             width: 100%;
-            bottom: 15%;
+            bottom: 20%;
             transform: translateY(50%);
             padding: 0 1em;
             font-weight: bold;
@@ -75,7 +75,7 @@ main .homepage {
             font-size: 1.25em;
             line-height: 1.25;
 
-            @include tablet {
+            @include tablet-only {
                 font-size: 1em;
             }
 
