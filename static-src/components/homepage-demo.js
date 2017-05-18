@@ -51,18 +51,26 @@ const methods = {
 
 }
 
-const componentOptions = {
-    
-    el: '#homepage-demo',
-    created: requestImages,
-    data,
-    methods,
-
-}
-
 
 /*
 *   Binds component upon completion of DOM loading.
 */
 
-document.addEventListener('DOMContentLoaded', () => new Vue(componentOptions))
+document.addEventListener('DOMContentLoaded', () => {
+
+    const QUERY_STRING = '#homepage-demo'
+    const el = document.querySelector(QUERY_STRING)
+    if (el) {
+
+        new Vue({
+            
+            el,
+            data,
+            methods,
+            created: requestImages,
+
+        })
+
+    }
+
+})

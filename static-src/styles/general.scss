@@ -17,3 +17,24 @@ a:hover {
 [v-cloak] {
     visibility: hidden;
 }
+
+main.section {
+    padding-top: 1em;
+}
+
+aside.menu {
+
+    margin-left: 1em;
+    margin-right: 1em;
+    padding: 1em;
+    background-color: $light-grey;
+
+    a.is-active {
+        color: $white;
+        margin-left: -1.5em;
+        margin-right: -1.5em;
+        padding-left: 2.25em;
+        padding-right: 2.25em;
+    }
+
+}

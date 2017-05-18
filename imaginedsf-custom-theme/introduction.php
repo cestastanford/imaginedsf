@@ -10,8 +10,16 @@ get_header();
 
 ?>
 
-<aside><?php get_nav_menu( INTRODUCTION_MENU ); ?></aside>
-<article>This is the Introduction template!</article>
+<section class="container introduction">
+    <div class="columns">
+        <div class="column is-4"><?php get_vertical_nav_menu( INTRODUCTION_MENU ); ?></div>
+        <article class="column is-8 content">
+            <?php while ( have_posts() ) : ?>
+                <?php the_post(); ?>
+                <?php the_content(); ?>
+            <?php endwhile; ?>
+        </article>
+    </div>
 
 <?php
 

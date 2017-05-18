@@ -35,8 +35,6 @@ function get_nav_menu( $theme_location ) {
         $output = '<nav class="nav ' . $theme_location . '">';
         foreach ($items as $item) {
 
-            
-
             $classes = 'nav-item' . ( is_active( $item ) ? ' is-active' : '' );
             $permalink = $item->url;
             $title = $item->title;
@@ -45,6 +43,39 @@ function get_nav_menu( $theme_location ) {
 
         }
         $output .= '</nav>';
+        echo $output;
+
+    } else {
+
+        echo '<div>No menu defined.</div>';
+
+    }
+
+}
+
+
+/*
+*   Defines function for outputting a vertical menu-style nav.
+*/
+
+function get_vertical_nav_menu( $theme_location ) {
+
+    $locations = get_nav_menu_locations();
+    if ( isset( $locations[$theme_location] ) ) {
+    
+        $menu = get_term( $locations[$theme_location], 'nav_menu' );
+        $items = wp_get_nav_menu_items( $menu->term_id );
+        $output = '<aside class="menu ' . $theme_location . '"><ul class="menu-list">';
+        foreach ($items as $item) {
+
+            $classes = 'nav-item' . ( is_active( $item ) ? ' is-active' : '' );
+            $permalink = $item->url;
+            $title = $item->title;
+
+            $output .= '<li><a class="' . $classes . '" href="' . $permalink . '">' . $title . '</a></li>';
+
+        }
+        $output .= '</ul></aside>';
         echo $output;
 
     } else {

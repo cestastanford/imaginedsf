@@ -8,7 +8,7 @@ get_header();
 
 ?>
 
-<section class="container page content">
+<article class="container page content">
 
 <?php
 
@@ -19,7 +19,7 @@ get_header();
 
 ?>
 
-</section>
+</article>
 
 <?php
 
