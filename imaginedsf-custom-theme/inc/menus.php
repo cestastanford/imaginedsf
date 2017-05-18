@@ -22,17 +22,38 @@ add_action( 'init', 'register_theme_menus' );
 
 
 /*
-*   Defines function for outputting custom-generated nav menu.
+*   Retrieves menu items.
 */
 
-function get_nav_menu( $theme_location ) {
+function get_nav_menu_items( $theme_location ) {
 
     $locations = get_nav_menu_locations();
     if ( isset( $locations[$theme_location] ) ) {
     
         $menu = get_term( $locations[$theme_location], 'nav_menu' );
         $items = wp_get_nav_menu_items( $menu->term_id );
-        $output = '<nav class="nav ' . $theme_location . '">';
+        if ( isset( $items ) && count( $items ) > 0 ) {
+
+            return array( 'theme_location' => $theme_location, 'items' => $items );
+
+        }
+
+    }
+    return null;
+
+}
+
+
+/*
+*   Defines function for outputting custom-generated nav menu.
+*/
+
+function get_horizontal_nav_menu( $menu ) {
+
+    $items = isset( $menu ) ? $menu['items'] : null;
+    if ( isset( $items ) ) {
+
+        $output = '<nav class="nav ' . $menu['theme_location'] . '">';
         foreach ($items as $item) {
 
             $classes = 'nav-item' . ( is_active( $item ) ? ' is-active' : '' );
@@ -45,11 +66,7 @@ function get_nav_menu( $theme_location ) {
         $output .= '</nav>';
         echo $output;
 
-    } else {
-
-        echo '<div>No menu defined.</div>';
-
-    }
+    } else echo '<div>No menu defined.</div>';
 
 }
 
@@ -58,14 +75,12 @@ function get_nav_menu( $theme_location ) {
 *   Defines function for outputting a vertical menu-style nav.
 */
 
-function get_vertical_nav_menu( $theme_location ) {
+function get_vertical_nav_menu( $menu ) {
 
-    $locations = get_nav_menu_locations();
-    if ( isset( $locations[$theme_location] ) ) {
-    
-        $menu = get_term( $locations[$theme_location], 'nav_menu' );
-        $items = wp_get_nav_menu_items( $menu->term_id );
-        $output = '<aside class="menu ' . $theme_location . '"><ul class="menu-list">';
+    $items = isset( $menu ) ? $menu['items'] : null;
+    if ( isset( $items ) ) {
+
+        $output = '<aside class="menu ' . $menu['theme_location'] . '"><ul class="menu-list">';
         foreach ($items as $item) {
 
             $classes = 'nav-item' . ( is_active( $item ) ? ' is-active' : '' );
@@ -78,11 +93,7 @@ function get_vertical_nav_menu( $theme_location ) {
         $output .= '</ul></aside>';
         echo $output;
 
-    } else {
-
-        echo '<div>No menu defined.</div>';
-
-    }
+    } else echo '<div>No menu defined.</div>';
 
 }
 

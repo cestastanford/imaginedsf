@@ -13,7 +13,7 @@
                             <a href="/">
                                 <img class="logo" src="<?php echo get_template_directory_uri() . '/images/logo.svg'; ?>" alt="Imagined San Francisco">
                             </a>
-                            <?php get_nav_menu( PRIMARY_MENU ); ?>
+                            <?php get_horizontal_nav_menu( get_nav_menu_items( PRIMARY_MENU ) ); ?>
                         </div>
                     </div>
                     <div class="level-right">
@@ -22,7 +22,7 @@
                                 <input class="input is-small" type="text" placeholder="search an address...">
                                 <span class="icon is-small is-left"><i class="fa fa-search"></i></span>
                             </div>
-                            <div class="level-item"><?php get_nav_menu( SECONDARY_MENU ); ?></div>
+                            <div class="level-item"><?php get_horizontal_nav_menu( get_nav_menu_items( SECONDARY_MENU ) ); ?></div>
                         </div>
                     </div>
                 </div>

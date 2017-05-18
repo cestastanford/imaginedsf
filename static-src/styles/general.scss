@@ -29,6 +29,10 @@ aside.menu {
     padding: 1em;
     background-color: $light-grey;
 
+    a:not(.is-active) {
+        color: $light-black;
+    }
+
     a.is-active {
         color: $white;
         margin-left: -1.5em;
@@ -37,4 +41,10 @@ aside.menu {
         padding-right: 2.25em;
     }
 
+}
+
+article.content {
+    background-color: $light-grey;
+    margin-top: .75rem;
+    padding: 2em;
 }
