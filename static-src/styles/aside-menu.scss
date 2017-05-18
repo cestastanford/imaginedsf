@@ -24,22 +24,12 @@ aside.menu {
     a.parent {
 
         color: $red;
+        position: relative;
 
         &:hover {
             cursor: default;
             background-color: transparent;
             opacity: 1;
-        }
-
-        span {
-
-            margin-left: -1em;
-
-            &::before {
-                content: '▾';
-                margin-right: .5em;
-            }
-
         }
 
     }
@@ -62,6 +52,41 @@ aside.menu {
 
     a.level-5 span {
         padding-left: 5em;
+    }
+
+    ul {
+        margin: 0;
+        padding: 0;
+        border-left: 0;
+        transition: height .25s;
+    }
+
+    .fa-caret-left,
+    .fa-caret-down {
+        position: absolute;
+        top: .7em;
+        right: .75em;
+    }
+
+    li .fa-caret-left  {
+        display: none;
+    }
+
+    li.closed:not(.open) {
+
+        i.fa-caret-left {
+            display: block;
+        }
+
+        i.fa-caret-down {
+            display: none;
+        }
+
+        ul {
+            height: 0;
+            overflow: hidden;
+        }
+
     }
 
 }

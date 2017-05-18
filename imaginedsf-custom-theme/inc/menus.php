@@ -34,7 +34,7 @@ function get_nav_menu_items( $theme_location ) {
         $items = wp_get_nav_menu_items( $menu->term_id );
         if ( isset( $items ) && count( $items ) > 0 ) {
 
-            return array( 'theme_location' => $theme_location, 'items' => $items );
+            return $items;
 
         }
 
@@ -48,12 +48,12 @@ function get_nav_menu_items( $theme_location ) {
 *   Defines function for outputting custom-generated nav menu.
 */
 
-function get_horizontal_nav_menu( $menu ) {
+function get_horizontal_nav_menu( $items ) {
 
-    if ( isset( $menu ) ) {
+    if ( isset( $items ) ) {
 
-        $output = '<nav class="nav ' . $menu['theme_location'] . '">';
-        foreach ( $menu['items'] as $item ) {
+        $output = '<nav class="nav">';
+        foreach ( $items as $item ) {
 
             $classes = 'nav-item' . ( is_active( $item ) ? ' is-active' : '' );
             $url = $item->url;
@@ -72,30 +72,59 @@ function get_horizontal_nav_menu( $menu ) {
 
 /*
 *   Defines function for outputting a vertical menu-style nav.
-*   Recursively traverses children to create a heirarchical menu.
 */
 
-function get_vertical_nav_menu( $menu ) {
+function get_vertical_nav_menu( $items ) {
 
-    if ( isset( $menu ) ) {
+    if ( isset( $items ) ) {
 
-        $output = '<aside class="menu ' . $menu['theme_location'] . '"><ul class="menu-list">';
-        foreach ( $menu['items'] as $item ) {
-
-            $classes = 'nav-item';
-            $classes .= ( is_active( $item ) && !$item->is_parent ? ' is-active' : '' );
-            $classes .= ( $item->level ? ' level-' . $item->level : '');
-            $classes .= ( $item->is_parent ? ' parent' : '');
-            $url = ( $item->is_parent ? '#' : $item->url );
-            $title = $item->title;
-
-            $output .= '<li><a class="' . $classes . '" href="' . $url . '"><span>' . $title . '</span></a></li>';
-
-        }
-        $output .= '</ul></aside>';
+        $output = '<aside class="menu">';
+        $output .= create_hierarchical_menu( $items, 0 );
+        $output .= '</aside>';
         echo $output;
 
     } else echo '<div>No menu defined.</div>';
+
+}
+
+
+/*
+*   Recursively traverses children to create heirarchical menu items.
+*/
+
+function create_hierarchical_menu( $items, $level ) {
+
+    $output = '<ul class="menu-list">';
+    foreach ( $items as $item ) {
+
+        //  Opens the list item tag
+        $output .= '<li class="closed">';
+
+        //  Adds the label
+        $classes = 'nav-item';
+        $is_parent = ( $item->children && count( $item->children ) > 0 ? true : false );
+        $classes .= ( is_active( $item ) && ! $is_parent ? ' is-active' : '' );
+        $classes .= ( $is_parent ? ' parent' : '' );
+        $classes .= ' level-' . $level;
+        $url = ( $is_parent ? '#' : $item->url );
+        $title = $item->title;
+        $carets = ( $is_parent ? '<i class="fa fa-caret-left"></i><i class="fa fa-caret-down"></i>' : '' );
+        $output .= '<a class="' . $classes . '" href="' . $url . '"><span>' . $title . '</span>' . $carets . '</a>';
+
+        //  Adds child list
+        if ( isset( $item->children ) && count( $item->children ) > 0 ) {
+
+            $output .= create_hierarchical_menu( $item->children, $level + 1 );
+
+        }
+
+        //  Closes the list item tag
+        $output .= '</li>';
+
+    }
+
+    $output .= '</ul>';
+    return $output;
 
 }
 

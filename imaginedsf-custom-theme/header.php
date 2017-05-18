@@ -13,7 +13,9 @@
                             <a href="/">
                                 <img class="logo" src="<?php echo get_template_directory_uri() . '/images/logo.svg'; ?>" alt="Imagined San Francisco">
                             </a>
-                            <?php get_horizontal_nav_menu( get_nav_menu_items( PRIMARY_MENU ) ); ?>
+                            <div class="primary-menu">
+                                <?php get_horizontal_nav_menu( get_nav_menu_items( PRIMARY_MENU ) ); ?>
+                            </div>
                         </div>
                     </div>
                     <div class="level-right">

@@ -1,49 +1,36 @@
 <?php
 
 /*
-*   Gathers the Narrative items and creates an ordered list with
-*   the hierarchy level of each item.
+*   Recursively traverses the tree of Narrative posts, creating a
+*   hierarchical list of menu data for use with get_vertical_nav_menu.
 */
 
-function get_narrative_menu_items() {
+function get_child_narrative_menu_items( $parent_id ) {
 
-    $narratives = get_pages( array(
+    $children = get_pages( array( 
 
         'posts_per_page' => -1,
         'orderby' => 'title',
         'order' => 'ASC',
         'post_type' => NARRATIVE_POST_TYPE,
+        'parent' => $parent_id,
 
     ) );
 
-    $sorted_narratives = get_page_hierarchy( $narratives );
-    
-    return array_map( function( $id, $title ) {
-
-        $child_pages = get_pages( array( 'child_of' => $id, 'post_type' => NARRATIVE_POST_TYPE ) );
+    return array_map( function( $child ) {
 
         return (object) array(
 
-            'title' => $title,
-            'url' => get_permalink( $id ),
-            'level' => count( get_post_ancestors( $id ) ),
-            'is_parent' => ( count( $child_pages ) > 0 ? true : false),
+            'title' => $child->post_title,
+            'url' => get_permalink( $child ),
+            'level' => $level,
+            'children' => get_child_narrative_menu_items( $child->ID ),
 
         );
 
-    }, array_keys( $sorted_narratives ), $sorted_narratives );
+    }, $children );
 
 }
 
-$menu_items = get_narrative_menu_items();
-
-if ( count($menu_items) > 0 ) {
-    
-    get_vertical_nav_menu( array(
-
-        'theme_location' => 'narratives',
-        'items' => $menu_items,
-
-    ) );
-
-}
+$menu_items = get_child_narrative_menu_items( 0 );
+if ( count($menu_items) > 0 ) get_vertical_nav_menu( $menu_items );

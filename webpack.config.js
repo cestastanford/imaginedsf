@@ -22,7 +22,10 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: 'buble-loader',
+                use: {
+                    loader: 'babel-loader',
+                    options: { presets: ['env'] },
+                },
             },
             { test: /\.svg/, loader: 'file-loader?mimetype=image/svg+xml' },
             { test: /\.woff/, loader: "file-loader?mimetype=application/font-woff" },
