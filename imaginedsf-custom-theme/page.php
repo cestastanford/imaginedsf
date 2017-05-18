@@ -8,7 +8,18 @@ get_header();
 
 ?>
 
-<article>This is the Default Page template!</article>
+<section class="container page content">
+
+<?php
+
+    while ( have_posts() ) {
+        the_post();
+        the_content();
+    }
+
+?>
+
+</section>
 
 <?php
 
