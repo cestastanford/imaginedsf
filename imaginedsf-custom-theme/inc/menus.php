@@ -50,17 +50,16 @@ function get_nav_menu_items( $theme_location ) {
 
 function get_horizontal_nav_menu( $menu ) {
 
-    $items = isset( $menu ) ? $menu['items'] : null;
-    if ( isset( $items ) ) {
+    if ( isset( $menu ) ) {
 
         $output = '<nav class="nav ' . $menu['theme_location'] . '">';
-        foreach ($items as $item) {
+        foreach ( $menu['items'] as $item ) {
 
             $classes = 'nav-item' . ( is_active( $item ) ? ' is-active' : '' );
-            $permalink = $item->url;
+            $url = $item->url;
             $title = $item->title;
 
-            $output .= '<a class="' . $classes . '" href="' . $permalink . '">' . $title . '</a>';
+            $output .= '<a class="' . $classes . '" href="' . $url . '">' . $title . '</a>';
 
         }
         $output .= '</nav>';
@@ -73,21 +72,24 @@ function get_horizontal_nav_menu( $menu ) {
 
 /*
 *   Defines function for outputting a vertical menu-style nav.
+*   Recursively traverses children to create a heirarchical menu.
 */
 
 function get_vertical_nav_menu( $menu ) {
 
-    $items = isset( $menu ) ? $menu['items'] : null;
-    if ( isset( $items ) ) {
+    if ( isset( $menu ) ) {
 
         $output = '<aside class="menu ' . $menu['theme_location'] . '"><ul class="menu-list">';
-        foreach ($items as $item) {
+        foreach ( $menu['items'] as $item ) {
 
-            $classes = 'nav-item' . ( is_active( $item ) ? ' is-active' : '' );
-            $permalink = $item->url;
+            $classes = 'nav-item';
+            $classes .= ( is_active( $item ) && !$item->is_parent ? ' is-active' : '' );
+            $classes .= ( $item->level ? ' level-' . $item->level : '');
+            $classes .= ( $item->is_parent ? ' parent' : '');
+            $url = ( $item->is_parent ? '#' : $item->url );
             $title = $item->title;
 
-            $output .= '<li><a class="' . $classes . '" href="' . $permalink . '">' . $title . '</a></li>';
+            $output .= '<li><a class="' . $classes . '" href="' . $url . '"><span>' . $title . '</span></a></li>';
 
         }
         $output .= '</ul></aside>';

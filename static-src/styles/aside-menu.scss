@@ -1,0 +1,67 @@
+/*
+*   Styles for the left-hand vertical navigation menus.
+*/
+
+aside.menu {
+
+    margin-left: 1em;
+    margin-right: 1em;
+    padding: 1em;
+    background-color: $light-grey;
+
+    a:not(.is-active) {
+        color: $light-black;
+    }
+
+    a.is-active {
+        color: $white;
+        margin-left: -1.5em;
+        margin-right: -1.5em;
+        padding-left: 2.25em;
+        padding-right: 2.25em;
+    }
+
+    a.parent {
+
+        color: $red;
+
+        &:hover {
+            cursor: default;
+            background-color: transparent;
+            opacity: 1;
+        }
+
+        span {
+
+            margin-left: -1em;
+
+            &::before {
+                content: '▾';
+                margin-right: .5em;
+            }
+
+        }
+
+    }
+
+    a.level-1 span {
+        padding-left: 1em;
+    }
+
+    a.level-2 span {
+        padding-left: 2em;
+    }
+
+    a.level-3 span {
+        padding-left: 3em;
+    }
+
+    a.level-4 span {
+        padding-left: 4em;
+    }
+
+    a.level-5 span {
+        padding-left: 5em;
+    }
+
+}
