@@ -2,15 +2,15 @@
 *   Imports libraries.
 */
 
-import Vue from 'vue'
 import 'whatwg-fetch'
+import Vue from 'vue'
 
 
 /*
 *   Initiates AJAX request for slideshow images.
 */
 
-const REQUEST_URL = '/wp-json/imaginedsf/homepage-demo-slideshow-images'
+const REQUEST_URL = '/wp-json/imaginedsf/demo-images'
 const requestImages = () => {
 
     fetch(REQUEST_URL)

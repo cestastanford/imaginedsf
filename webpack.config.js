@@ -3,7 +3,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     
-    entry: './static-src/index.js',
+    entry: [ 'babel-polyfill', './static-src/index.js' ],
     output: {
         filename: 'script.js',
         path: path.resolve(__dirname, 'imaginedsf-custom-theme/static'),

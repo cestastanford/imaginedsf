@@ -11,3 +11,4 @@ import './styles/main.scss'
 
 import './components/homepage-demo.js'
 import './components/aside-menu.js'
+import './components/maps.js'
