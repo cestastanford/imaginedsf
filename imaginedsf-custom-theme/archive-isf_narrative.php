@@ -14,3 +14,4 @@ $narratives = get_posts( array(
 ) );
 
 wp_redirect( get_permalink( $narratives[0] ) );
+exit;
