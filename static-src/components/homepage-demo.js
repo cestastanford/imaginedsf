@@ -2,7 +2,6 @@
 *   Imports libraries.
 */
 
-import 'whatwg-fetch'
 import Vue from 'vue'
 
 
@@ -11,19 +10,17 @@ import Vue from 'vue'
 */
 
 const REQUEST_URL = '/wp-json/imaginedsf/demo-images'
-const requestImages = () => {
+const requestImages = async () => {
 
-    fetch(REQUEST_URL)
-    .then(response => {
-
-        if (response.ok) return response.json()
-        else {
-            throw new Error(`${response.status} ${response.statusText}`, response)
-        }
+    const response = await fetch(REQUEST_URL)
+    if (!response.ok) {
+        throw new Error(`${response.status} ${response.statusText}`, response)
+    }
     
-    })
-    .then(parsedResponse => data.images = parsedResponse.map(image => image.url))
-    .catch(console.error.bind(console))
+    const parsedResponse = await response.json()
+    if (parsedResponse) {
+        data.images = parsedResponse.map(image => image.url)
+    }
 
 }
 

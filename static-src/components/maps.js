@@ -2,7 +2,6 @@
 *   Imports libraries.
 */
 
-import request from 'whatwg-fetch'
 import Vue from 'vue'
 
 
@@ -11,7 +10,7 @@ import Vue from 'vue'
 */
 
 const REQUEST_URL = '/wp-json/imaginedsf/maps'
-async function requestMaps() {
+const requestMaps = async () => {
 
     const response = await fetch(REQUEST_URL)
     if (!response.ok) {

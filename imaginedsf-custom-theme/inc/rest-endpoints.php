@@ -6,7 +6,7 @@
 
 function get_demo_images() {
 
-    $page = get_page_by_path( SLUG );
+    $page = get_page_by_path( HOMEPAGE_SLUG );
     $images = get_field( 'demo_slideshow_images', $page->ID );
     return $images;
 
