@@ -18,7 +18,6 @@ const requestMaps = async () => {
     }
 
     data.maps = await response.json()
-    console.log(data.maps)
 
 }
 
