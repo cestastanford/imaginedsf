@@ -28,8 +28,15 @@ module.exports = {
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
-                    options: { presets: ['env'] },
+                    options: {
+                        presets: ['env'],
+                        plugins: ['transform-object-rest-spread'],
+                    },
                 },
+            },
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader',
             },
             { test: /\.svg/, loader: 'file-loader?mimetype=image/svg+xml' },
             { test: /\.woff/, loader: "file-loader?mimetype=application/font-woff" },

@@ -6,6 +6,27 @@ import Vue from 'vue'
 
 
 /*
+*   Imports subcomponents.
+*/
+
+import Maps from './maps.vue'
+
+
+/*
+*   Creates a global data object, for storing the map info retrieved
+*   from WordPress and the app state.
+*/
+
+const data = {
+
+    //  Saves the map layers
+    proposalMaps: [],
+    basemaps: [],
+
+}
+
+
+/*
 *   Downloads all map data from the REST API.
 */
 
@@ -17,19 +38,18 @@ const requestMaps = async () => {
         throw new Error(`${response.status} ${response.statusText}`, response)
     }
 
-    data.maps = await response.json()
+    const responseBody = await response.json()
+    responseBody.forEach(responseBodyObject => {
 
-}
+        const map = {
+            title: responseBodyObject.post_title,
+            ...responseBodyObject.fields,
+        }
 
+        if (map.map_type === 'proposal') data.proposalMaps.push(map)
+        else data.basemaps.push(map)
 
-/*
-*   Defines component data, methods and options.
-*/
-
-const data = {
-
-    activeIndex: 0,
-    images: [],
+    })
 
 }
 
@@ -49,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
             el,
             data,
             created: requestMaps,
+            render: createElement => createElement(Maps),
 
         })
 

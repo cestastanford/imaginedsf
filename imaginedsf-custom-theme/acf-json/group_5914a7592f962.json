@@ -34,7 +34,7 @@
             "label": "Raster Map URL",
             "name": "raster_url",
             "type": "url",
-            "instructions": "Enter the WMS address for this map's raster image.",
+            "instructions": "Enter the WMS address for this map's raster images.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -50,7 +50,7 @@
             "label": "Vector Polygon Set URL",
             "name": "vector_url",
             "type": "url",
-            "instructions": "Enter the WMS address for this map's vector polygon set.",
+            "instructions": "Enter the WFS\/GeoJSON address for this map's vector polygon set.",
             "required": 0,
             "conditional_logic": [
                 [
@@ -114,7 +114,7 @@
             "label": "Photos & Drawings URLs",
             "name": "feature_urls",
             "type": "repeater",
-            "instructions": "Add a title and WMS address for each feature set to be included in Photos & Drawings for this map.",
+            "instructions": "Add a title and WFS\/GeoJSON address for each feature set to be included in Photos & Drawings for this map.",
             "required": 0,
             "conditional_logic": [
                 [
@@ -162,6 +162,27 @@
             }
         },
         {
+            "default_value": "",
+            "min": "",
+            "max": "",
+            "step": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "key": "field_5923b540c380d",
+            "label": "Map Year",
+            "name": "year",
+            "type": "number",
+            "instructions": "Enter the year represented by this map.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            }
+        },
+        {
             "tabs": "all",
             "toolbar": "full",
             "media_upload": 1,
@@ -173,15 +194,7 @@
             "type": "wysiwyg",
             "instructions": "Insert a written informative description for the map here.",
             "required": 0,
-            "conditional_logic": [
-                [
-                    {
-                        "field": "field_5914a88975675",
-                        "operator": "==",
-                        "value": "proposal"
-                    }
-                ]
-            ],
+            "conditional_logic": 0,
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -221,5 +234,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1494526847
+    "modified": 1495512434
 }
