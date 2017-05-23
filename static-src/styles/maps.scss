@@ -1,0 +1,39 @@
+/*
+*   Interactive Maps styles
+*/
+
+.collapsible-container {
+    
+    background-color: $light-grey;
+    padding: 0 .5em;
+
+    h2 {
+
+        width: 100%;
+        padding: .5rem .5rem .7rem .5rem;
+        font-size: 1.1em;
+        text-transform: lowercase;
+        cursor: pointer;
+
+        &::after {
+            content: '(–)';
+            display: inline-block;
+            min-width: 3em;
+            text-align: right;
+
+        }
+
+        &.collapsed::after {
+            content: '(+)';
+        }
+
+    }
+
+    main {
+        padding: .5rem .5rem;
+        border-top: 1px solid $medium-light-grey;
+    }
+
+    
+
+}

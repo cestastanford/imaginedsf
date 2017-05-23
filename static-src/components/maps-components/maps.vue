@@ -1,16 +1,15 @@
-<!-- Vue component template for the top-level <maps> component. -->
 <template>
     
     <div class="container">
         <div class="columns">
-            <div class="column is-narrow"></div>
+            <div class="column is-narrow">
+                <proposal-list></proposal-list>
+            </div>
             <div class="column"></div>
         </div>
     </div>
 
 </template>
-
-<!-- Vue component script for the top-level <maps> component. -->
 <script>
 
 
@@ -19,6 +18,7 @@
 */
 
 import { REQUEST_MAPS, APPLY_HASH_STATE, GET_HASH_STATE } from '../maps.js'
+import ProposalList from './proposal-list.vue'
 
 
 /*
@@ -54,10 +54,12 @@ const enableHashRouting = store => {
 *   Configures and exports component.
 */
 
-const Component = {
+const Maps = {
 
     name: 'maps',
-    components: {},
+    components: {
+        ProposalList,
+    },
     async mounted() {
 
         await this.$store.dispatch(REQUEST_MAPS)
@@ -67,6 +69,7 @@ const Component = {
 
 }
 
-export default Component
+export default Maps
+
 
 </script>
