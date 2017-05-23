@@ -138,7 +138,7 @@
             "taxonomy": [],
             "allow_null": 0,
             "multiple": 0,
-            "return_format": "object",
+            "return_format": "id",
             "ui": 1,
             "key": "field_5914aa617567b",
             "label": "Linked Basemap",
@@ -234,5 +234,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1495512434
+    "modified": 1495515407
 }
