@@ -1,7 +1,14 @@
 <template>
     
     <collapsible-container title='Proposal Maps'>
-        <div>hi!</div>
+        <ul>
+            <map-list-item
+                v-for="map in proposalMaps"
+                :map="map"
+                :isProposal="true"
+                key="map.id">
+            </map-list-item>
+        </ul>
     </collapsible-container>
 
 </template>
@@ -12,6 +19,7 @@
 */
 
 import CollapsibleContainer from './collapsible-container.vue'
+import MapListItem from './map-list-item.vue'
 
 
 /*
@@ -22,8 +30,12 @@ const ProposalList = {
 
     name: 'proposal-list',
     components: {
-        CollapsibleContainer
+        CollapsibleContainer,
+        MapListItem,
     },
+    computed: {
+        proposalMaps() { return this.$store.state.proposalMaps },
+    } 
 
 }
 

@@ -5,7 +5,9 @@
             <div class="column is-narrow">
                 <proposal-list></proposal-list>
             </div>
-            <div class="column"></div>
+            <div class="column">
+                <map-canvas></map-canvas>
+            </div>
         </div>
     </div>
 
@@ -17,8 +19,9 @@
 *   Imports constants and subcomponents.
 */
 
-import { REQUEST_MAPS, APPLY_HASH_STATE, GET_HASH_STATE } from '../maps.js'
+import { REQUEST_MAPS, APPLY_HASH_STATE } from '../maps.js'
 import ProposalList from './proposal-list.vue'
+import MapCanvas from './map-canvas.vue'
 
 
 /*
@@ -37,13 +40,11 @@ const enableHashRouting = store => {
     //  Saves state changes to URL
     const saveHashState = (mutation, state) => {
 
-        window.location.hash = '#' + store.getters[GET_HASH_STATE]
+        window.history.pushState(null, null, '#' + store.getters.hashState)
 
     }
 
     applyHashState()
-    saveHashState()
-
     window.addEventListener('popstate', applyHashState)
     store.subscribe(saveHashState)
 
@@ -54,11 +55,12 @@ const enableHashRouting = store => {
 *   Configures and exports component.
 */
 
-const Maps = {
+const InteractiveMaps = {
 
-    name: 'maps',
+    name: 'interactive-maps',
     components: {
         ProposalList,
+        MapCanvas,
     },
     async mounted() {
 
@@ -69,7 +71,7 @@ const Maps = {
 
 }
 
-export default Maps
+export default InteractiveMaps
 
 
 </script>

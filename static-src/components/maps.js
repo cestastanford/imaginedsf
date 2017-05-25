@@ -10,7 +10,7 @@ import Vuex from 'vuex'
 *   Imports utilities and subcomponents.
 */
 
-import Maps from './maps-components/maps.vue'
+import InteractiveMaps from './maps-components/interactive-maps.vue'
 
 
 /*
@@ -18,10 +18,10 @@ import Maps from './maps-components/maps.vue'
 */
 
 export const REQUEST_MAPS = 'REQUEST_MAPS'
+export const SET_SOURCE_MAPS = 'SET_SOURCE_MAPS'
 export const APPLY_HASH_STATE = 'APPLY_HASH_STATE'
-export const GET_HASH_STATE = 'GET_HASH_STATE'
-const SET_SOURCE_MAPS = 'SET_SOURCE_MAPS'
-
+export const TOGGLE_NARRATIVE = 'TOGGLE_NARRATIVE'
+export const TOGGLE_MAP_ENABLED = 'TOGGLE_MAP_ENABLED'
 
 
 /*
@@ -37,20 +37,22 @@ const requestMaps = async ({ commit }) => {
     }
 
     const responseBody = await response.json()
-    const sourceMaps = {}
-    responseBody.forEach(responseBodyObject => {
+    const proposalMaps = []
+    const basemaps = []
+    responseBody.forEach(responseObject => {
 
-        const sourceMap = {
-            id: responseBodyObject.ID,
-            title: responseBodyObject.post_title,
-            ...responseBodyObject.fields,
+        const map = {
+            id: responseObject.ID,
+            title: responseObject.post_title,
+            ...responseObject.fields,
         }
 
-        sourceMaps[sourceMap.id] = sourceMap
+        if (map.map_type === 'proposal') proposalMaps.push(map)
+        else basemaps.push(map)
 
     })
 
-    commit(SET_SOURCE_MAPS, sourceMaps)
+    commit(SET_SOURCE_MAPS, { proposalMaps, basemaps })
 
 }
 
@@ -63,7 +65,10 @@ const encodeForURL = obj => {
 
     const cleaned = { ...obj }
     for (let key in cleaned) {
+        
         if (!cleaned[key]) delete cleaned[key]
+        if (cleaned[key] instanceof Object && !Object.keys(cleaned[key]).length) delete cleaned[key]
+    
     }
 
     return encodeURI(JSON.stringify(cleaned))
@@ -96,11 +101,13 @@ const initRootComponent = (el) => {
 
         state: {
 
-            sourceMaps: {},
+            proposalMaps: [],
+            basemaps: [],
             mapState: {
 
-                opacities: null,
-                featureGroups: null,
+                enabledMaps: {},
+                opacities: {},
+                featureGroups: {},
                 narrative: null,
                 popup: null,
                 address: null,
@@ -112,13 +119,19 @@ const initRootComponent = (el) => {
 
         getters: {
 
-            [GET_HASH_STATE]: state => encodeForURL(state.mapState),
+            hashState: state => encodeForURL(state.mapState),
 
         },
 
         mutations: {
 
-            [SET_SOURCE_MAPS]: (state, sourceMaps) => state.sourceMaps = sourceMaps,
+            [SET_SOURCE_MAPS]: (state, { proposalMaps, basemaps }) => {
+                
+                state.proposalMaps = proposalMaps
+                state.basemaps = basemaps
+            
+            },
+
             [APPLY_HASH_STATE]: (state, parameterString) => {
 
                 const parameters = decodeFromURL(parameterString)
@@ -129,6 +142,19 @@ const initRootComponent = (el) => {
                 }
 
             },
+
+            [TOGGLE_NARRATIVE]: (state, map) => {
+
+                if (state.mapState.narrative === map.id) state.mapState.narrative = null
+                else state.mapState.narrative = map.id
+            
+            },
+
+            [TOGGLE_MAP_ENABLED]: (state, map) => {
+
+                state.mapState.enabledMaps[map.id] = !state.mapState.enabledMaps[map.id]
+
+            }
 
         },
 
@@ -144,7 +170,7 @@ const initRootComponent = (el) => {
         
         el,
         store,
-        render: createElement => createElement(Maps),
+        render: createElement => createElement(InteractiveMaps),
 
     })
 
