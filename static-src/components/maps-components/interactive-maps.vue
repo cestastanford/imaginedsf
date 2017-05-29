@@ -33,12 +33,13 @@ const enableHashRouting = store => {
     //  Applies URL changes to state
     const applyHashState = () => {
 
-        store.commit(APPLY_HASH_STATE, window.location.hash.slice(1))
+        const hash = window.location.hash.slice(1)
+        if (hash) store.commit(APPLY_HASH_STATE, hash)
 
     }
 
     //  Saves state changes to URL
-    const saveHashState = (mutation, state) => {
+    const saveHashState = () => {
 
         window.history.pushState(null, null, '#' + store.getters.hashState)
 

@@ -15,11 +15,12 @@
 <script>
 
 /*
-*   Imports subcomponents.
+*   Imports subcomponents and constants.
 */
 
 import CollapsibleContainer from './collapsible-container.vue'
 import MapListItem from './map-list-item.vue'
+import { PROPOSAL_MAP_TYPE } from '../maps.js'
 
 
 /*
@@ -34,8 +35,10 @@ const ProposalList = {
         MapListItem,
     },
     computed: {
-        proposalMaps() { return this.$store.state.proposalMaps },
-    } 
+        proposalMaps() {
+            return this.$store.getters.allMapsOfType(PROPOSAL_MAP_TYPE)
+        },
+    },
 
 }
 

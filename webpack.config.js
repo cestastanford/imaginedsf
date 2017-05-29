@@ -15,7 +15,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.scss$/,
+                test: /\.s?css$/,
                 use: ExtractTextPlugin.extract({
                     use: [
                         { loader: 'css-loader', options: { sourceMap: true } },
@@ -32,10 +32,7 @@ module.exports = {
                 test: /\.vue$/,
                 loader: 'vue-loader',
             },
-            { test: /\.svg/, loader: 'file-loader?mimetype=image/svg+xml' },
-            { test: /\.woff/, loader: "file-loader?mimetype=application/font-woff" },
-            { test: /\.ttf/, loader: "file-loader?mimetype=application/octet-stream" },
-            { test: /\.eot/, loader: "file-loader" },
+            { test: /\.(svg|woff2?|ttf|eot|png)/, loader: 'file-loader' },
         ]
     },
     plugins: [
@@ -44,7 +41,7 @@ module.exports = {
     resolve: {
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
-        }
+        },
     }
 
 };

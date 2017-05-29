@@ -25,6 +25,14 @@ export const TOGGLE_MAP_ENABLED = 'TOGGLE_MAP_ENABLED'
 
 
 /*
+*   Defines map type constants.
+*/
+
+export const PROPOSAL_MAP_TYPE = 'proposal'
+export const BASEMAP_TYPE = 'basemap'
+
+
+/*
 *   Requests and processes maps from WordPress.
 */
 
@@ -37,8 +45,7 @@ const requestMaps = async ({ commit }) => {
     }
 
     const responseBody = await response.json()
-    const proposalMaps = []
-    const basemaps = []
+    const sourceMaps = {}
     responseBody.forEach(responseObject => {
 
         const map = {
@@ -47,45 +54,11 @@ const requestMaps = async ({ commit }) => {
             ...responseObject.fields,
         }
 
-        if (map.map_type === 'proposal') proposalMaps.push(map)
-        else basemaps.push(map)
+        sourceMaps[map.id] = map
 
     })
 
-    commit(SET_SOURCE_MAPS, { proposalMaps, basemaps })
-
-}
-
-
-/*
-*   Encodes/decodes objects for saving in URLs.
-*/
-
-const encodeForURL = obj => {
-
-    const cleaned = { ...obj }
-    for (let key in cleaned) {
-        
-        if (!cleaned[key]) delete cleaned[key]
-        if (cleaned[key] instanceof Object && !Object.keys(cleaned[key]).length) delete cleaned[key]
-    
-    }
-
-    return encodeURI(JSON.stringify(cleaned))
-
-}
-
-const decodeFromURL = str => {
-
-    let parameters = {}
-
-    try {
-        parameters = JSON.parse(decodeURI(str))
-    } catch (e) {
-        console.warn('Hash parameter parse failed: ' + str)
-    }
-
-    return parameters
+    commit(SET_SOURCE_MAPS, sourceMaps)
 
 }
 
@@ -99,60 +72,100 @@ const initRootComponent = (el) => {
     Vue.use(Vuex)
     const store = new Vuex.Store({
 
+        strict: process.env.NODE_ENV !== 'production',
         state: {
 
-            proposalMaps: [],
-            basemaps: [],
-            mapState: {
-
-                enabledMaps: {},
-                opacities: {},
-                featureGroups: {},
-                narrative: null,
-                popup: null,
-                address: null,
-                mapBounds: null,
-
-            }
+            sourceMaps: {},
+            mapEnabled: {},
+            narrative: null,
+            address: null,
 
         },
 
         getters: {
 
-            hashState: state => encodeForURL(state.mapState),
+            hashState: state => {
+                
+                const hashStateObject = {}
+                if (Object.keys(state.mapEnabled).length) hashStateObject.mapEnabled = state.mapEnabled
+                if (state.narrative) hashStateObject.narrative = state.narrative
+                if (state.address) hashStateObject.address = state.address
+                return encodeURI(JSON.stringify(hashStateObject))
+
+            },
+
+            allMapsOfType: state => mapType => {
+                
+                const proposalMaps = []
+                for (let key in state.sourceMaps) {
+                    const map = state.sourceMaps[key]
+                    if (map.map_type === mapType) proposalMaps.push(map)
+                }
+                return proposalMaps
+
+            },
+
+            isMapEnabled: state => map => state.mapEnabled[map.id],
+            mapLayers: (state, getters) => {
+
+                const layers = []
+                for (let key in state.sourceMaps) {
+                    const map = state.sourceMaps[key]
+                    if (getters.isMapEnabled(map)) layers.push(map)
+                }
+                return layers
+
+            },
 
         },
 
         mutations: {
 
-            [SET_SOURCE_MAPS]: (state, { proposalMaps, basemaps }) => {
-                
-                state.proposalMaps = proposalMaps
-                state.basemaps = basemaps
-            
-            },
-
+            [SET_SOURCE_MAPS]: (state, sourceMaps) => state.sourceMaps = sourceMaps,
             [APPLY_HASH_STATE]: (state, parameterString) => {
 
-                const parameters = decodeFromURL(parameterString)
-                for (let key in state.mapState) {
+                let parameters
+                try {
+                    parameters = JSON.parse(decodeURI(parameterString))
+                } catch (e) {
+                    console.warn('Hash parameter parse failed: ' + parameterString)
+                }
+
+                if (parameters) {
+
+                    if (parameters.mapEnabled) for (let index in parameters.mapEnabled) {
+                        
+                        if (state.sourceMaps[index]) {
+                            
+                            state.mapEnabled = {
+
+                                ...state.mapEnabled,
+                                [index]: parameters.mapEnabled[index],
+
+                            }
+                        
+                        }
                     
-                    if (parameters[key]) state.mapState[key] = parameters[key]
-                
+                    }
+
+                    if (parameters.address) state.address = parameters.address
+
+                    if (state.sourceMaps[parameters.narrative]) state.narrative = parameters.narrative
+
                 }
 
             },
 
             [TOGGLE_NARRATIVE]: (state, map) => {
 
-                if (state.mapState.narrative === map.id) state.mapState.narrative = null
-                else state.mapState.narrative = map.id
+                if (state.narrative === map.id) state.narrative = null
+                else state.narrative = map.id
             
             },
 
             [TOGGLE_MAP_ENABLED]: (state, map) => {
 
-                state.mapState.enabledMaps[map.id] = !state.mapState.enabledMaps[map.id]
+                state.mapEnabled = { ...state.mapEnabled, [map.id]: !state.mapEnabled[map.id] }
 
             }
 

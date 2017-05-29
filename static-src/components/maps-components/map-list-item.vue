@@ -24,12 +24,7 @@ const MapListItem = {
     }),
     computed: {
 
-        mapEnabled() {
-            
-            return (this.$store.state.mapState.enabledMaps &&
-                this.$store.state.mapState.enabledMaps[this.map.id] === true)
-
-        },
+        mapEnabled() { return this.$store.getters.isMapEnabled(this.map) },
 
     },
 
