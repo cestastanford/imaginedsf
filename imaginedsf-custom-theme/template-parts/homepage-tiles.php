@@ -58,10 +58,10 @@ $right_column_tiles = array(
         <?php endforeach; ?>
         <div class="tile is-child">
             <div class="homepage-tile grey search-an-address">
-                <div class="centered">
+                <form class="centered search-an-address">
                     <div class="icon is-large"><i class="fa fa-search"></i></div>
                     <input class="input is-large" type="text" placeholder="search an address...">
-                </div>
+                </form>
             </div>
         </div>
     </div>

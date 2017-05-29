@@ -20,10 +20,10 @@
                     </div>
                     <div class="level-right">
                         <div class="level">
-                            <div class="is-pulled-right level-item control has-icons-left search-an-address">
+                            <form class="is-pulled-right level-item control has-icons-left search-an-address">
                                 <input class="input is-small" type="text" placeholder="search an address...">
                                 <span class="icon is-small is-left"><i class="fa fa-search"></i></span>
-                            </div>
+                            </form>
                             <div class="level-item"><?php get_horizontal_nav_menu( get_nav_menu_items( SECONDARY_MENU ) ); ?></div>
                         </div>
                     </div>
