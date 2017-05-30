@@ -33,6 +33,14 @@ export const BASEMAP_TYPE = 'basemap'
 
 
 /*
+*   Defines layer type constants.
+*/
+
+export const WMS_LAYER_TYPE = 'wms'
+export const GEOJSON_LAYER_TYPE = 'geojson'
+
+
+/*
 *   Requests and processes maps from WordPress.
 */
 
@@ -79,6 +87,7 @@ const initRootComponent = (el) => {
             mapEnabled: {},
             narrative: null,
             address: null,
+            layerOpacity: {},
 
         },
 
@@ -90,6 +99,7 @@ const initRootComponent = (el) => {
                 if (Object.keys(state.mapEnabled).length) hashStateObject.mapEnabled = state.mapEnabled
                 if (state.narrative) hashStateObject.narrative = state.narrative
                 if (state.address) hashStateObject.address = state.address
+                if (Object.keys(state.layerOpacity).length) hashStateObject.layerOpacity = state.layerOpacity
                 return encodeURI(JSON.stringify(hashStateObject))
 
             },
@@ -101,6 +111,7 @@ const initRootComponent = (el) => {
                     const map = state.sourceMaps[key]
                     if (map.map_type === mapType) proposalMaps.push(map)
                 }
+                
                 return proposalMaps
 
             },
@@ -111,8 +122,35 @@ const initRootComponent = (el) => {
                 const layers = []
                 for (let key in state.sourceMaps) {
                     const map = state.sourceMaps[key]
-                    if (getters.isMapEnabled(map)) layers.push(map)
+                    if (getters.isMapEnabled(map)) {
+
+                        if (map.raster_url) layers.push({
+
+                            type: WMS_LAYER_TYPE,
+                            opacity: state.layerOpacity[map.raster_url] || 1,
+                            url: map.raster_url,
+
+                        })
+
+                        if (map.vector_url) layers.push({
+
+                            type: GEOJSON_LAYER_TYPE,
+                            opacity: state.layerOpacity[map.vector_url] || 1,
+                            url: map.vector_url,
+
+                        })
+
+                        if (map.feature_urls) map.feature_urls.forEach(url => layers.push({
+
+                            type: GEOJSON_LAYER_TYPE,
+                            opacity: state.layerOpacity[url] || 1,
+                            url: url.url,
+
+                        }))
+
+                    }
                 }
+                
                 return layers
 
             },

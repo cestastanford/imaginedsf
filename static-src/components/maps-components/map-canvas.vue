@@ -5,23 +5,40 @@
 </template>
 <script>
 
-import { Map } from 'leaflet'
-import 'leaflet/dist/leaflet.css'
-
 /*
-*   Saves map as instance variable.
+*   Imports layer type constants.
 */
 
-let map
+import { WMS_LAYER_TYPE, GEOJSON_LAYER_TYPE } from '../maps.js'
+
+/*
+*   Imports Leaflet library.
+*/
+
+import * as Leaflet from 'leaflet'
+import 'leaflet/dist/leaflet.css'
 
 
 /*
 *   Initializes the map.
 */
 
-const initMap = () => {
+function initMap() {
 
-    const map = new Map('map')
+    this.map = new Leaflet.Map('map')
+
+}
+
+
+/*
+*   Downloads GeoJSON and adds to map.
+*/
+
+const addGeoJSONLayer = async (map, layer) => {
+
+    const response = await fetch(layer.url)
+    const parsedResponse = await response.json()
+    console.log('data received!', parsedResponse)
 
 }
 
@@ -30,9 +47,28 @@ const initMap = () => {
 *   Updates the map layers on store state change.
 */
 
-const updateLayers = layers => {
+function updateLayers(updatedLayers) {
 
-    console.log('map layer update function parameter: ', layers)
+    this.map.eachLayer(layer => map.removeLayer(layer))
+    updatedLayers.forEach(layer => {
+
+        const options = { opacity: layer.opacity }
+
+        switch (layer.type) {
+
+            case WMS_LAYER_TYPE:
+                console.log('wms layer: ', layer)
+                this.map.addLayer(new Leaflet.tileLayer.wms(layer.url, options))
+                break
+
+            case GEOJSON_LAYER_TYPE:
+                console.log('geojson layer: ', layer)
+                addGeoJSONLayer(this.map, layer)
+                break
+
+        }
+
+    })
 
 }
 
@@ -44,10 +80,11 @@ const updateLayers = layers => {
 const MapCanvas = {
 
     name: 'map-canvas',
+    data: () => ({ map: null }),
     mounted() {
         
-        initMap()
-        this.$store.watch((state, getters) => getters.mapLayers, updateLayers)
+        initMap.call(this)
+        this.$store.watch((state, getters) => getters.mapLayers, updateLayers.bind(this), { immediate: true })
 
     },
 
