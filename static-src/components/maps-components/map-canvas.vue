@@ -33,6 +33,32 @@ L.Icon.Default.mergeOptions({
 
 
 /*
+*   Parses WMS URL into a base URL and options, so Leaflet can create
+*   correctly-formed HTTP requests.
+*/
+
+const parseWMSURL = url => {
+
+    const baseURL = url.match(/^.*wms\?/)[0]
+    
+    let regexp = /(?:wms\?|&)([^&=]+)=([^&=]*)/g
+    let result = null
+    let wmsOptions = { transparent: true, format: 'image/png' }
+    while (result = regexp.exec(url)) {
+
+        if (result && result[1] === 'layers') {
+            wmsOptions.layers = result[2]
+            break
+        }
+
+    }
+
+    return { baseURL, wmsOptions }
+
+}
+
+
+/*
 *   Updates the map layers on store state change.
 */
 
@@ -48,7 +74,8 @@ const bindLayerControls = (map, store) => {
             switch (layer.type) {
 
                 case WMS_LAYER_TYPE:
-                    map.addLayer(new L.tileLayer.wms(layer.url, options))
+                    const { baseURL, wmsOptions } = parseWMSURL(layer.url)
+                    map.addLayer(new L.tileLayer.wms(baseURL, { ...options, ...wmsOptions }))
                     break
 
                 case GEOJSON_LAYER_TYPE:
