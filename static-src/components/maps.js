@@ -100,6 +100,7 @@ const initRootComponent = (el) => {
             },
 
             isMapEnabled: state => map => state.mapEnabled[map.id],
+            isNarrativeVisible: state => map => state.narrative === map.id,
             mapLayers(state, getters) {
 
                 const layers = []

@@ -3,8 +3,10 @@
     <li class="map-list-item">
         <input type="range" v-if="!isProposal">
         <a class="map-title" @click="collapsed = !collapsed">{{ map.title }}</a>
-        <a class="narrative-button" @click="toggleNarrative">i</a>
-        <input type="checkbox" :checked="mapEnabled" @click="toggleMapEnabled">
+        <div class="controls">
+            <a class="narrative-button" :class="{ active: narrativeVisible }" @click="toggleNarrative">𝒊</a>
+            <input type="checkbox" :checked="mapEnabled" @click="toggleMapEnabled">
+        </div>
     </li>
 
 </template>
@@ -25,6 +27,7 @@ const MapListItem = {
     computed: {
 
         mapEnabled() { return this.$store.getters.isMapEnabled(this.map) },
+        narrativeVisible() { return this.$store.getters.isNarrativeVisible(this.map) },
 
     },
 
