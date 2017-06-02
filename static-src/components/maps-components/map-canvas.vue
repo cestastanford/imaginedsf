@@ -6,67 +6,87 @@
 <script>
 
 /*
-*   Imports layer type constants.
+*   Imports layer type and action name constants.
 */
 
-import { WMS_LAYER_TYPE, GEOJSON_LAYER_TYPE } from '../maps.js'
+import { WMS_LAYER_TYPE, GEOJSON_LAYER_TYPE, DOWNLOAD_GEOJSON, SAVE_BOUNDS } from '../maps.js'
+
 
 /*
 *   Imports Leaflet library.
 */
 
-import * as Leaflet from 'leaflet'
+import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
 
 /*
-*   Initializes the map.
+*   Fixes Leaflet import bug.
 */
 
-function initMap() {
-
-    this.map = new Leaflet.Map('map')
-
-}
-
-
-/*
-*   Downloads GeoJSON and adds to map.
-*/
-
-const addGeoJSONLayer = async (map, layer) => {
-
-    const response = await fetch(layer.url)
-    const parsedResponse = await response.json()
-    console.log('data received!', parsedResponse)
-
-}
+delete L.Icon.Default.prototype._getIconUrl
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+  iconUrl: require('leaflet/dist/images/marker-icon.png'),
+  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+})
 
 
 /*
 *   Updates the map layers on store state change.
 */
 
-function updateLayers(updatedLayers) {
+const bindLayerControls = (map, store) => {
 
-    this.map.eachLayer(layer => map.removeLayer(layer))
-    updatedLayers.forEach(layer => {
+    store.watch(() => store.getters.mapLayers, layers => {
 
-        const options = { opacity: layer.opacity }
+        map.eachLayer(layer => map.removeLayer(layer))
+        layers.forEach(layer => {
 
-        switch (layer.type) {
+            const options = { opacity: layer.opacity }
 
-            case WMS_LAYER_TYPE:
-                console.log('wms layer: ', layer)
-                this.map.addLayer(new Leaflet.tileLayer.wms(layer.url, options))
-                break
+            switch (layer.type) {
 
-            case GEOJSON_LAYER_TYPE:
-                console.log('geojson layer: ', layer)
-                addGeoJSONLayer(this.map, layer)
-                break
+                case WMS_LAYER_TYPE:
+                    map.addLayer(new L.tileLayer.wms(layer.url, options))
+                    break
 
-        }
+                case GEOJSON_LAYER_TYPE:
+                    if (layer.geoJSON) map.addLayer(new L.geoJSON(layer.geoJSON))
+                    else store.dispatch(DOWNLOAD_GEOJSON, layer.url)
+                    break
+
+            }
+
+        })
+
+    }, { immediate: true })
+
+}
+
+
+/*
+*   Sets the initial map bounds from the URL if present, and saves
+*   updated bounds to state.
+*/
+
+const bindMapBounds = (map, store) => {
+
+    store.watch(() => store.getters.mapBounds, bounds => {
+
+        if (!map.getBounds().equals(bounds)) map.fitBounds(bounds)
+
+    }, { immediate: true })
+
+    map.on('moveend zoomend', () => {
+
+        const bounds = map.getBounds()
+        const boundsArray = [
+            [ bounds.getNorth(), bounds.getWest() ],
+            [ bounds.getSouth(), bounds.getEast() ],
+        ]
+
+        store.commit(SAVE_BOUNDS, boundsArray)
 
     })
 
@@ -83,8 +103,10 @@ const MapCanvas = {
     data: () => ({ map: null }),
     mounted() {
         
-        initMap.call(this)
-        this.$store.watch((state, getters) => getters.mapLayers, updateLayers.bind(this), { immediate: true })
+        const map = new L.Map('map')
+        map.fitBounds(this.$store.getters.mapBounds)
+        bindLayerControls(map, this.$store)
+        bindMapBounds(map, this.$store)
 
     },
 

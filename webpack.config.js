@@ -11,6 +11,7 @@ module.exports = {
     output: {
         filename: 'script.js',
         path: path.resolve(__dirname, 'imaginedsf-custom-theme/static'),
+        publicPath: '/wp-content/themes/imaginedsf-custom-theme/static/',
     },
     module: {
         rules: [
