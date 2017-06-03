@@ -20,7 +20,7 @@ module.exports = {
                 use: ExtractTextPlugin.extract({
                     use: [
                         { loader: 'css-loader', options: { sourceMap: true } },
-                        { loader: 'sass-loader', options: { sourceMap: true } }
+                        { loader: 'sass-loader', options: { sourceMap: true } },
                     ],
                 })
             },
@@ -32,6 +32,16 @@ module.exports = {
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',
+                options: {
+                    loaders: {
+                        sass: ExtractTextPlugin.extract({
+                            use: [
+                                { loader: 'css-loader', options: { sourceMap: true } },
+                                { loader: 'sass-loader', options: { sourceMap: true } },
+                            ],
+                        })
+                    }
+                }
             },
             { test: /\.(svg|woff2?|ttf|eot|png)/, loader: 'file-loader' },
         ]

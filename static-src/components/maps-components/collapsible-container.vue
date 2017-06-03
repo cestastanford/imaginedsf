@@ -28,3 +28,46 @@ const CollapsibleContainer = {
 export default CollapsibleContainer
 
 </script>
+<style lang="sass">
+
+@import '../../styles/variables';
+
+.collapsible-container {
+
+    background-color: $light-grey;
+    padding: 0 .5em;
+
+    h2 {
+
+        position: relative;
+        width: 100%;
+        margin-bottom: .2rem;
+        padding: .5rem 3.5rem .5rem .5rem;
+        font-size: 1.1em;
+        text-transform: lowercase;
+        cursor: pointer;
+
+        &::after {
+            content: '(–)';
+            display: block;
+            position: absolute;
+            top: 50%;
+            right: .5rem;
+            transform: translateY(-50%);
+
+        }
+
+        &.collapsed::after {
+            content: '(+)';
+        }
+
+    }
+
+    main {
+        padding: .5rem .5rem;
+        border-top: 1px solid $medium-light-grey;
+    }
+
+}
+
+</style>

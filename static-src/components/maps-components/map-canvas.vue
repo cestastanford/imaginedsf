@@ -142,3 +142,12 @@ const MapCanvas = {
 export default MapCanvas
 
 </script>
+<style lang="sass">
+
+#map {
+
+    height: 600px;
+
+}
+
+</style>
