@@ -9,6 +9,10 @@ aside.menu {
     padding: 1em;
     background-color: $light-grey;
 
+    a {
+        transition: background-color .25s;
+    }
+
     a:not(.is-active) {
         color: $light-black;
     }

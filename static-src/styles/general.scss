@@ -8,6 +8,7 @@ body {
 
 a {
     transition: opacity .25s;
+    user-select: none;
 }
 
 a:hover {

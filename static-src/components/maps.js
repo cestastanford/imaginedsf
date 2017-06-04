@@ -25,6 +25,7 @@ export const TOGGLE_MAP_ENABLED = 'TOGGLE_MAP_ENABLED'
 export const DOWNLOAD_GEOJSON = 'DOWNLOAD_GEOJSON'
 const SAVE_GEOJSON = 'SAVE_GEOJSON'
 export const SAVE_BOUNDS = 'SAVE_BOUNDS'
+export const SET_LAYER_OPACITY = 'SET_LAYER_OPACITY'
 
 
 /*
@@ -44,10 +45,19 @@ export const GEOJSON_LAYER_TYPE = 'geojson'
 
 
 /*
-*   Defines the boundaries of San Francisco for map defaults.
+*   Boundaries of San Francisco for map defaults.
 */
 
 const SAN_FRANCISCO_BOUNDS = [ [ 37.813996, -122.529439 ], [ 37.702302, -122.348852 ] ]
+
+
+/*
+*   Strings to use for raster and vector layers in proposal maps.
+*/
+
+const RASTER_LAYER_LABEL = 'Raster Map'
+const VECTOR_LAYER_LABEL = 'Vector Map'
+
 
 
 /*
@@ -101,46 +111,67 @@ const initRootComponent = (el) => {
 
             isMapEnabled: state => map => state.mapEnabled[map.id],
             isNarrativeVisible: state => map => state.narrative === map.id,
-            mapLayers(state, getters) {
-
-                const layers = []
-                for (let key in state.sourceMaps) {
-                    const map = state.sourceMaps[key]
-                    if (getters.isMapEnabled(map)) {
-
-                        if (map.raster_url) layers.push({
-
-                            type: WMS_LAYER_TYPE,
-                            opacity: state.layerOpacity[map.raster_url] || 1,
-                            url: map.raster_url,
-
-                        })
-
-                        if (map.vector_url) layers.push({
-
-                            type: GEOJSON_LAYER_TYPE,
-                            opacity: state.layerOpacity[map.vector_url] || 1,
-                            url: map.vector_url,
-                            geoJSON: state.geoJSON[map.vector_url],
-
-                        })
-
-                        if (map.feature_urls) map.feature_urls.forEach(feature => layers.push({
-
-                            type: GEOJSON_LAYER_TYPE,
-                            opacity: state.layerOpacity[feature.url] || 1,
-                            url: feature.url,
-                            geoJSON: state.geoJSON[feature.url],
-                        }))
-
-                    }
-                }
+            mapBounds: state => state.bounds || SAN_FRANCISCO_BOUNDS,
+            layerOpacity: state => url => {
                 
-                return layers
+                if (state.layerOpacity[url] !== undefined) {
+                    return state.layerOpacity[url]
+                } else return 1
 
             },
 
-            mapBounds: state => state.bounds || SAN_FRANCISCO_BOUNDS,
+            rasterLayer: (state, getters) => map => map.raster_url ? {
+
+                name: RASTER_LAYER_LABEL,
+                type: WMS_LAYER_TYPE,
+                url: map.raster_url,
+                opacity: getters.layerOpacity(map.raster_url)
+
+            } : null,
+
+            vectorLayer: (state, getters) => map => map.vector_url ? {
+
+                name: VECTOR_LAYER_LABEL,
+                type: GEOJSON_LAYER_TYPE,
+                url: map.vector_url,
+                geoJSON: state.geoJSON[map.vector_url],
+                opacity: getters.layerOpacity(map.vector_url),
+
+            } : null,
+
+            featureSets: (state, getters) => map => {
+
+                return map.feature_urls ? map.feature_urls.map(feature => ({
+
+                    name: feature.title,
+                    type: GEOJSON_LAYER_TYPE,
+                    url: feature.url,
+                    geoJSON: state.geoJSON[feature.url],
+                    opacity: getters.layerOpacity(feature.url),
+
+                })) : []
+
+            },
+
+            allMapLayers: (state, getters) => {
+
+                let layers = []
+
+                for (let key in state.sourceMaps) {
+                    const map = state.sourceMaps[key]
+                    if (getters.isMapEnabled(map)) layers = [
+
+                        ...layers,
+                        getters.rasterLayer(map),
+                        getters.vectorLayer(map),
+                        ...getters.featureSets(map),
+
+                    ]
+                }
+                
+                return layers.filter(layer => layer !== null)
+
+            },
 
         },
 
@@ -179,6 +210,12 @@ const initRootComponent = (el) => {
 
             [SAVE_GEOJSON]: (state, { url, geoJSON }) => state.geoJSON[url] = geoJSON,
             [SAVE_BOUNDS]: (state, bounds) => state.bounds = bounds,
+            [SET_LAYER_OPACITY]: (state, layer) => {
+
+                if (layer.opacity === 1) Vue.delete(state.layerOpacity, layer.url)
+                else Vue.set(state.layerOpacity, layer.url, layer.opacity)
+
+            }
 
         },
 

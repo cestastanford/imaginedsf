@@ -64,7 +64,7 @@ const parseWMSURL = url => {
 
 const bindLayerControls = (map, store) => {
 
-    store.watch(() => store.getters.mapLayers, layers => {
+    store.watch(() => store.getters.allMapLayers, layers => {
 
         map.eachLayer(layer => map.removeLayer(layer))
         layers.forEach(layer => {
@@ -127,7 +127,6 @@ const bindMapBounds = (map, store) => {
 const MapCanvas = {
 
     name: 'map-canvas',
-    data: () => ({ map: null }),
     mounted() {
         
         const map = new L.Map('map')
