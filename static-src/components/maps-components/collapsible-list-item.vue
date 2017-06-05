@@ -81,7 +81,7 @@ export default CollapsibleListItem
 
     .collapsible-list-item-contents {
         margin-top: .25em;
-        margin-bottom: .25em;
+        margin-bottom: 1em;
         margin-left: 1em;
     }
 

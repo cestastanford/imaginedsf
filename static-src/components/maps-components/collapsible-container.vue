@@ -34,8 +34,9 @@ export default CollapsibleContainer
 
 .collapsible-container {
 
-    background-color: $light-grey;
+    margin-bottom: 1em;
     padding: 0 .5em;
+    background-color: $light-grey;
 
     h2 {
 

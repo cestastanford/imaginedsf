@@ -1,66 +1,22 @@
 <template>
 
-    <collapsible-list-item :collapsible="true" class="map-list-item">
-        <span
-            slot="parent-label"
-            class="map-list-item-label">
-            {{ map.title }}
-        </span>
-        <a
-            slot="parent-right"
-            class="map-list-item-narrative-button"
-            :class="{ active: narrativeVisible }"
-            @click="toggleNarrative">
-            𝒊
-        </a>
-        <input
-            slot="parent-right"
-            type="checkbox"
-            :checked="mapEnabled"
-            @click="toggleMapEnabled">
-        <ul slot="contents" class="map-list-item-contents">
-            <collapsible-list-item
-                v-for="layer in [ rasterLayer, vectorLayer ]"
-                v-if="layer"
-                key="layer.url">
-                <span slot="parent-label">
-                    {{ layer.name }}
-                </span>
-                <input
-                    slot="parent-right"
-                    type="range"
-                    min="0"
-                    max="1"
-                    step="0.01"
-                    :disabled="!mapEnabled"
-                    :value="layer.opacity"
-                    @change="handleRangeChange($event, layer)">
-                <input
-                    slot="parent-right"
-                    type="checkbox"
-                    :disabled="!mapEnabled"
-                    :checked="layer.opacity > 0"
-                    @change="handleCheckboxChange($event, layer)">
+    <collapsible-list-item :collapsible="true" class="proposal-list-item">
+        <span slot="parent-label" class="proposal-list-item-label">{{ map.title }}</span>
+        <a slot="parent-right" class="proposal-list-item-narrative-button" :class="{ active: narrativeVisible }" @click="toggleNarrative">𝒊</a>
+        <input slot="parent-right" type="checkbox" :checked="mapEnabled" @click="toggleMapEnabled">
+        <ul slot="contents" class="proposal-list-item-contents">
+            <collapsible-list-item v-for="layer in [ rasterLayer, vectorLayer ]" v-if="layer" key="layer.url">
+                <span slot="parent-label">{{ layer.name }}</span>
+                <input slot="parent-right" type="range" min="0" max="1" step="0.01" :disabled="!mapEnabled" :value="layer.opacity" @change="handleRangeChange($event, layer)">
+                <input slot="parent-right" type="checkbox" :disabled="!mapEnabled" :checked="layer.opacity > 0" @change="handleCheckboxChange($event, layer)">
             </collapsible-list-item>
             <collapsible-list-item :collapsible="true" v-if="featureSets.length">
                 <span slot="parent-label">Photos &amp; Drawings</span>
-                <input
-                    slot="parent-right"
-                    type="checkbox"
-                    :disabled="!mapEnabled"
-                    :checked="featureSetsCheckbox.checked"
-                    :indeterminate="featureSetsCheckbox.indeterminate">
+                <input slot="parent-right" type="checkbox" :disabled="!mapEnabled" :checked="featureSetsCheckbox.checked" :indeterminate="featureSetsCheckbox.indeterminate">
                 <ul slot="contents">
-                    <collapsible-list-item 
-                        v-for="layer in featureSets"
-                        key="layer.url">
+                    <collapsible-list-item v-for="layer in featureSets" key="layer.url">
                         <span slot="parent-label">{{ layer.name }}</span>
-                        <input
-                            slot="parent-right"
-                            type="checkbox"
-                            :disabled="!mapEnabled"
-                            :checked="layer.opacity > 0"
-                            @change="handleCheckboxChange($event, layer)">
+                        <input slot="parent-right" type="checkbox" :disabled="!mapEnabled" :checked="layer.opacity > 0" @change="handleCheckboxChange($event, layer)">
                     </collapsible-list-item>
                 </ul>
             </collapsible-list-item>
@@ -73,9 +29,9 @@
 import { TOGGLE_NARRATIVE, TOGGLE_MAP_ENABLED, SET_LAYER_OPACITY } from '../maps.js'
 import CollapsibleListItem from './collapsible-list-item.vue'
 
-const MapListItem = {
+const ProposalListItem = {
 
-    name: 'map-list-item',
+    name: 'proposal-list-item',
     components: { CollapsibleListItem },
     props: [ 'map' ],
     computed: {
@@ -121,23 +77,24 @@ const MapListItem = {
 
 }
 
-export default MapListItem
+export default ProposalListItem
 
 </script>
 <style lang="sass">
 
 @import '../../styles/variables';
 
-.map-list-item {
+.collapsible-list-item.proposal-list-item {
 
     font-size: .9em;
-    margin-bottom: 1em;
+    margin-top: .5em;
+    margin-bottom: .5em;
 
-    .map-list-item-label {
+    .proposal-list-item-label {
         font-weight: bold;
     }
 
-    .map-list-item-narrative-button {
+    .proposal-list-item-narrative-button {
         
         
         width: 18px;
