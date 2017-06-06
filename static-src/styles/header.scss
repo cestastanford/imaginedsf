@@ -11,11 +11,14 @@ header.section {
         display: flex;
         flex-flow: row wrap;
         justify-content: space-between;
-        align-items: center;
+
+        .subflex {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
 
         a.logo {
-
-            flex-basis: 50%;
 
             img {
                 height: 4em;
@@ -29,7 +32,7 @@ header.section {
 
         .primary-menu {
 
-            flex-basis: 50%;
+            flex-basis: 100%;
 
             nav a.nav-item {
             
@@ -50,19 +53,11 @@ header.section {
         }
 
         .secondary-menu {
-            margin-left: -.75rem;
-            margin-right: -.75rem;
-            align-self: flex-end;
+            margin-left: 1em;
         }
 
-        .search-an-address {
-            
-            align-self: flex-start;
-            
-            input {
-                font-weight: bold;
-            }
-
+        .search-an-address input {
+            font-weight: bold;
         }
 
     }
