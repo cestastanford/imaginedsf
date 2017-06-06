@@ -3,8 +3,8 @@
     <collapsible-list-item class="basemap-list-item">
         <span slot="parent-label" class="basemap-list-item-label">{{ map.title }}</span>
         <a slot="parent-right" class="basemap-list-item-narrative-button" :class="{ active: narrativeVisible }" @click="toggleNarrative">𝒊</a>
-        <input slot="parent-right" type="range" min="0" max="1" step="0.01" :value="rasterLayer.opacity" @change="handleRangeChange($event, rasterLayer)">
-        <input slot="parent-right" type="checkbox" :checked="rasterLayer.opacity > 0" @change="handleCheckboxChange($event, rasterLayer)">
+        <input slot="parent-right" type="range" min="0" max="1" step="0.01" :value="rasterLayer.opacity" @change="handleRangeChange($event, rasterLayer)" :disabled="!mapEnabled">
+        <input slot="parent-right" type="checkbox" v-model="mapEnabled">
     </collapsible-list-item>
 
 </template>
@@ -20,7 +20,13 @@ const BasemapListItem = {
     props: [ 'map' ],
     computed: {
 
-        mapEnabled() { return this.$store.getters.isMapEnabled(this.map) },
+        mapEnabled: {
+            
+            get() { return this.$store.getters.isMapEnabled(this.map) },
+            set() { this.$store.commit(TOGGLE_MAP_ENABLED, this.map) },
+        
+        },
+
         narrativeVisible() { return this.$store.getters.isNarrativeVisible(this.map) },
         rasterLayer() { return this.$store.getters.rasterLayer(this.map) },
 
@@ -29,20 +35,11 @@ const BasemapListItem = {
     methods: {
 
         toggleNarrative() { this.$store.commit(TOGGLE_NARRATIVE, this.map) },
-        toggleMapEnabled() { this.$store.commit(TOGGLE_MAP_ENABLED, this.map) },
         setOpacity(layer) { this.$store.commit(SET_LAYER_OPACITY, layer) },
         handleRangeChange(event, layer) {
             
             this.setOpacity({ ...layer, opacity: event.target.valueAsNumber })
         
-        },
-
-        handleCheckboxChange(event, layer) {
-
-            const checked = event.target.checked
-            if (checked && layer.opacity === 0) this.setOpacity({ ...layer, opacity: 1 }) 
-            if (!checked && layer.opacity !== 0) this.setOpacity({ ...layer, opacity: 0 })
-
         },
 
     },

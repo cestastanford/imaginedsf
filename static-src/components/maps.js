@@ -24,8 +24,10 @@ export const TOGGLE_NARRATIVE = 'TOGGLE_NARRATIVE'
 export const TOGGLE_MAP_ENABLED = 'TOGGLE_MAP_ENABLED'
 export const DOWNLOAD_GEOJSON = 'DOWNLOAD_GEOJSON'
 const SAVE_GEOJSON = 'SAVE_GEOJSON'
+const UPDATE_VECTOR_FEATURE_GROUPS = 'UPDATE_VECTOR_FEATURE_GROUPS'
 export const SAVE_BOUNDS = 'SAVE_BOUNDS'
 export const SET_LAYER_OPACITY = 'SET_LAYER_OPACITY'
+export const SET_VECTOR_FEATURE_GROUP_STATUS = 'SET_VECTOR_FEATURE_GROUP_STATUS'
 
 
 /*
@@ -59,6 +61,39 @@ const RASTER_LAYER_LABEL = 'Raster Map'
 const VECTOR_LAYER_LABEL = 'Vector Map'
 
 
+/*
+*   Recursively sets hierarchical vector feature group statuses.
+*/
+
+const setParentGroupStatusFromChildren = parent => {
+
+    let anyChecked = false
+    let anyUnchecked = false
+    parent.children.forEach(child => {
+
+        if (child.isParent) setParentGroupStatusFromChildren(child)
+        if (child.checked) anyChecked = true
+        if (!child.checked || child.indeterminate) anyUnchecked = true
+
+    })
+
+    Vue.set(parent, 'checked', anyChecked)
+    Vue.set(parent, 'indeterminate', anyChecked && anyUnchecked)
+
+}
+
+const setChildrenGroupStatusFromParent = (parent, checked) => {
+
+    parent.children.forEach(child => {
+
+        Vue.set(child, 'checked', checked)
+        Vue.set(child, 'indeterminate', false)
+        if (child.isParent) setChildrenGroupStatusFromParent(child, checked)
+
+    })
+
+}
+
 
 /*
 *   Sets up state management and binds the root element.
@@ -79,6 +114,7 @@ const initRootComponent = (el) => {
             layerOpacity: {},
             bounds: null,
             geoJSON: {},
+            vectorFeatureGroups: [],
 
         },
 
@@ -173,6 +209,16 @@ const initRootComponent = (el) => {
 
             },
 
+            vectorFeatureGroups: state => {
+
+                return state.vectorFeatureGroups
+
+            },
+
+            //  This is a placeholder for when we know more about
+            //  the vector feature groups.
+            isFeatureVisible: state => properties => true,
+
         },
 
         mutations: {
@@ -208,7 +254,60 @@ const initRootComponent = (el) => {
 
             },
 
-            [SAVE_GEOJSON]: (state, { url, geoJSON }) => state.geoJSON[url] = geoJSON,
+            [SAVE_GEOJSON]: (state, { url, geoJSON }) => state.geoJSON = {
+                
+                ...state.geoJSON,
+                [url]: geoJSON,
+
+            },
+
+            [UPDATE_VECTOR_FEATURE_GROUPS]: state => {
+
+                state.vectorFeatureGroups = [
+
+                    //  This is just an example; it should be dynamically
+                    //  generated from downloaded GeoJSON.
+
+                    {
+                        key: 'BUILDING_TYPE',
+                        value: 'APARTMENT',
+                        label: 'Apartments',
+                        checked: true,
+                    },
+                    {
+                        isParent: true,
+                        label: 'Roads',
+                        children: [
+                            {
+                                key: 'ROAD_TYPE',
+                                value: 'FREEWAY',
+                                label: 'Freeways',
+                                checked: false,
+                            },
+                            {
+                                key: 'ROAD_TYPE',
+                                value: 'STREET',
+                                label: 'Streets',
+                                checked: true,
+                            },
+                        ],
+                    },
+
+                ]
+
+                setParentGroupStatusFromChildren({ children: state.vectorFeatureGroups })
+
+            },
+
+            [SET_VECTOR_FEATURE_GROUP_STATUS]: (state, { group, checked }) => {
+
+                Vue.set(group, 'checked', checked)
+                Vue.set(group, 'indeterminate', false)
+                if (group.isParent) setChildrenGroupStatusFromParent(group, checked)
+                setParentGroupStatusFromChildren({ children: state.vectorFeatureGroups })
+            
+            },
+            
             [SAVE_BOUNDS]: (state, bounds) => state.bounds = bounds,
             [SET_LAYER_OPACITY]: (state, layer) => {
 
@@ -256,6 +355,7 @@ const initRootComponent = (el) => {
 
                 const geoJSON = await response.json()
                 commit(SAVE_GEOJSON, { url, geoJSON })
+                commit(UPDATE_VECTOR_FEATURE_GROUPS)
 
             }
 

@@ -79,8 +79,17 @@ const bindLayerControls = (map, store) => {
                     break
 
                 case GEOJSON_LAYER_TYPE:
-                    if (layer.geoJSON) map.addLayer(new L.geoJSON(layer.geoJSON))
-                    else store.dispatch(DOWNLOAD_GEOJSON, layer.url)
+                    if (layer.geoJSON) {
+                        
+                        const geoJSONLayer = new L.geoJSON(layer.geoJSON, {
+
+                            filter: feature => store.getters.isFeatureVisible(feature.properties),
+
+                        })
+                        
+                        map.addLayer(geoJSONLayer)
+                    
+                    } else store.dispatch(DOWNLOAD_GEOJSON, layer.url)
                     break
 
             }

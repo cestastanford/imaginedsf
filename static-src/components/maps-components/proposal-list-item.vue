@@ -96,7 +96,6 @@ export default ProposalListItem
 
     .proposal-list-item-narrative-button {
         
-        
         width: 18px;
         height: 18px;
         border: 1px solid $medium-grey;
