@@ -28,6 +28,7 @@ const UPDATE_VECTOR_FEATURE_GROUPS = 'UPDATE_VECTOR_FEATURE_GROUPS'
 export const SAVE_BOUNDS = 'SAVE_BOUNDS'
 export const SET_LAYER_OPACITY = 'SET_LAYER_OPACITY'
 export const SET_VECTOR_FEATURE_GROUP_STATUS = 'SET_VECTOR_FEATURE_GROUP_STATUS'
+export const SET_MAP_VIEW = 'SET_MAP_VIEW'
 
 
 /*
@@ -147,6 +148,7 @@ const initRootComponent = (el) => {
 
             isMapEnabled: state => map => state.mapEnabled[map.id],
             isNarrativeVisible: state => map => state.narrative === map.id,
+            visibleNarrative: state => state.sourceMaps[state.narrative],
             mapBounds: state => state.bounds || SAN_FRANCISCO_BOUNDS,
             layerOpacity: state => url => {
                 
@@ -218,6 +220,7 @@ const initRootComponent = (el) => {
             //  This is a placeholder for when we know more about
             //  the vector feature groups.
             isFeatureVisible: state => properties => true,
+            sourceMapFromID: state => id => state.sourceMaps[id],
 
         },
 
@@ -314,7 +317,14 @@ const initRootComponent = (el) => {
                 if (layer.opacity === 1) Vue.delete(state.layerOpacity, layer.url)
                 else Vue.set(state.layerOpacity, layer.url, layer.opacity)
 
-            }
+            },
+
+            [SET_MAP_VIEW]: (state, map) => {
+
+                state.layerOpacity = { [map.raster_url]: .5 }
+                state.mapEnabled = { [map.id]: true, [map.linked_basemap]: true, }
+
+            },
 
         },
 

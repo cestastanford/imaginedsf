@@ -9,6 +9,7 @@
             </div>
             <div class="column">
                 <map-canvas></map-canvas>
+                <narrative v-if="visibleNarrative" :visible-narrative="visibleNarrative"></narrative>
             </div>
         </div>
     </div>
@@ -26,6 +27,7 @@ import ProposalList from './proposal-list.vue'
 import BasemapList from './basemap-list.vue'
 import VectorFeatureGroupList from './vector-feature-group-list.vue'
 import MapCanvas from './map-canvas.vue'
+import Narrative from './narrative.vue'
 
 
 /*
@@ -68,6 +70,10 @@ const InteractiveMaps = {
         BasemapList,
         VectorFeatureGroupList,
         MapCanvas,
+        Narrative,
+    },
+    computed: {
+        visibleNarrative() { return this.$store.getters.visibleNarrative },
     },
     async mounted() {
 
