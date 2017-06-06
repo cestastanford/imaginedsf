@@ -6,33 +6,63 @@ header.section {
 
     padding-bottom: 0;
 
-    img.logo {
-        height: 4em;
-    }
+    .container {
 
-    .search-an-address input {
-        margin-right: 1em;
-        font-weight: bold;
-    }
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        align-items: center;
 
-    nav {
+        a.logo {
 
-        text-transform: lowercase;
+            flex-basis: 50%;
 
-    }
+            img {
+                height: 4em;
+            }
 
-    .primary-menu nav a.nav-item {
-        
-        font-size: 1.15rem;
-        margin-left: -0.75rem;
-        color: $red;
-
-        &.is-active {
-            color: $black;
         }
 
-        &:hover {
-            color: $light-black;
+        nav {
+            text-transform: lowercase;
+        }
+
+        .primary-menu {
+
+            flex-basis: 50%;
+
+            nav a.nav-item {
+            
+                font-size: 1.15rem;
+                margin-left: -0.75rem;
+                color: $red;
+
+                &.is-active {
+                    color: $black;
+                }
+
+                &:hover {
+                    color: $light-black;
+                }
+
+            }
+
+        }
+
+        .secondary-menu {
+            margin-left: -.75rem;
+            margin-right: -.75rem;
+            align-self: flex-end;
+        }
+
+        .search-an-address {
+            
+            align-self: flex-start;
+            
+            input {
+                font-weight: bold;
+            }
+
         }
 
     }
