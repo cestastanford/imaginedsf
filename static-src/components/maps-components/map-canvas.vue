@@ -69,37 +69,61 @@ const parseWMSURL = url => {
 
 const bindLayerControls = (map, store) => {
 
+    let leafletLayers = {}
     store.watch(() => store.getters.allMapLayers, layers => {
 
-        map.eachLayer(layer => map.removeLayer(layer))
+        const updatedLeafletLayers = {}
         layers.forEach(layer => {
 
-            const options = { opacity: layer.opacity }
+            let leafletLayer
+            if (leafletLayers[layer.url]) {
 
-            switch (layer.type) {
+                //  If layer is already on map
+                leafletLayer = leafletLayers[layer.url]
+                if (layer.type === WMS_LAYER_TYPE) leafletLayer.setOpacity(layer.opacity)
+                //  Update styles for opacity if GeoJSON layer here
+                updatedLeafletLayers[layer.url] = leafletLayer
+                delete leafletLayers[layer.url]
 
-                case WMS_LAYER_TYPE:
-                    const { baseURL, wmsOptions } = parseWMSURL(layer.url)
-                    map.addLayer(new L.tileLayer.wms(baseURL, { ...options, ...wmsOptions }))
-                    break
+            } else {
 
-                case GEOJSON_LAYER_TYPE:
-                    if (layer.geoJSON) {
-                        
-                        const geoJSONLayer = new L.geoJSON(layer.geoJSON, {
+                //  If layer isn't yet on map
+                const options = { opacity: layer.opacity }
 
-                            filter: feature => store.getters.isFeatureVisible(feature.properties),
+                switch (layer.type) {
 
-                        })
-                        
-                        map.addLayer(geoJSONLayer)
-                    
-                    } else store.dispatch(DOWNLOAD_GEOJSON, layer.url)
-                    break
+                    case WMS_LAYER_TYPE:
+                        const { baseURL, wmsOptions } = parseWMSURL(layer.url)
+                        leafletLayer = new L.tileLayer.wms(baseURL, { ...options, ...wmsOptions })
+                        break
+
+                    case GEOJSON_LAYER_TYPE:
+                        if (layer.geoJSON) {
+                            
+                            leafletLayer = new L.geoJSON(layer.geoJSON, {
+                                filter: feature => store.getters.isFeatureVisible(feature.properties),
+                                //  Set styles for opacity if GeoJSON layer here
+                            })
+
+                        } else store.dispatch(DOWNLOAD_GEOJSON, layer.url)
+                        break
+
+                }
+
+                if (leafletLayer) {
+
+                    map.addLayer(leafletLayer)
+                    updatedLeafletLayers[layer.url] = leafletLayer
+                
+                }
 
             }
 
         })
+
+        //  Removes leftover layers
+        for (let key in leafletLayers) map.removeLayer(leafletLayers[key])
+        leafletLayers = updatedLeafletLayers
 
     }, { immediate: true })
 
