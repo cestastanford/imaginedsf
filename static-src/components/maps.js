@@ -29,6 +29,7 @@ export const SAVE_BOUNDS = 'SAVE_BOUNDS'
 export const SET_LAYER_OPACITY = 'SET_LAYER_OPACITY'
 export const SET_VECTOR_FEATURE_GROUP_STATUS = 'SET_VECTOR_FEATURE_GROUP_STATUS'
 export const SET_MAP_VIEW = 'SET_MAP_VIEW'
+export const SET_MAP_DATES = 'SET_MAP_DATES'
 
 
 /*
@@ -221,6 +222,19 @@ const initRootComponent = (el) => {
             //  the vector feature groups.
             isFeatureVisible: state => properties => true,
             sourceMapFromID: state => id => state.sourceMaps[id],
+            mapDates: state => {
+
+                const dates = []
+                for (let key in state.sourceMaps) {
+
+                    const map = state.sourceMaps[key]
+                    if (map.year) dates.push(+map.year)
+
+                }
+                
+                return dates
+
+            },
 
         },
 
@@ -323,6 +337,21 @@ const initRootComponent = (el) => {
 
                 state.layerOpacity = { [map.raster_url]: .5 }
                 state.mapEnabled = { [map.id]: true, [map.linked_basemap]: true, }
+
+            },
+
+            [SET_MAP_DATES]: (state, dates) => {
+
+                for (let key in state.sourceMaps) {
+
+                    const map = state.sourceMaps[key]
+                    if (map.year && +map.year >= dates[0] && +map.year <= dates[1]) {
+                        
+                        state.mapEnabled = { ...state.mapEnabled, [map.id]: true }
+                    
+                    } else state.mapEnabled = { ...state.mapEnabled, [map.id]: false }
+
+                }
 
             },
 

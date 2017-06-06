@@ -2,7 +2,7 @@
     
     <div class="collapsible-container">
         <h2 @click="toggleCollapsed" :class="{ collapsed }">{{ title }}</h2>
-        <main v-if="!collapsed">
+        <main v-show="!collapsed">
             <slot></slot>
         </main>
     </div>

@@ -1,9 +1,14 @@
 <template>
 
-    <div id="map"></div>
+    <section class="map-container">
+        <div id="map"></div>
+        <timeline v-if="mapDates.length > 1" :map-dates="mapDates"></timeline>
+    </section>
 
 </template>
 <script>
+
+import Timeline from './timeline.vue'
 
 /*
 *   Imports layer type and action name constants.
@@ -136,6 +141,12 @@ const bindMapBounds = (map, store) => {
 const MapCanvas = {
 
     name: 'map-canvas',
+    components: {
+        Timeline,
+    },
+    computed: {
+        mapDates() { return this.$store.getters.mapDates },
+    },
     mounted() {
         
         const map = new L.Map('map')
@@ -152,9 +163,18 @@ export default MapCanvas
 </script>
 <style lang="sass">
 
-#map {
+@import '../../styles/variables.scss';
 
-    height: 600px;
+.map-container {
+
+    padding: 1em;
+    background-color: $light-grey;
+
+    #map {
+        height: 600px;
+        box-shadow: inset 0 0 10px $medium-light-grey;
+        border-radius: 3px;
+    }
 
 }
 
