@@ -1,7 +1,13 @@
 <template>
 
     <section class="map-container">
-        <div id="map"></div>
+        <div class="map-canvas">
+            <div id="map"></div>
+            <div class="controls" v-if="map">
+                <address-control :map="map"></address-control>
+                <zoom-control :map="map"></zoom-control>
+            </div>
+        </div>
         <timeline v-if="mapDates.length > 1" :map-dates="mapDates"></timeline>
     </section>
 
@@ -9,19 +15,29 @@
 <script>
 
 import Timeline from './timeline.vue'
+import AddressControl from './address-control.vue'
+import ZoomControl from './zoom-control.vue'
 
 /*
 *   Imports layer type and action name constants.
 */
 
-import { WMS_LAYER_TYPE, GEOJSON_LAYER_TYPE, DOWNLOAD_GEOJSON, SAVE_BOUNDS } from '../maps.js'
+import {
+   
+    WMS_LAYER_TYPE,
+    GEOJSON_LAYER_TYPE,
+    DOWNLOAD_GEOJSON,
+    SAVE_BOUNDS,
+    SAN_FRANCISCO_BOUNDS,
+
+} from '../maps.js'
 
 
 /*
 *   Imports Leaflet library.
 */
 
-import L from 'leaflet'
+import 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
 
@@ -157,26 +173,33 @@ const bindMapBounds = (map, store) => {
 
 }
 
-
-/*
-*   Applies changes to the map from global state.
-*/
-
 const MapCanvas = {
 
     name: 'map-canvas',
     components: {
         Timeline,
+        AddressControl,
+        ZoomControl,
     },
+    data: () => ({ map: null }),
     computed: {
         mapDates() { return this.$store.getters.mapDates },
     },
     mounted() {
         
-        const map = new L.Map('map')
-        map.fitBounds(this.$store.getters.mapBounds)
-        bindLayerControls(map, this.$store)
-        bindMapBounds(map, this.$store)
+        this.map = new L.Map('map', {
+            
+            zoomControl: false,
+            attributionControl: false,
+            scrollWheelZoom: false,
+            maxBounds: SAN_FRANCISCO_BOUNDS,
+        
+        })
+        
+        // this.map.setMinZoom(this.map.getBoundsZoom(SAN_FRANCISCO_BOUNDS))
+        this.map.fitBounds(this.$store.getters.mapBounds)
+        bindLayerControls(this.map, this.$store)
+        bindMapBounds(this.map, this.$store)
 
     },
 
@@ -194,10 +217,53 @@ export default MapCanvas
     padding: 1em;
     background-color: $light-grey;
 
-    #map {
+    .map-canvas {
+
+        width: 100%;
         height: 600px;
-        box-shadow: inset 0 0 10px $medium-light-grey;
-        border-radius: 3px;
+        position: relative;
+
+        > * {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        #map {
+            
+            box-shadow: inset 0 0 10px $medium-light-grey;
+            border-radius: 3px;
+            z-index: 1;
+
+            .custom-marker-icon {
+                font-size: 45px;
+                text-shadow: 0 0 2px $white, 0 5px 5px $medium-grey;
+            }
+
+        }
+
+        .controls {
+
+            pointer-events: none;
+            text-align: right;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+
+            > * {
+                pointer-events: all;
+                margin: 1em 1em 0 0;
+                box-shadow: 0 0 10px #ccc;
+                background-color: $light-grey;
+                border-radius: 4px;
+                overflow: hidden;
+            }
+
+        }
+
     }
 
 }

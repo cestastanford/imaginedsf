@@ -63,3 +63,45 @@ function register_map_endpoint() {
 }
 
 add_action( 'rest_api_init', 'register_map_endpoint' );
+
+
+/*
+*   Adds endpoint for retrieving geocoded address, using MapQuest API.
+*/
+
+function geocode_address() {
+
+    $api_key = @file_get_contents( dirname( __FILE__ ) . '/mapquest-api-key' );
+    $url = 'http://www.mapquestapi.com/geocoding/v1/address';
+    $url .= '?key=' . $api_key;
+    $url .= '&location=' . urlencode( $_GET['address'] );
+    $url .= '&maxResults=' . '1';
+    
+    $response = @file_get_contents( $url );
+    
+    if ( $response ) {
+
+        return json_decode( $response );
+
+    } else return array(
+
+        'error' => 'Request failed!',
+        'request_url' => $url,
+        'client_parameters' => $_GET,
+
+    );
+
+}
+
+function register_geocode_address_endpoint() {
+
+    register_rest_route( 'imaginedsf', '/geocode', array(
+
+        'methods' => 'GET',
+        'callback' => 'geocode_address',
+
+    ) );
+
+}
+
+add_action( 'rest_api_init', 'register_geocode_address_endpoint' );

@@ -8,6 +8,7 @@ const handleSubmit = e => {
     const address = e.target.querySelector('input[type="text"]').value
     const hashState = encodeURI(JSON.stringify({ address }))
     window.location = '/maps/#' + hashState
+    if (window.location.pathname.indexOf('/maps') > -1) location.reload()
 
 }
 

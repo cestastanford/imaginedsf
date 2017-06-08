@@ -30,6 +30,7 @@ export const SET_LAYER_OPACITY = 'SET_LAYER_OPACITY'
 export const SET_VECTOR_FEATURE_GROUP_STATUS = 'SET_VECTOR_FEATURE_GROUP_STATUS'
 export const SET_MAP_VIEW = 'SET_MAP_VIEW'
 export const SET_MAP_DATES = 'SET_MAP_DATES'
+export const SET_ADDRESS = 'SET_ADDRESS'
 
 
 /*
@@ -52,7 +53,7 @@ export const GEOJSON_LAYER_TYPE = 'geojson'
 *   Boundaries of San Francisco for map defaults.
 */
 
-const SAN_FRANCISCO_BOUNDS = [ [ 37.813996, -122.529439 ], [ 37.702302, -122.348852 ] ]
+export const SAN_FRANCISCO_BOUNDS = [ [ 37.813996, -122.529439 ], [ 37.702302, -122.348852 ] ]
 
 
 /*
@@ -98,6 +99,20 @@ const setChildrenGroupStatusFromParent = (parent, checked) => {
 
 
 /*
+*   Creates the location marker.
+*/
+
+export const MarkerIcon = L.DivIcon.extend({
+
+    options: {
+        html: '<i class="fa fa-map-marker custom-marker-icon"></i>',
+        iconAnchor: [12, 48],
+    }
+
+})
+
+
+/*
 *   Sets up state management and binds the root element.
 */
 
@@ -112,6 +127,7 @@ const initRootComponent = (el) => {
             sourceMaps: {},
             mapEnabled: {},
             narrative: null,
+            savedAddress: null,
             address: null,
             layerOpacity: {},
             bounds: null,
@@ -128,7 +144,7 @@ const initRootComponent = (el) => {
                 const hashStateObject = {}
                 if (Object.keys(state.mapEnabled).length) hashStateObject.mapEnabled = state.mapEnabled
                 if (state.narrative) hashStateObject.narrative = state.narrative
-                if (state.address) hashStateObject.address = state.address
+                if (state.address) hashStateObject.savedAddress = state.address
                 if (Object.keys(state.layerOpacity).length) hashStateObject.layerOpacity = state.layerOpacity
                 if (state.bounds) hashStateObject.bounds = state.bounds
                 return encodeURI(JSON.stringify(hashStateObject))
@@ -235,6 +251,8 @@ const initRootComponent = (el) => {
                 return dates
 
             },
+
+            savedAddress: state => state.savedAddress,
 
         },
 
@@ -354,6 +372,8 @@ const initRootComponent = (el) => {
                 }
 
             },
+
+            [SET_ADDRESS]: (state, address) => state.address = address,
 
         },
 

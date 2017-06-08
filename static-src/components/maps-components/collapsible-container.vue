@@ -43,7 +43,7 @@ export default CollapsibleContainer
         position: relative;
         width: 100%;
         margin-bottom: .2rem;
-        padding: .5rem 3.5rem .5rem .5rem;
+        padding: .5rem 3rem .5rem .5rem;
         font-size: 1.1em;
         text-transform: lowercase;
         cursor: pointer;
@@ -55,11 +55,16 @@ export default CollapsibleContainer
             top: 50%;
             right: .5rem;
             transform: translateY(-50%);
-
         }
 
-        &.collapsed::after {
-            content: '(+)';
+        &.collapsed {
+
+            font-size: .9em;
+
+            &::after {
+                content: '(+)';
+            }
+
         }
 
     }

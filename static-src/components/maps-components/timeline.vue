@@ -36,6 +36,8 @@ function createSlider(slider, dates) {
 
     })
 
+    return { minDate, maxDate }
+
 }
 
 const Timeline = {
@@ -47,10 +49,15 @@ const Timeline = {
     props: [ 'mapDates' ],
     mounted() {
 
-        createSlider(this.$refs.slider, this.mapDates)
+        let untouched = true
+        const { minDate, maxDate } = createSlider(this.$refs.slider, this.mapDates)
         this.$refs.slider.noUiSlider.on('update', throttle(values => {
-            
-            this.$store.commit(SET_MAP_DATES, values)
+
+            if (untouched) {
+                if (+values[0] !== minDate || +values[1] !== maxDate) untouched = false
+            }
+
+            if (!untouched) this.$store.commit(SET_MAP_DATES, values)
 
         }, 250))
 
