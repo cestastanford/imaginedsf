@@ -172,7 +172,7 @@ const AddressControl = {
 
         const unwatch = this.$store.watch(
 
-            () => this.$store.getters.savedAddress,
+            () => this.$store.getters.address,
             address => {
 
                 if (address) {

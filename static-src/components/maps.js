@@ -127,7 +127,6 @@ const initRootComponent = (el) => {
             sourceMaps: {},
             mapEnabled: {},
             narrative: null,
-            savedAddress: null,
             address: null,
             layerOpacity: {},
             bounds: null,
@@ -144,10 +143,11 @@ const initRootComponent = (el) => {
                 const hashStateObject = {}
                 if (Object.keys(state.mapEnabled).length) hashStateObject.mapEnabled = state.mapEnabled
                 if (state.narrative) hashStateObject.narrative = state.narrative
-                if (state.address) hashStateObject.savedAddress = state.address
+                if (state.address) hashStateObject.address = state.address
                 if (Object.keys(state.layerOpacity).length) hashStateObject.layerOpacity = state.layerOpacity
                 if (state.bounds) hashStateObject.bounds = state.bounds
-                return encodeURI(JSON.stringify(hashStateObject))
+                if (Object.keys(hashStateObject).length) return encodeURI(JSON.stringify(hashStateObject))
+                else return ''
 
             },
 
@@ -228,11 +228,7 @@ const initRootComponent = (el) => {
 
             },
 
-            vectorFeatureGroups: state => {
-
-                return state.vectorFeatureGroups
-
-            },
+            vectorFeatureGroups: state => state.vectorFeatureGroups,
 
             //  This is a placeholder for when we know more about
             //  the vector feature groups.
@@ -252,7 +248,7 @@ const initRootComponent = (el) => {
 
             },
 
-            savedAddress: state => state.savedAddress,
+            address: state => state.address,
 
         },
 
