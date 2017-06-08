@@ -124,17 +124,27 @@ const bindLayerControls = (map, store) => {
                             
                             leafletLayer = new L.geoJSON(layer.geoJSON, {
                                 filter: feature => store.getters.isFeatureVisible(layer, feature.properties),
-                                pointToLayer: (point, coordinate) => {
-                                    const projectedCoordinate = new L.Point(coordinate.lng, coordinate.lat)
-                                    const latLng = L.CRS.EPSG3857.unproject(projectedCoordinate)
+                                coordsToLatLng: (coords) => {
+                                    const projectedCoordinate = new L.Point(coords[0], coords[1])
+                                    return L.CRS.EPSG3857.unproject(projectedCoordinate)
+                                },
+                                pointToLayer: (point, latLng) => {
                                     const marker = new RedMarker(latLng)
                                     const popup = getFeaturePopup(layer, point)
                                     return marker.bindPopup(popup)
                                 },
-                                style: () => ({
-                                    color: '#000',
-                                    opacity: layer.opacity,
-                                }),
+                                style: feature => {
+                                    return {
+                                        color: '#888',
+                                        weight: 2,
+                                        opacity: 1.0,
+                                        fill: feature.geometry.type === 'MultiPolygon',
+                                        fillOpacity: 0.2,
+                                    }
+                                },
+                                onEachFeature: feature => {
+
+                                },
                             })
 
                         } else store.dispatch(DOWNLOAD_GEOJSON, layer.url)
@@ -161,8 +171,9 @@ const bindLayerControls = (map, store) => {
     
     const getter = (store, getters) => getters.allMapLayers.filter(layer => {
 
-        if (getters.featureSetsEnabled(layer.map) && getters.layerOpacity(layer.url)) {
-            return true
+        if (getters.layerOpacity(layer.url)) {
+            if (layer.isFeatureSet && !getters.featureSetsEnabled(layer.map)) return false
+            else return true
         } else return false
 
     })
@@ -217,8 +228,8 @@ const MapCanvas = {
             
             zoomControl: false,
             attributionControl: false,
-            scrollWheelZoom: false,
-            maxBounds: SAN_FRANCISCO_BOUNDS,
+            //scrollWheelZoom: false,
+            //maxBounds: SAN_FRANCISCO_BOUNDS,
         
         })
         

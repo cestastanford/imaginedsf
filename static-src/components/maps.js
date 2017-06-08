@@ -195,6 +195,7 @@ const initRootComponent = (el) => {
                     url: feature.url,
                     geoJSON: state.geoJSON[feature.url],
                     opacity: getters.layerOpacity(feature.url),
+                    isFeatureSet: true,
 
                 })) : []
 
