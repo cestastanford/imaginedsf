@@ -94,20 +94,16 @@ const bindLayerControls = (map, store) => {
         layers.forEach(layer => {
 
             let leafletLayer
-            if (leafletLayers[layer.url]) {
-
-                //  If layer is already on map
-                leafletLayer = leafletLayers[layer.url]
-                if (layer.type === WMS_LAYER_TYPE) leafletLayer.setOpacity(layer.opacity)
-                //  Update styles for opacity if GeoJSON layer here
-                updatedLeafletLayers[layer.url] = leafletLayer
+            if (layer.type === WMS_LAYER_TYPE && leafletLayers[layer.url]) {
+                    
+                //  If WMS layer is already on map
+                leafletLayers[layer.url].setOpacity(layer.opacity)
+                updatedLeafletLayers[layer.url] = leafletLayers[layer.url]
                 delete leafletLayers[layer.url]
 
             } else {
 
-                //  If layer isn't yet on map
                 const options = { opacity: layer.opacity }
-
                 switch (layer.type) {
 
                     case WMS_LAYER_TYPE:
@@ -116,10 +112,18 @@ const bindLayerControls = (map, store) => {
                         break
 
                     case GEOJSON_LAYER_TYPE:
+                        
+                        if (leafletLayers[layer.url]) {
+
+                            map.removeLayer(leafletLayers[layer.url])
+                            delete leafletLayers[layer.url]
+
+                        }
+
                         if (layer.geoJSON) {
                             
                             leafletLayer = new L.geoJSON(layer.geoJSON, {
-                                filter: feature => store.getters.isFeatureVisible(feature.properties),
+                                filter: feature => store.getters.isFeatureVisible(layer, feature.properties),
                                 pointToLayer: (point, coordinate) => {
                                     const projectedCoordinate = new L.Point(coordinate.lng, coordinate.lat)
                                     const latLng = L.CRS.EPSG3857.unproject(projectedCoordinate)
@@ -127,6 +131,10 @@ const bindLayerControls = (map, store) => {
                                     const popup = getFeaturePopup(layer, point)
                                     return marker.bindPopup(popup)
                                 },
+                                style: () => ({
+                                    color: '#000',
+                                    opacity: layer.opacity,
+                                }),
                             })
 
                         } else store.dispatch(DOWNLOAD_GEOJSON, layer.url)

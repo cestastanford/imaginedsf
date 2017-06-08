@@ -12,11 +12,11 @@
             </collapsible-list-item>
             <collapsible-list-item :collapsible="true" v-if="featureSets.length">
                 <span slot="parent-label">Photos &amp; Drawings</span>
-                <input slot="parent-right" type="checkbox" :disabled="!mapEnabled" :checked="featureSetsCheckbox.checked" :indeterminate="featureSetsCheckbox.indeterminate">
+                <input slot="parent-right" type="checkbox" :disabled="!mapEnabled" v-model="featureSetsEnabled">
                 <ul slot="contents">
                     <collapsible-list-item v-for="layer in featureSets" key="layer.url">
                         <span slot="parent-label">{{ layer.name }}</span>
-                        <input slot="parent-right" type="checkbox" :disabled="!mapEnabled" :checked="layer.opacity > 0" @change="handleCheckboxChange($event, layer)">
+                        <input slot="parent-right" type="checkbox" :disabled="!mapEnabled || !featureSetsEnabled" :checked="layer.opacity > 0" @change="handleCheckboxChange($event, layer)">
                     </collapsible-list-item>
                 </ul>
             </collapsible-list-item>
@@ -26,7 +26,15 @@
 </template>
 <script>
 
-import { TOGGLE_NARRATIVE, TOGGLE_MAP_ENABLED, SET_LAYER_OPACITY } from '../maps.js'
+import {
+
+    TOGGLE_NARRATIVE,
+    TOGGLE_MAP_ENABLED,
+    SET_LAYER_OPACITY,
+    SET_FEATURE_SETS_ENABLED,
+
+} from '../maps.js'
+
 import CollapsibleListItem from './collapsible-list-item.vue'
 
 const ProposalListItem = {
@@ -41,13 +49,18 @@ const ProposalListItem = {
         rasterLayer() { return this.$store.getters.rasterLayer(this.map) },
         vectorLayer() { return this.$store.getters.vectorLayer(this.map) },
         featureSets() { return this.$store.getters.featureSets(this.map) },
-        featureSetsCheckbox() {
+        featureSetsEnabled: {
 
-            const featureSets = this.$store.getters.featureSets(this.map)
-            const checkedFeatureSets = featureSets.filter(featureSet => featureSet.opacity > 0)
-            return {
-                checked: checkedFeatureSets.length > 0,
-                indeterminate: checkedFeatureSets.length < featureSets.length,
+            get() { return this.$store.getters.featureSetsEnabled(this.map) },
+            set(checked) {
+                
+                this.$store.commit(SET_FEATURE_SETS_ENABLED, {
+
+                    map: this.map,
+                    enabled: checked,
+
+                })
+
             }
 
         }

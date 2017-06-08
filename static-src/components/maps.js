@@ -31,6 +31,7 @@ export const SET_VECTOR_FEATURE_GROUP_STATUS = 'SET_VECTOR_FEATURE_GROUP_STATUS'
 export const SET_MAP_VIEW = 'SET_MAP_VIEW'
 export const SET_MAP_DATES = 'SET_MAP_DATES'
 export const SET_ADDRESS = 'SET_ADDRESS'
+export const SET_FEATURE_SETS_ENABLED = 'SET_FEATURE_SETS_ENABLED'
 
 
 /*
@@ -118,6 +119,7 @@ const initRootComponent = (el) => {
             bounds: null,
             geoJSON: {},
             vectorFeatureGroups: [],
+            featureSetsEnabled: {},
 
         },
 
@@ -132,6 +134,7 @@ const initRootComponent = (el) => {
                 if (state.address) hashStateObject.address = state.address
                 if (Object.keys(state.layerOpacity).length) hashStateObject.layerOpacity = state.layerOpacity
                 if (state.bounds) hashStateObject.bounds = state.bounds
+                if (Object.keys(state.featureSetsEnabled).length) hashStateObject.featureSetsEnabled = state.featureSetsEnabled
                 if (Object.keys(hashStateObject).length) return encodeURI(JSON.stringify(hashStateObject))
                 else return ''
 
@@ -197,6 +200,14 @@ const initRootComponent = (el) => {
 
             },
 
+            featureSetsEnabled: state => map => {
+
+                const enabled = state.featureSetsEnabled[map.id]
+                if (enabled || enabled === false) return enabled
+                else return true
+
+            },
+
             allMapLayers: (state, getters) => {
 
                 let layers = []
@@ -221,7 +232,15 @@ const initRootComponent = (el) => {
 
             //  This is a placeholder for when we know more about
             //  the vector feature groups.
-            isFeatureVisible: state => properties => true,
+            isFeatureVisible: (state, getters) => (layer, properties) => {
+
+                if (getters.featureSetsEnabled(layer.map) && getters.layerOpacity(layer.url)) {
+                    console.log(layer.map.id, getters.featureSetsEnabled(layer.map), getters.layerOpacity(layer.url))
+                    return true
+                } else return false
+
+            },
+
             sourceMapFromID: state => id => state.sourceMaps[id],
             mapDates: state => {
 
@@ -359,6 +378,16 @@ const initRootComponent = (el) => {
             },
 
             [SET_ADDRESS]: (state, address) => state.address = address,
+            [SET_FEATURE_SETS_ENABLED]: (state, { map, enabled }) => {
+
+                state.featureSetsEnabled = {
+
+                    ...state.featureSetsEnabled,
+                    [map.id]: enabled,
+
+                }
+
+            },
 
         },
 

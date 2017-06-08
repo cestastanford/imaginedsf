@@ -42,7 +42,7 @@ function createSlider(slider, dates) {
 
 const Timeline = {
 
-    name: 'map-canvas',
+    name: 'timeline',
     components: {
         CollapsibleContainer,
     },
