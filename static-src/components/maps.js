@@ -232,14 +232,7 @@ const initRootComponent = (el) => {
 
             //  This is a placeholder for when we know more about
             //  the vector feature groups.
-            isFeatureVisible: (state, getters) => (layer, properties) => {
-
-                if (getters.featureSetsEnabled(layer.map) && getters.layerOpacity(layer.url)) {
-                    console.log(layer.map.id, getters.featureSetsEnabled(layer.map), getters.layerOpacity(layer.url))
-                    return true
-                } else return false
-
-            },
+            isFeatureVisible: (state, getters) => properties => true,
 
             sourceMapFromID: state => id => state.sourceMaps[id],
             mapDates: state => {

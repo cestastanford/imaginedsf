@@ -88,7 +88,7 @@ const parseWMSURL = url => {
 const bindLayerControls = (map, store) => {
 
     let leafletLayers = {}
-    store.watch(() => store.getters.allMapLayers, layers => {
+    const updateLayers = layers => {
 
         const updatedLeafletLayers = {}
         layers.forEach(layer => {
@@ -157,7 +157,17 @@ const bindLayerControls = (map, store) => {
         for (let key in leafletLayers) map.removeLayer(leafletLayers[key])
         leafletLayers = updatedLeafletLayers
 
-    }, { immediate: true })
+    }
+    
+    const getter = (store, getters) => getters.allMapLayers.filter(layer => {
+
+        if (getters.featureSetsEnabled(layer.map) && getters.layerOpacity(layer.url)) {
+            return true
+        } else return false
+
+    })
+
+    store.watch(getter, updateLayers, { immediate: true })
 
 }
 
