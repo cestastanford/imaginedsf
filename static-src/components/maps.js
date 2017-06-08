@@ -11,6 +11,7 @@ import Vuex from 'vuex'
 */
 
 import InteractiveMaps from './maps-components/interactive-maps.vue'
+import MapEmbed from './maps-components/map-embed.vue'
 
 
 /*
@@ -103,7 +104,7 @@ const setChildrenGroupStatusFromParent = (parent, checked) => {
 *   Sets up state management and binds the root element.
 */
 
-const initRootComponent = (el) => {
+const initComponent = (el, Component) => {
 
     Vue.use(Vuex)
     const store = new Vuex.Store({
@@ -434,7 +435,19 @@ const initRootComponent = (el) => {
         
         el,
         store,
-        render: createElement => createElement(InteractiveMaps),
+        render(h) { 
+
+            return h(Component, {
+
+                props: {
+
+                    hash: (this.$el.attributes.hash ? this.$el.attributes.hash.value : '')
+
+                },
+
+            })
+
+        },
 
     })
 
@@ -447,8 +460,12 @@ const initRootComponent = (el) => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    const QUERY_STRING = '#maps'
-    const el = document.querySelector(QUERY_STRING)
-    if (el) initRootComponent(el)
+    //  Initializes map on Interactive Maps page
+    const el = document.querySelector('#maps')
+    if (el) initComponent(el, InteractiveMaps)
+
+    //  Initializes embedded maps
+    const els = document.querySelectorAll('map-embed')
+    els.forEach(el => initComponent(el, MapEmbed))
 
 })

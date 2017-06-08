@@ -54,3 +54,10 @@ require_once 'inc/menus.php';
 */
 
 require_once 'inc/rest-endpoints.php';
+
+
+/*
+*   Adds custom interactive map embed shortcode.
+*/
+
+require_once 'inc/shortcode.php';

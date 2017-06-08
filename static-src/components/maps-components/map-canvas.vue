@@ -1,14 +1,15 @@
 <template>
 
     <section class="map-container">
-        <div class="map-canvas">
+        <div class="map-canvas" :class="{ embed: embedLink }">
             <div id="map"></div>
             <div class="controls" v-if="map">
-                <address-control :map="map"></address-control>
+                <address-control v-if="!embedLink" :map="map"></address-control>
+                <a class="embed-link" v-if="embedLink" :href="embedLink">explore interactive map</a>
                 <zoom-control :map="map"></zoom-control>
             </div>
         </div>
-        <timeline v-if="mapDates.length > 1" :map-dates="mapDates"></timeline>
+        <timeline v-if="mapDates.length > 1 && !embedLink" :map-dates="mapDates"></timeline>
     </section>
 
 </template>
@@ -218,6 +219,7 @@ const MapCanvas = {
         AddressControl,
         ZoomControl,
     },
+    props: [ 'embed-link' ],
     data: () => ({ map: null }),
     computed: {
         mapDates() { return this.$store.getters.mapDates },
@@ -228,12 +230,12 @@ const MapCanvas = {
             
             zoomControl: false,
             attributionControl: false,
-            //scrollWheelZoom: false,
-            //maxBounds: SAN_FRANCISCO_BOUNDS,
+            scrollWheelZoom: false,
+            maxBounds: SAN_FRANCISCO_BOUNDS,
         
         })
         
-        // this.map.setMinZoom(this.map.getBoundsZoom(SAN_FRANCISCO_BOUNDS))
+        this.map.setMinZoom(this.map.getBoundsZoom(SAN_FRANCISCO_BOUNDS))
         this.map.fitBounds(this.$store.getters.mapBounds)
         bindLayerControls(this.map, this.$store)
         bindMapBounds(this.map, this.$store)
@@ -253,12 +255,17 @@ export default MapCanvas
 
     padding: 1em;
     background-color: $light-grey;
+    position: relative;
 
     .map-canvas {
 
         width: 100%;
         height: 600px;
         position: relative;
+
+        &.embed {
+            height: 400px;
+        }
 
         > * {
             position: absolute;
@@ -345,6 +352,10 @@ export default MapCanvas
                 background-color: $light-grey;
                 border-radius: 4px;
                 overflow: hidden;
+            }
+
+            .embed-link {
+                padding: .25em .75em;
             }
 
         }

@@ -1,6 +1,6 @@
 <template>
 
-    <article class="narrative">
+    <article class="map-narrative">
         <header>
             <div class="section-title">
                 <span class="narrative-button">𝒊</span>
@@ -42,7 +42,7 @@ export default Narrative
 
 @import '../../styles/variables';
 
-.narrative {
+.map-narrative {
     
     margin: 1em 0;
     padding: 1.5em;

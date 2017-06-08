@@ -9,9 +9,7 @@ get_header();
 ?>
 
 <!-- begin Vue.js-controlled markup -->
-<section class="container maps" id="maps">
-    <maps></maps>
-</section>
+<section class="container maps" id="maps"></section>
 <!-- end Vue.js-controlled markup -->
 
 <?php
