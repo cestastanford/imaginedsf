@@ -32,6 +32,8 @@ import {
 
 } from '../maps.js'
 
+import { RedMarker, getFeaturePopup } from './leaflet-components.js'
+
 
 /*
 *   Imports Leaflet library.
@@ -118,7 +120,13 @@ const bindLayerControls = (map, store) => {
                             
                             leafletLayer = new L.geoJSON(layer.geoJSON, {
                                 filter: feature => store.getters.isFeatureVisible(feature.properties),
-                                //  Set styles for opacity if GeoJSON layer here
+                                pointToLayer: (point, coordinate) => {
+                                    const projectedCoordinate = new L.Point(coordinate.lng, coordinate.lat)
+                                    const latLng = L.CRS.EPSG3857.unproject(projectedCoordinate)
+                                    const marker = new RedMarker(latLng)
+                                    const popup = getFeaturePopup(layer, point)
+                                    return marker.bindPopup(popup)
+                                },
                             })
 
                         } else store.dispatch(DOWNLOAD_GEOJSON, layer.url)
@@ -238,8 +246,56 @@ export default MapCanvas
             z-index: 1;
 
             .custom-marker-icon {
+                
                 font-size: 45px;
                 text-shadow: 0 0 2px $white, 0 5px 5px $medium-grey;
+
+            }
+
+            .blue-marker {
+                color: $light-blue;
+            }
+
+            .red-marker {
+                color: $light-red;
+            }
+
+            .leaflet-popup-content-wrapper {
+
+                border-radius: 5px;
+                background-color: rgba(255, 255, 255, .95);
+                text-align: center;
+                word-wrap: break-word;
+                color: $medium-grey;
+
+                .leaflet-popup-content {
+
+                    margin: 0;
+
+                    header {
+
+                        margin: 1em;
+                        border-bottom: 1px solid $medium-light-grey;
+                        padding: 1em;
+
+                        h3 {
+                            font-weight: bold;
+                            font-size: 1.25em;
+                        }
+
+                        h6 {
+                            font-style: italic;
+                            font-size: 1.1em;
+                        }
+
+                    }
+
+                    article {
+                        margin: 1em;
+                    }
+
+                }
+
             }
 
         }

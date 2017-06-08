@@ -21,7 +21,7 @@
 <script>
 
 import { SET_ADDRESS } from '../maps.js'
-import { MarkerIcon } from '../maps.js'
+import { BlueMarker } from './leaflet-components.js'
 
 /*
 *   Finds the user's current location.
@@ -60,17 +60,7 @@ const validateAddress = async input => {
 *   Creates the location marker.
 */
 
-const getMarker = coordinates => {
-
-    const icon  = new MarkerIcon({
-
-        className: 'location-marker',
-
-    })
-    
-    return new L.Marker(coordinates, { icon })
-
-}
+const getMarker = coordinates => new BlueMarker(coordinates)
 
 
 /*
@@ -277,10 +267,6 @@ export default AddressControl
     
     }
 
-}
-
-.location-marker {
-    color: $light-blue;
 }
 
 </style>

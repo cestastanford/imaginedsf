@@ -99,20 +99,6 @@ const setChildrenGroupStatusFromParent = (parent, checked) => {
 
 
 /*
-*   Creates the location marker.
-*/
-
-export const MarkerIcon = L.DivIcon.extend({
-
-    options: {
-        html: '<i class="fa fa-map-marker custom-marker-icon"></i>',
-        iconAnchor: [12, 48],
-    }
-
-})
-
-
-/*
 *   Sets up state management and binds the root element.
 */
 
@@ -177,6 +163,7 @@ const initRootComponent = (el) => {
 
             rasterLayer: (state, getters) => map => map.raster_url ? {
 
+                map,
                 name: RASTER_LAYER_LABEL,
                 type: WMS_LAYER_TYPE,
                 url: map.raster_url,
@@ -186,6 +173,7 @@ const initRootComponent = (el) => {
 
             vectorLayer: (state, getters) => map => map.vector_url ? {
 
+                map,
                 name: VECTOR_LAYER_LABEL,
                 type: GEOJSON_LAYER_TYPE,
                 url: map.vector_url,
@@ -198,6 +186,7 @@ const initRootComponent = (el) => {
 
                 return map.feature_urls ? map.feature_urls.map(feature => ({
 
+                    map,
                     name: feature.title,
                     type: GEOJSON_LAYER_TYPE,
                     url: feature.url,
