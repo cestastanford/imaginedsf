@@ -1,4 +1,4 @@
-<?
+<?php
 
 /*
 *   Adds endpoint for retrieving Homepage demo slideshow images.
