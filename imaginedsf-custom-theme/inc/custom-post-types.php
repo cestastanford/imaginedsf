@@ -7,7 +7,6 @@
 function remove_unused_menu_options() {
     
     remove_menu_page( 'edit.php' ); // removes Posts
-    remove_menu_page( 'upload.php' ); // removes Media
     remove_menu_page( 'edit-comments.php' ); // removes Comments
 
 }
