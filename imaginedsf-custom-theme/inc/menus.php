@@ -135,8 +135,7 @@ function create_hierarchical_menu( $items, $level ) {
 
 function is_active( $item ) {
 
-    global $wp;
-    $current_url = home_url( add_query_arg( null, null ) );
+    $current_url = get_permalink();
     return strrpos( $current_url, $item->url ) !== false;
 
 }

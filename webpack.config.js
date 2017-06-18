@@ -1,5 +1,13 @@
-var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path')
+const fs = require('fs')
+const webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
+//  Sets public asset resolve path based on environmental variable.
+let publicPath = 'wp-content/themes/imaginedsf-custom-theme/static/'
+if (process.env.NODE_ENV === 'production' && fs.existsSync('publicPath.prod.env')) {
+    publicPath = fs.readFileSync('publicPath.prod.env', 'utf-8') + publicPath
+}
 
 module.exports = {
     
@@ -8,11 +16,13 @@ module.exports = {
         'whatwg-fetch',
         './static-src/index.js'
     ],
+    
     output: {
         filename: 'script.js',
         path: path.resolve(__dirname, 'imaginedsf-custom-theme/static'),
-        publicPath: '/wp-content/themes/imaginedsf-custom-theme/static/',
+        publicPath,
     },
+    
     module: {
         rules: [
             {
@@ -46,13 +56,15 @@ module.exports = {
             { test: /\.(svg|woff2?|ttf|eot|png)/, loader: 'file-loader' },
         ]
     },
+    
     plugins: [
-        new ExtractTextPlugin('styles.css')
+        new ExtractTextPlugin('styles.css'),
     ],
+    
     resolve: {
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
         },
-    }
+    },
 
-};
+}

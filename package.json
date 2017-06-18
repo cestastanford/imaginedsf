@@ -6,7 +6,7 @@
   "repository": "https://github.com/codyml/imaginedsf",
   "scripts": {
     "dev-watch": "webpack -d --devtool source-map --watch --progress --colors",
-    "prod-build": "webpack -p --progress --colors --display-error-details"
+    "prod-build": "NODE_ENV=production webpack -p --progress --colors --display-error-details"
   },
   "keywords": [],
   "author": "",
