@@ -42,7 +42,7 @@ const locate = map => new Promise(resolve => {
 const validateAddress = async input => {
 
     const address = input + ' San Francisco, CA, United States'
-    const url = `/wp-json/imaginedsf/geocode?address=${encodeURIComponent(address)}`
+    const url = `${document.documentElement.dataset.rootUrl}/wp-json/imaginedsf/geocode?address=${encodeURIComponent(address)}`
     const response = await fetch(url)
     const parsedResponse = await response.json()
     const validatedAddress = parsedResponse.results[0].locations[0].street

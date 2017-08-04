@@ -26,7 +26,7 @@ const MapEmbed = {
     },
     props: [ 'hash' ],
     computed: {
-        link() { return '/maps/#' + this.$store.getters.hashState },
+        link() { return document.documentElement.dataset.rootUrl + '/maps/#' + this.$store.getters.hashState },
     },
     async mounted() {
 

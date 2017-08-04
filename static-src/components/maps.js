@@ -390,7 +390,7 @@ const initComponent = (el, Component) => {
 
             [REQUEST_MAPS]: async ({ commit }) => {
 
-                const REQUEST_URL = '/wp-json/imaginedsf/maps'
+                const REQUEST_URL = document.documentElement.dataset.rootUrl + '/wp-json/imaginedsf/maps'
                 const response = await fetch(REQUEST_URL)
                 if (!response.ok) {
                     throw new Error(`${response.status} ${response.statusText}`, response)

@@ -9,7 +9,7 @@ import Vue from 'vue'
 *   Initiates AJAX request for slideshow images.
 */
 
-const REQUEST_URL = '/wp-json/imaginedsf/demo-images'
+const REQUEST_URL = document.documentElement.dataset.rootUrl + '/wp-json/imaginedsf/demo-images'
 const requestImages = async () => {
 
     const response = await fetch(REQUEST_URL)

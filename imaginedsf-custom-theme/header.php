@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-root-url="<?php echo get_home_url(); ?>">
     <head>
         <meta charset="utf-8">
         <?php wp_head(); ?>
