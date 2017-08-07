@@ -17,9 +17,9 @@
 *   Imports subcomponents and constants.
 */
 
+import { PROPOSAL_MAP_TYPE } from '../state/constants'
 import CollapsibleContainer from './collapsible-container.vue'
 import ProposalListItem from './proposal-list-item.vue'
-import { PROPOSAL_MAP_TYPE } from '../maps.js'
 
 
 /*

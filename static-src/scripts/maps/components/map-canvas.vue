@@ -23,16 +23,9 @@ import ZoomControl from './zoom-control.vue'
 *   Imports layer type and action name constants.
 */
 
-import {
-   
-    WMS_LAYER_TYPE,
-    GEOJSON_LAYER_TYPE,
-    DOWNLOAD_GEOJSON,
-    SAVE_BOUNDS,
-    SAN_FRANCISCO_BOUNDS,
-
-} from '../maps.js'
-
+import { WMS_LAYER_TYPE, GEOJSON_LAYER_TYPE, SAN_FRANCISCO_BOUNDS } from '../state/constants'
+import { SAVE_BOUNDS } from '../state/mutations'
+import { DOWNLOAD_GEOJSON } from '../state/actions'
 import { RedMarker, getFeaturePopup } from './leaflet-components.js'
 
 
@@ -249,7 +242,7 @@ export default MapCanvas
 </script>
 <style lang="sass">
 
-@import '../../styles/variables.scss';
+@import '../../../styles/variables';
 
 .map-container {
 

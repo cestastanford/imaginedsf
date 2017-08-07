@@ -30,7 +30,7 @@ export default CollapsibleContainer
 </script>
 <style lang="sass">
 
-@import '../../styles/variables';
+@import '../../../styles/variables';
 
 .collapsible-container {
 

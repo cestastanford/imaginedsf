@@ -22,7 +22,8 @@
 *   Imports constants and subcomponents.
 */
 
-import { REQUEST_MAPS, APPLY_HASH_STATE } from '../maps.js'
+import { APPLY_HASH_STATE } from '../state/mutations'
+import { REQUEST_MAPS } from '../state/actions'
 import ProposalList from './proposal-list.vue'
 import BasemapList from './basemap-list.vue'
 import VectorFeatureGroupList from './vector-feature-group-list.vue'

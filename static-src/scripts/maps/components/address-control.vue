@@ -20,7 +20,7 @@
 </template>
 <script>
 
-import { SET_ADDRESS } from '../maps.js'
+import { SET_ADDRESS } from '../state/mutations'
 import { BlueMarker } from './leaflet-components.js'
 
 /*
@@ -187,7 +187,7 @@ export default AddressControl
 </script>
 <style lang="sass">
 
-@import '../../styles/variables';
+@import '../../../styles/variables';
 
 .address-control {
     

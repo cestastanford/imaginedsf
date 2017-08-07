@@ -19,7 +19,7 @@
 
 import CollapsibleContainer from './collapsible-container.vue'
 import BasemapListItem from './basemap-list-item.vue'
-import { BASEMAP_TYPE } from '../maps.js'
+import { BASEMAP_TYPE } from '../state/constants'
 
 
 /*

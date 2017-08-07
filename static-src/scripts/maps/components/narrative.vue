@@ -15,7 +15,7 @@
 </template>
 <script>
 
-import { SET_MAP_VIEW } from '../maps.js'
+import { SET_MAP_VIEW } from '../state/mutations'
 
 const Narrative = {
 
@@ -40,7 +40,7 @@ export default Narrative
 </script>
 <style lang="sass">
 
-@import '../../styles/variables';
+@import '../../../styles/variables';
 
 .map-narrative {
     

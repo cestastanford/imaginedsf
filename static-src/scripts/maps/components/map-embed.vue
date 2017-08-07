@@ -10,7 +10,8 @@
 *   Imports constants and subcomponents.
 */
 
-import { REQUEST_MAPS, APPLY_HASH_STATE } from '../maps.js'
+import { APPLY_HASH_STATE } from '../state/mutations'
+import { REQUEST_MAPS } from '../state/actions'
 import MapCanvas from './map-canvas.vue'
 
 

@@ -33,7 +33,7 @@ import {
     SET_LAYER_OPACITY,
     SET_FEATURE_SETS_ENABLED,
 
-} from '../maps.js'
+} from '../state/mutations'
 
 import CollapsibleListItem from './collapsible-list-item.vue'
 
@@ -95,7 +95,7 @@ export default ProposalListItem
 </script>
 <style lang="sass">
 
-@import '../../styles/variables';
+@import '../../../styles/variables';
 
 .collapsible-list-item.proposal-list-item {
 

@@ -14,9 +14,9 @@
 *   Imports subcomponents and constants.
 */
 
+import { BASEMAP_TYPE } from '../state/constants'
 import CollapsibleContainer from './collapsible-container.vue'
 import VectorFeatureGroupListItem from './vector-feature-group-list-item.vue'
-import { BASEMAP_TYPE } from '../maps.js'
 
 
 /*

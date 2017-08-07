@@ -8,8 +8,8 @@
 </template>
 <script>
 
+import { SET_MAP_DATES } from '../state/mutations'
 import CollapsibleContainer from './collapsible-container.vue'
-import { SET_MAP_DATES } from '../maps.js'
 import noUiSlider from 'nouislider'
 import 'nouislider/distribute/nouislider.css'
 import throttle from 'lodash.throttle'
@@ -69,7 +69,7 @@ export default Timeline
 </script>
 <style lang="sass">
 
-@import '../../styles/variables';
+@import '../../../styles/variables';
 
 .timeline {
 

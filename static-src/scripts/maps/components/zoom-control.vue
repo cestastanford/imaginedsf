@@ -28,7 +28,7 @@ export default ZoomControl
 </script>
 <style lang="sass">
 
-@import '../../styles/variables';
+@import '../../../styles/variables';
 
 .zoom-control {
     

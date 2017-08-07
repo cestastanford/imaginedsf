@@ -10,7 +10,7 @@
 </template>
 <script>
 
-import { TOGGLE_NARRATIVE, TOGGLE_MAP_ENABLED, SET_LAYER_OPACITY } from '../maps.js'
+import { TOGGLE_NARRATIVE, TOGGLE_MAP_ENABLED, SET_LAYER_OPACITY } from '../state/mutations'
 import CollapsibleListItem from './collapsible-list-item.vue'
 
 const BasemapListItem = {
@@ -51,7 +51,7 @@ export default BasemapListItem
 </script>
 <style lang="sass">
 
-@import '../../styles/variables';
+@import '../../../styles/variables';
 
 .collapsible-list-item.basemap-list-item {
 

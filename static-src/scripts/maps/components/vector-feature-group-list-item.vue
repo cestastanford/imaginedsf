@@ -11,7 +11,7 @@
 </template>
 <script>
 
-import { SET_VECTOR_FEATURE_GROUP_STATUS } from '../maps.js'
+import { SET_VECTOR_FEATURE_GROUP_STATUS } from '../state/mutations'
 import CollapsibleListItem from './collapsible-list-item.vue'
 
 const VectorFeatureGroupListItem = {
@@ -50,7 +50,7 @@ export default VectorFeatureGroupListItem
 </script>
 <style lang="sass">
 
-@import '../../styles/variables';
+@import '../../../styles/variables';
 
 .collapsible-list-item.vector-feature-group-list-item {
 
