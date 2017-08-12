@@ -1,0 +1,321 @@
+{
+    "key": "group_598e781e0e78d",
+    "title": "Map Layers",
+    "fields": [
+        {
+            "multiple": 0,
+            "allow_null": 0,
+            "choices": {
+                "wms_png": "WMS\/PNG",
+                "wfs_geojson": "WFS\/GeoJSON"
+            },
+            "default_value": [],
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "return_format": "value",
+            "key": "field_598e78513ac38",
+            "label": "Source Type",
+            "name": "source_type",
+            "type": "select",
+            "instructions": "Select the source type for this map.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            }
+        },
+        {
+            "default_value": "",
+            "placeholder": "",
+            "key": "field_598e78963ac39",
+            "label": "WMS URL",
+            "name": "wms_url",
+            "type": "url",
+            "instructions": "Enter the WMS GetMap URL for the layer source.  WMS URLs should contain only the following parameters: service, version, request and layers.  Example:\r\n\r\nhttp:\/\/hostname.tld\/path\/wms?service=WMS&version=1.1.0&request=GetMap&layers=domain:layername",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_598e78513ac38",
+                        "operator": "==",
+                        "value": "wms_png"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            }
+        },
+        {
+            "default_value": "",
+            "placeholder": "",
+            "key": "field_598e7b0a3ac3a",
+            "label": "GeoJSON URL",
+            "name": "wfs_url",
+            "type": "url",
+            "instructions": "Enter the WFS GeoJSON URL for the layer source.  This URL should return a GeoJSON file.  Make sure that CORS is enabled on the host domain.",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_598e78513ac38",
+                        "operator": "==",
+                        "value": "wfs_geojson"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            }
+        },
+        {
+            "sub_fields": [
+                {
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "key": "field_598e7fe1971ab",
+                    "label": "Key",
+                    "name": "key",
+                    "type": "text",
+                    "instructions": "Enter the property key as it appears in the GeoJSON 'properties' object.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    }
+                },
+                {
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "key": "field_598e800c971ac",
+                    "label": "Value",
+                    "name": "value",
+                    "type": "text",
+                    "instructions": "Enter the property value as it appears in the GeoJSON 'properties' object.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    }
+                },
+                {
+                    "taxonomy": "isf_vector_feature_groups",
+                    "field_type": "select",
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "return_format": "object",
+                    "add_term": 1,
+                    "load_terms": 1,
+                    "save_terms": 1,
+                    "key": "field_598e8031971ad",
+                    "label": "Vector Feature Group",
+                    "name": "group",
+                    "type": "taxonomy",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    }
+                }
+            ],
+            "min": 0,
+            "max": 0,
+            "layout": "table",
+            "button_label": "Add Group",
+            "collapsed": "field_598e8031971ad",
+            "key": "field_598e7b7a3ac3b",
+            "label": "Vector Feature Groups",
+            "name": "vector_feature_groups",
+            "type": "repeater",
+            "instructions": "Define which property key\/value pairs correspond to a vector feature group.  For example, setting Key to 'FEATURE_TYPE', Value to 'FREEWAY_20Y' and Group to a group you created called 20 Year Freeways will categorize every feature in this layer with FEATURE_TYPE set to FREEWAY_20Y as part of the 20 Year Freeways group.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_598e78513ac38",
+                        "operator": "==",
+                        "value": "wfs_geojson"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            }
+        },
+        {
+            "default_value": 0,
+            "message": "",
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": "",
+            "key": "field_598e83aff631b",
+            "label": "Popups Enabled",
+            "name": "popups_enabled",
+            "type": "true_false",
+            "instructions": "Choose whether features from this layer will show popups when clicked.",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_598e78513ac38",
+                        "operator": "==",
+                        "value": "wfs_geojson"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            }
+        },
+        {
+            "sub_fields": [
+                {
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "choices": {
+                        "text": "Text",
+                        "image": "Image"
+                    },
+                    "default_value": [],
+                    "ui": 0,
+                    "ajax": 0,
+                    "placeholder": "",
+                    "return_format": "value",
+                    "key": "field_598e83e0f631c",
+                    "label": "Type",
+                    "name": "type",
+                    "type": "select",
+                    "instructions": "Choose whether this data element will be text or an image.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    }
+                },
+                {
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "key": "field_598e841bf631d",
+                    "label": "Data Label",
+                    "name": "label",
+                    "type": "text",
+                    "instructions": "Enter an optional label to describe this data element.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    }
+                },
+                {
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "key": "field_598e844ff631e",
+                    "label": "Data Source Field",
+                    "name": "source_field",
+                    "type": "text",
+                    "instructions": "Enter the key for the field containing the text or image URL as it appears in the GeoJSON 'properties' object.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    }
+                }
+            ],
+            "min": 1,
+            "max": 0,
+            "layout": "table",
+            "button_label": "",
+            "collapsed": "",
+            "key": "field_598e8370f631a",
+            "label": "Popup Contents",
+            "name": "popup_contents",
+            "type": "repeater",
+            "instructions": "Select which data will appear in the popups for this map layer.",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_598e83aff631b",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            }
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "isf_map_layer"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "permalink",
+        "the_content",
+        "excerpt",
+        "custom_fields",
+        "discussion",
+        "comments",
+        "revisions",
+        "slug",
+        "author",
+        "format",
+        "page_attributes",
+        "featured_image",
+        "categories",
+        "tags",
+        "send-trackbacks"
+    ],
+    "active": 1,
+    "description": "",
+    "modified": 1502512333
+}

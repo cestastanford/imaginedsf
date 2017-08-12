@@ -4,8 +4,16 @@
 *   Defines custom post type constants.
 */
 
+define( 'MAP_LAYER_POST_TYPE', 'isf_map_layer' );
 define( 'MAP_POST_TYPE', 'isf_map' );
 define( 'NARRATIVE_POST_TYPE', 'isf_narrative' );
+
+
+/*
+*   Defines custom taxonomy constants.
+*/
+
+define( 'VECTOR_FEATURE_GROUPS_TAXONOMY', 'isf_vector_feature_groups' );
 
 
 /*

@@ -15,6 +15,13 @@ require_once 'inc/custom-post-types.php';
 
 
 /*
+*   Adds custom taxonomies.
+*/
+
+require_once 'inc/taxonomies.php';
+
+
+/*
 *   Updates permalink structure.
 */
 

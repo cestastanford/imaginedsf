@@ -28,15 +28,29 @@
             }
         },
         {
-            "default_value": "",
-            "placeholder": "",
-            "key": "field_5914a94975676",
-            "label": "Raster Map URL",
-            "name": "raster_url",
-            "type": "url",
-            "instructions": "Enter the WMS address for this map's raster images.",
-            "required": 0,
-            "conditional_logic": 0,
+            "post_type": [
+                "isf_map_layer"
+            ],
+            "taxonomy": [],
+            "allow_null": 0,
+            "multiple": 0,
+            "return_format": "id",
+            "ui": 1,
+            "key": "field_598e769594d69",
+            "label": "Basemap Layer",
+            "name": "basemap_layer",
+            "type": "post_object",
+            "instructions": "Select the single map layer for this basemap.",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_5914a88975675",
+                        "operator": "==",
+                        "value": "basemap"
+                    }
+                ]
+            ],
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -44,14 +58,60 @@
             }
         },
         {
-            "default_value": "",
-            "placeholder": "",
-            "key": "field_5914a97d75677",
-            "label": "Vector Polygon Set URL",
-            "name": "vector_url",
-            "type": "url",
-            "instructions": "Enter the WFS\/GeoJSON address for this map's vector polygon set.",
-            "required": 0,
+            "sub_fields": [
+                {
+                    "post_type": [
+                        "isf_map_layer"
+                    ],
+                    "taxonomy": [],
+                    "allow_null": 0,
+                    "multiple": 0,
+                    "return_format": "id",
+                    "ui": 1,
+                    "key": "field_598e773e94d6a",
+                    "label": "Layer",
+                    "name": "layer",
+                    "type": "post_object",
+                    "instructions": "Select a map layer.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    }
+                },
+                {
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "key": "field_598e776d94d6b",
+                    "label": "Label",
+                    "name": "label",
+                    "type": "text",
+                    "instructions": "Enter a label for this map layer in this proposal map.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    }
+                }
+            ],
+            "min": 1,
+            "max": 0,
+            "layout": "table",
+            "button_label": "Add Layer",
+            "collapsed": "field_598e776d94d6b",
+            "key": "field_5914a94975676",
+            "label": "Primary Layers",
+            "name": "primary_layers",
+            "type": "repeater",
+            "instructions": "Add the primary map layers for this proposal map.",
+            "required": 1,
             "conditional_logic": [
                 [
                     {
@@ -70,16 +130,19 @@
         {
             "sub_fields": [
                 {
-                    "default_value": "",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "key": "field_5914aa1a75679",
-                    "label": "Title",
-                    "name": "title",
-                    "type": "text",
-                    "instructions": "",
+                    "post_type": [
+                        "isf_map_layer"
+                    ],
+                    "taxonomy": [],
+                    "allow_null": 0,
+                    "multiple": 0,
+                    "return_format": "id",
+                    "ui": 1,
+                    "key": "field_598e77d294d6d",
+                    "label": "Layer",
+                    "name": "layer",
+                    "type": "post_object",
+                    "instructions": "Select a map layer.",
                     "required": 1,
                     "conditional_logic": 0,
                     "wrapper": {
@@ -90,12 +153,15 @@
                 },
                 {
                     "default_value": "",
+                    "maxlength": "",
                     "placeholder": "",
-                    "key": "field_5914aa317567a",
-                    "label": "URL",
-                    "name": "url",
-                    "type": "url",
-                    "instructions": "",
+                    "prepend": "",
+                    "append": "",
+                    "key": "field_598e77d294d6e",
+                    "label": "Label",
+                    "name": "label",
+                    "type": "text",
+                    "instructions": "Enter a label for this map layer in this proposal map.",
                     "required": 1,
                     "conditional_logic": 0,
                     "wrapper": {
@@ -105,17 +171,17 @@
                     }
                 }
             ],
-            "min": 0,
+            "min": 1,
             "max": 0,
             "layout": "table",
-            "button_label": "Add Feature Set",
-            "collapsed": "",
-            "key": "field_5914a9b675678",
-            "label": "Photos & Drawings URLs",
-            "name": "feature_urls",
+            "button_label": "Add Layer",
+            "collapsed": "field_598e776d94d6b",
+            "key": "field_598e77d294d6c",
+            "label": "Photos & Drawings Layers",
+            "name": "photos_and_drawings_layers",
             "type": "repeater",
-            "instructions": "Add a title and WFS\/GeoJSON address for each feature set to be included in Photos & Drawings for this map.",
-            "required": 0,
+            "instructions": "Add the map layers that will appear in the Photos & Drawings section for this proposal map.",
+            "required": 1,
             "conditional_logic": [
                 [
                     {
@@ -234,5 +300,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1495515407
+    "modified": 1502509070
 }

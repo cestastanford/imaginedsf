@@ -30,6 +30,45 @@ add_action( 'rest_api_init', 'register_demo_images_endpoint' );
 *   Adds endpoint for retrieving Map posts.
 */
 
+function get_map_layers() {
+
+    $map_layers = get_posts( array(
+
+        'posts_per_page' => -1,
+        'orderby' => 'title',
+        'order' => 'ASC',
+        'post_type' => MAP_LAYER_POST_TYPE,
+
+    ) );
+
+    foreach ( $map_layers as $map_layer ) {
+
+        $map_layer->fields = get_fields( $map_layer );
+
+    }
+
+    return $map_layers;
+
+}
+
+function register_map_layer_endpoint() {
+  
+    register_rest_route( 'imaginedsf', '/map-layers', array(
+        
+        'methods' => 'GET',
+        'callback' => 'get_map_layers',
+
+    ) );
+
+}
+
+add_action( 'rest_api_init', 'register_map_layer_endpoint' );
+
+
+/*
+*   Adds endpoint for retrieving Map posts.
+*/
+
 function get_maps() {
 
     $maps = get_posts( array(
