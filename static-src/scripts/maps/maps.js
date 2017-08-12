@@ -38,13 +38,12 @@ const initComponent = (el, Component) => {
             sourceMaps: {},
             sourceMapLayers: {},
             mapEnabled: {},
-            narrative: null,
-            address: null,
             layerOpacity: {},
-            bounds: null,
-            geoJSON: {},
+            informationVisible: null,
+            address: null,
+            mapBounds: null,
+            downloadedGeoJSON: {},
             vectorFeatureGroups: [],
-            featureSetsEnabled: {},
 
         },
 

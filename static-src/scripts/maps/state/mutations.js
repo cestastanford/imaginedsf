@@ -12,11 +12,11 @@ import Vue from 'vue'
 export const SAVE_DOWNLOADED_MAPS = 'SAVE_DOWNLOADED_MAPS'
 export const SAVE_DOWNLOADED_MAP_LAYERS = 'SAVE_DOWNLOADED_MAP_LAYERS'
 export const APPLY_HASH_STATE = 'APPLY_HASH_STATE'
-export const TOGGLE_NARRATIVE = 'TOGGLE_NARRATIVE'
+export const TOGGLE_INFORMATION_VISIBLE = 'TOGGLE_INFORMATION_VISIBLE'
 export const TOGGLE_MAP_ENABLED = 'TOGGLE_MAP_ENABLED'
-export const SAVE_GEOJSON = 'SAVE_GEOJSON'
+export const SAVE_DOWNLOADED_GEOJSON = 'SAVE_DOWNLOADED_GEOJSON'
 export const UPDATE_VECTOR_FEATURE_GROUPS = 'UPDATE_VECTOR_FEATURE_GROUPS'
-export const SAVE_BOUNDS = 'SAVE_BOUNDS'
+export const SAVE_MAP_BOUNDS = 'SAVE_MAP_BOUNDS'
 export const SET_LAYER_OPACITY = 'SET_LAYER_OPACITY'
 export const SET_VECTOR_FEATURE_GROUP_STATUS = 'SET_VECTOR_FEATURE_GROUP_STATUS'
 export const SET_MAP_VIEW = 'SET_MAP_VIEW'
@@ -103,13 +103,13 @@ export default {
 
 
     /*
-    *   Opens or closes a map's informational narrative.
+    *   Shows or hides a map's Information section.
     */
 
-    [TOGGLE_NARRATIVE]: (state, map) => {
+    [TOGGLE_INFORMATION_VISIBLE]: (state, map) => {
 
-        if (state.narrative === map.id) state.narrative = null
-        else state.narrative = map.id
+        if (state.informationVisible === map.id) state.informationVisible = null
+        else state.informationVisible = map.id
 
     },
 
@@ -126,13 +126,13 @@ export default {
 
 
     /*
-    *   Saves downloaded GeoJSON (keyed by source URL) to state.
+    *   Saves downloaded GeoJSON (keyed by layer ID) to state.
     */
 
-    [SAVE_GEOJSON]: (state, { url, geoJSON }) => state.geoJSON = {
+    [SAVE_DOWNLOADED_GEOJSON]: (state, { layerId, geoJSON }) => state.downloadedGeoJSON = {
         
-        ...state.geoJSON,
-        [url]: geoJSON,
+        ...state.downloadedGeoJSON,
+        [layerId]: geoJSON,
 
     },
 
@@ -197,7 +197,7 @@ export default {
     *   Saves map bounds to state.
     */
 
-    [SAVE_BOUNDS]: (state, bounds) => state.bounds = bounds,
+    [SAVE_MAP_BOUNDS]: (state, mapBounds) => state.mapBounds = mapBounds,
     
 
     /*
@@ -206,8 +206,8 @@ export default {
 
     [SET_LAYER_OPACITY]: (state, layer) => {
 
-        if (layer.opacity === 1) Vue.delete(state.layerOpacity, layer.url)
-        else Vue.set(state.layerOpacity, layer.url, layer.opacity)
+        if (layer.opacity === 1) Vue.delete(state.layerOpacity, layer.id)
+        else Vue.set(state.layerOpacity, layer.id, layer.opacity)
 
     },
 
@@ -218,8 +218,22 @@ export default {
 
     [SET_MAP_VIEW]: (state, map) => {
 
-        state.layerOpacity = { [map.raster_url]: .5 }
-        state.mapEnabled = { [map.id]: true, [map.linked_basemap]: true, }
+        //  Enables the proposal map
+        state.mapEnabled = { [map.id]: true }
+
+        //  Enables the linked basemap, if present
+        if (map.linked_basemap) state.mapEnabled = { ...state.mapEnabled, [map.linked_basemap]: true }
+        
+        //  Hides all layers from the proposal map
+        map.primaryLayers.forEach(layer => state.layerOpacity[layer.id] = 0)
+        map.secondaryLayers && map.secondaryLayers.forEach(layer => state.layerOpacity[layer.id] = 0)
+        
+        //  Shows the first primary raster layer from the proposal map
+        const firstPrimaryRasterLayer = map.primaryLayers.filter(layer => state.sourceMapLayers[layer.id].source_type === WMS_LAYER_TYPE)[0]
+        Vue.delete(state.layerOpacity, firstPrimaryRasterLayer.id)
+
+        //  Shows the basemap layer
+        Vue.delete(state.layerOpacity, state.sourceMaps[map.linked_basemap].basemap_layer)
 
     },
 
@@ -249,22 +263,5 @@ export default {
     */
 
     [SET_ADDRESS]: (state, address) => state.address = address,
-
-
-    /*
-    *   Saves whether a proposal map's feature sets are enabled
-    *   (checked) to state.
-    */
-
-    [SET_FEATURE_SETS_ENABLED]: (state, { map, enabled }) => {
-
-        state.featureSetsEnabled = {
-
-            ...state.featureSetsEnabled,
-            [map.id]: enabled,
-
-        }
-
-    },
 
 }

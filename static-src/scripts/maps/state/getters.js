@@ -2,15 +2,7 @@
 *   Imports
 */
 
-import {
-
-    SAN_FRANCISCO_BOUNDS,
-    RASTER_LAYER_LABEL,
-    WMS_LAYER_TYPE,
-    VECTOR_LAYER_LABEL,
-    GEOJSON_LAYER_TYPE,
-
-} from './constants'
+import { SAN_FRANCISCO_BOUNDS } from './constants'
 
 
 /*
@@ -21,11 +13,10 @@ export const hashState = state => {
     
     const hashStateObject = {}
     if (Object.keys(state.mapEnabled).length) hashStateObject.mapEnabled = state.mapEnabled
-    if (state.narrative) hashStateObject.narrative = state.narrative
+    if (state.informationVisible) hashStateObject.informationVisible = state.informationVisible
     if (state.address) hashStateObject.address = state.address
     if (Object.keys(state.layerOpacity).length) hashStateObject.layerOpacity = state.layerOpacity
-    if (state.bounds) hashStateObject.bounds = state.bounds
-    if (Object.keys(state.featureSetsEnabled).length) hashStateObject.featureSetsEnabled = state.featureSetsEnabled
+    if (state.mapBounds) hashStateObject.mapBounds = state.mapBounds
     if (Object.keys(hashStateObject).length) return encodeURI(JSON.stringify(hashStateObject))
     else return ''
 
@@ -79,65 +70,41 @@ export const mapBounds = state => state.bounds || SAN_FRANCISCO_BOUNDS
 
 
 /*
-*   Returns the opacity of a given layer (keyed by source URL).
+*   Returns the opacity of a given layer.
 */
 
-export const layerOpacity = state => url => {
+export const layerOpacity = state => layerId => {
     
-    if (state.layerOpacity[url] !== undefined) {
-        return state.layerOpacity[url]
+    if (state.layerOpacity[layerId] !== undefined) {
+        return state.layerOpacity[layerId]
     } else return 1
 
 }
 
 
 /*
-*   Returns the raster layer for a map, if it exists.
+*   Returns the primary layers for a map.
 */
 
-export const rasterLayer = (state, getters) => map => map.raster_url ? {
+export const primaryLayers = (state, getters) => map => map.primary_layers.map(layer => ({
+    
+    label: layer.label,
+    ...state.sourceMapLayers[layer.layer],
 
-    map,
-    name: RASTER_LAYER_LABEL,
-    type: WMS_LAYER_TYPE,
-    url: map.raster_url,
-    opacity: getters.layerOpacity(map.raster_url)
-
-} : null
+}))
 
 
 /*
-*   Returns the vector layer for a map, if it exists.
+*   Returns the Photos & Drawings layers for a map, if they 
+*   exist.
 */
 
-export const vectorLayer = (state, getters) => map => map.vector_url ? {
+export const secondaryLayers = (state, getters) => map => {
 
-    map,
-    name: VECTOR_LAYER_LABEL,
-    type: GEOJSON_LAYER_TYPE,
-    url: map.vector_url,
-    geoJSON: state.geoJSON[map.vector_url],
-    opacity: getters.layerOpacity(map.vector_url),
+    return map.photos_and_drawings_layers ? map.photos_and_drawings_layers.map(layer => ({
 
-} : null
-
-
-/*
-*   Returns the feature sets (Photographs & Drawings) for a map,
-*   if they exist.
-*/
-
-export const featureSets = (state, getters) => map => {
-
-    return map.feature_urls ? map.feature_urls.map(feature => ({
-
-        map,
-        name: feature.title,
-        type: GEOJSON_LAYER_TYPE,
-        url: feature.url,
-        geoJSON: state.geoJSON[feature.url],
-        opacity: getters.layerOpacity(feature.url),
-        isFeatureSet: true,
+        label: layer.label,
+        ...state.sourceMapLayers[layer.layer],
 
     })) : []
 
@@ -145,39 +112,27 @@ export const featureSets = (state, getters) => map => {
 
 
 /*
-*   Returns whether the feature sets are enabled (checked) for a map.
+*   Returns all layers from all enabled maps.
 */
 
-export const featureSetsEnabled = state => map => {
-
-    const enabled = state.featureSetsEnabled[map.id]
-    if (enabled || enabled === false) return enabled
-    else return true
-
-}
-
-
-/*
-*   Returns all enabled layers for all maps.
-*/
-
-export const allMapLayers = (state, getters) => {
+export const allEnabledMapLayers = (state, getters) => {
 
     let layers = []
 
     for (let key in state.sourceMaps) {
+        
         const map = state.sourceMaps[key]
         if (getters.isMapEnabled(map)) layers = [
 
             ...layers,
-            getters.rasterLayer(map),
-            getters.vectorLayer(map),
-            ...getters.featureSets(map),
+            ...getters.primaryLayers(map).filter(layer => getters.layerOpacity(layer.id) !== 0),
+            ...getters.secondaryLayers(map).filter(layer => getters.layerOpacity(layer.id) !== 0),
 
         ]
+    
     }
     
-    return layers.filter(layer => layer !== null)
+    return layers
 
 }
 
@@ -197,7 +152,17 @@ export const vectorFeatureGroups = state => state.vectorFeatureGroups
 export const isFeatureVisible = (state, getters) => properties => true
 
 
+/*
+*   Returns the map given a map ID.
+*/
+
 export const sourceMapFromID = state => id => state.sourceMaps[id]
+
+
+/*
+*   Returns an array of all of the dates from dated maps.
+*/
+
 export const mapDates = state => {
 
     const dates = []
@@ -212,5 +177,9 @@ export const mapDates = state => {
 
 }
 
+
+/*
+*   Returns the current searched address.
+*/
 
 export const address = state => state.address

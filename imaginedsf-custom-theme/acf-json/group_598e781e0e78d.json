@@ -175,7 +175,7 @@
             "name": "popups_enabled",
             "type": "true_false",
             "instructions": "Choose whether features from this layer will show popups when clicked.",
-            "required": 1,
+            "required": 0,
             "conditional_logic": [
                 [
                     {
@@ -317,5 +317,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1502512333
+    "modified": 1502516630
 }

@@ -6,7 +6,7 @@ import {
 
     SAVE_DOWNLOADED_MAPS,
     SAVE_DOWNLOADED_MAP_LAYERS,
-    SAVE_GEOJSON,
+    SAVE_DOWNLOADED_GEOJSON,
     UPDATE_VECTOR_FEATURE_GROUPS
 
 } from './mutations'
@@ -87,7 +87,7 @@ export default {
         }
 
         const geoJSON = await response.json()
-        commit(SAVE_GEOJSON, { url, geoJSON })
+        commit(SAVE_DOWNLOADED_GEOJSON, { url, geoJSON })
         commit(UPDATE_VECTOR_FEATURE_GROUPS)
 
     }
