@@ -9,7 +9,8 @@ import Vue from 'vue'
 *   Mutation name constants.
 */
 
-export const SAVE_SOURCE_MAPS = 'SAVE_SOURCE_MAPS'
+export const SAVE_DOWNLOADED_MAPS = 'SAVE_DOWNLOADED_MAPS'
+export const SAVE_DOWNLOADED_MAP_LAYERS = 'SAVE_DOWNLOADED_MAP_LAYERS'
 export const APPLY_HASH_STATE = 'APPLY_HASH_STATE'
 export const TOGGLE_NARRATIVE = 'TOGGLE_NARRATIVE'
 export const TOGGLE_MAP_ENABLED = 'TOGGLE_MAP_ENABLED'
@@ -69,7 +70,14 @@ export default {
     *   Saves source maps to state.
     */
 
-    [SAVE_SOURCE_MAPS]: (state, sourceMaps) => state.sourceMaps = sourceMaps,
+    [SAVE_DOWNLOADED_MAPS]: (state, maps) => state.sourceMaps = maps,
+
+
+    /*
+    *   Saves source map layers to state.
+    */
+
+    [SAVE_DOWNLOADED_MAP_LAYERS]: (state, mapLayers) => state.sourceMapLayers = mapLayers,
 
 
     /*

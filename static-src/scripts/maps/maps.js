@@ -36,6 +36,7 @@ const initComponent = (el, Component) => {
         state: {
 
             sourceMaps: {},
+            sourceMapLayers: {},
             mapEnabled: {},
             narrative: null,
             address: null,

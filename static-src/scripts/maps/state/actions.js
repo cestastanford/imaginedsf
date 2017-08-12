@@ -2,7 +2,14 @@
 *   Imports
 */
 
-import { SAVE_SOURCE_MAPS, SAVE_GEOJSON, UPDATE_VECTOR_FEATURE_GROUPS } from './mutations'
+import {
+
+    SAVE_DOWNLOADED_MAPS,
+    SAVE_DOWNLOADED_MAP_LAYERS,
+    SAVE_GEOJSON,
+    UPDATE_VECTOR_FEATURE_GROUPS
+
+} from './mutations'
 
 
 /*
@@ -10,6 +17,7 @@ import { SAVE_SOURCE_MAPS, SAVE_GEOJSON, UPDATE_VECTOR_FEATURE_GROUPS } from './
 */
 
 export const REQUEST_MAPS = 'REQUEST_MAPS'
+const REQUEST_MAP_LAYERS = 'REQUEST_MAP_LAYERS'
 export const DOWNLOAD_GEOJSON = 'DOWNLOAD_GEOJSON'
 
 
@@ -19,7 +27,7 @@ export const DOWNLOAD_GEOJSON = 'DOWNLOAD_GEOJSON'
 
 export default { 
 
-    [REQUEST_MAPS]: async ({ commit }) => {
+    [REQUEST_MAPS]: async store => {
 
         const REQUEST_URL = document.documentElement.dataset.rootUrl + '/wp-json/imaginedsf/maps'
         const response = await fetch(REQUEST_URL)
@@ -28,7 +36,7 @@ export default {
         }
 
         const responseBody = await response.json()
-        const sourceMaps = {}
+        const maps = {}
         responseBody.forEach(responseObject => {
 
             const map = {
@@ -37,11 +45,37 @@ export default {
                 ...responseObject.fields,
             }
 
-            sourceMaps[map.id] = map
+            maps[map.id] = map
 
         })
 
-        commit(SAVE_SOURCE_MAPS, sourceMaps)
+        store.commit(SAVE_DOWNLOADED_MAPS, maps)
+        return store.dispatch(REQUEST_MAP_LAYERS)
+
+    },
+
+    [REQUEST_MAP_LAYERS]: async ({ commit }) => {
+
+        const REQUEST_URL = document.documentElement.dataset.rootUrl + '/wp-json/imaginedsf/map-layers'
+        const response = await fetch(REQUEST_URL)
+        if (!response.ok) {
+            throw new Error(`${response.status} ${response.statusText}`, response)
+        }
+
+        const responseBody = await response.json()
+        const mapLayers = {}
+        responseBody.forEach(responseObject => {
+
+            const mapLayer = {
+                id: responseObject.ID,
+                ...responseObject.fields,
+            }
+
+            mapLayers[mapLayer.id] = mapLayer
+
+        })
+
+        commit(SAVE_DOWNLOADED_MAP_LAYERS, mapLayers)
 
     },
 
