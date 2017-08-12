@@ -4,8 +4,9 @@ const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 //  Sets public asset resolve path based on environmental variable.
-let publicPath = 'wp-content/themes/imaginedsf-custom-theme/static/'
+let publicPath = ''
 if (process.env.NODE_ENV === 'production' && fs.existsSync('publicPath.prod.env')) {
+    publicPath = 'wp-content/themes/imaginedsf-custom-theme/static/'
     publicPath = fs.readFileSync('publicPath.prod.env', 'utf-8') + publicPath
 }
 
