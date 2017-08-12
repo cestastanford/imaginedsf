@@ -2,6 +2,7 @@
 <html lang="en" data-root-url="<?php echo get_home_url(); ?>">
     <head>
         <meta charset="utf-8">
+        <link rel="shortcut icon" href="<?php echo get_template_directory_uri() . '/images/favicon.png'; ?>" type="image/png">
         <?php wp_head(); ?>
     </head>
     <body>
