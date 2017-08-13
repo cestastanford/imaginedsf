@@ -117,18 +117,18 @@
                 },
                 {
                     "taxonomy": "isf_vector_feature_groups",
-                    "field_type": "select",
+                    "field_type": "multi_select",
                     "multiple": 0,
                     "allow_null": 0,
                     "return_format": "object",
                     "add_term": 1,
-                    "load_terms": 1,
-                    "save_terms": 1,
+                    "load_terms": 0,
+                    "save_terms": 0,
                     "key": "field_598e8031971ad",
                     "label": "Vector Feature Group",
                     "name": "group",
                     "type": "taxonomy",
-                    "instructions": "",
+                    "instructions": "Select the group to assign to this key\/value pair.  Use the sidebar to add\/remove groups.",
                     "required": 1,
                     "conditional_logic": 0,
                     "wrapper": {
@@ -317,5 +317,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1502516630
+    "modified": 1502584309
 }

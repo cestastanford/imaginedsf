@@ -39,7 +39,7 @@ const initComponent = (el, Component) => {
             sourceMapLayers: {},
             mapEnabled: {},
             layerOpacity: {},
-            informationVisible: null,
+            information: null,
             address: null,
             mapBounds: null,
             downloadedGeoJSON: {},

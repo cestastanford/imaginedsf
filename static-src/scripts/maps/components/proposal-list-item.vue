@@ -2,21 +2,21 @@
 
     <collapsible-list-item :collapsible="true" class="proposal-list-item">
         <span slot="parent-label" class="proposal-list-item-label">{{ map.title }}</span>
-        <a slot="parent-right" class="proposal-list-item-narrative-button" :class="{ active: narrativeVisible }" @click="toggleNarrative">𝒊</a>
+        <a slot="parent-right" class="proposal-list-item-narrative-button" :class="{ active: informationVisible }" @click="toggleInformationVisibility">𝒊</a>
         <input slot="parent-right" type="checkbox" :checked="mapEnabled" @click="toggleMapEnabled">
         <ul slot="contents" class="proposal-list-item-contents">
-            <collapsible-list-item v-for="layer in [ rasterLayer, vectorLayer ]" v-if="layer" key="layer.url">
-                <span slot="parent-label">{{ layer.name }}</span>
+            <collapsible-list-item v-for="layer in primaryLayers" key="layer.id">
+                <span slot="parent-label">{{ layer.label }}</span>
                 <input slot="parent-right" type="range" min="0" max="1" step="0.01" :disabled="!mapEnabled" :value="layer.opacity" @change="handleRangeChange($event, layer)">
                 <input slot="parent-right" type="checkbox" :disabled="!mapEnabled" :checked="layer.opacity > 0" @change="handleCheckboxChange($event, layer)">
             </collapsible-list-item>
-            <collapsible-list-item :collapsible="true" v-if="featureSets.length">
+            <collapsible-list-item :collapsible="true" v-if="secondaryLayers.length">
                 <span slot="parent-label">Photos &amp; Drawings</span>
-                <input slot="parent-right" type="checkbox" :disabled="!mapEnabled" v-model="featureSetsEnabled">
+                <input slot="parent-right" type="checkbox" :disabled="!mapEnabled" v-model="secondaryLayersEnabled" ref="secondaryLayersEnabled">
                 <ul slot="contents">
-                    <collapsible-list-item v-for="layer in featureSets" key="layer.url">
-                        <span slot="parent-label">{{ layer.name }}</span>
-                        <input slot="parent-right" type="checkbox" :disabled="!mapEnabled || !featureSetsEnabled" :checked="layer.opacity > 0" @change="handleCheckboxChange($event, layer)">
+                    <collapsible-list-item v-for="layer in secondaryLayers" key="layer.url">
+                        <span slot="parent-label">{{ layer.label }}</span>
+                        <input slot="parent-right" type="checkbox" :disabled="!mapEnabled" :checked="layer.opacity > 0" @change="handleCheckboxChange($event, layer)">
                     </collapsible-list-item>
                 </ul>
             </collapsible-list-item>
@@ -28,7 +28,7 @@
 
 import {
 
-    TOGGLE_NARRATIVE,
+    TOGGLE_INFORMATION_VISIBILITY,
     TOGGLE_MAP_ENABLED,
     SET_LAYER_OPACITY,
     SET_FEATURE_SETS_ENABLED,
@@ -45,21 +45,33 @@ const ProposalListItem = {
     computed: {
 
         mapEnabled() { return this.$store.getters.isMapEnabled(this.map) },
-        narrativeVisible() { return this.$store.getters.isNarrativeVisible(this.map) },
-        rasterLayer() { return this.$store.getters.rasterLayer(this.map) },
-        vectorLayer() { return this.$store.getters.vectorLayer(this.map) },
-        featureSets() { return this.$store.getters.featureSets(this.map) },
-        featureSetsEnabled: {
+        informationVisible() { return this.$store.getters.isInformationVisibleForMap(this.map) },
+        primaryLayers() { return this.$store.getters.primaryLayers(this.map) },
+        secondaryLayers() { return this.$store.getters.secondaryLayers(this.map) },
+        secondaryLayersEnabled: {
 
-            get() { return this.$store.getters.featureSetsEnabled(this.map) },
+            get() {
+                
+                let enabled = false
+                let indeterminate = false
+
+                for (var i = 0; i < this.secondaryLayers.length; i++) {
+                    if (this.$store.getters.layerOpacity(this.secondaryLayers[i].id)) enabled = true
+                    else indeterminate = true
+                }
+
+                const ref = this.$refs.secondaryLayersEnabled
+                if (ref) ref.indeterminate = enabled && indeterminate
+                return enabled
+
+            },
+
             set(checked) {
                 
-                this.$store.commit(SET_FEATURE_SETS_ENABLED, {
-
-                    map: this.map,
-                    enabled: checked,
-
-                })
+                this.$store.getters.secondaryLayers(this.map).forEach(layer => this.setOpacity({
+                    ...layer,
+                    opacity: (checked ? 1 : 0),
+                }))
 
             }
 
@@ -69,7 +81,7 @@ const ProposalListItem = {
 
     methods: {
 
-        toggleNarrative() { this.$store.commit(TOGGLE_NARRATIVE, this.map) },
+        toggleInformationVisibility() { this.$store.commit(TOGGLE_INFORMATION_VISIBILITY, this.map) },
         toggleMapEnabled() { this.$store.commit(TOGGLE_MAP_ENABLED, this.map) },
         setOpacity(layer) { this.$store.commit(SET_LAYER_OPACITY, layer) },
         handleRangeChange(event, layer) {

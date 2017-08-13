@@ -2,12 +2,15 @@
 *   Imports
 */
 
+import { WMS_LAYER_TYPE } from './constants'
 import {
 
     SAVE_DOWNLOADED_MAPS,
     SAVE_DOWNLOADED_MAP_LAYERS,
     SAVE_DOWNLOADED_GEOJSON,
-    UPDATE_VECTOR_FEATURE_GROUPS
+    UPDATE_VECTOR_FEATURE_GROUPS,
+    ENABLE_ONLY_THESE_MAPS,
+    SET_LAYER_OPACITY,
 
 } from './mutations'
 
@@ -19,6 +22,7 @@ import {
 export const REQUEST_MAPS = 'REQUEST_MAPS'
 const REQUEST_MAP_LAYERS = 'REQUEST_MAP_LAYERS'
 export const DOWNLOAD_GEOJSON = 'DOWNLOAD_GEOJSON'
+export const SET_MAP_VIEW = 'SET_MAP_VIEW'
 
 
 /*
@@ -27,8 +31,13 @@ export const DOWNLOAD_GEOJSON = 'DOWNLOAD_GEOJSON'
 
 export default { 
 
+    /*
+    *   Initiates download of map objects from CMS.
+    */
+
     [REQUEST_MAPS]: async store => {
 
+        await store.dispatch(REQUEST_MAP_LAYERS)
         const REQUEST_URL = document.documentElement.dataset.rootUrl + '/wp-json/imaginedsf/maps'
         const response = await fetch(REQUEST_URL)
         if (!response.ok) {
@@ -50,9 +59,13 @@ export default {
         })
 
         store.commit(SAVE_DOWNLOADED_MAPS, maps)
-        return store.dispatch(REQUEST_MAP_LAYERS)
 
     },
+
+
+    /*
+    *   Initiates download of map layer objects from CMS.
+    */
 
     [REQUEST_MAP_LAYERS]: async ({ commit }) => {
 
@@ -79,17 +92,48 @@ export default {
 
     },
 
-    [DOWNLOAD_GEOJSON]: async ({ commit }, url) => {
 
-        const response = await fetch(url)
+    /*
+    *   Downloads and caches GeoJSON for layers.
+    */
+
+    [DOWNLOAD_GEOJSON]: async ({ commit }, layer) => {
+
+        const response = await fetch(layer.wfs_url)
         if (!response.ok) {
             throw new Error(`${response.status} ${response.statusText}`, response)
         }
 
         const geoJSON = await response.json()
-        commit(SAVE_DOWNLOADED_GEOJSON, { url, geoJSON })
+        commit(SAVE_DOWNLOADED_GEOJSON, { layerId: layer.id, geoJSON })
         commit(UPDATE_VECTOR_FEATURE_GROUPS)
 
-    }
+    },
+
+
+    /*
+    *   Activates the passed map and its basemap.
+    */
+
+    [SET_MAP_VIEW]: ({ getters, commit }, map) => {
+
+        const mapsToEnable = [ map ]
+        
+        //  Checks for a linked basemap, setting its layer as visible if it exists
+        if (map.linked_basemap) {
+            const basemap = getters.sourceMapFromID(map.linked_basemap)
+            mapsToEnable.push(basemap)
+            commit(SET_LAYER_OPACITY, { ...getters.basemapLayer(basemap), opacity: 1 })
+        }
+
+        //  Sets all proposal map layers to visible
+        getters.primaryLayers(map).forEach(layer => commit(SET_LAYER_OPACITY, { ...layer, opacity: 1 }))
+        getters.secondaryLayers(map) &&
+            getters.secondaryLayers(map).forEach(layer => commit(SET_LAYER_OPACITY, { ...layer, opacity: 1 }))
+
+        //  Enables the proposal map and basemap, if it exists
+        commit(ENABLE_ONLY_THESE_MAPS, mapsToEnable)
+
+    },
 
 }

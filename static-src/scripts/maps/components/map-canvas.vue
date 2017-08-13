@@ -24,7 +24,7 @@ import ZoomControl from './zoom-control.vue'
 */
 
 import { WMS_LAYER_TYPE, GEOJSON_LAYER_TYPE, SAN_FRANCISCO_BOUNDS } from '../state/constants'
-import { SAVE_BOUNDS } from '../state/mutations'
+import { SAVE_MAP_BOUNDS } from '../state/mutations'
 import { DOWNLOAD_GEOJSON } from '../state/actions'
 import { RedMarker, getFeaturePopup } from './leaflet-components.js'
 
@@ -87,46 +87,48 @@ const bindLayerControls = (map, store) => {
         const updatedLeafletLayers = {}
         layers.forEach(layer => {
 
-            let leafletLayer
-            if (layer.type === WMS_LAYER_TYPE && leafletLayers[layer.url]) {
+            let leafletLayerToAdd
+            if (layer.source_type === WMS_LAYER_TYPE && leafletLayers[layer.id]) {
                     
                 //  If WMS layer is already on map
-                leafletLayers[layer.url].setOpacity(layer.opacity)
-                updatedLeafletLayers[layer.url] = leafletLayers[layer.url]
-                delete leafletLayers[layer.url]
+                leafletLayers[layer.id].setOpacity(layer.opacity)
+                updatedLeafletLayers[layer.id] = leafletLayers[layer.id]
+                delete leafletLayers[layer.id]
 
             } else {
 
                 const options = { opacity: layer.opacity }
-                switch (layer.type) {
+                switch (layer.source_type) {
 
                     case WMS_LAYER_TYPE:
-                        const { baseURL, wmsOptions } = parseWMSURL(layer.url)
-                        leafletLayer = new L.tileLayer.wms(baseURL, { ...options, ...wmsOptions })
+                        const { baseURL, wmsOptions } = parseWMSURL(layer.wms_url)
+                        leafletLayerToAdd = new L.tileLayer.wms(baseURL, { ...options, ...wmsOptions })
                         break
 
                     case GEOJSON_LAYER_TYPE:
                         
-                        if (leafletLayers[layer.url]) {
+                        if (leafletLayers[layer.id]) {
 
-                            map.removeLayer(leafletLayers[layer.url])
-                            delete leafletLayers[layer.url]
+                            map.removeLayer(leafletLayers[layer.id])
+                            delete leafletLayers[layer.id]
 
                         }
 
                         if (layer.geoJSON) {
                             
-                            leafletLayer = new L.geoJSON(layer.geoJSON, {
+                            leafletLayerToAdd = new L.geoJSON(layer.geoJSON, {
                                 filter: feature => store.getters.isFeatureVisible(layer, feature.properties),
                                 coordsToLatLng: (coords) => {
                                     const projectedCoordinate = new L.Point(coords[0], coords[1])
                                     return L.CRS.EPSG3857.unproject(projectedCoordinate)
                                 },
+
                                 pointToLayer: (point, latLng) => {
                                     const marker = new RedMarker(latLng)
                                     const popup = getFeaturePopup(layer, point)
                                     return marker.bindPopup(popup)
                                 },
+
                                 style: feature => {
                                     return {
                                         color: '#888',
@@ -136,20 +138,21 @@ const bindLayerControls = (map, store) => {
                                         fillOpacity: 0.2,
                                     }
                                 },
+
                                 onEachFeature: feature => {
 
                                 },
                             })
 
-                        } else store.dispatch(DOWNLOAD_GEOJSON, layer.url)
+                        } else store.dispatch(DOWNLOAD_GEOJSON, layer)
                         break
 
                 }
 
-                if (leafletLayer) {
+                if (leafletLayerToAdd) {
 
-                    map.addLayer(leafletLayer)
-                    updatedLeafletLayers[layer.url] = leafletLayer
+                    map.addLayer(leafletLayerToAdd)
+                    updatedLeafletLayers[layer.id] = leafletLayerToAdd
                 
                 }
 
@@ -163,16 +166,7 @@ const bindLayerControls = (map, store) => {
 
     }
     
-    const getter = (store, getters) => getters.allMapLayers.filter(layer => {
-
-        if (getters.layerOpacity(layer.url)) {
-            if (layer.isFeatureSet && !getters.featureSetsEnabled(layer.map)) return false
-            else return true
-        } else return false
-
-    })
-
-    store.watch(getter, updateLayers, { immediate: true })
+    store.watch((store, getters) => getters.allEnabledMapLayers, updateLayers, { immediate: true })
 
 }
 
@@ -198,7 +192,7 @@ const bindMapBounds = (map, store) => {
             [ bounds.getSouth(), bounds.getEast() ],
         ]
 
-        store.commit(SAVE_BOUNDS, boundsArray)
+        store.commit(SAVE_MAP_BOUNDS, boundsArray)
 
     })
 

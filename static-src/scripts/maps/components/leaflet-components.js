@@ -47,8 +47,8 @@ export const getFeaturePopup = (layer, feature) => {
     
     const popupContents = `
         <header>
-            <h3>${feature.id}</h3>
-            <h6>${layer.map.title}: ${layer.name}</h6>
+            <h3>${layer.label}</h3>
+            <h6>${layer.mapTitle}</h6>
         </header>
         <article>${JSON.stringify(feature.properties)}</article>
     `

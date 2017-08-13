@@ -12,14 +12,14 @@ import Vue from 'vue'
 export const SAVE_DOWNLOADED_MAPS = 'SAVE_DOWNLOADED_MAPS'
 export const SAVE_DOWNLOADED_MAP_LAYERS = 'SAVE_DOWNLOADED_MAP_LAYERS'
 export const APPLY_HASH_STATE = 'APPLY_HASH_STATE'
-export const TOGGLE_INFORMATION_VISIBLE = 'TOGGLE_INFORMATION_VISIBLE'
+export const TOGGLE_INFORMATION_VISIBILITY = 'TOGGLE_INFORMATION_VISIBILITY'
 export const TOGGLE_MAP_ENABLED = 'TOGGLE_MAP_ENABLED'
+export const ENABLE_ONLY_THESE_MAPS = 'ENABLE_ONLY_THESE_MAPS'
 export const SAVE_DOWNLOADED_GEOJSON = 'SAVE_DOWNLOADED_GEOJSON'
 export const UPDATE_VECTOR_FEATURE_GROUPS = 'UPDATE_VECTOR_FEATURE_GROUPS'
 export const SAVE_MAP_BOUNDS = 'SAVE_MAP_BOUNDS'
 export const SET_LAYER_OPACITY = 'SET_LAYER_OPACITY'
 export const SET_VECTOR_FEATURE_GROUP_STATUS = 'SET_VECTOR_FEATURE_GROUP_STATUS'
-export const SET_MAP_VIEW = 'SET_MAP_VIEW'
 export const SET_MAP_DATES = 'SET_MAP_DATES'
 export const SET_ADDRESS = 'SET_ADDRESS'
 export const SET_FEATURE_SETS_ENABLED = 'SET_FEATURE_SETS_ENABLED'
@@ -106,10 +106,10 @@ export default {
     *   Shows or hides a map's Information section.
     */
 
-    [TOGGLE_INFORMATION_VISIBLE]: (state, map) => {
+    [TOGGLE_INFORMATION_VISIBILITY]: (state, map) => {
 
-        if (state.informationVisible === map.id) state.informationVisible = null
-        else state.informationVisible = map.id
+        if (state.information === map.id) state.information = null
+        else state.information = map.id
 
     },
 
@@ -121,6 +121,19 @@ export default {
     [TOGGLE_MAP_ENABLED]: (state, map) => {
 
         state.mapEnabled = { ...state.mapEnabled, [map.id]: !state.mapEnabled[map.id] }
+
+    },
+
+
+    /*
+    *   Sets only these proposal maps / basemaps to be enabled.
+    */
+
+    [ENABLE_ONLY_THESE_MAPS]: (state, maps) => {
+
+        const enabledMaps = {}
+        maps.forEach(map => enabledMaps[map.id] = true)
+        state.mapEnabled = enabledMaps
 
     },
 
@@ -208,32 +221,6 @@ export default {
 
         if (layer.opacity === 1) Vue.delete(state.layerOpacity, layer.id)
         else Vue.set(state.layerOpacity, layer.id, layer.opacity)
-
-    },
-
-
-    /*
-    *   Activates the passed map and its basemap.
-    */
-
-    [SET_MAP_VIEW]: (state, map) => {
-
-        //  Enables the proposal map
-        state.mapEnabled = { [map.id]: true }
-
-        //  Enables the linked basemap, if present
-        if (map.linked_basemap) state.mapEnabled = { ...state.mapEnabled, [map.linked_basemap]: true }
-        
-        //  Hides all layers from the proposal map
-        map.primaryLayers.forEach(layer => state.layerOpacity[layer.id] = 0)
-        map.secondaryLayers && map.secondaryLayers.forEach(layer => state.layerOpacity[layer.id] = 0)
-        
-        //  Shows the first primary raster layer from the proposal map
-        const firstPrimaryRasterLayer = map.primaryLayers.filter(layer => state.sourceMapLayers[layer.id].source_type === WMS_LAYER_TYPE)[0]
-        Vue.delete(state.layerOpacity, firstPrimaryRasterLayer.id)
-
-        //  Shows the basemap layer
-        Vue.delete(state.layerOpacity, state.sourceMaps[map.linked_basemap].basemap_layer)
 
     },
 

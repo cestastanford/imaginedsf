@@ -2,7 +2,7 @@
 *   Imports
 */
 
-import { SAN_FRANCISCO_BOUNDS } from './constants'
+import { SAN_FRANCISCO_BOUNDS, PROPOSAL_MAP_TYPE, BASEMAP_TYPE } from './constants'
 
 
 /*
@@ -13,7 +13,7 @@ export const hashState = state => {
     
     const hashStateObject = {}
     if (Object.keys(state.mapEnabled).length) hashStateObject.mapEnabled = state.mapEnabled
-    if (state.informationVisible) hashStateObject.informationVisible = state.informationVisible
+    if (state.information) hashStateObject.information = state.information
     if (state.address) hashStateObject.address = state.address
     if (Object.keys(state.layerOpacity).length) hashStateObject.layerOpacity = state.layerOpacity
     if (state.mapBounds) hashStateObject.mapBounds = state.mapBounds
@@ -52,14 +52,14 @@ export const isMapEnabled = state => map => state.mapEnabled[map.id]
 *   Returns whether the narrative for a given map is visible.
 */
 
-export const isNarrativeVisible = state => map => state.narrative === map.id
+export const isInformationVisibleForMap = state => map => state.information === map.id
 
 
 /*
 *   Returns the map for which the narrative is visible.
 */
 
-export const visibleNarrative = state => state.sourceMaps[state.narrative]
+export const mapWithVisibleInformation = state => state.sourceMaps[state.information]
 
 
 /*
@@ -83,15 +83,29 @@ export const layerOpacity = state => layerId => {
 
 
 /*
+*   Given a label and a layer ID, returns the layer object with
+*   the layer opacity and the layer GeoJSON (if applicable)
+*   merged in.
+*/
+
+export const layerObject = (state, getters) => id => ({
+
+    opacity: getters.layerOpacity(id),
+    geoJSON: state.downloadedGeoJSON[id],
+    ...state.sourceMapLayers[id],
+
+})
+
+
+/*
 *   Returns the primary layers for a map.
 */
 
-export const primaryLayers = (state, getters) => map => map.primary_layers.map(layer => ({
-    
-    label: layer.label,
-    ...state.sourceMapLayers[layer.layer],
+export const primaryLayers = (state, getters) => map => {
 
-}))
+    return map.primary_layers.map(({ layer, label }) => ({ ...getters.layerObject(layer), label, mapTitle: map.title }))
+
+}
 
 
 /*
@@ -101,14 +115,18 @@ export const primaryLayers = (state, getters) => map => map.primary_layers.map(l
 
 export const secondaryLayers = (state, getters) => map => {
 
-    return map.photos_and_drawings_layers ? map.photos_and_drawings_layers.map(layer => ({
-
-        label: layer.label,
-        ...state.sourceMapLayers[layer.layer],
-
-    })) : []
+    return map.photos_and_drawings_layers
+    ? map.photos_and_drawings_layers.map(({ layer, label }) => ({ ...getters.layerObject(layer), label, mapTitle: map.title }))
+    : []
 
 }
+
+
+/*
+*   Retrieves the single layer for a basemap.
+*/
+
+export const basemapLayer = (state, getters) => map => ({ ...getters.layerObject(map.basemap_layer), label: '', mapTitle: map.title })
 
 
 /*
@@ -117,22 +135,21 @@ export const secondaryLayers = (state, getters) => map => {
 
 export const allEnabledMapLayers = (state, getters) => {
 
-    let layers = []
+    const proposalMaps = getters.allMapsOfType(PROPOSAL_MAP_TYPE).filter(map => state.mapEnabled[map.id])
+    const basemaps = getters.allMapsOfType(BASEMAP_TYPE).filter(map => state.mapEnabled[map.id])
+    return [
 
-    for (let key in state.sourceMaps) {
-        
-        const map = state.sourceMaps[key]
-        if (getters.isMapEnabled(map)) layers = [
+        ...proposalMaps.reduce((accum, next) => ([
 
-            ...layers,
-            ...getters.primaryLayers(map).filter(layer => getters.layerOpacity(layer.id) !== 0),
-            ...getters.secondaryLayers(map).filter(layer => getters.layerOpacity(layer.id) !== 0),
+            ...accum,
+            ...getters.primaryLayers(next),
+            ...getters.secondaryLayers(next),
 
-        ]
-    
-    }
-    
-    return layers
+        ]), []),
+
+        ...basemaps.map(basemap => getters.basemapLayer(basemap)),
+
+    ]
 
 }
 

@@ -6,36 +6,36 @@
                 <span class="narrative-button">𝒊</span>
                 <span>Map Information</span>
             </div>
-            <h1>{{ visibleNarrative.title }}</h1>
-            <a class="narrative-set-view-button" v-if="visibleNarrative.linked_basemap" @click="setView">view with the "{{ linkedBasemapTitle }}" basemap</a>
+            <h1>{{ mapWithVisibleInformation.title }}</h1>
+            <a class="narrative-set-view-button" v-if="mapWithVisibleInformation.linked_basemap" @click="setView">view with the "{{ linkedBasemapTitle }}" basemap</a>
         </header>
-        <main v-html="visibleNarrative.information"></main>
+        <main v-html="mapWithVisibleInformation.information"></main>
     </article>
 
 </template>
 <script>
 
-import { SET_MAP_VIEW } from '../state/mutations'
+import { SET_MAP_VIEW } from '../state/actions'
 
-const Narrative = {
+const Information = {
 
-    name: 'narrative',
-    props: [ 'visibleNarrative' ],
+    name: 'information',
+    props: [ 'mapWithVisibleInformation' ],
     computed: {
         
-        linkedBasemapTitle() { return this.$store.getters.sourceMapFromID(this.visibleNarrative.linked_basemap).title },
+        linkedBasemapTitle() { return this.$store.getters.sourceMapFromID(this.mapWithVisibleInformation.linked_basemap).title },
     
     },
 
     methods: {
 
-        setView() { this.$store.commit(SET_MAP_VIEW, this.visibleNarrative) },
+        setView() { this.$store.dispatch(SET_MAP_VIEW, this.mapWithVisibleInformation) },
 
     }
 
 }
 
-export default Narrative
+export default Information
 
 </script>
 <style lang="sass">

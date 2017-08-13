@@ -2,15 +2,15 @@
 
     <collapsible-list-item class="basemap-list-item">
         <span slot="parent-label" class="basemap-list-item-label">{{ map.title }}</span>
-        <a slot="parent-right" class="basemap-list-item-narrative-button" :class="{ active: narrativeVisible }" @click="toggleNarrative">𝒊</a>
-        <input slot="parent-right" type="range" min="0" max="1" step="0.01" :value="rasterLayer.opacity" @change="handleRangeChange($event, rasterLayer)" :disabled="!mapEnabled">
+        <a slot="parent-right" class="basemap-list-item-narrative-button" :class="{ active: informationVisible }" @click="toggleInformationVisibility">𝒊</a>
+        <input slot="parent-right" type="range" min="0" max="1" step="0.01" :value="basemapLayer.opacity" @change="handleRangeChange($event, basemapLayer)" :disabled="!mapEnabled">
         <input slot="parent-right" type="checkbox" v-model="mapEnabled">
     </collapsible-list-item>
 
 </template>
 <script>
 
-import { TOGGLE_NARRATIVE, TOGGLE_MAP_ENABLED, SET_LAYER_OPACITY } from '../state/mutations'
+import { TOGGLE_INFORMATION_VISIBILITY, TOGGLE_MAP_ENABLED, SET_LAYER_OPACITY } from '../state/mutations'
 import CollapsibleListItem from './collapsible-list-item.vue'
 
 const BasemapListItem = {
@@ -27,14 +27,14 @@ const BasemapListItem = {
         
         },
 
-        narrativeVisible() { return this.$store.getters.isNarrativeVisible(this.map) },
-        rasterLayer() { return this.$store.getters.rasterLayer(this.map) },
+        informationVisible() { return this.$store.getters.isInformationVisibleForMap(this.map) },
+        basemapLayer() { return this.$store.getters.basemapLayer(this.map) },
 
     },
 
     methods: {
 
-        toggleNarrative() { this.$store.commit(TOGGLE_NARRATIVE, this.map) },
+        toggleInformationVisibility() { this.$store.commit(TOGGLE_INFORMATION_VISIBILITY, this.map) },
         setOpacity(layer) { this.$store.commit(SET_LAYER_OPACITY, layer) },
         handleRangeChange(event, layer) {
             
