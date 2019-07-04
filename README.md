@@ -1,24 +1,26 @@
 # Imagined San Francisco
 
-This is the repository for the WordPress-based Imagined San Francisco site.  Check out DEVELOP.md for instructions on contributing!
+This is the repository for the WordPress-based Imagined San Francisco site.
 
 ## Steps for Development Environment Setup
 
-1.  With npm installed, run `npm i && npm run dev-watch`.
-2.  With Docker installed, run `docker-compose up`.
-3.  Install the Advanced Custom Fields Pro plugin and activate it.
-4.  Activate the Imagined San Francisco Custom Theme.
-5.  Create the site pages and menus as described in `pages-menus.md`, or apply a site SQL dump.
-6.  Visit the Settings -> Permalinks page to flush the Permalink rules.
-7.  Visit `http://localhost:12345`!
+1. Install [Node/NPM](https://nodejs.org/en/) and [Docker Desktop](https://www.docker.com/products/docker-desktop).
+2.  Open a shell and run `npm install` to install front-end dependencies.  Once it's done, run `npm run dev-watch` to start the development front-end asset bundler.  Leave this process running in its shell.
+3.  Open another shell and run `docker-compose up` to start the development WordPress server.  Leave this process runnung in its shell.
+4.  Get the Advanced Custom Fields PRO plugin, unzip it, and move it to `dev-env/wordpress/wp-content/plugins`.
+5.  Set up a development database.  Get a SQL database dump of the site's WordPress content, make sure it's named `db.sql`, and place it in `dev-env/dumps`.  Then, in a new shell, run the following command:
+```shell
+cp setup-dev-db.sql dev-env/dumps/setup-dev-db.sql && \
+    docker-compose exec mysql sh -c "mysql -u wordpress -pwordpress wordpress < /dumps/db.sql" && \
+    docker-compose exec mysql sh -c "mysql -u wordpress -pwordpress wordpress < /dumps/setup-dev-db.sql" && \
+    rm dev-env/dumps/setup-dev-db.sql
+```
+6.  Visit [http://localhost:12345](http://localhost:12345)!  To log into the admin panel, visit [http://localhost:12345/wp-admin](http://localhost:12345/wp-admin) and use the username `dev` and password `dev`.
 
 ## Steps for Deployment
 
-1.  With npm installed, run `npm i && npm run prod-build`.
-2.  Install the Advanced Custom Fields Pro plugin and activate it.
-3.  Install and activate the `./imaginedsf-custom-theme` theme.
-4.  Create the site pages and menus as described in `pages-menus.md`, or apply a site SQL dump.
-5.  Visit the Settings -> Permalinks page to flush the Permalink rules.
+1.  Assuming you've followed the above instructions to set up a development environment, ctrl-C out of any `dev-watch` you have running and run `npm run prod-build`.
+2.  When that's done, using FTP or WordPress's theme manager, install your local `imaginedsf-custom-theme` as the active WordPress theme for the site.
 
 ## Menus & Pages
 
