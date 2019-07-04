@@ -3,7 +3,7 @@ version: '2'
 services:
   
   wordpress:
-    image: wordpress
+    image: wordpress:4.8
     environment:
      - WORDPRESS_DB_HOST=mysql
      - WORDPRESS_DB_USER=wordpress
