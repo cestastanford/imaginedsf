@@ -3,17 +3,6 @@
     "title": "Map Layers",
     "fields": [
         {
-            "multiple": 0,
-            "allow_null": 0,
-            "choices": {
-                "wms_png": "WMS\/PNG",
-                "wfs_geojson": "WFS\/GeoJSON"
-            },
-            "default_value": [],
-            "ui": 0,
-            "ajax": 0,
-            "placeholder": "",
-            "return_format": "value",
             "key": "field_598e78513ac38",
             "label": "Source Type",
             "name": "source_type",
@@ -25,11 +14,20 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            }
+            },
+            "multiple": 0,
+            "allow_null": 0,
+            "choices": {
+                "wms_png": "WMS\/PNG",
+                "wfs_geojson": "WFS\/GeoJSON"
+            },
+            "default_value": [],
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "return_format": "value"
         },
         {
-            "default_value": "",
-            "placeholder": "",
             "key": "field_598e78963ac39",
             "label": "WMS URL",
             "name": "wms_url",
@@ -49,11 +47,11 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            }
+            },
+            "default_value": "",
+            "placeholder": ""
         },
         {
-            "default_value": "",
-            "placeholder": "",
             "key": "field_598e7b0a3ac3a",
             "label": "GeoJSON URL",
             "name": "wfs_url",
@@ -73,76 +71,11 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            }
+            },
+            "default_value": "",
+            "placeholder": ""
         },
         {
-            "sub_fields": [
-                {
-                    "default_value": "",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "key": "field_598e7fe1971ab",
-                    "label": "Key",
-                    "name": "key",
-                    "type": "text",
-                    "instructions": "Enter the property key as it appears in the GeoJSON 'properties' object.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    }
-                },
-                {
-                    "default_value": "",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "key": "field_598e800c971ac",
-                    "label": "Value",
-                    "name": "value",
-                    "type": "text",
-                    "instructions": "Enter the property value as it appears in the GeoJSON 'properties' object.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    }
-                },
-                {
-                    "taxonomy": "isf_vector_feature_groups",
-                    "field_type": "multi_select",
-                    "multiple": 0,
-                    "allow_null": 0,
-                    "return_format": "object",
-                    "add_term": 1,
-                    "load_terms": 0,
-                    "save_terms": 0,
-                    "key": "field_598e8031971ad",
-                    "label": "Vector Feature Group",
-                    "name": "group",
-                    "type": "taxonomy",
-                    "instructions": "Select the group to assign to this key\/value pair.  Use the sidebar to add\/remove groups.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    }
-                }
-            ],
-            "min": 0,
-            "max": 0,
-            "layout": "table",
-            "button_label": "Add Group",
-            "collapsed": "field_598e8031971ad",
             "key": "field_598e7b7a3ac3b",
             "label": "Vector Feature Groups",
             "name": "vector_feature_groups",
@@ -162,14 +95,76 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            }
+            },
+            "min": 0,
+            "max": 0,
+            "layout": "table",
+            "button_label": "Add Group",
+            "collapsed": "field_598e8031971ad",
+            "sub_fields": [
+                {
+                    "key": "field_598e7fe1971ab",
+                    "label": "Key",
+                    "name": "key",
+                    "type": "text",
+                    "instructions": "Enter the property key as it appears in the GeoJSON 'properties' object.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_598e800c971ac",
+                    "label": "Value",
+                    "name": "value",
+                    "type": "text",
+                    "instructions": "Enter the property value as it appears in the GeoJSON 'properties' object.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_598e8031971ad",
+                    "label": "Vector Feature Group",
+                    "name": "group",
+                    "type": "taxonomy",
+                    "instructions": "Select the group to assign to this key\/value pair.  Use the sidebar to add\/remove groups.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "taxonomy": "isf_vector_feature_groups",
+                    "field_type": "multi_select",
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "return_format": "object",
+                    "add_term": 1,
+                    "load_terms": 0,
+                    "save_terms": 0
+                }
+            ]
         },
         {
-            "default_value": 0,
-            "message": "",
-            "ui": 0,
-            "ui_on_text": "",
-            "ui_off_text": "",
             "key": "field_598e83aff631b",
             "label": "Popups Enabled",
             "name": "popups_enabled",
@@ -189,79 +184,14 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            }
+            },
+            "default_value": 0,
+            "message": "",
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
         },
         {
-            "sub_fields": [
-                {
-                    "multiple": 0,
-                    "allow_null": 0,
-                    "choices": {
-                        "text": "Text",
-                        "image": "Image"
-                    },
-                    "default_value": [],
-                    "ui": 0,
-                    "ajax": 0,
-                    "placeholder": "",
-                    "return_format": "value",
-                    "key": "field_598e83e0f631c",
-                    "label": "Type",
-                    "name": "type",
-                    "type": "select",
-                    "instructions": "Choose whether this data element will be text or an image.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    }
-                },
-                {
-                    "default_value": "",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "key": "field_598e841bf631d",
-                    "label": "Data Label",
-                    "name": "label",
-                    "type": "text",
-                    "instructions": "Enter an optional label to describe this data element.",
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    }
-                },
-                {
-                    "default_value": "",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "key": "field_598e844ff631e",
-                    "label": "Data Source Field",
-                    "name": "source_field",
-                    "type": "text",
-                    "instructions": "Enter the key for the field containing the text or image URL as it appears in the GeoJSON 'properties' object.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    }
-                }
-            ],
-            "min": 1,
-            "max": 0,
-            "layout": "table",
-            "button_label": "",
-            "collapsed": "",
             "key": "field_598e8370f631a",
             "label": "Popup Contents",
             "name": "popup_contents",
@@ -281,7 +211,77 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            }
+            },
+            "min": 1,
+            "max": 0,
+            "layout": "table",
+            "button_label": "",
+            "collapsed": "",
+            "sub_fields": [
+                {
+                    "key": "field_598e83e0f631c",
+                    "label": "Type",
+                    "name": "type",
+                    "type": "select",
+                    "instructions": "Choose whether this data element will be text or an image.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "choices": {
+                        "text": "Text",
+                        "image": "Image"
+                    },
+                    "default_value": [],
+                    "ui": 0,
+                    "ajax": 0,
+                    "placeholder": "",
+                    "return_format": "value"
+                },
+                {
+                    "key": "field_598e841bf631d",
+                    "label": "Data Label",
+                    "name": "label",
+                    "type": "text",
+                    "instructions": "Enter an optional label to describe this data element.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_598e844ff631e",
+                    "label": "Data Source Field",
+                    "name": "source_field",
+                    "type": "text",
+                    "instructions": "Enter the key for the field containing the text or image URL as it appears in the GeoJSON 'properties' object.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                }
+            ]
         }
     ],
     "location": [
@@ -317,5 +317,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1502584309
+    "modified": 1562970856
 }
