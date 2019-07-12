@@ -3,17 +3,6 @@
     "title": "Maps",
     "fields": [
         {
-            "multiple": 0,
-            "allow_null": 0,
-            "choices": {
-                "proposal": "Proposal Map",
-                "basemap": "Basemap"
-            },
-            "default_value": [],
-            "ui": 0,
-            "ajax": 0,
-            "placeholder": "",
-            "return_format": "value",
             "key": "field_5914a88975675",
             "label": "Map Type",
             "name": "map_type",
@@ -25,17 +14,20 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            }
+            },
+            "multiple": 0,
+            "allow_null": 0,
+            "choices": {
+                "proposal": "Proposal Map",
+                "basemap": "Basemap"
+            },
+            "default_value": [],
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "return_format": "value"
         },
         {
-            "post_type": [
-                "isf_map_layer"
-            ],
-            "taxonomy": [],
-            "allow_null": 0,
-            "multiple": 0,
-            "return_format": "id",
-            "ui": 1,
             "key": "field_598e769594d69",
             "label": "Basemap Layer",
             "name": "basemap_layer",
@@ -55,57 +47,17 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            }
+            },
+            "post_type": [
+                "isf_map_layer"
+            ],
+            "taxonomy": [],
+            "allow_null": 0,
+            "multiple": 0,
+            "return_format": "id",
+            "ui": 1
         },
         {
-            "sub_fields": [
-                {
-                    "post_type": [
-                        "isf_map_layer"
-                    ],
-                    "taxonomy": [],
-                    "allow_null": 0,
-                    "multiple": 0,
-                    "return_format": "id",
-                    "ui": 1,
-                    "key": "field_598e773e94d6a",
-                    "label": "Layer",
-                    "name": "layer",
-                    "type": "post_object",
-                    "instructions": "Select a map layer.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    }
-                },
-                {
-                    "default_value": "",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "key": "field_598e776d94d6b",
-                    "label": "Label",
-                    "name": "label",
-                    "type": "text",
-                    "instructions": "Enter a label for this map layer in this proposal map.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    }
-                }
-            ],
-            "min": 1,
-            "max": 0,
-            "layout": "table",
-            "button_label": "Add Layer",
-            "collapsed": "field_598e776d94d6b",
             "key": "field_5914a94975676",
             "label": "Primary Layers",
             "name": "primary_layers",
@@ -125,20 +77,15 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            }
-        },
-        {
+            },
+            "min": 1,
+            "max": 0,
+            "layout": "table",
+            "button_label": "Add Layer",
+            "collapsed": "field_598e776d94d6b",
             "sub_fields": [
                 {
-                    "post_type": [
-                        "isf_map_layer"
-                    ],
-                    "taxonomy": [],
-                    "allow_null": 0,
-                    "multiple": 0,
-                    "return_format": "id",
-                    "ui": 1,
-                    "key": "field_598e77d294d6d",
+                    "key": "field_598e773e94d6a",
                     "label": "Layer",
                     "name": "layer",
                     "type": "post_object",
@@ -149,15 +96,18 @@
                         "width": "",
                         "class": "",
                         "id": ""
-                    }
+                    },
+                    "post_type": [
+                        "isf_map_layer"
+                    ],
+                    "taxonomy": [],
+                    "allow_null": 0,
+                    "multiple": 0,
+                    "return_format": "id",
+                    "ui": 1
                 },
                 {
-                    "default_value": "",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "key": "field_598e77d294d6e",
+                    "key": "field_598e776d94d6b",
                     "label": "Label",
                     "name": "label",
                     "type": "text",
@@ -168,14 +118,16 @@
                         "width": "",
                         "class": "",
                         "id": ""
-                    }
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
                 }
-            ],
-            "min": 0,
-            "max": 0,
-            "layout": "table",
-            "button_label": "Add Layer",
-            "collapsed": "",
+            ]
+        },
+        {
             "key": "field_598e77d294d6c",
             "label": "Photos & Drawings Layers",
             "name": "photos_and_drawings_layers",
@@ -195,17 +147,57 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            }
+            },
+            "min": 0,
+            "max": 0,
+            "layout": "table",
+            "button_label": "Add Layer",
+            "collapsed": "",
+            "sub_fields": [
+                {
+                    "key": "field_598e77d294d6d",
+                    "label": "Layer",
+                    "name": "layer",
+                    "type": "post_object",
+                    "instructions": "Select a map layer.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "post_type": [
+                        "isf_map_layer"
+                    ],
+                    "taxonomy": [],
+                    "allow_null": 0,
+                    "multiple": 0,
+                    "return_format": "id",
+                    "ui": 1
+                },
+                {
+                    "key": "field_598e77d294d6e",
+                    "label": "Label",
+                    "name": "label",
+                    "type": "text",
+                    "instructions": "Enter a label for this map layer in this proposal map.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                }
+            ]
         },
         {
-            "post_type": [
-                "isf_map"
-            ],
-            "taxonomy": [],
-            "allow_null": 0,
-            "multiple": 0,
-            "return_format": "id",
-            "ui": 1,
             "key": "field_5914aa617567b",
             "label": "Linked Basemap",
             "name": "linked_basemap",
@@ -225,16 +217,17 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            }
+            },
+            "post_type": [
+                "isf_map"
+            ],
+            "taxonomy": [],
+            "allow_null": 0,
+            "multiple": 0,
+            "return_format": "id",
+            "ui": 1
         },
         {
-            "default_value": "",
-            "min": "",
-            "max": "",
-            "step": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
             "key": "field_5923b540c380d",
             "label": "Map Year",
             "name": "year",
@@ -246,14 +239,16 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            }
+            },
+            "default_value": "",
+            "min": "",
+            "max": "",
+            "step": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         },
         {
-            "tabs": "all",
-            "toolbar": "full",
-            "media_upload": 1,
-            "default_value": "",
-            "delay": 0,
             "key": "field_5914aafc7567c",
             "label": "Map Information",
             "name": "information",
@@ -265,7 +260,12 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            }
+            },
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "default_value": "",
+            "delay": 0
         }
     ],
     "location": [
@@ -300,5 +300,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1502578160
+    "modified": 1562970858
 }

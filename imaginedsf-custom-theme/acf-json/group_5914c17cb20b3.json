@@ -3,8 +3,20 @@
     "title": "Homepage",
     "fields": [
         {
+            "key": "field_5914c1870a545",
+            "label": "Demo Slideshow Images",
+            "name": "demo_slideshow_images",
+            "type": "gallery",
+            "instructions": "Add the images for the demo slideshow.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "library": "all",
-            "min": 1,
+            "min": "",
             "max": "",
             "min_width": "",
             "min_height": "",
@@ -13,19 +25,7 @@
             "max_height": "",
             "max_size": "",
             "mime_types": "",
-            "insert": "append",
-            "key": "field_5914c1870a545",
-            "label": "Demo Slideshow Images",
-            "name": "demo_slideshow_images",
-            "type": "gallery",
-            "instructions": "Add the images for the demo slideshow.",
-            "required": 1,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            }
+            "insert": "append"
         }
     ],
     "location": [
@@ -60,5 +60,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1494555561
+    "modified": 1562970851
 }
