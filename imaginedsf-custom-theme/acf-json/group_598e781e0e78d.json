@@ -15,17 +15,18 @@
                 "class": "",
                 "id": ""
             },
-            "multiple": 0,
-            "allow_null": 0,
             "choices": {
                 "wms_png": "WMS\/PNG",
-                "wfs_geojson": "WFS\/GeoJSON"
+                "wfs_geojson": "WFS\/GeoJSON",
+                "tiles": "Raster Tiles"
             },
             "default_value": [],
+            "allow_null": 0,
+            "multiple": 0,
             "ui": 0,
             "ajax": 0,
-            "placeholder": "",
-            "return_format": "value"
+            "return_format": "value",
+            "placeholder": ""
         },
         {
             "key": "field_598e78963ac39",
@@ -282,6 +283,30 @@
                     "append": ""
                 }
             ]
+        },
+        {
+            "key": "field_5d2cf24492072",
+            "label": "Tile URL",
+            "name": "tile_url",
+            "type": "url",
+            "instructions": "Enter the URL that raster tiles can be accessed at.  For formatting instructions, see Leaflet's URL template syntax: https:\/\/leafletjs.com\/reference-1.5.0.html#tilelayer .  Example:\r\n\r\nhttps:\/\/{s}.tile.openstreetmap.org\/{z}\/{x}\/{y}.png",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_598e78513ac38",
+                        "operator": "==",
+                        "value": "tiles"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": ""
         }
     ],
     "location": [
@@ -317,5 +342,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1562970856
+    "modified": 1563226821
 }

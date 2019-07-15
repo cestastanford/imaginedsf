@@ -12,6 +12,7 @@ export const BASEMAP_TYPE = 'basemap'
 
 export const WMS_LAYER_TYPE = 'wms_png'
 export const GEOJSON_LAYER_TYPE = 'wfs_geojson'
+export const TILE_LAYER_TYPE = 'tiles'
 
 
 /*

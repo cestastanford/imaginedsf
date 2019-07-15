@@ -1,11 +1,11 @@
 <template>
-    
+
     <collapsible-container title='Basemaps'>
         <ul>
             <basemap-list-item
                 v-for="map in basemaps"
                 :map="map"
-                key="map.id">
+                :key="map.id">
             </basemap-list-item>
         </ul>
     </collapsible-container>
