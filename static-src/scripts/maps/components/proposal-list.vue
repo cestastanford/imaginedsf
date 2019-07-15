@@ -1,11 +1,11 @@
 <template>
-    
+
     <collapsible-container title='Proposal Maps'>
         <ul>
             <proposal-list-item
                 v-for="map in proposalMaps"
                 :map="map"
-                key="map.id">
+                :key="map.id">
             </proposal-list-item>
         </ul>
     </collapsible-container>

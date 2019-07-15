@@ -23,7 +23,12 @@ import ZoomControl from './zoom-control.vue'
 *   Imports layer type and action name constants.
 */
 
-import { WMS_LAYER_TYPE, GEOJSON_LAYER_TYPE, SAN_FRANCISCO_BOUNDS } from '../state/constants'
+import {
+    WMS_LAYER_TYPE,
+    GEOJSON_LAYER_TYPE,
+    SAN_FRANCISCO_BOUNDS,
+    TILE_LAYER_TYPE,
+} from '../state/constants'
 import { SAVE_MAP_BOUNDS } from '../state/mutations'
 import { DOWNLOAD_GEOJSON } from '../state/actions'
 import { RedMarker, getFeaturePopup } from './leaflet-components.js'
@@ -57,7 +62,7 @@ L.Icon.Default.mergeOptions({
 const parseWMSURL = url => {
 
     const baseURL = url.match(/^.*wms\?/)[0]
-    
+
     let regexp = /(?:wms\?|&)([^&=]+)=([^&=]*)/g
     let result = null
     let wmsOptions = { transparent: true, format: 'image/png' }
@@ -88,9 +93,12 @@ const bindLayerControls = (map, store) => {
         layers.forEach(layer => {
 
             let leafletLayerToAdd
-            if (layer.source_type === WMS_LAYER_TYPE && leafletLayers[layer.id]) {
-                    
-                //  If WMS layer is already on map
+            if (
+                (layer.source_type === WMS_LAYER_TYPE || layer.source_type === TILE_LAYER_TYPE)
+                && leafletLayers[layer.id]
+            ) {
+
+                //  If WMS or tile layer is already on map
                 leafletLayers[layer.id].setOpacity(layer.opacity)
                 updatedLeafletLayers[layer.id] = leafletLayers[layer.id]
                 delete leafletLayers[layer.id]
@@ -106,7 +114,7 @@ const bindLayerControls = (map, store) => {
                         break
 
                     case GEOJSON_LAYER_TYPE:
-                        
+
                         if (leafletLayers[layer.id]) {
 
                             map.removeLayer(leafletLayers[layer.id])
@@ -115,7 +123,7 @@ const bindLayerControls = (map, store) => {
                         }
 
                         if (layer.geoJSON) {
-                            
+
                             leafletLayerToAdd = new L.geoJSON(layer.geoJSON, {
                                 filter: feature => store.getters.isFeatureVisible(layer, feature.properties),
                                 coordsToLatLng: (coords) => {
@@ -147,13 +155,17 @@ const bindLayerControls = (map, store) => {
                         } else store.dispatch(DOWNLOAD_GEOJSON, layer)
                         break
 
+                    case TILE_LAYER_TYPE:
+                        leafletLayerToAdd = new L.tileLayer(layer.tile_url, options)
+                        break
+
                 }
 
                 if (leafletLayerToAdd) {
 
                     map.addLayer(leafletLayerToAdd)
                     updatedLeafletLayers[layer.id] = leafletLayerToAdd
-                
+
                 }
 
             }
@@ -165,7 +177,7 @@ const bindLayerControls = (map, store) => {
         leafletLayers = updatedLeafletLayers
 
     }
-    
+
     store.watch((store, getters) => getters.allEnabledMapLayers, updateLayers, { immediate: true })
 
 }
@@ -212,16 +224,16 @@ const MapCanvas = {
         mapDates() { return this.$store.getters.mapDates },
     },
     mounted() {
-        
+
         this.map = new L.Map('map', {
-            
+
             zoomControl: false,
             attributionControl: false,
             scrollWheelZoom: false,
             maxBounds: SAN_FRANCISCO_BOUNDS,
-        
+
         })
-        
+
         this.map.setMinZoom(this.map.getBoundsZoom(SAN_FRANCISCO_BOUNDS))
         this.map.fitBounds(this.$store.getters.mapBounds)
         bindLayerControls(this.map, this.$store)
@@ -263,13 +275,13 @@ export default MapCanvas
         }
 
         #map {
-            
+
             box-shadow: inset 0 0 10px $medium-light-grey;
             border-radius: 3px;
             z-index: 1;
 
             .custom-marker-icon {
-                
+
                 font-size: 45px;
                 text-shadow: 0 0 2px $white, 0 5px 5px $medium-grey;
 
