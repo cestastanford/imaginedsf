@@ -3,7 +3,7 @@
     <collapsible-list-item class="basemap-list-item">
         <span slot="parent-label" class="basemap-list-item-label">{{ map.title }}</span>
         <a slot="parent-right" class="basemap-list-item-narrative-button" :class="{ active: informationVisible }" @click="toggleInformationVisibility">𝒊</a>
-        <input slot="parent-right" type="range" min="0" max="1" step="0.01" :value="basemapLayer.opacity" @change="handleRangeChange($event, basemapLayer)" :disabled="!mapEnabled">
+        <input slot="parent-right" type="range" min="0" max="1" step="0.01" :value="basemapLayer.opacity" @input="handleRangeChange($event, basemapLayer)" :disabled="!mapEnabled">
         <input slot="parent-right" type="checkbox" v-model="mapEnabled">
     </collapsible-list-item>
 
@@ -91,7 +91,7 @@ export default BasemapListItem
     }
 
     input[type="range"] {
-        width: 5em;
+        width: 10em;
         margin-right: .1em;
     }
 

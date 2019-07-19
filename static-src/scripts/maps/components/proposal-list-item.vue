@@ -7,7 +7,7 @@
         <ul slot="contents" class="proposal-list-item-contents">
             <collapsible-list-item v-for="layer in primaryLayers" key="layer.id">
                 <span slot="parent-label">{{ layer.label }}</span>
-                <input slot="parent-right" type="range" min="0" max="1" step="0.01" :disabled="!mapEnabled" :value="layer.opacity" @change="handleRangeChange($event, layer)">
+                <input slot="parent-right" type="range" min="0" max="1" step="0.01" :disabled="!mapEnabled" :value="layer.opacity" @input="handleRangeChange($event, layer)">
                 <input slot="parent-right" type="checkbox" :disabled="!mapEnabled" :checked="layer.opacity > 0" @change="handleCheckboxChange($event, layer)">
             </collapsible-list-item>
             <collapsible-list-item :collapsible="true" v-if="secondaryLayers.length">
@@ -145,7 +145,7 @@ export default ProposalListItem
     }
 
     input[type="range"] {
-        width: 5em;
+        width: 10em;
         margin-right: .1em;
     }
 
