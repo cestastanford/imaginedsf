@@ -125,7 +125,6 @@ const bindLayerControls = (map, store) => {
                         if (layer.geoJSON) {
 
                             leafletLayerToAdd = new L.geoJSON(layer.geoJSON, {
-                                filter: feature => store.getters.isFeatureVisible(layer, feature.properties),
                                 coordsToLatLng: (coords) => {
                                     const projectedCoordinate = new L.Point(coords[0], coords[1])
                                     return {

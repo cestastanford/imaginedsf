@@ -43,7 +43,6 @@ const initComponent = (el, Component) => {
             address: null,
             mapBounds: null,
             downloadedGeoJSON: {},
-            vectorFeatureGroups: [],
 
         },
 
@@ -54,10 +53,10 @@ const initComponent = (el, Component) => {
     })
 
     new Vue({
-        
+
         el,
         store,
-        render(h) { 
+        render(h) {
 
             return h(Component, {
 

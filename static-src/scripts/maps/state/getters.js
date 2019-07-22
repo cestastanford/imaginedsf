@@ -10,7 +10,7 @@ import { SAN_FRANCISCO_BOUNDS, PROPOSAL_MAP_TYPE, BASEMAP_TYPE } from './constan
 */
 
 export const hashState = state => {
-    
+
     const hashStateObject = {}
     if (Object.keys(state.mapEnabled).length) hashStateObject.mapEnabled = state.mapEnabled
     if (state.information) hashStateObject.information = state.information
@@ -28,20 +28,20 @@ export const hashState = state => {
 */
 
 export const allMapsOfType = state => mapType => {
-    
+
     const maps = []
     for (let key in state.sourceMaps) {
         const map = state.sourceMaps[key]
         if (map.map_type === mapType) maps.push(map)
     }
-    
+
     return maps
 
 }
 
 
 /*
-*   Returns whether a map is enaabled (checked) in the Proposal Maps 
+*   Returns whether a map is enaabled (checked) in the Proposal Maps
 *   or Basemaps list.
 */
 
@@ -74,7 +74,7 @@ export const mapBounds = state => state.bounds || SAN_FRANCISCO_BOUNDS
 */
 
 export const layerOpacity = state => layerId => {
-    
+
     if (state.layerOpacity[layerId] !== undefined) {
         return state.layerOpacity[layerId]
     } else return 1
@@ -109,7 +109,7 @@ export const primaryLayers = (state, getters) => map => {
 
 
 /*
-*   Returns the Photos & Drawings layers for a map, if they 
+*   Returns the Photos & Drawings layers for a map, if they
 *   exist.
 */
 
@@ -155,21 +155,6 @@ export const allEnabledMapLayers = (state, getters) => {
 
 
 /*
-*   Returns the current vector feature groups.
-*/
-
-export const vectorFeatureGroups = state => state.vectorFeatureGroups
-
-
-/*
-*   This is a placeholder for when we know more about the vector
-*   feature groups.
-*/
-
-export const isFeatureVisible = (state, getters) => properties => true
-
-
-/*
 *   Returns the map given a map ID.
 */
 
@@ -189,7 +174,7 @@ export const mapDates = state => {
         if (map.year) dates.push(+map.year)
 
     }
-    
+
     return dates
 
 }

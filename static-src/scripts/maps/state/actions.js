@@ -8,7 +8,6 @@ import {
     SAVE_DOWNLOADED_MAPS,
     SAVE_DOWNLOADED_MAP_LAYERS,
     SAVE_DOWNLOADED_GEOJSON,
-    UPDATE_VECTOR_FEATURE_GROUPS,
     ENABLE_ONLY_THESE_MAPS,
     SET_LAYER_OPACITY,
 
@@ -107,7 +106,6 @@ export default {
 
         const geoJSON = await response.json()
         commit(SAVE_DOWNLOADED_GEOJSON, { layerId: layer.id, geoJSON })
-        commit(UPDATE_VECTOR_FEATURE_GROUPS)
 
     },
 
