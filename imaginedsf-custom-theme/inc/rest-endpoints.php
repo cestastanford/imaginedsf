@@ -85,8 +85,13 @@ function get_map_layer_json( $request ) {
 
     }
 
-    //  Retrieve URL and payload
-    $url = get_field( 'wfs_url', $layer_id );
+    //  Compose WFS request URL
+    $wfs_base_url = get_field( 'wfs_base_url', $layer_id );
+    $wfs_typenames = get_field( 'wfs_typenames', $layer_id );
+    $wfs_query_string = '?service=wfs&version=2.0.0&request=GetFeature&outputFormat=application/json&typeNames=' . $wfs_typenames;
+    $url = $wfs_base_url . $wfs_query_string;
+
+    //  Request WFS payload
     $response = @file_get_contents( $url );
     if ( $response ) {
 
