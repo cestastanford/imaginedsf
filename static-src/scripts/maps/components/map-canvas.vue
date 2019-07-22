@@ -128,7 +128,9 @@ const bindLayerControls = (map, store) => {
                                 filter: feature => store.getters.isFeatureVisible(layer, feature.properties),
                                 coordsToLatLng: (coords) => {
                                     const projectedCoordinate = new L.Point(coords[0], coords[1])
-                                    return L.CRS.EPSG3857.unproject(projectedCoordinate)
+                                    return {
+                                        'urn:ogc:def:crs:EPSG::4326': L.CRS.EPSG4326,
+                                    }[layer.geoJSON.crs.properties.name].unproject(projectedCoordinate)
                                 },
 
                                 pointToLayer: (point, latLng) => {
