@@ -13,7 +13,7 @@ export const SAVE_DOWNLOADED_MAPS = 'SAVE_DOWNLOADED_MAPS'
 export const SAVE_DOWNLOADED_MAP_LAYERS = 'SAVE_DOWNLOADED_MAP_LAYERS'
 export const APPLY_HASH_STATE = 'APPLY_HASH_STATE'
 export const TOGGLE_INFORMATION_VISIBILITY = 'TOGGLE_INFORMATION_VISIBILITY'
-export const TOGGLE_MAP_ENABLED = 'TOGGLE_MAP_ENABLED'
+export const SET_MAP_ENABLED = 'SET_MAP_ENABLED'
 export const ENABLE_ONLY_THESE_MAPS = 'ENABLE_ONLY_THESE_MAPS'
 export const SAVE_DOWNLOADED_GEOJSON = 'SAVE_DOWNLOADED_GEOJSON'
 export const SAVE_MAP_BOUNDS = 'SAVE_MAP_BOUNDS'
@@ -32,17 +32,32 @@ export default {
 
 
     /*
-    *   Saves source maps to state.
+    *   Saves source maps to state; sets all maps as initially disabled.
     */
 
-    [SAVE_DOWNLOADED_MAPS]: (state, maps) => state.sourceMaps = maps,
+    [SAVE_DOWNLOADED_MAPS]: (state, maps) => {
+
+        state.sourceMaps = maps
+        const mapEnabled = {}
+        Object.keys(maps).forEach(mapId => mapEnabled[mapId] = false)
+        state.mapEnabled = mapEnabled
+
+    },
 
 
     /*
-    *   Saves source map layers to state.
+    *   Saves source map layers to state; sets all layers as initially
+    *   full opacity.
     */
 
-    [SAVE_DOWNLOADED_MAP_LAYERS]: (state, mapLayers) => state.sourceMapLayers = mapLayers,
+    [SAVE_DOWNLOADED_MAP_LAYERS]: (state, mapLayers) => {
+
+        state.sourceMapLayers = mapLayers
+        const layerOpacity = {}
+        Object.keys(mapLayers).forEach(layerId => layerOpacity[layerId] = 1)
+        state.layerOpacity = layerOpacity
+
+    },
 
 
     /*
@@ -83,9 +98,12 @@ export default {
     *   Sets a proposal or baemap as enabled (visible, checked).
     */
 
-    [TOGGLE_MAP_ENABLED]: (state, map) => {
+    [SET_MAP_ENABLED]: (state, { map, mapEnabled }) => {
 
-        state.mapEnabled = { ...state.mapEnabled, [map.id]: !state.mapEnabled[map.id] }
+        state.mapEnabled = {
+            ...state.mapEnabled,
+            [map.id]: mapEnabled,
+        }
 
     },
 
@@ -107,10 +125,12 @@ export default {
     *   Saves downloaded GeoJSON (keyed by layer ID) to state.
     */
 
-    [SAVE_DOWNLOADED_GEOJSON]: (state, { layerId, geoJSON }) => state.downloadedGeoJSON = {
+    [SAVE_DOWNLOADED_GEOJSON]: (state, { layerId, geoJSON }) => {
 
-        ...state.downloadedGeoJSON,
-        [layerId]: geoJSON,
+        state.downloadedGeoJSON = {
+            ...state.downloadedGeoJSON,
+            [layerId]: geoJSON,
+        }
 
     },
 
@@ -126,10 +146,12 @@ export default {
     *   Saves layer opacity to state.
     */
 
-    [SET_LAYER_OPACITY]: (state, layer) => {
+    [SET_LAYER_OPACITY]: (state, { layerId, opacity }) => {
 
-        if (layer.opacity === 1) Vue.delete(state.layerOpacity, layer.id)
-        else Vue.set(state.layerOpacity, layer.id, layer.opacity)
+        state.layerOpacity = {
+            ...state.layerOpacity,
+            [layerId]: opacity,
+        }
 
     },
 

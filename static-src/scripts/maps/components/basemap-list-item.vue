@@ -2,15 +2,37 @@
 
     <collapsible-list-item class="basemap-list-item">
         <span slot="parent-label" class="basemap-list-item-label">{{ map.title }}</span>
-        <a slot="parent-right" class="basemap-list-item-narrative-button" :class="{ active: informationVisible }" @click="toggleInformationVisibility">𝒊</a>
-        <input slot="parent-right" type="range" min="0" max="1" step="0.01" :value="basemapLayer.opacity" @change="handleRangeChange($event, basemapLayer)" :disabled="!mapEnabled">
-        <input slot="parent-right" type="checkbox" v-model="mapEnabled">
+        <a
+            slot="parent-right"
+            class="basemap-list-item-narrative-button"
+            :class="{ active: informationVisible }"
+            @click="toggleInformationVisibility"
+        >𝒊</a>
+        <input
+            slot="parent-right"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            :value="opacity"
+            @change="handleRangeChange($event)"
+        >
+        <input
+            slot="parent-right"
+            type="checkbox"
+            :checked="mapEnabled"
+            @change="handleCheckboxChange($event)"
+        >
     </collapsible-list-item>
 
 </template>
 <script>
 
-import { TOGGLE_INFORMATION_VISIBILITY, TOGGLE_MAP_ENABLED, SET_LAYER_OPACITY } from '../state/mutations'
+import {
+    TOGGLE_INFORMATION_VISIBILITY,
+    SET_MAP_ENABLED,
+    SET_LAYER_OPACITY,
+} from '../state/mutations'
 import CollapsibleListItem from './collapsible-list-item.vue'
 
 const BasemapListItem = {
@@ -21,10 +43,20 @@ const BasemapListItem = {
     computed: {
 
         mapEnabled: {
-            
             get() { return this.$store.getters.isMapEnabled(this.map) },
-            set() { this.$store.commit(TOGGLE_MAP_ENABLED, this.map) },
-        
+            set(mapEnabled) {
+                this.$store.commit(SET_MAP_ENABLED, { map: this.map, mapEnabled })
+            },
+        },
+
+        opacity: {
+            get() { return this.$store.getters.layerOpacity(this.basemapLayer.id) },
+            set(opacity) {
+                this.$store.commit(SET_LAYER_OPACITY, {
+                    layerId: this.basemapLayer.id,
+                    opacity,
+                })
+            }
         },
 
         informationVisible() { return this.$store.getters.isInformationVisibleForMap(this.map) },
@@ -34,15 +66,27 @@ const BasemapListItem = {
 
     methods: {
 
-        toggleInformationVisibility() { this.$store.commit(TOGGLE_INFORMATION_VISIBILITY, this.map) },
-        setOpacity(layer) { this.$store.commit(SET_LAYER_OPACITY, layer) },
-        handleRangeChange(event, layer) {
-            
-            this.setOpacity({ ...layer, opacity: event.target.valueAsNumber })
-        
+        toggleInformationVisibility() {
+            this.$store.commit(TOGGLE_INFORMATION_VISIBILITY, this.map)
+        },
+
+        handleRangeChange(event) {
+            this.opacity = event.target.valueAsNumber
+            if (this.opacity === 0) this.mapEnabled = false
+            else this.mapEnabled = true
+        },
+
+        handleCheckboxChange(event) {
+            this.mapEnabled = event.target.checked
+            if (this.mapEnabled && this.opacity === 0) this.opacity = 1
+            if (!this.mapEnabled && this.opacity !== 0) this.opacity = 0
         },
 
     },
+
+    mounted() {
+        if (!this.mapEnabled) this.opacity = 0
+    }
 
 }
 
@@ -65,8 +109,8 @@ export default BasemapListItem
     }
 
     .basemap-list-item-narrative-button {
-        
-        
+
+
         width: 18px;
         height: 18px;
         border: 1px solid $medium-grey;

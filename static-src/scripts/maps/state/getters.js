@@ -63,80 +63,66 @@ export const mapWithVisibleInformation = state => state.sourceMaps[state.informa
 
 
 /*
-*   Returns the current bounds of the map.
+*   Returns a map layer object, bound to the layer label and map
+*   it's a part of.
 */
 
-export const mapBounds = state => state.bounds || SAN_FRANCISCO_BOUNDS
+export const mapLayer = (state, getters) => (id, label, map) => ({
 
-
-/*
-*   Returns the opacity of a given layer.
-*/
-
-export const layerOpacity = state => layerId => {
-
-    if (state.layerOpacity[layerId] !== undefined) {
-        return state.layerOpacity[layerId]
-    } else return 1
-
-}
-
-
-/*
-*   Given a label and a layer ID, returns the layer object with
-*   the layer opacity and the layer GeoJSON (if applicable)
-*   merged in.
-*/
-
-export const layerObject = (state, getters) => id => ({
-
-    opacity: getters.layerOpacity(id),
-    geoJSON: state.downloadedGeoJSON[id],
     ...state.sourceMapLayers[id],
+    label,
+    map,
+
 
 })
 
 
 /*
-*   Returns the primary layers for a map.
+*   Returns the primary layers for a map.  If map is disabled, returns
+*   opacity as 0.
 */
 
 export const primaryLayers = (state, getters) => map => {
 
-    return map.primary_layers.map(({ layer, label }) => ({ ...getters.layerObject(layer), label, mapTitle: map.title }))
+    return map.primary_layers.map(({ layer, label }) => {
+        return getters.mapLayer(layer, label, map)
+    })
 
 }
 
 
 /*
 *   Returns the Photos & Drawings layers for a map, if they
-*   exist.
+*   exist.  If map is disabled, returns opacity as 0.
 */
 
 export const secondaryLayers = (state, getters) => map => {
 
     return map.photos_and_drawings_layers
-    ? map.photos_and_drawings_layers.map(({ layer, label }) => ({ ...getters.layerObject(layer), label, mapTitle: map.title }))
+    ? map.photos_and_drawings_layers.map(({ layer, label }) => {
+        return getters.mapLayer(layer, label, map)
+    })
     : []
 
 }
 
 
 /*
-*   Retrieves the single layer for a basemap.
+*   Retrieves the single layer for a basemap.  If map is disabled,
+*   returns opacity as 0.
 */
 
-export const basemapLayer = (state, getters) => map => ({ ...getters.layerObject(map.basemap_layer), label: '', mapTitle: map.title })
+export const basemapLayer = (state, getters) => map => getters.mapLayer(map.basemap_layer, '', map)
 
 
 /*
-*   Returns all layers from all enabled maps.
+*   Returns all layers from all maps.
 */
 
-export const allEnabledMapLayers = (state, getters) => {
+export const allMapLayers = (state, getters) => {
 
-    const proposalMaps = getters.allMapsOfType(PROPOSAL_MAP_TYPE).filter(map => state.mapEnabled[map.id])
-    const basemaps = getters.allMapsOfType(BASEMAP_TYPE).filter(map => state.mapEnabled[map.id])
+    const proposalMaps = getters.allMapsOfType(PROPOSAL_MAP_TYPE)
+    const basemaps = getters.allMapsOfType(BASEMAP_TYPE)
     return [
 
         ...proposalMaps.reduce((accum, next) => ([
@@ -152,6 +138,30 @@ export const allEnabledMapLayers = (state, getters) => {
     ]
 
 }
+
+
+/*
+*   Returns the set opacity of a layer.
+*/
+
+export const layerOpacity = state => layerId => state.layerOpacity[layerId]
+
+
+/*
+*   Returns the set opacity of a map layer, or 0 if the map
+*   is disabled.
+*/
+
+export const layerDisplayOpacity = (state, getters) => mapLayer => {
+    return getters.isMapEnabled(mapLayer.map) ? getters.layerOpacity(mapLayer.id) : 0
+}
+
+
+/*
+*   Returns the GeoJSON for a map layer.
+*/
+
+export const layerGeoJSON = state => mapLayer => state.downloadedGeoJSON[mapLayer.id]
 
 
 /*
@@ -185,3 +195,10 @@ export const mapDates = state => {
 */
 
 export const address = state => state.address
+
+
+/*
+*   Returns the current bounds of the map.
+*/
+
+export const mapBounds = state => state.bounds || SAN_FRANCISCO_BOUNDS
