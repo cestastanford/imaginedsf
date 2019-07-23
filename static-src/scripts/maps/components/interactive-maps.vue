@@ -1,11 +1,10 @@
 <template>
-    
+
     <div class="container">
         <div class="columns">
             <div class="column is-narrow">
                 <proposal-list></proposal-list>
                 <basemap-list></basemap-list>
-                <vector-feature-group-list></vector-feature-group-list>
             </div>
             <div class="column">
                 <map-canvas></map-canvas>
@@ -26,7 +25,6 @@ import { APPLY_HASH_STATE } from '../state/mutations'
 import { REQUEST_MAPS } from '../state/actions'
 import ProposalList from './proposal-list.vue'
 import BasemapList from './basemap-list.vue'
-import VectorFeatureGroupList from './vector-feature-group-list.vue'
 import MapCanvas from './map-canvas.vue'
 import Information from './information.vue'
 
@@ -69,7 +67,6 @@ const InteractiveMaps = {
     components: {
         ProposalList,
         BasemapList,
-        VectorFeatureGroupList,
         MapCanvas,
         Information,
     },

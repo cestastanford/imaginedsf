@@ -13,50 +13,15 @@ export const SAVE_DOWNLOADED_MAPS = 'SAVE_DOWNLOADED_MAPS'
 export const SAVE_DOWNLOADED_MAP_LAYERS = 'SAVE_DOWNLOADED_MAP_LAYERS'
 export const APPLY_HASH_STATE = 'APPLY_HASH_STATE'
 export const TOGGLE_INFORMATION_VISIBILITY = 'TOGGLE_INFORMATION_VISIBILITY'
-export const TOGGLE_MAP_ENABLED = 'TOGGLE_MAP_ENABLED'
+export const SET_MAP_ENABLED = 'SET_MAP_ENABLED'
 export const ENABLE_ONLY_THESE_MAPS = 'ENABLE_ONLY_THESE_MAPS'
 export const SAVE_DOWNLOADED_GEOJSON = 'SAVE_DOWNLOADED_GEOJSON'
-export const UPDATE_VECTOR_FEATURE_GROUPS = 'UPDATE_VECTOR_FEATURE_GROUPS'
 export const SAVE_MAP_BOUNDS = 'SAVE_MAP_BOUNDS'
 export const SET_LAYER_OPACITY = 'SET_LAYER_OPACITY'
 export const SET_VECTOR_FEATURE_GROUP_STATUS = 'SET_VECTOR_FEATURE_GROUP_STATUS'
 export const SET_MAP_DATES = 'SET_MAP_DATES'
 export const SET_ADDRESS = 'SET_ADDRESS'
 export const SET_FEATURE_SETS_ENABLED = 'SET_FEATURE_SETS_ENABLED'
-
-
-/*
-*   Recursively sets hierarchical vector feature group statuses.
-*/
-
-const setParentGroupStatusFromChildren = parent => {
-
-    let anyChecked = false
-    let anyUnchecked = false
-    parent.children.forEach(child => {
-
-        if (child.isParent) setParentGroupStatusFromChildren(child)
-        if (child.checked) anyChecked = true
-        if (!child.checked || child.indeterminate) anyUnchecked = true
-
-    })
-
-    Vue.set(parent, 'checked', anyChecked)
-    Vue.set(parent, 'indeterminate', anyChecked && anyUnchecked)
-
-}
-
-const setChildrenGroupStatusFromParent = (parent, checked) => {
-
-    parent.children.forEach(child => {
-
-        Vue.set(child, 'checked', checked)
-        Vue.set(child, 'indeterminate', false)
-        if (child.isParent) setChildrenGroupStatusFromParent(child, checked)
-
-    })
-
-}
 
 
 /*
@@ -67,17 +32,32 @@ export default {
 
 
     /*
-    *   Saves source maps to state.
+    *   Saves source maps to state; sets all maps as initially disabled.
     */
 
-    [SAVE_DOWNLOADED_MAPS]: (state, maps) => state.sourceMaps = maps,
+    [SAVE_DOWNLOADED_MAPS]: (state, maps) => {
+
+        state.sourceMaps = maps
+        const mapEnabled = {}
+        Object.keys(maps).forEach(mapId => mapEnabled[mapId] = false)
+        state.mapEnabled = mapEnabled
+
+    },
 
 
     /*
-    *   Saves source map layers to state.
+    *   Saves source map layers to state; sets all layers as initially
+    *   full opacity.
     */
 
-    [SAVE_DOWNLOADED_MAP_LAYERS]: (state, mapLayers) => state.sourceMapLayers = mapLayers,
+    [SAVE_DOWNLOADED_MAP_LAYERS]: (state, mapLayers) => {
+
+        state.sourceMapLayers = mapLayers
+        const layerOpacity = {}
+        Object.keys(mapLayers).forEach(layerId => layerOpacity[layerId] = 1)
+        state.layerOpacity = layerOpacity
+
+    },
 
 
     /*
@@ -118,9 +98,12 @@ export default {
     *   Sets a proposal or baemap as enabled (visible, checked).
     */
 
-    [TOGGLE_MAP_ENABLED]: (state, map) => {
+    [SET_MAP_ENABLED]: (state, { map, mapEnabled }) => {
 
-        state.mapEnabled = { ...state.mapEnabled, [map.id]: !state.mapEnabled[map.id] }
+        state.mapEnabled = {
+            ...state.mapEnabled,
+            [map.id]: mapEnabled,
+        }
 
     },
 
@@ -142,66 +125,12 @@ export default {
     *   Saves downloaded GeoJSON (keyed by layer ID) to state.
     */
 
-    [SAVE_DOWNLOADED_GEOJSON]: (state, { layerId, geoJSON }) => state.downloadedGeoJSON = {
-        
-        ...state.downloadedGeoJSON,
-        [layerId]: geoJSON,
+    [SAVE_DOWNLOADED_GEOJSON]: (state, { layerId, geoJSON }) => {
 
-    },
-
-
-    /*
-    *   Updates the available vector feature groups in state.  Currently
-    *   this is just placeholder code; it should be generated from
-    *   downloaded GeoJSON.
-    */
-
-    [UPDATE_VECTOR_FEATURE_GROUPS]: state => {
-
-        state.vectorFeatureGroups = [
-
-            {
-                key: 'BUILDING_TYPE',
-                value: 'APARTMENT',
-                label: 'Apartments',
-                checked: true,
-            },
-            {
-                isParent: true,
-                label: 'Roads',
-                children: [
-                    {
-                        key: 'ROAD_TYPE',
-                        value: 'FREEWAY',
-                        label: 'Freeways',
-                        checked: false,
-                    },
-                    {
-                        key: 'ROAD_TYPE',
-                        value: 'STREET',
-                        label: 'Streets',
-                        checked: true,
-                    },
-                ],
-            },
-
-        ]
-
-        setParentGroupStatusFromChildren({ children: state.vectorFeatureGroups })
-
-    },
-
-
-    /*
-    *   Saves updated vector feature group visibility to state.
-    */
-
-    [SET_VECTOR_FEATURE_GROUP_STATUS]: (state, { group, checked }) => {
-
-        Vue.set(group, 'checked', checked)
-        Vue.set(group, 'indeterminate', false)
-        if (group.isParent) setChildrenGroupStatusFromParent(group, checked)
-        setParentGroupStatusFromChildren({ children: state.vectorFeatureGroups })
+        state.downloadedGeoJSON = {
+            ...state.downloadedGeoJSON,
+            [layerId]: geoJSON,
+        }
 
     },
 
@@ -211,16 +140,18 @@ export default {
     */
 
     [SAVE_MAP_BOUNDS]: (state, mapBounds) => state.mapBounds = mapBounds,
-    
+
 
     /*
     *   Saves layer opacity to state.
     */
 
-    [SET_LAYER_OPACITY]: (state, layer) => {
+    [SET_LAYER_OPACITY]: (state, { layerId, opacity }) => {
 
-        if (layer.opacity === 1) Vue.delete(state.layerOpacity, layer.id)
-        else Vue.set(state.layerOpacity, layer.id, layer.opacity)
+        state.layerOpacity = {
+            ...state.layerOpacity,
+            [layerId]: opacity,
+        }
 
     },
 
@@ -235,9 +166,9 @@ export default {
 
             const map = state.sourceMaps[key]
             if (map.year && +map.year >= dates[0] && +map.year <= dates[1]) {
-                
+
                 state.mapEnabled = { ...state.mapEnabled, [map.id]: true }
-            
+
             } else state.mapEnabled = { ...state.mapEnabled, [map.id]: false }
 
         }
