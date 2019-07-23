@@ -29,30 +29,6 @@
             "placeholder": ""
         },
         {
-            "key": "field_598e78963ac39",
-            "label": "WMS URL [deprecated]",
-            "name": "wms_url",
-            "type": "url",
-            "instructions": "Enter the WMS GetMap URL for the layer source.  WMS URLs should contain only the following parameters: service, version, request and layers.  Example:\r\n\r\nhttp:\/\/hostname.tld\/path\/wms?service=WMS&version=1.1.0&request=GetMap&layers=domain:layername",
-            "required": 0,
-            "conditional_logic": [
-                [
-                    {
-                        "field": "field_598e78513ac38",
-                        "operator": "==",
-                        "value": "wms_png"
-                    }
-                ]
-            ],
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": ""
-        },
-        {
             "key": "field_5d3634cdfc203",
             "label": "WMS Base URL",
             "name": "wms_base_url",
@@ -102,30 +78,6 @@
             "prepend": "",
             "append": "",
             "maxlength": ""
-        },
-        {
-            "key": "field_598e7b0a3ac3a",
-            "label": "GeoJSON URL [deprecated]",
-            "name": "wfs_url",
-            "type": "url",
-            "instructions": "Enter the WFS GeoJSON URL for the layer source.  This URL should return a GeoJSON file.  Make sure that CORS is enabled on the host domain.",
-            "required": 0,
-            "conditional_logic": [
-                [
-                    {
-                        "field": "field_598e78513ac38",
-                        "operator": "==",
-                        "value": "wfs_geojson"
-                    }
-                ]
-            ],
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": ""
         },
         {
             "key": "field_5d36363ffc205",
@@ -427,5 +379,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1563923264
+    "modified": 1563925461
 }
