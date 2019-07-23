@@ -67,8 +67,12 @@ export const getWMSLayer = (layer, layerOpacity) => {
         layer.wms_base_url,
         {
             transparent: true,
+            tiled: true,
+            detectRetina: true,
             format: 'image/png',
             layers: layer.wms_layers,
+            minNativeZoom: layer.wms_min_zoom ? parseInt(layer.wms_min_zoom) : undefined,
+            maxNativeZoom: layer.wms_max_zoom ? parseInt(layer.wms_max_zoom) : undefined,
             opacity: layerOpacity,
         },
     )
@@ -152,6 +156,12 @@ export const getStyleFn = layerOpacity => feature => ({
 export const getTileLayer = (layer, layerOpacity) => {
     return new L.tileLayer(
         layer.tile_url,
-        { opacity: layerOpacity },
+        {
+            opacity: layerOpacity,
+            detectRetina: true,
+            minNativeZoom: layer.min_tile_zoom ? parseInt(layer.min_tile_zoom) : undefined,
+            maxNativeZoom: layer.max_tile_zoom ? parseInt(layer.max_tile_zoom) : undefined,
+
+        },
     )
 }
