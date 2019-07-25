@@ -6,13 +6,6 @@ import './styles/main.scss'
 
 
 /*
-*   Enables "Search an address..." functionality.
-*/
-
-import './scripts/search-an-address.js'
-
-
-/*
 *   Renders Vue components after DOM loading is complete.
 */
 
