@@ -27,6 +27,7 @@ import {
     WMS_LAYER_TYPE,
     GEOJSON_LAYER_TYPE,
     SAN_FRANCISCO_BOUNDS,
+    SAN_FRANCISCO_PANNING_BOUNDS,
     TILE_LAYER_TYPE,
 } from '../state/constants'
 import { SAVE_MAP_BOUNDS } from '../state/mutations'
@@ -230,7 +231,7 @@ const MapCanvas = {
             zoomControl: false,
             attributionControl: false,
             scrollWheelZoom: false,
-            maxBounds: SAN_FRANCISCO_BOUNDS,
+            maxBounds: SAN_FRANCISCO_PANNING_BOUNDS,
 
         })
 
