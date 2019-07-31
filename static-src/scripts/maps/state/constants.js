@@ -19,4 +19,5 @@ export const TILE_LAYER_TYPE = 'tiles'
 *   Boundaries of San Francisco for map defaults.
 */
 
-export const SAN_FRANCISCO_BOUNDS = [ [ 37.813996, -122.529439 ], [ 37.702302, -122.348852 ] ]
+export const SAN_FRANCISCO_BOUNDS = [ [ 37.833996, -122.539439 ], [ 37.682302, -122.278852 ] ]
+export const SAN_FRANCISCO_PANNING_BOUNDS = [ [ 37.933996, -122.639439 ], [ 37.582302, -122.178852 ] ]
