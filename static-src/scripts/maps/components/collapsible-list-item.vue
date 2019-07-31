@@ -50,7 +50,7 @@ export default CollapsibleListItem
             display: block;
             position: relative;
             padding-left: 1.25em;
-            padding-right: 5em;
+            padding-right: 10em;
             transition: color .25s;
 
             .collapsible-list-item-disclosure-triangle {

@@ -27,7 +27,7 @@
                     step="0.01"
                     :disabled="!mapEnabled"
                     :value="getOpacity(layer)"
-                    @change="setOpacity(layer, $event.target.valueAsNumber)"
+                    @input="setOpacity(layer, $event.target.valueAsNumber)"
                 >
                 <input
                     slot="parent-right"
@@ -194,7 +194,7 @@ export default ProposalListItem
     }
 
     input[type="range"] {
-        width: 5em;
+        width: 10em;
         margin-right: .1em;
     }
 

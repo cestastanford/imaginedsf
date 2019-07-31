@@ -15,7 +15,7 @@
             max="1"
             step="0.01"
             :value="opacity"
-            @change="handleRangeChange($event)"
+            @input="handleRangeChange($event)"
         >
         <input
             slot="parent-right"
@@ -135,7 +135,7 @@ export default BasemapListItem
     }
 
     input[type="range"] {
-        width: 5em;
+        width: 10em;
         margin-right: .1em;
     }
 
