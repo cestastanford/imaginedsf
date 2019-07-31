@@ -29,11 +29,11 @@
             "placeholder": ""
         },
         {
-            "key": "field_598e78963ac39",
-            "label": "WMS URL",
-            "name": "wms_url",
+            "key": "field_5d3634cdfc203",
+            "label": "WMS Base URL",
+            "name": "wms_base_url",
             "type": "url",
-            "instructions": "Enter the WMS GetMap URL for the layer source.  WMS URLs should contain only the following parameters: service, version, request and layers.  Example:\r\n\r\nhttp:\/\/hostname.tld\/path\/wms?service=WMS&version=1.1.0&request=GetMap&layers=domain:layername",
+            "instructions": "Enter the base URL of the WMS server.  This URL should not contain any URL parameters: if there is a question mark in the URL, remove it and everything following it.  The WMS server must support WMS 1.1.0, the GetMap request, and returning PNG tiles.\r\n\r\nExample: https:\/\/geowebservices.stanford.edu\/geoserver\/wms",
             "required": 1,
             "conditional_logic": [
                 [
@@ -53,11 +53,38 @@
             "placeholder": ""
         },
         {
-            "key": "field_598e7b0a3ac3a",
-            "label": "GeoJSON URL",
-            "name": "wfs_url",
+            "key": "field_5d3635affc204",
+            "label": "WMS \"layers\"",
+            "name": "wms_layers",
+            "type": "text",
+            "instructions": "Enter the WMS \"layers\" parameter.  It should be in the format of \"namespace:identifier\", with both \"namespace\" and \"identifier\" as alphanumeric strings.\r\n\r\nExample: druid:md565sn7692",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_598e78513ac38",
+                        "operator": "==",
+                        "value": "wms_png"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_5d36363ffc205",
+            "label": "WFS Base URL",
+            "name": "wfs_base_url",
             "type": "url",
-            "instructions": "Enter the WFS GeoJSON URL for the layer source.  This URL should return a GeoJSON file.  Make sure that CORS is enabled on the host domain.",
+            "instructions": "Enter the base URL of the WFS server.  This URL should not contain any URL parameters: if there is a question mark in the URL, remove it and everything following it.  The WFS server must support WFS 2.2.0, the GetFeature request, the GeoJSON output format and query by \"typeNames\".\r\n\r\nExample: https:\/\/geoservices.lib.berkeley.edu\/geoserver\/wfs",
             "required": 1,
             "conditional_logic": [
                 [
@@ -77,12 +104,12 @@
             "placeholder": ""
         },
         {
-            "key": "field_598e7b7a3ac3b",
-            "label": "Vector Feature Groups",
-            "name": "vector_feature_groups",
-            "type": "repeater",
-            "instructions": "Define which property key\/value pairs correspond to a vector feature group.  For example, setting Key to 'FEATURE_TYPE', Value to 'FREEWAY_20Y' and Group to a group you created called 20 Year Freeways will categorize every feature in this layer with FEATURE_TYPE set to FREEWAY_20Y as part of the 20 Year Freeways group.",
-            "required": 0,
+            "key": "field_5d363683fc206",
+            "label": "WFS \"typeNames\"",
+            "name": "wfs_typenames",
+            "type": "text",
+            "instructions": "Enter the WFS \"typeNames\" parameter.  It should be an alphanumeric string.\r\n\r\nExample: s75c8t",
+            "required": 1,
             "conditional_logic": [
                 [
                     {
@@ -97,73 +124,11 @@
                 "class": "",
                 "id": ""
             },
-            "min": 0,
-            "max": 0,
-            "layout": "table",
-            "button_label": "Add Group",
-            "collapsed": "field_598e8031971ad",
-            "sub_fields": [
-                {
-                    "key": "field_598e7fe1971ab",
-                    "label": "Key",
-                    "name": "key",
-                    "type": "text",
-                    "instructions": "Enter the property key as it appears in the GeoJSON 'properties' object.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": ""
-                },
-                {
-                    "key": "field_598e800c971ac",
-                    "label": "Value",
-                    "name": "value",
-                    "type": "text",
-                    "instructions": "Enter the property value as it appears in the GeoJSON 'properties' object.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": ""
-                },
-                {
-                    "key": "field_598e8031971ad",
-                    "label": "Vector Feature Group",
-                    "name": "group",
-                    "type": "taxonomy",
-                    "instructions": "Select the group to assign to this key\/value pair.  Use the sidebar to add\/remove groups.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "taxonomy": "isf_vector_feature_groups",
-                    "field_type": "multi_select",
-                    "multiple": 0,
-                    "allow_null": 0,
-                    "return_format": "object",
-                    "add_term": 1,
-                    "load_terms": 0,
-                    "save_terms": 0
-                }
-            ]
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
         },
         {
             "key": "field_598e83aff631b",
@@ -232,17 +197,17 @@
                         "class": "",
                         "id": ""
                     },
-                    "multiple": 0,
-                    "allow_null": 0,
                     "choices": {
                         "text": "Text",
                         "image": "Image"
                     },
                     "default_value": [],
+                    "allow_null": 0,
+                    "multiple": 0,
                     "ui": 0,
                     "ajax": 0,
-                    "placeholder": "",
-                    "return_format": "value"
+                    "return_format": "value",
+                    "placeholder": ""
                 },
                 {
                     "key": "field_598e841bf631d",
@@ -289,7 +254,7 @@
             "label": "Tile URL",
             "name": "tile_url",
             "type": "url",
-            "instructions": "Enter the URL that raster tiles can be accessed at.  For formatting instructions, see Leaflet's URL template syntax: https:\/\/leafletjs.com\/reference-1.5.0.html#tilelayer .  Example:\r\n\r\nhttps:\/\/{s}.tile.openstreetmap.org\/{z}\/{x}\/{y}.png",
+            "instructions": "Enter the URL that raster tiles can be accessed at.  For formatting instructions, see Leaflet's URL template syntax: https:\/\/leafletjs.com\/reference-1.5.0.html#tilelayer.\r\n\r\nExample: https:\/\/{s}.tile.openstreetmap.org\/{z}\/{x}\/{y}.png",
             "required": 1,
             "conditional_logic": [
                 [
@@ -307,6 +272,78 @@
             },
             "default_value": "",
             "placeholder": ""
+        },
+        {
+            "key": "field_5d378f4f4a978",
+            "label": "Minimum Tile Zoom",
+            "name": "min_tile_zoom",
+            "type": "number",
+            "instructions": "The minimum zoom level (most zoomed out) that the server will serve tiles for.  Leave this field blank unless the map layer disappears at low (zoomed out) zoom levels.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_598e78513ac38",
+                        "operator": "==",
+                        "value": "wms_png"
+                    }
+                ],
+                [
+                    {
+                        "field": "field_598e78513ac38",
+                        "operator": "==",
+                        "value": "tiles"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "min": 0,
+            "max": 20,
+            "step": 1
+        },
+        {
+            "key": "field_5d37901d4a979",
+            "label": "Maximum Tile Zoom",
+            "name": "max_tile_zoom",
+            "type": "number",
+            "instructions": "The maximum zoom level (most zoomed in) that the server will serve tiles for.  Leave this field blank unless the map layer disappears at high (zoomed in) zoom levels.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_598e78513ac38",
+                        "operator": "==",
+                        "value": "wms_png"
+                    }
+                ],
+                [
+                    {
+                        "field": "field_598e78513ac38",
+                        "operator": "==",
+                        "value": "tiles"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "min": 0,
+            "max": 20,
+            "step": 1
         }
     ],
     "location": [
@@ -342,5 +379,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1563226821
+    "modified": 1563925461
 }

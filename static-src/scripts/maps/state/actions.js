@@ -8,7 +8,6 @@ import {
     SAVE_DOWNLOADED_MAPS,
     SAVE_DOWNLOADED_MAP_LAYERS,
     SAVE_DOWNLOADED_GEOJSON,
-    UPDATE_VECTOR_FEATURE_GROUPS,
     ENABLE_ONLY_THESE_MAPS,
     SET_LAYER_OPACITY,
 
@@ -29,7 +28,7 @@ export const SET_MAP_VIEW = 'SET_MAP_VIEW'
 *   Default export of object of actions.
 */
 
-export default { 
+export default {
 
     /*
     *   Initiates download of map objects from CMS.
@@ -99,14 +98,14 @@ export default {
 
     [DOWNLOAD_GEOJSON]: async ({ commit }, layer) => {
 
-        const response = await fetch(layer.wfs_url)
+        const REQUEST_URL = document.documentElement.dataset.rootUrl + `/wp-json/imaginedsf/map-layer-json?layer_id=${layer.id}`
+        const response = await fetch(REQUEST_URL)
         if (!response.ok) {
             throw new Error(`${response.status} ${response.statusText}`, response)
         }
 
         const geoJSON = await response.json()
         commit(SAVE_DOWNLOADED_GEOJSON, { layerId: layer.id, geoJSON })
-        commit(UPDATE_VECTOR_FEATURE_GROUPS)
 
     },
 
@@ -118,7 +117,7 @@ export default {
     [SET_MAP_VIEW]: ({ getters, commit }, map) => {
 
         const mapsToEnable = [ map ]
-        
+
         //  Checks for a linked basemap, setting its layer as visible if it exists
         if (map.linked_basemap) {
             const basemap = getters.sourceMapFromID(map.linked_basemap)

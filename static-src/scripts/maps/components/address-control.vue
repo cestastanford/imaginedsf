@@ -5,7 +5,7 @@
             <i class="fa fa-times"></i>
         </a>
         <form class="address-control-input" v-if="!collapsed" @submit.prevent="updateAddress">
-            <i class="fa fa-map-marker" v-if="!loading" :class="{ 'address-marker':addressMarker }"></i>
+            <i class="fa fa-map-marker" v-if="!loading" :class="{ 'address-marker': !!addressMarker }"></i>
             <i v-if="loading"><i class="fa fa-circle-o-notch fa-spin"></i></i>
             <input type="text" v-model="addressInput" :placeholder="addressInputPlaceholder">
         </form>
@@ -81,7 +81,7 @@ const AddressControl = {
         addressMarker: null,
 
     }),
-    
+
     methods: {
 
         async updateAddress() {
@@ -92,7 +92,7 @@ const AddressControl = {
                 this.addressMarker = null
 
             }
-            
+
             this.addressInputPlaceholder = 'search an address...'
             this.loading = true
             this.located = false
@@ -127,7 +127,7 @@ const AddressControl = {
 
                 this.addressMarker.removeFrom(this.map)
                 this.addressMarker = null
-                
+
             }
 
             this.addressInput = ''
@@ -135,7 +135,7 @@ const AddressControl = {
             this.loading = true
             this.located = false
             this.$store.commit(SET_ADDRESS, null)
-            
+
             const coordinates = await locate(this.map)
             if (coordinates) {
 
@@ -144,7 +144,7 @@ const AddressControl = {
                 this.addressMarker = getMarker(coordinates)
                 this.addressMarker.addTo(this.map)
                 this.located = true
-            
+
             } else {
 
                 console.warn('Geolocation failed!')
@@ -190,7 +190,7 @@ export default AddressControl
 @import '../../../styles/variables';
 
 .address-control {
-    
+
     display: flex;
     align-items: stretch;
     justify-content: center;
@@ -209,7 +209,7 @@ export default AddressControl
         }
 
         &.address-control-close {
-            
+
             font-size: .85em;
 
         }
@@ -219,7 +219,7 @@ export default AddressControl
             color: $medium-light-grey;
 
             i.fa {
-                
+
                 color: $medium-light-grey;
                 width: 1.5em;
                 font-size: 1.5em;
@@ -234,7 +234,7 @@ export default AddressControl
             }
 
             input {
-                
+
                 border: none;
                 outline: none;
                 background-color: transparent;
@@ -247,7 +247,7 @@ export default AddressControl
                 }
 
             }
-            
+
         }
 
     }
@@ -257,14 +257,14 @@ export default AddressControl
     }
 
     a {
-        
+
         color: $medium-grey;
         transition: color .2s;
-        
+
         &:hover {
             color: $red;
         }
-    
+
     }
 
 }

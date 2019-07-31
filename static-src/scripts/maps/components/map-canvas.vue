@@ -31,7 +31,15 @@ import {
 } from '../state/constants'
 import { SAVE_MAP_BOUNDS } from '../state/mutations'
 import { DOWNLOAD_GEOJSON } from '../state/actions'
-import { RedMarker, getFeaturePopup } from './leaflet-components.js'
+import {
+    RedMarker,
+    getFeaturePopup,
+    getWMSLayer,
+    getGeoJSONLayer,
+    getCoordsToLatLngFn,
+    getStyleFn,
+    getTileLayer,
+} from './leaflet-components.js'
 
 
 /*
@@ -55,130 +63,98 @@ L.Icon.Default.mergeOptions({
 
 
 /*
-*   Parses WMS URL into a base URL and options, so Leaflet can create
-*   correctly-formed HTTP requests.
+*   Sets up watchers to update the map when the store changes.
 */
 
-const parseWMSURL = url => {
+const enableLayerUpdates = (map, store) => {
 
-    const baseURL = url.match(/^.*wms\?/)[0]
+    let leafletLayers = []
 
-    let regexp = /(?:wms\?|&)([^&=]+)=([^&=]*)/g
-    let result = null
-    let wmsOptions = { transparent: true, format: 'image/png' }
-    while (result = regexp.exec(url)) {
+    //  Called when layers are added or removed
+    store.watch(
+        (store, getters) => getters.allMapLayers,
+        layers => {
 
-        if (result && result[1] === 'layers') {
-            wmsOptions.layers = result[2]
-            break
-        }
+            //  Remove all existing layers
+            leafletLayers.forEach(leafletLayer => map.removeLayer(leafletLayer))
+            leafletLayers = []
 
-    }
+            //  Add all layers
+            layers.forEach((layer, index) => {
 
-    return { baseURL, wmsOptions }
+                let leafletLayerToAdd
+                const layerOpacity = store.getters.layerDisplayOpacity(layer)
+                const layerGeoJSON = store.getters.layerGeoJSON(layer)
 
-}
-
-
-/*
-*   Updates the map layers on store state change.
-*/
-
-const bindLayerControls = (map, store) => {
-
-    let leafletLayers = {}
-    const updateLayers = layers => {
-
-        const updatedLeafletLayers = {}
-        layers.forEach(layer => {
-
-            let leafletLayerToAdd
-            if (
-                (layer.source_type === WMS_LAYER_TYPE || layer.source_type === TILE_LAYER_TYPE)
-                && leafletLayers[layer.id]
-            ) {
-
-                //  If WMS or tile layer is already on map
-                leafletLayers[layer.id].setOpacity(layer.opacity)
-                updatedLeafletLayers[layer.id] = leafletLayers[layer.id]
-                delete leafletLayers[layer.id]
-
-            } else {
-
-                const options = { opacity: layer.opacity }
                 switch (layer.source_type) {
 
                     case WMS_LAYER_TYPE:
-                        const { baseURL, wmsOptions } = parseWMSURL(layer.wms_url)
-                        leafletLayerToAdd = new L.tileLayer.wms(baseURL, { ...options, ...wmsOptions })
+                        leafletLayerToAdd = getWMSLayer(layer, layerOpacity)
                         break
 
                     case GEOJSON_LAYER_TYPE:
-
-                        if (leafletLayers[layer.id]) {
-
-                            map.removeLayer(leafletLayers[layer.id])
-                            delete leafletLayers[layer.id]
-
-                        }
-
-                        if (layer.geoJSON) {
-
-                            leafletLayerToAdd = new L.geoJSON(layer.geoJSON, {
-                                filter: feature => store.getters.isFeatureVisible(layer, feature.properties),
-                                coordsToLatLng: (coords) => {
-                                    const projectedCoordinate = new L.Point(coords[0], coords[1])
-                                    return L.CRS.EPSG3857.unproject(projectedCoordinate)
-                                },
-
-                                pointToLayer: (point, latLng) => {
-                                    const marker = new RedMarker(latLng)
-                                    const popup = getFeaturePopup(layer, point)
-                                    return marker.bindPopup(popup)
-                                },
-
-                                style: feature => {
-                                    return {
-                                        color: '#888',
-                                        weight: 2,
-                                        opacity: 1.0,
-                                        fill: feature.geometry.type === 'MultiPolygon',
-                                        fillOpacity: 0.2,
-                                    }
-                                },
-
-                                onEachFeature: feature => {
-
-                                },
-                            })
-
-                        } else store.dispatch(DOWNLOAD_GEOJSON, layer)
+                        if (!layerGeoJSON) store.dispatch(DOWNLOAD_GEOJSON, layer)
+                        leafletLayerToAdd = getGeoJSONLayer(layer, layerOpacity, layerGeoJSON)
                         break
 
                     case TILE_LAYER_TYPE:
-                        leafletLayerToAdd = new L.tileLayer(layer.tile_url, options)
+                        leafletLayerToAdd = getTileLayer(layer, layerOpacity)
                         break
 
-                }
-
-                if (leafletLayerToAdd) {
-
-                    map.addLayer(leafletLayerToAdd)
-                    updatedLeafletLayers[layer.id] = leafletLayerToAdd
+                    default:
+                        console.log(layer)
 
                 }
 
-            }
+                map.addLayer(leafletLayerToAdd)
+                leafletLayers.push(leafletLayerToAdd)
 
-        })
+            })
 
-        //  Removes leftover layers
-        for (let key in leafletLayers) map.removeLayer(leafletLayers[key])
-        leafletLayers = updatedLeafletLayers
+        },
+        { immediate: true },
+    )
 
-    }
+    //  Called when layers' display opacities are changed
+    store.watch(
+        (store, getters) => getters.allMapLayers.map(getters.layerDisplayOpacity),
+        displayOpacities => {
+            displayOpacities.forEach((displayOpacity, i) => {
 
-    store.watch((store, getters) => getters.allEnabledMapLayers, updateLayers, { immediate: true })
+                const leafletLayer = leafletLayers[i]
+
+                //  For raster layers
+                try {
+                    leafletLayer.setOpacity(displayOpacity)
+                }
+
+                //  For GeoJSON layers
+                catch (error) {
+                    leafletLayer.setStyle(getStyleFn(displayOpacity))
+                }
+
+            })
+        }
+    )
+
+    //  Called when layers' GeoJSON is changed
+    store.watch(
+        (store, getters) => getters.allMapLayers.map(layer => ({
+            layer,
+            geoJSON: getters.layerGeoJSON(layer),
+        })),
+        layerGeoJSONs => {
+            layerGeoJSONs.forEach(({ layer, geoJSON }, i) => {
+                const leafletLayer = leafletLayers[i]
+                if (geoJSON) {
+                    leafletLayer.options.coordsToLatLng = getCoordsToLatLngFn(geoJSON)
+                    leafletLayer.clearLayers()
+                    leafletLayer.addData(geoJSON)
+                    leafletLayer.setStyle(getStyleFn(store.getters.layerDisplayOpacity(layer)))
+                }
+            })
+        }
+    )
 
 }
 
@@ -236,7 +212,8 @@ const MapCanvas = {
 
         this.map.setMinZoom(this.map.getBoundsZoom(SAN_FRANCISCO_BOUNDS))
         this.map.fitBounds(this.$store.getters.mapBounds)
-        bindLayerControls(this.map, this.$store)
+
+        enableLayerUpdates(this.map, this.$store, this.leafletLayers)
         bindMapBounds(this.map, this.$store)
 
     },
