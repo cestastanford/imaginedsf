@@ -71,44 +71,47 @@ const enableLayerUpdates = (map, store) => {
 
     let leafletLayers = []
 
-    //  Called when layers are added or removed
+    /*
+    *   This watcher's callback is triggered whenever the list of
+    *   map layers known to the app is changed.  The callback creates
+    *   a Leaflet Layer for each map layer, but doesn't add it to
+    *   the map yet.
+    */
+
     store.watch(
         (store, getters) => getters.allMapLayers,
         layers => {
 
-            //  Remove all existing layers
-            leafletLayers.forEach(leafletLayer => map.removeLayer(leafletLayer))
-            leafletLayers = []
+            //  Removes all existing Leaflet Layers
+            leafletLayers.forEach(({ leafletLayer }) => map.removeLayer(leafletLayer))
 
-            //  Add all layers
-            layers.forEach((layer, index) => {
+            //  Creates a Leaflet Layer for each layer
+            leafletLayers = layers.map((layer, index) => {
 
-                let leafletLayerToAdd
-                const layerOpacity = store.getters.layerDisplayOpacity(layer)
-                const layerGeoJSON = store.getters.layerGeoJSON(layer)
-
+                let leafletLayer
                 switch (layer.source_type) {
 
                     case WMS_LAYER_TYPE:
-                        leafletLayerToAdd = getWMSLayer(layer, layerOpacity)
+                        leafletLayer = getWMSLayer(layer, index)
                         break
 
                     case GEOJSON_LAYER_TYPE:
-                        if (!layerGeoJSON) store.dispatch(DOWNLOAD_GEOJSON, layer)
-                        leafletLayerToAdd = getGeoJSONLayer(layer, layerOpacity, layerGeoJSON)
+                        leafletLayer = getGeoJSONLayer(layer)  // GeoJSON layers always on top
+                        if (!store.getters.layerGeoJSON(layer)) {
+                            store.dispatch(DOWNLOAD_GEOJSON, layer)
+                        }
                         break
 
                     case TILE_LAYER_TYPE:
-                        leafletLayerToAdd = getTileLayer(layer, layerOpacity)
+                        leafletLayer = getTileLayer(layer, index)
                         break
 
                     default:
-                        console.log(layer)
+                        console.log('Layer type not recognized', layer)
 
                 }
 
-                map.addLayer(leafletLayerToAdd)
-                leafletLayers.push(leafletLayerToAdd)
+                return { layer, leafletLayer }
 
             })
 
@@ -116,37 +119,60 @@ const enableLayerUpdates = (map, store) => {
         { immediate: true },
     )
 
-    //  Called when layers' display opacities are changed
+
+    /*
+    *   This watcher's callback is triggered whenever the list of
+    *   map layers changes and any time any layer's opacity is changed
+    *   after that.  If a layer has a > 0 opacity, its associated
+    *   Leaflet Layer is added to its associated Leaflet LayerGroup
+    *   to make it appear on the map.  If it has 0 opacity, its
+    *   Leaflet Layer is removed from its Leaflet LayerGroup so
+    *   it doesn't continue to make tile requests.
+    */
+
     store.watch(
         (store, getters) => getters.allMapLayers.map(getters.layerDisplayOpacity),
         displayOpacities => {
             displayOpacities.forEach((displayOpacity, i) => {
 
-                const leafletLayer = leafletLayers[i]
+                const { layer, leafletLayer } = leafletLayers[i]
 
-                //  For raster layers
-                try {
-                    leafletLayer.setOpacity(displayOpacity)
-                }
+                if (displayOpacity === 0) {
 
-                //  For GeoJSON layers
-                catch (error) {
-                    leafletLayer.setStyle(getStyleFn(displayOpacity))
+                    if (map.hasLayer(leafletLayer)) {
+                        map.removeLayer(leafletLayer)
+                    }
+
+                } else {
+
+                    if (layer.source_type === GEOJSON_LAYER_TYPE) {
+                        leafletLayer.setStyle(getStyleFn(displayOpacity))
+                    } else {
+                        leafletLayer.setOpacity(displayOpacity)
+                    }
+
+                    if (!map.hasLayer(leafletLayer)) {
+                        map.addLayer(leafletLayer)
+                    }
+
                 }
 
             })
         }
     )
 
-    //  Called when layers' GeoJSON is changed
+
+    /*
+    *   This watcher's callback is triggered whenever the list of
+    *   map layers changes and any time any layer's GeoJSON is updated
+    *   after that.
+    */
+
     store.watch(
-        (store, getters) => getters.allMapLayers.map(layer => ({
-            layer,
-            geoJSON: getters.layerGeoJSON(layer),
-        })),
-        layerGeoJSONs => {
-            layerGeoJSONs.forEach(({ layer, geoJSON }, i) => {
-                const leafletLayer = leafletLayers[i]
+        (store, getters) => getters.allMapLayers.map(getters.layerGeoJSON),
+        GeoJSONs => {
+            GeoJSONs.forEach((geoJSON, i) => {
+                const { layer, leafletLayer } = leafletLayers[i]
                 if (geoJSON) {
                     leafletLayer.options.coordsToLatLng = getCoordsToLatLngFn(geoJSON)
                     leafletLayer.clearLayers()

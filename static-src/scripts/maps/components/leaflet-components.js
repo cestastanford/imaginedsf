@@ -61,7 +61,7 @@ export const getFeaturePopup = (layer, feature) => {
 *   Creates a WMS layer.
 */
 
-export const getWMSLayer = (layer, layerOpacity) => {
+export const getWMSLayer = (layer, index) => {
 
     return new L.tileLayer.wms(
         layer.wms_base_url,
@@ -73,7 +73,7 @@ export const getWMSLayer = (layer, layerOpacity) => {
             layers: layer.wms_layers,
             minNativeZoom: layer.wms_min_zoom ? parseInt(layer.wms_min_zoom) : undefined,
             maxNativeZoom: layer.wms_max_zoom ? parseInt(layer.wms_max_zoom) : undefined,
-            opacity: layerOpacity,
+            zIndex: index,
         },
     )
 
@@ -84,20 +84,15 @@ export const getWMSLayer = (layer, layerOpacity) => {
 *   Creates a GeoJSON layer.
 */
 
-export const getGeoJSONLayer = (layer, layerOpacity, layerGeoJSON) => {
+export const getGeoJSONLayer = layer => {
     return new L.geoJSON(
-        layerGeoJSON,
+        null,
         {
-
-            coordsToLatLng: getCoordsToLatLngFn(layerGeoJSON),
-            style: getStyleFn(layerOpacity),
             pointToLayer: (point, latLng) => {
                 const marker = new RedMarker(latLng)
                 const popup = getFeaturePopup(layer, point)
                 return marker.bindPopup(popup)
             },
-
-
         }
     )
 
@@ -153,11 +148,11 @@ export const getStyleFn = layerOpacity => feature => ({
 *   Creates a Tile layer.
 */
 
-export const getTileLayer = (layer, layerOpacity) => {
+export const getTileLayer = (layer, index) => {
     return new L.tileLayer(
         layer.tile_url,
         {
-            opacity: layerOpacity,
+            zIndex: index,
             detectRetina: true,
             minNativeZoom: layer.min_tile_zoom ? parseInt(layer.min_tile_zoom) : undefined,
             maxNativeZoom: layer.max_tile_zoom ? parseInt(layer.max_tile_zoom) : undefined,
