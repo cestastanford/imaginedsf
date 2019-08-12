@@ -68,7 +68,6 @@ export const getWMSLayer = (layer, index) => {
         {
             transparent: true,
             tiled: true,
-            detectRetina: true,
             format: 'image/png',
             layers: layer.wms_layers,
             minNativeZoom: layer.wms_min_zoom ? parseInt(layer.wms_min_zoom) : undefined,
@@ -153,10 +152,8 @@ export const getTileLayer = (layer, index) => {
         layer.tile_url,
         {
             zIndex: index,
-            detectRetina: true,
             minNativeZoom: layer.min_tile_zoom ? parseInt(layer.min_tile_zoom) : undefined,
             maxNativeZoom: layer.max_tile_zoom ? parseInt(layer.max_tile_zoom) : undefined,
-
         },
     )
 }
