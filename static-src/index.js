@@ -1,14 +1,11 @@
-/*
-*   Bundles & compiles SCSS files into a single CSS file.
-*/
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-import './styles/main.scss'
+const MyComponent = () => <div>This is dynamic content from React!</div>;
 
-
-/*
-*   Renders Vue components after DOM loading is complete.
-*/
-
-import './scripts/homepage-demo.js'
-import './scripts/aside-menu.js'
-import './scripts/maps/maps.js'
+window.addEventListener('DOMContentLoaded', () => {
+  ReactDOM.render(
+    <MyComponent />,
+    document.getElementById('react')
+  );
+})
