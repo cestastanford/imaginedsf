@@ -20,35 +20,6 @@ add_action( 'admin_menu', 'remove_unused_menu_options' );
 
 function create_custom_post_types() {
 
-    //  Map Layers
-    register_post_type( MAP_LAYER_POST_TYPE,
-        array(
-            'labels' => array(
-                'name' => 'Map Layers',
-                'singular_name' => 'Map Layer',
-                'add_new' => 'Add New',
-                'add_new_item' => 'Add New Map Layer',
-                'edit_item' => 'Edit Map Layer',
-                'new_item' => 'New Map Layer',
-                'view_item' => 'View Map Layer',
-                'view_items' => 'View Map Layers',
-                'search_items' => 'Search Map Layers',
-                'not_found' => 'No Map Layers Found',
-                'not_found_in_trash' => 'No Map Layers found in Trash',
-                'all_items' => 'All Map Layers',
-                'archives' => 'Map Layer Archives',
-                'attributes' => 'Map Layer Attributes',
-                'insert_into_item' => 'Insert into Map Layer',
-                'uploaded_to_this_item' => 'Uploaded to this Map Layer',
-            ),
-            'menu_icon' => 'dashicons-media-default',
-            'public' => true,
-            'rewrite' => array( 'slug' => 'map-layers' ),
-            'show_in_rest' => true,
-            'taxonomies' => array( VECTOR_FEATURE_GROUPS_TAXONOMY ),
-        )
-    );
-
     //  Maps
     register_post_type( MAP_POST_TYPE,
         array(
@@ -73,8 +44,11 @@ function create_custom_post_types() {
             'menu_icon' => 'dashicons-location-alt',
             'public' => true,
             'has_archive' => true,
+            'hierarchical' => true,
+            'supports' => array( 'title', 'editor', 'page-attributes' ),            
             'rewrite' => array( 'slug' => 'maps' ),
             'show_in_rest' => true,
+            'taxonomies' => array( VECTOR_FEATURE_GROUPS_TAXONOMY ),
         )
     );
 
@@ -102,8 +76,6 @@ function create_custom_post_types() {
             'menu_icon' => 'dashicons-book-alt',
             'public' => true,
             'has_archive' => true,
-            'hierarchical' => true,
-            'supports' => array( 'title', 'editor', 'page-attributes' ),
             'rewrite' => array( 'slug' => 'narratives' ),
         )
     );
