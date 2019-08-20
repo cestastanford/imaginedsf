@@ -20,6 +20,9 @@ add_action( 'admin_menu', 'remove_unused_menu_options' );
 
 function create_custom_post_types() {
 
+
+    
+
     //  Maps
     register_post_type( MAP_POST_TYPE,
         array(
