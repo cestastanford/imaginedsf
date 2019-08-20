@@ -3,11 +3,11 @@
     "title": "Maps",
     "fields": [
         {
-            "key": "field_5914a88975675",
-            "label": "Map Type",
-            "name": "map_type",
-            "type": "select",
-            "instructions": "Select whether this map is a proposal map or a basemap.",
+            "key": "field_5d5b17366a0a9",
+            "label": "Title",
+            "name": "title",
+            "type": "text",
+            "instructions": "Title of the map",
             "required": 1,
             "conditional_logic": 0,
             "wrapper": {
@@ -15,187 +15,30 @@
                 "class": "",
                 "id": ""
             },
-            "multiple": 0,
-            "allow_null": 0,
-            "choices": {
-                "proposal": "Proposal Map",
-                "basemap": "Basemap"
-            },
-            "default_value": [],
-            "ui": 0,
-            "ajax": 0,
+            "default_value": "",
             "placeholder": "",
-            "return_format": "value"
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
         },
         {
-            "key": "field_598e769594d69",
-            "label": "Basemap Layer",
-            "name": "basemap_layer",
-            "type": "post_object",
-            "instructions": "Select the single map layer for this basemap.",
+            "key": "field_5914aafc7567c",
+            "label": "Map Description",
+            "name": "description",
+            "type": "wysiwyg",
+            "instructions": "Insert a written informative description for the map here.",
             "required": 1,
-            "conditional_logic": [
-                [
-                    {
-                        "field": "field_5914a88975675",
-                        "operator": "==",
-                        "value": "basemap"
-                    }
-                ]
-            ],
+            "conditional_logic": 0,
             "wrapper": {
                 "width": "",
                 "class": "",
                 "id": ""
             },
-            "post_type": [
-                "isf_map_layer"
-            ],
-            "taxonomy": [],
-            "allow_null": 0,
-            "multiple": 0,
-            "return_format": "id",
-            "ui": 1
-        },
-        {
-            "key": "field_5914a94975676",
-            "label": "Primary Layers",
-            "name": "primary_layers",
-            "type": "repeater",
-            "instructions": "Add the primary map layers for this proposal map.",
-            "required": 1,
-            "conditional_logic": [
-                [
-                    {
-                        "field": "field_5914a88975675",
-                        "operator": "==",
-                        "value": "proposal"
-                    }
-                ]
-            ],
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "min": 1,
-            "max": 0,
-            "layout": "table",
-            "button_label": "Add Layer",
-            "collapsed": "field_598e776d94d6b",
-            "sub_fields": [
-                {
-                    "key": "field_598e773e94d6a",
-                    "label": "Layer",
-                    "name": "layer",
-                    "type": "post_object",
-                    "instructions": "Select a map layer.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "post_type": [
-                        "isf_map_layer"
-                    ],
-                    "taxonomy": [],
-                    "allow_null": 0,
-                    "multiple": 0,
-                    "return_format": "id",
-                    "ui": 1
-                },
-                {
-                    "key": "field_598e776d94d6b",
-                    "label": "Label",
-                    "name": "label",
-                    "type": "text",
-                    "instructions": "Enter a label for this map layer in this proposal map.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": ""
-                }
-            ]
-        },
-        {
-            "key": "field_598e77d294d6c",
-            "label": "Photos & Drawings Layers",
-            "name": "photos_and_drawings_layers",
-            "type": "repeater",
-            "instructions": "Add the map layers that will appear in the Photos & Drawings section for this proposal map.",
-            "required": 0,
-            "conditional_logic": [
-                [
-                    {
-                        "field": "field_5914a88975675",
-                        "operator": "==",
-                        "value": "proposal"
-                    }
-                ]
-            ],
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "min": 0,
-            "max": 0,
-            "layout": "table",
-            "button_label": "Add Layer",
-            "collapsed": "",
-            "sub_fields": [
-                {
-                    "key": "field_598e77d294d6d",
-                    "label": "Layer",
-                    "name": "layer",
-                    "type": "post_object",
-                    "instructions": "Select a map layer.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "post_type": [
-                        "isf_map_layer"
-                    ],
-                    "taxonomy": [],
-                    "allow_null": 0,
-                    "multiple": 0,
-                    "return_format": "id",
-                    "ui": 1
-                },
-                {
-                    "key": "field_598e77d294d6e",
-                    "label": "Label",
-                    "name": "label",
-                    "type": "text",
-                    "instructions": "Enter a label for this map layer in this proposal map.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": ""
-                }
-            ]
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "delay": 0
         },
         {
             "key": "field_5914aa617567b",
@@ -228,11 +71,11 @@
             "ui": 1
         },
         {
-            "key": "field_5923b540c380d",
-            "label": "Map Year",
-            "name": "year",
-            "type": "number",
-            "instructions": "Enter the year represented by this map.",
+            "key": "field_5d5b15a363f00",
+            "label": "Enabled by Default",
+            "name": "enabled_by_default",
+            "type": "true_false",
+            "instructions": "Select true if map should be enabled when user first loads the webpage.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -240,32 +83,11 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
-            "min": "",
-            "max": "",
-            "step": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
-            "key": "field_5914aafc7567c",
-            "label": "Map Information",
-            "name": "information",
-            "type": "wysiwyg",
-            "instructions": "Insert a written informative description for the map here.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "tabs": "all",
-            "toolbar": "full",
-            "media_upload": 1,
-            "default_value": "",
-            "delay": 0
+            "message": "",
+            "default_value": 0,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
         }
     ],
     "location": [
@@ -300,5 +122,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1562970858
+    "modified": 1566342330
 }
