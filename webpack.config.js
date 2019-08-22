@@ -4,11 +4,12 @@ module.exports = {
   entry: './static-src/index.js',
   output: {
     filename: 'script.js',
-    path: path.resolve(__dirname, 'imaginedsf-custom-theme/static')
+    path: path.resolve(__dirname, 'imaginedsf-custom-theme/static'),
   },
   module: {
     rules: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loader: "babel-loader" }
-    ]
-  }
+      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' },
+      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+    ],
+  },
 };
