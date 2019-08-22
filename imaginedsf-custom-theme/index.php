@@ -1,10 +1,13 @@
-<?php
-
-/*
-*   This template doesn't render anything and shouldn't ever get
-*   triggered.  Visiting a nonexistent page will select the 404.php
-*   template instead.
-*/
-
-get_header();
-get_footer();
+<!doctype html>
+<html <?php language_attributes(); ?>>
+  <head>
+    <meta charset="<?php bloginfo( 'charset' ); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?php wp_head(); ?>
+  </head>
+  <body>
+    <div>This is static content from WordPress!</div>
+    <div id="react"></div>
+    <?php wp_footer(); ?>
+  </body>
+</html>
