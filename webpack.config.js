@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './static-src/index.js',
+  entry: './static-src/index.jsx',
   output: {
     filename: 'script.js',
     path: path.resolve(__dirname, 'imaginedsf-custom-theme/static'),
