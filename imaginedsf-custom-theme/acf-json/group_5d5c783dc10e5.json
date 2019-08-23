@@ -98,25 +98,6 @@
                     "button_label": "",
                     "sub_fields": [
                         {
-                            "key": "field_5d5c7991e8afe",
-                            "label": "Map Title",
-                            "name": "map_title",
-                            "type": "text",
-                            "instructions": "The title of each individual map.",
-                            "required": 1,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": "",
-                            "maxlength": ""
-                        },
-                        {
                             "key": "field_5d5c79a3e8aff",
                             "label": "Year",
                             "name": "year",
@@ -139,10 +120,10 @@
                         },
                         {
                             "key": "field_5d5c79d6e8b00",
-                            "label": "Map Link",
-                            "name": "map_link",
-                            "type": "text",
-                            "instructions": "Link to the actual map post.",
+                            "label": "Map",
+                            "name": "map",
+                            "type": "post_object",
+                            "instructions": "Select the actual map object.",
                             "required": 1,
                             "conditional_logic": 0,
                             "wrapper": {
@@ -150,11 +131,14 @@
                                 "class": "",
                                 "id": ""
                             },
-                            "default_value": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": "",
-                            "maxlength": ""
+                            "post_type": [
+                                "isf_map"
+                            ],
+                            "taxonomy": [],
+                            "allow_null": 0,
+                            "multiple": 0,
+                            "return_format": "object",
+                            "ui": 1
                         }
                     ]
                 }
@@ -178,5 +162,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1566432110
+    "modified": 1566587493
 }
