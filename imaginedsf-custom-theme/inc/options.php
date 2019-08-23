@@ -31,6 +31,3 @@ if( function_exists('acf_add_options_page') ) {
     ));
 
 }
-
-// Hook into acf initialization.
-add_action('init', 'acf_add_options_page');
