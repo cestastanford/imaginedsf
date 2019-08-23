@@ -33,7 +33,7 @@
             "key": "field_5d5c764bd6150",
             "label": "Introduction",
             "name": "introduction",
-            "type": "text",
+            "type": "post_object",
             "instructions": "",
             "required": 0,
             "conditional_logic": [
@@ -50,17 +50,20 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "maxlength": ""
+            "post_type": [
+                "page"
+            ],
+            "taxonomy": [],
+            "allow_null": 0,
+            "multiple": 0,
+            "return_format": "object",
+            "ui": 1
         },
         {
             "key": "field_5d5c7658d6151",
             "label": "Bibliography",
             "name": "bibliography",
-            "type": "text",
+            "type": "post_object",
             "instructions": "",
             "required": 0,
             "conditional_logic": [
@@ -77,17 +80,20 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "maxlength": ""
+            "post_type": [
+                "page"
+            ],
+            "taxonomy": [],
+            "allow_null": 0,
+            "multiple": 0,
+            "return_format": "object",
+            "ui": 1
         },
         {
             "key": "field_5d5c7675d6152",
             "label": "Feedback",
             "name": "feedback",
-            "type": "text",
+            "type": "post_object",
             "instructions": "",
             "required": 0,
             "conditional_logic": [
@@ -104,17 +110,20 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "maxlength": ""
+            "post_type": [
+                "page"
+            ],
+            "taxonomy": [],
+            "allow_null": 0,
+            "multiple": 0,
+            "return_format": "object",
+            "ui": 1
         },
         {
             "key": "field_5d5c7684d6153",
             "label": "Credits",
             "name": "credits",
-            "type": "text",
+            "type": "post_object",
             "instructions": "",
             "required": 0,
             "conditional_logic": [
@@ -131,11 +140,14 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "maxlength": ""
+            "post_type": [
+                "page"
+            ],
+            "taxonomy": [],
+            "allow_null": 0,
+            "multiple": 0,
+            "return_format": "object",
+            "ui": 1
         }
     ],
     "location": [
@@ -155,5 +167,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1566340972
+    "modified": 1566587999
 }
