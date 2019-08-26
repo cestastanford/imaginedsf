@@ -47,15 +47,7 @@
             "type": "post_object",
             "instructions": "Choose a default basemap to link to this proposal map.",
             "required": 0,
-            "conditional_logic": [
-                [
-                    {
-                        "field": "field_5914a88975675",
-                        "operator": "==",
-                        "value": "proposal"
-                    }
-                ]
-            ],
+            "conditional_logic": 0,
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -122,5 +114,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1566342330
+    "modified": 1566852418
 }
