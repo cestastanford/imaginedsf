@@ -1,12 +1,20 @@
+/*
+*   Imports libraries.
+*/
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles.css';
 
-const MyComponent = () => <div>This is dynamic content from React!</div>;
+/*
+*   Imports utilities and subcomponents.
+*/
+
+import App from './components/App';
 
 window.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <MyComponent />,
+    <App />,
     document.getElementById('react'),
   );
 });
