@@ -9,22 +9,9 @@ import { Link, Router } from '@reach/router';
 *   Imports components.
 */
 
-import Introduction from './Introduction.jsx';
-import ProposalMaps from './ProposalMaps.jsx';
-import Narratives from './Narratives.jsx';
-
-// function Panel() {
-//   return (
-//     <div>
-//     Panel Component
-//       <Introduction />
-//       <ProposalMaps />
-//       <Narratives />
-//     </div>
-//   );
-// }
-
-// export default Panel;
+import Introduction from './Introduction';
+import ProposalMaps from './ProposalMaps';
+import Narratives from './Narratives';
 
 const Panel = () => (
   <>
