@@ -10,9 +10,7 @@ import './styles.css';
 *   Imports utilities and subcomponents.
 */
 
-import App from './components/App.jsx';
-
-// const MyComponent = () => <div>This is dynamic content from React!</div>;
+import App from './components/App';
 
 window.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
