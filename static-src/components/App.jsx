@@ -8,10 +8,10 @@ import React from 'react';
 *   Imports components.
 */
 
-import Header from './Header.jsx';
-import LeafletMap from './LeafletMap.jsx';
-import MapControls from './MapControls.jsx';
-import Panel from './Panel.jsx';
+import Header from './Header';
+import LeafletMap from './LeafletMap';
+import MapControls from './MapControls';
+import Panel from './Panel';
 
 function App() {
   return (
