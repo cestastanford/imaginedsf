@@ -20,7 +20,7 @@ class Narratives extends React.Component {
     narrativesRequested();
     setTimeout(() => {
       narrativesReceived(
-        ['a sample narrative'],
+        ['A sample narrative'],
       );
     }, 5000);
   }
@@ -30,7 +30,7 @@ class Narratives extends React.Component {
     return (
       <div>
         Narratives Component
-        { narrativesLoading ? 'Maps loading' : 'Maps not loading' }
+        { narrativesLoading ? 'Narratives loading' : 'Narratives not loading' }
         { narratives }
       </div>
     );
