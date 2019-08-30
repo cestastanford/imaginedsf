@@ -14,43 +14,43 @@ import { connect } from 'react-redux';
 import * as actions from '../state/actions';
 
 
-class Introduction extends React.Component {
+class Feedback extends React.Component {
   componentDidMount() {
     const { contentRequested, contentReceived } = this.props;
-    contentRequested(['introduction']);
+    contentRequested(['feedback']);
     setTimeout(() => {
       contentReceived(
-        ['introduction'],
-        'a sample introduction',
+        ['feedback'],
+        'sample feedback',
       );
     }, 5000);
   }
 
   render() {
-    const { contentAreaLoading, contentAreaContent } = this.props;
+    const { contentAreaLoading, content } = this.props;
     return (
       <div>
-        Introduction Component
+        Feedback Component
         { contentAreaLoading ? 'Content loading' : 'Content not loading' }
-        { contentAreaContent.toString() }
+        { content }
       </div>
     );
   }
 }
 
-Introduction.propTypes = {
+Feedback.propTypes = {
   contentRequested: PropTypes.func.isRequired,
   contentReceived: PropTypes.func.isRequired,
   contentAreaLoading: PropTypes.bool.isRequired,
-  contentAreaContent: PropTypes.arrayOf(PropTypes.string).isRequired,
+  content: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const mapStateToProps = ({
   contentAreaLoading,
-  contentAreaContent,
+  content,
 }) => ({
   contentAreaLoading,
-  contentAreaContent,
+  content,
 });
 
 const mapDispatchToProps = {
@@ -58,4 +58,4 @@ const mapDispatchToProps = {
   contentReceived: actions.contentReceived,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Introduction);
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);
