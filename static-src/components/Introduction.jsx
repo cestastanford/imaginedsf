@@ -8,31 +8,34 @@ import { connect } from 'react-redux';
 
 
 /*
-* Imports action creators.
+* Imports action creators, constants.
 */
 
 import * as actions from '../state/actions';
+import { INTRODUCTION_CONTENT_AREA } from '../constants';
 
 
 class Introduction extends React.Component {
   componentDidMount() {
     const { contentRequested, contentReceived } = this.props;
-    contentRequested(['introduction']);
+    contentRequested(INTRODUCTION_CONTENT_AREA);
     setTimeout(() => {
       contentReceived(
-        ['introduction'],
+        INTRODUCTION_CONTENT_AREA,
         'a sample introduction',
       );
     }, 5000);
   }
 
   render() {
-    const { contentAreaLoading, contentAreaContent } = this.props;
+    const { introductonLoading, introductionContent } = this.props;
     return (
       <div>
         Introduction Component
-        { contentAreaLoading ? 'Content loading' : 'Content not loading' }
-        { contentAreaContent.toString() }
+        {' | '}
+        { introductonLoading ? 'Content loading' : 'Content not loading' }
+        {' | '}
+        { introductionContent }
       </div>
     );
   }
@@ -41,16 +44,18 @@ class Introduction extends React.Component {
 Introduction.propTypes = {
   contentRequested: PropTypes.func.isRequired,
   contentReceived: PropTypes.func.isRequired,
-  contentAreaLoading: PropTypes.bool.isRequired,
-  contentAreaContent: PropTypes.arrayOf(PropTypes.string).isRequired,
+  introductonLoading: PropTypes.bool,
+  introductionContent: PropTypes.string,
 };
 
-const mapStateToProps = ({
-  contentAreaLoading,
-  contentAreaContent,
-}) => ({
-  contentAreaLoading,
-  contentAreaContent,
+Introduction.defaultProps = {
+  introductonLoading: false,
+  introductionContent: '',
+};
+
+const mapStateToProps = (state) => ({
+  introductonLoading: state.contentAreaLoading[INTRODUCTION_CONTENT_AREA],
+  introductionContent: state.contentAreaContent[INTRODUCTION_CONTENT_AREA],
 });
 
 const mapDispatchToProps = {
