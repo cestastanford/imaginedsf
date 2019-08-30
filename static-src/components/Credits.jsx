@@ -8,19 +8,20 @@ import { connect } from 'react-redux';
 
 
 /*
-* Imports action creators.
+* Imports action creators, constants.
 */
 
 import * as actions from '../state/actions';
+import { CREDITS_CONTENT_AREA } from '../constants';
 
 
 class Credits extends React.Component {
   componentDidMount() {
     const { contentRequested, contentReceived } = this.props;
-    contentRequested(['credits']);
+    contentRequested(CREDITS_CONTENT_AREA);
     setTimeout(() => {
       contentReceived(
-        ['credits'],
+        CREDITS_CONTENT_AREA,
         'sample credits',
       );
     }, 5000);
@@ -31,7 +32,9 @@ class Credits extends React.Component {
     return (
       <div>
         Credits Component
+        {' | '}
         { contentAreaLoading ? 'Content loading' : 'Content not loading' }
+        {' | '}
         { content }
       </div>
     );
@@ -41,16 +44,18 @@ class Credits extends React.Component {
 Credits.propTypes = {
   contentRequested: PropTypes.func.isRequired,
   contentReceived: PropTypes.func.isRequired,
-  contentAreaLoading: PropTypes.bool.isRequired,
-  content: PropTypes.arrayOf(PropTypes.string).isRequired,
+  contentAreaLoading: PropTypes.bool,
+  content: PropTypes.string,
 };
 
-const mapStateToProps = ({
-  contentAreaLoading,
-  content,
-}) => ({
-  contentAreaLoading,
-  content,
+Credits.defaultProps = {
+  contentAreaLoading: false,
+  content: '',
+};
+
+const mapStateToProps = (state) => ({
+  contentAreaLoading: state.contentAreaLoading[CREDITS_CONTENT_AREA],
+  content: state.contentAreaContent[CREDITS_CONTENT_AREA],
 });
 
 const mapDispatchToProps = {
