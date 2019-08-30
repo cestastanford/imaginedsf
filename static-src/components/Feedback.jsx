@@ -8,20 +8,21 @@ import { connect } from 'react-redux';
 
 
 /*
-* Imports action creators.
+* Imports action creators, constants.
 */
 
 import * as actions from '../state/actions';
+import { FEEDBACK_CONTENT_AREA } from '../constants';
 
 
-class Bibiliography extends React.Component {
+class Feedback extends React.Component {
   componentDidMount() {
     const { contentRequested, contentReceived } = this.props;
-    contentRequested(['bibiliography']);
+    contentRequested(FEEDBACK_CONTENT_AREA);
     setTimeout(() => {
       contentReceived(
-        ['bibiliography'],
-        'sample bibiliography',
+        FEEDBACK_CONTENT_AREA,
+        'sample feedback',
       );
     }, 5000);
   }
@@ -30,27 +31,31 @@ class Bibiliography extends React.Component {
     const { contentAreaLoading, content } = this.props;
     return (
       <div>
-        Bibiliography Component
+        Feedback Component
+        {' | '}
         { contentAreaLoading ? 'Content loading' : 'Content not loading' }
+        {' | '}
         { content }
       </div>
     );
   }
 }
 
-Bibiliography.propTypes = {
+Feedback.propTypes = {
   contentRequested: PropTypes.func.isRequired,
   contentReceived: PropTypes.func.isRequired,
-  contentAreaLoading: PropTypes.bool.isRequired,
-  content: PropTypes.arrayOf(PropTypes.string).isRequired,
+  contentAreaLoading: PropTypes.bool,
+  content: PropTypes.string,
 };
 
-const mapStateToProps = ({
-  contentAreaLoading,
-  content,
-}) => ({
-  contentAreaLoading,
-  content,
+Feedback.defaultProps = {
+  contentAreaLoading: false,
+  content: '',
+};
+
+const mapStateToProps = (state) => ({
+  contentAreaLoading: state.contentAreaLoading[FEEDBACK_CONTENT_AREA],
+  content: state.contentAreaContent[FEEDBACK_CONTENT_AREA],
 });
 
 const mapDispatchToProps = {
@@ -58,4 +63,4 @@ const mapDispatchToProps = {
   contentReceived: actions.contentReceived,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Bibiliography);
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);
