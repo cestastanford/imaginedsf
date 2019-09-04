@@ -1,30 +1,25 @@
 /*
-* Imports styles.
-*/
-
-import './styles.css';
-
-
-/*
-*  Imports libraries.
+* Imports libraries.
 */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
 
 
 /*
-*  Imports utilities and subcomponents.
+* Imports subcomponent, reducer and theme.
 */
 
 import App from './components/App';
 import rootReducer from './state/reducers';
+import theme from './theme';
 
 
 /*
-* Create Redux store, attach to app, mount root component.
+* Creates Redux store.
 */
 
 /* eslint-disable no-underscore-dangle */
@@ -34,10 +29,17 @@ const store = createStore(
 );
 /* eslint-enable */
 
+
+/*
+* Mounts root React component with Redux store and theme.
+*/
+
 window.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <Provider store={store}>
-      <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </Provider>,
     document.getElementById('react'),
   );
