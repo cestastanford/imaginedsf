@@ -5,6 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 
 
 /*
@@ -23,6 +24,13 @@ import LeafletMap from './LeafletMap';
 import MapControls from './MapControls';
 import Panel from './Panel';
 
+const StyledDiv = styled.div`
+  margin: 1em;
+  border: 1px solid ${({ theme }) => theme.divColor || '#aaa'};
+  padding: 1em;
+  color: ${({ theme }) => theme.textColor || '#aaa'};
+`;
+
 class App extends React.Component {
   componentDidMount() {
     const { mapsRequested, mapsReceived } = this.props;
@@ -38,15 +46,15 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <StyledDiv>
       App Component
         <Header />
-        <div>
+        <StyledDiv>
           <LeafletMap />
           <Panel />
           <MapControls />
-        </div>
-      </div>
+        </StyledDiv>
+      </StyledDiv>
     );
   }
 }
