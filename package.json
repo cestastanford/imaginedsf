@@ -4,20 +4,20 @@
   "description": "This is the repository for the WordPress-based Imagined San Francisco site.",
   "main": "index.js",
   "scripts": {
-    "dev-watch": "webpack --watch --mode=development",
+    "dev-watch": "webpack --watch --mode=development --devtool=eval-source-map",
     "lint": "eslint --ext .js,.jsx webpack.config.js static-src"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/krainc/imaginedsf.git"
+    "url": "git+https://github.com/cestastanford/imaginedsf.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/krainc/imaginedsf/issues"
+    "url": "https://github.com/cestastanford/imaginedsf/issues"
   },
-  "homepage": "https://github.com/krainc/imaginedsf#readme",
+  "homepage": "https://github.com/cestastanford/imaginedsf#readme",
   "dependencies": {
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
@@ -25,7 +25,7 @@
     "@reach/router": "^1.2.1",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
-    "css-loader": "^3.2.0",
+    "babel-plugin-styled-components": "^1.10.6",
     "eslint": "^6.2.1",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.18.2",
@@ -38,7 +38,7 @@
     "react-redux": "^7.1.1",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
-    "style-loader": "^1.0.0",
+    "styled-components": "^4.3.2",
     "webpack": "^4.39.2",
     "webpack-cli": "^3.3.6"
   }
