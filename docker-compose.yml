@@ -11,6 +11,7 @@ services:
     volumes:
      - ./dev-env/db-mysql:/var/lib/mysql
      - ./dev-env/db-dumps:/dumps
+     - ./setup-dev-db.sql:/setup-dev-db.sql
 
   wp:
     image: wordpress:5.2.2
