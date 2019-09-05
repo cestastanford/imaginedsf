@@ -1,7 +1,88 @@
 {
     "key": "group_598e781e0e78d",
-    "title": "Non-Parent Maps",
+    "title": "Maps",
     "fields": [
+        {
+            "key": "field_5914aafc7567c",
+            "label": "Description",
+            "name": "description",
+            "type": "wysiwyg",
+            "instructions": "Insert a written description for the map here.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "delay": 0
+        },
+        {
+            "key": "field_5d717165b44a1",
+            "label": "Year",
+            "name": "year",
+            "type": "number",
+            "instructions": "Enter the year that the map was published.  If this map appears at the top level of a proposal range, the year will appear next to the title.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "min": 1000,
+            "max": 3000,
+            "step": 1
+        },
+        {
+            "key": "field_5d7185a38c832",
+            "label": "Enabled by Default",
+            "name": "enabled_by_default",
+            "type": "true_false",
+            "instructions": "Select whether the map should be enabled by default.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_5d7186d4a67a7",
+            "label": "Recommended Basemap",
+            "name": "recommended_basemap",
+            "type": "post_object",
+            "instructions": "If this is a proposal map, select a recommended basemap to appear when hovered over in the Proposal Maps panel.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "isf_map"
+            ],
+            "taxonomy": "",
+            "allow_null": 1,
+            "multiple": 0,
+            "return_format": "id",
+            "ui": 1
+        },
         {
             "key": "field_598e78513ac38",
             "label": "Source Type",
@@ -74,6 +155,33 @@
             },
             "default_value": "",
             "placeholder": ""
+        },
+        {
+            "key": "field_598e83aff631b",
+            "label": "Popups Enabled",
+            "name": "popups_enabled",
+            "type": "true_false",
+            "instructions": "Choose whether features from this layer will show popups when clicked.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_598e78513ac38",
+                        "operator": "==",
+                        "value": "wfs_geojson"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 0,
+            "message": "",
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
         },
         {
             "key": "field_598e7b7a3ac3b",
@@ -163,33 +271,6 @@
                     "save_terms": 0
                 }
             ]
-        },
-        {
-            "key": "field_598e83aff631b",
-            "label": "Popups Enabled",
-            "name": "popups_enabled",
-            "type": "true_false",
-            "instructions": "Choose whether features from this layer will show popups when clicked.",
-            "required": 0,
-            "conditional_logic": [
-                [
-                    {
-                        "field": "field_598e78513ac38",
-                        "operator": "==",
-                        "value": "wfs_geojson"
-                    }
-                ]
-            ],
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": 0,
-            "message": "",
-            "ui": 0,
-            "ui_on_text": "",
-            "ui_off_text": ""
         },
         {
             "key": "field_598e8370f631a",
@@ -290,11 +371,6 @@
                 "param": "post_type",
                 "operator": "==",
                 "value": "isf_map"
-            },
-            {
-                "param": "page_type",
-                "operator": "!=",
-                "value": "parent"
             }
         ]
     ],
@@ -307,7 +383,6 @@
         "permalink",
         "the_content",
         "excerpt",
-        "custom_fields",
         "discussion",
         "comments",
         "revisions",
@@ -322,5 +397,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1566249639
+    "modified": 1567721517
 }

@@ -4,67 +4,28 @@
     "fields": [
         {
             "key": "field_5d5c3f5f89bdf",
-            "label": "Basemaps List",
-            "name": "basemaps_list",
-            "type": "repeater",
-            "instructions": "List of basemaps.",
-            "required": 0,
+            "label": "Basemaps",
+            "name": "basemaps",
+            "type": "relationship",
+            "instructions": "Select maps that will be basemaps, appearing in the Basemaps map control.",
+            "required": 1,
             "conditional_logic": 0,
             "wrapper": {
                 "width": "",
                 "class": "",
                 "id": ""
             },
-            "collapsed": "",
-            "min": 0,
-            "max": 0,
-            "layout": "table",
-            "button_label": "",
-            "sub_fields": [
-                {
-                    "key": "field_5d603b76b613a",
-                    "label": "Year",
-                    "name": "year",
-                    "type": "number",
-                    "instructions": "",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "min": "",
-                    "max": "",
-                    "step": ""
-                },
-                {
-                    "key": "field_5d5c3f8089be0",
-                    "label": "Map",
-                    "name": "map",
-                    "type": "post_object",
-                    "instructions": "Select the actual map object.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "post_type": [
-                        "isf_map"
-                    ],
-                    "taxonomy": [],
-                    "allow_null": 0,
-                    "multiple": 0,
-                    "return_format": "object",
-                    "ui": 1
-                }
-            ]
+            "post_type": [
+                "isf_map"
+            ],
+            "taxonomy": "",
+            "filters": [
+                "search"
+            ],
+            "elements": "",
+            "min": "",
+            "max": "",
+            "return_format": "id"
         }
     ],
     "location": [
@@ -72,23 +33,23 @@
             {
                 "param": "options_page",
                 "operator": "==",
-                "value": "basemaps-settings"
+                "value": "acf-options-basemaps"
             }
         ]
     ],
     "menu_order": 0,
     "position": "normal",
-    "style": "default",
+    "style": "seamless",
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": [
         "permalink",
         "the_content",
         "excerpt",
-        "custom_fields",
         "discussion",
         "comments",
         "revisions",
+        "slug",
         "author",
         "format",
         "page_attributes",
@@ -99,5 +60,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1566587833
+    "modified": 1567721986
 }
