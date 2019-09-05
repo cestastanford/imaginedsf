@@ -3,48 +3,13 @@
     "title": "Content Areas",
     "fields": [
         {
-            "key": "field_5d5c406cd614f",
-            "label": "Content Type",
-            "name": "content_type",
-            "type": "select",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "choices": {
-                "introduction": "Introduction",
-                "bibliography": "Bibliography",
-                "feedback": "Feedback",
-                "credits": "Credits"
-            },
-            "default_value": [],
-            "allow_null": 0,
-            "multiple": 0,
-            "ui": 0,
-            "ajax": 0,
-            "return_format": "value",
-            "placeholder": ""
-        },
-        {
             "key": "field_5d5c764bd6150",
             "label": "Introduction",
             "name": "introduction",
             "type": "post_object",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": [
-                [
-                    {
-                        "field": "field_5d5c406cd614f",
-                        "operator": "==",
-                        "value": "introduction"
-                    }
-                ]
-            ],
+            "instructions": "Select the page whose content will be used for the \"Introduction\" content area.",
+            "required": 1,
+            "conditional_logic": 0,
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -53,7 +18,7 @@
             "post_type": [
                 "page"
             ],
-            "taxonomy": [],
+            "taxonomy": "",
             "allow_null": 0,
             "multiple": 0,
             "return_format": "object",
@@ -64,17 +29,9 @@
             "label": "Bibliography",
             "name": "bibliography",
             "type": "post_object",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": [
-                [
-                    {
-                        "field": "field_5d5c406cd614f",
-                        "operator": "==",
-                        "value": "bibliography"
-                    }
-                ]
-            ],
+            "instructions": "Select the page whose content will be used for the \"Bibliography\" content area.",
+            "required": 1,
+            "conditional_logic": 0,
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -83,7 +40,7 @@
             "post_type": [
                 "page"
             ],
-            "taxonomy": [],
+            "taxonomy": "",
             "allow_null": 0,
             "multiple": 0,
             "return_format": "object",
@@ -94,17 +51,9 @@
             "label": "Feedback",
             "name": "feedback",
             "type": "post_object",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": [
-                [
-                    {
-                        "field": "field_5d5c406cd614f",
-                        "operator": "==",
-                        "value": "feedback"
-                    }
-                ]
-            ],
+            "instructions": "Select the page whose content will be used for the \"Feedback\" content area.",
+            "required": 1,
+            "conditional_logic": 0,
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -113,7 +62,7 @@
             "post_type": [
                 "page"
             ],
-            "taxonomy": [],
+            "taxonomy": "",
             "allow_null": 0,
             "multiple": 0,
             "return_format": "object",
@@ -124,17 +73,9 @@
             "label": "Credits",
             "name": "credits",
             "type": "post_object",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": [
-                [
-                    {
-                        "field": "field_5d5c406cd614f",
-                        "operator": "==",
-                        "value": "credits"
-                    }
-                ]
-            ],
+            "instructions": "Select the page whose content will be used for the \"Credits\" content area.",
+            "required": 1,
+            "conditional_logic": 0,
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -143,7 +84,7 @@
             "post_type": [
                 "page"
             ],
-            "taxonomy": [],
+            "taxonomy": "",
             "allow_null": 0,
             "multiple": 0,
             "return_format": "object",
@@ -155,17 +96,17 @@
             {
                 "param": "options_page",
                 "operator": "==",
-                "value": "application-settings"
+                "value": "acf-options-content-areas"
             }
         ]
     ],
     "menu_order": 0,
     "position": "normal",
-    "style": "default",
+    "style": "seamless",
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1566587999
+    "modified": 1567722266
 }

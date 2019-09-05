@@ -1,13 +1,13 @@
 {
     "key": "group_5d5c783dc10e5",
-    "title": "Proposals",
+    "title": "Proposal Maps",
     "fields": [
         {
             "key": "field_5d5c7888e8af9",
-            "label": "Proposal List",
-            "name": "proposal_list",
+            "label": "Proposal Ranges",
+            "name": "proposal_ranges",
             "type": "repeater",
-            "instructions": "General proposals list. Each sub-field is a proposal range.",
+            "instructions": "Add and organize the maps that will appear in the Proposal Maps panel here.  First, create the proposal ranges that will appear at the top level of the panel.  Then, add proposal maps and\/or groups of proposal maps to them.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -15,18 +15,34 @@
                 "class": "",
                 "id": ""
             },
-            "collapsed": "",
+            "collapsed": "field_5d5c78c3e8afa",
             "min": 0,
             "max": 0,
-            "layout": "row",
-            "button_label": "",
+            "layout": "block",
+            "button_label": "Add Proposal Range",
             "sub_fields": [
+                {
+                    "key": "field_5d7174d3b25ec",
+                    "label": "Range Information",
+                    "name": "",
+                    "type": "tab",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "placement": "top",
+                    "endpoint": 0
+                },
                 {
                     "key": "field_5d5c78c3e8afa",
                     "label": "Proposal Range Title",
-                    "name": "proposal_range",
+                    "name": "title",
                     "type": "text",
-                    "instructions": "",
+                    "instructions": "Enter the title of the date range of proposal maps.",
                     "required": 1,
                     "conditional_logic": 0,
                     "wrapper": {
@@ -42,14 +58,14 @@
                 },
                 {
                     "key": "field_5d5c78eee8afb",
-                    "label": "Year Range",
-                    "name": "year_range",
-                    "type": "text",
-                    "instructions": "Enter the year range the proposal range covers. Format: YYYY - YYYY",
+                    "label": "Proposal Range Start Year",
+                    "name": "start_year",
+                    "type": "number",
+                    "instructions": "Enter the start year of the date range.",
                     "required": 1,
                     "conditional_logic": 0,
                     "wrapper": {
-                        "width": "",
+                        "width": "50",
                         "class": "",
                         "id": ""
                     },
@@ -57,14 +73,37 @@
                     "placeholder": "",
                     "prepend": "",
                     "append": "",
-                    "maxlength": ""
+                    "min": 1000,
+                    "max": 3000,
+                    "step": 1
+                },
+                {
+                    "key": "field_5d716d90812ea",
+                    "label": "Proposal Range End Year",
+                    "name": "end_year",
+                    "type": "number",
+                    "instructions": "Enter the end year of the date range.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "min": 1000,
+                    "max": 3000,
+                    "step": 1
                 },
                 {
                     "key": "field_5d5c7944e8afc",
-                    "label": "Description",
+                    "label": "Proposal Range Description",
                     "name": "description",
-                    "type": "text",
-                    "instructions": "Provide a short blurb for the proposal range.",
+                    "type": "textarea",
+                    "instructions": "Enter a short description of the proposal range.",
                     "required": 0,
                     "conditional_logic": 0,
                     "wrapper": {
@@ -74,16 +113,32 @@
                     },
                     "default_value": "",
                     "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "maxlength": ""
+                    "maxlength": "",
+                    "rows": "",
+                    "new_lines": ""
+                },
+                {
+                    "key": "field_5d7174eeb25ed",
+                    "label": "Range Contents",
+                    "name": "",
+                    "type": "tab",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "placement": "top",
+                    "endpoint": 0
                 },
                 {
                     "key": "field_5d5c796ae8afd",
-                    "label": "Maps",
+                    "label": "Maps & Map Groups",
                     "name": "maps",
-                    "type": "repeater",
-                    "instructions": "",
+                    "type": "clone",
+                    "instructions": "Add maps and\/or map groups.",
                     "required": 1,
                     "conditional_logic": 0,
                     "wrapper": {
@@ -91,56 +146,13 @@
                         "class": "",
                         "id": ""
                     },
-                    "collapsed": "",
-                    "min": 0,
-                    "max": 0,
-                    "layout": "table",
-                    "button_label": "",
-                    "sub_fields": [
-                        {
-                            "key": "field_5d5c79a3e8aff",
-                            "label": "Year",
-                            "name": "year",
-                            "type": "number",
-                            "instructions": "Input map year.",
-                            "required": 1,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": "",
-                            "min": "",
-                            "max": "",
-                            "step": ""
-                        },
-                        {
-                            "key": "field_5d5c79d6e8b00",
-                            "label": "Map",
-                            "name": "map",
-                            "type": "post_object",
-                            "instructions": "Select the actual map object.",
-                            "required": 1,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "post_type": [
-                                "isf_map"
-                            ],
-                            "taxonomy": [],
-                            "allow_null": 0,
-                            "multiple": 0,
-                            "return_format": "object",
-                            "ui": 1
-                        }
-                    ]
+                    "clone": [
+                        "field_5d71879a72a8b"
+                    ],
+                    "display": "seamless",
+                    "layout": "block",
+                    "prefix_label": 0,
+                    "prefix_name": 0
                 }
             ]
         }
@@ -150,17 +162,17 @@
             {
                 "param": "options_page",
                 "operator": "==",
-                "value": "proposals-settings"
+                "value": "acf-options-proposal-maps"
             }
         ]
     ],
     "menu_order": 0,
     "position": "normal",
-    "style": "default",
+    "style": "seamless",
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1566587493
+    "modified": 1567721582
 }

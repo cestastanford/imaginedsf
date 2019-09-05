@@ -1,0 +1,146 @@
+{
+    "key": "group_5d71872c1aaa4",
+    "title": "Map Groups",
+    "fields": [
+        {
+            "key": "field_5d71872c1d606",
+            "label": "Description",
+            "name": "description",
+            "type": "wysiwyg",
+            "instructions": "Insert a written description for the map group here.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "delay": 0
+        },
+        {
+            "key": "field_5d71872c1d681",
+            "label": "Year",
+            "name": "year",
+            "type": "number",
+            "instructions": "Enter a publication year for the map group.  If this map group appears at the top level of a proposal range, the year will appear next to the title.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "min": 1000,
+            "max": 3000,
+            "step": 1
+        },
+        {
+            "key": "field_5d71872c1d6f9",
+            "label": "Enabled by Default",
+            "name": "enabled_by_default",
+            "type": "true_false",
+            "instructions": "Select whether the map group should be enabled by default.  When enabled, the map group's children will be visible and any enabled children will be rendered.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_5d71872c1d771",
+            "label": "Recommended Basemap",
+            "name": "recommended_basemap",
+            "type": "post_object",
+            "instructions": "Select a recommended basemap to appear when hovered over in the Proposal Maps panel.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "isf_map"
+            ],
+            "taxonomy": "",
+            "allow_null": 1,
+            "multiple": 0,
+            "return_format": "id",
+            "ui": 1
+        },
+        {
+            "key": "field_5d71879a72a8b",
+            "label": "Contents",
+            "name": "contents",
+            "type": "relationship",
+            "instructions": "Add child maps and\/or map groups to this group here.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "isf_map",
+                "isf_map_group"
+            ],
+            "taxonomy": "",
+            "filters": [
+                "search"
+            ],
+            "elements": "",
+            "min": "",
+            "max": "",
+            "return_format": "id"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "isf_map_group"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "permalink",
+        "the_content",
+        "excerpt",
+        "discussion",
+        "comments",
+        "revisions",
+        "slug",
+        "author",
+        "format",
+        "page_attributes",
+        "featured_image",
+        "categories",
+        "tags",
+        "send-trackbacks"
+    ],
+    "active": 1,
+    "description": "",
+    "modified": 1567721874
+}

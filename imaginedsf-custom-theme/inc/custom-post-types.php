@@ -20,9 +20,6 @@ add_action( 'admin_menu', 'remove_unused_menu_options' );
 
 function create_custom_post_types() {
 
-
-    
-
     //  Maps
     register_post_type( MAP_POST_TYPE,
         array(
@@ -44,16 +41,43 @@ function create_custom_post_types() {
                 'insert_into_item' => 'Insert into Map',
                 'uploaded_to_this_item' => 'Uploaded to this Map',
             ),
-            'menu_icon' => 'dashicons-location-alt',
             'public' => true,
-            'has_archive' => true,
-            'hierarchical' => true,
-            'supports' => array( 'title', 'editor', 'page-attributes' ),            
-            'rewrite' => array( 'slug' => 'maps' ),
+            'menu_icon' => 'dashicons-location-alt',
+            'supports' => array( 'title' ),
             'show_in_rest' => true,
-            'taxonomies' => array( VECTOR_FEATURE_GROUPS_TAXONOMY ),
+            'rest_base' => 'maps',
         )
     );
+
+    //  Map Groups
+    register_post_type( MAP_GROUP_POST_TYPE,
+        array(
+            'labels' => array(
+                'name' => 'Map Groups',
+                'singular_name' => 'Map Group',
+                'add_new' => 'Add New',
+                'add_new_item' => 'Add New Map Group',
+                'edit_item' => 'Edit Map Group',
+                'new_item' => 'New Map Group',
+                'view_item' => 'View Map Group',
+                'view_items' => 'View Map Groups',
+                'search_items' => 'Search Map Groups',
+                'not_found' => 'No Map Groups Found',
+                'not_found_in_trash' => 'No Map Groups found in Trash',
+                'all_items' => 'All Map Groups',
+                'archives' => 'Map Group Archives',
+                'attributes' => 'Map Group Attributes',
+                'insert_into_item' => 'Insert into Map Group',
+                'uploaded_to_this_item' => 'Uploaded to this Map Group',
+            ),
+            'public' => true,
+            'menu_icon' => 'dashicons-arrow-right',
+            'supports' => array( 'title' ),
+            'show_in_rest' => true,
+            'rest_base' => 'map_groups',
+        )
+    );
+
 
     //  Narratives
     register_post_type( NARRATIVE_POST_TYPE,
@@ -67,8 +91,8 @@ function create_custom_post_types() {
                 'new_item' => 'New Narrative',
                 'view_item' => 'View Narrative',
                 'view_items' => 'View Narratives',
-                'search_items' - 'Search Narratives',
-                'not_found' - 'No Narratives Found',
+                'search_items' => 'Search Narratives',
+                'not_found' => 'No Narratives Found',
                 'not_found_in_trash' => 'No Narratives found in Trash',
                 'all_items' => 'All Narratives',
                 'archives' => 'Narrative Archives',
@@ -76,10 +100,10 @@ function create_custom_post_types() {
                 'insert_into_item' => 'Insert into Narrative',
                 'uploaded_to_this_item' => 'Uploaded to this Narrative',
             ),
-            'menu_icon' => 'dashicons-book-alt',
             'public' => true,
-            'has_archive' => true,
-            'rewrite' => array( 'slug' => 'narratives' ),
+            'menu_icon' => 'dashicons-book-alt',
+            'show_in_rest' => true,
+            'rest_base' => 'narratives',
         )
     );
 
