@@ -26,4 +26,3 @@ require_once 'inc/options.php';
 */
 
 require_once 'inc/static.php';
-

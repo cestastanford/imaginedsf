@@ -1,23 +1,7 @@
-version: '2'
-
+version: '3.7'
 services:
 
-  wordpress:
-    image: wordpress:4.8
-    environment:
-     - WORDPRESS_DB_HOST=mysql
-     - WORDPRESS_DB_USER=wordpress
-     - WORDPRESS_DB_PASSWORD=wordpress
-    links:
-     - mysql
-    ports:
-     - "12345:80"
-    working_dir: /var/www/html
-    volumes:
-     - ./dev-env/wordpress:/var/www/html
-     - ./imaginedsf-custom-theme:/var/www/html/wp-content/themes/imaginedsf-custom-theme
-
-  mysql:
+  db:
     image: mysql:5.7
     environment:
      - MYSQL_ROOT_PASSWORD=root
@@ -25,5 +9,21 @@ services:
      - MYSQL_USER=wordpress
      - MYSQL_PASSWORD=wordpress
     volumes:
-     - ./dev-env/mysql:/var/lib/mysql
-     - ./dev-env/dumps:/dumps
+     - ./dev-env/db-mysql:/var/lib/mysql
+     - ./dev-env/db-dumps:/dumps
+
+  wp:
+    image: wordpress:5.2.2
+    environment:
+     - WORDPRESS_DB_HOST=db
+     - WORDPRESS_DB_USER=wordpress
+     - WORDPRESS_DB_PASSWORD=wordpress
+    depends_on:
+     - db
+    ports:
+     - "12345:80"
+    volumes:
+     - ./dev-env/wp-wordpress:/var/www/html
+     - ./dev-env/wp-plugins:/var/www/html/wp-content/plugins
+     - ./dev-env/wp-uploads:/var/www/html/wp-content/uploads
+     - ./imaginedsf-custom-theme:/var/www/html/wp-content/themes/imaginedsf-custom-theme
