@@ -6,8 +6,8 @@
             "key": "field_5d5c764bd6150",
             "label": "Introduction",
             "name": "introduction",
-            "type": "post_object",
-            "instructions": "Select the page whose content will be used for the \"Introduction\" content area.",
+            "type": "wysiwyg",
+            "instructions": "Add content for the \"Introduction\" content area.",
             "required": 1,
             "conditional_logic": 0,
             "wrapper": {
@@ -15,21 +15,18 @@
                 "class": "",
                 "id": ""
             },
-            "post_type": [
-                "page"
-            ],
-            "taxonomy": "",
-            "allow_null": 0,
-            "multiple": 0,
-            "return_format": "object",
-            "ui": 1
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "delay": 0
         },
         {
-            "key": "field_5d5c7658d6151",
+            "key": "field_5d7294888e90d",
             "label": "Bibliography",
             "name": "bibliography",
-            "type": "post_object",
-            "instructions": "Select the page whose content will be used for the \"Bibliography\" content area.",
+            "type": "wysiwyg",
+            "instructions": "Add content for the \"Bibliography\" content area.",
             "required": 1,
             "conditional_logic": 0,
             "wrapper": {
@@ -37,43 +34,18 @@
                 "class": "",
                 "id": ""
             },
-            "post_type": [
-                "page"
-            ],
-            "taxonomy": "",
-            "allow_null": 0,
-            "multiple": 0,
-            "return_format": "object",
-            "ui": 1
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "delay": 0
         },
         {
-            "key": "field_5d5c7675d6152",
-            "label": "Feedback",
-            "name": "feedback",
-            "type": "post_object",
-            "instructions": "Select the page whose content will be used for the \"Feedback\" content area.",
-            "required": 1,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "post_type": [
-                "page"
-            ],
-            "taxonomy": "",
-            "allow_null": 0,
-            "multiple": 0,
-            "return_format": "object",
-            "ui": 1
-        },
-        {
-            "key": "field_5d5c7684d6153",
+            "key": "field_5d7294a08e90e",
             "label": "Credits",
             "name": "credits",
-            "type": "post_object",
-            "instructions": "Select the page whose content will be used for the \"Credits\" content area.",
+            "type": "wysiwyg",
+            "instructions": "Add content for the \"Credits\" content area.",
             "required": 1,
             "conditional_logic": 0,
             "wrapper": {
@@ -81,14 +53,30 @@
                 "class": "",
                 "id": ""
             },
-            "post_type": [
-                "page"
-            ],
-            "taxonomy": "",
-            "allow_null": 0,
-            "multiple": 0,
-            "return_format": "object",
-            "ui": 1
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "delay": 0
+        },
+        {
+            "key": "field_5d7294ae8e90f",
+            "label": "Feedback",
+            "name": "feedback",
+            "type": "wysiwyg",
+            "instructions": "Add content for the \"Feedback\" content area.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "delay": 0
         }
     ],
     "location": [
@@ -108,5 +96,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1567722266
+    "modified": 1567790873
 }

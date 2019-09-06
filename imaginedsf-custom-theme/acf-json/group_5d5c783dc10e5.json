@@ -1,6 +1,6 @@
 {
     "key": "group_5d5c783dc10e5",
-    "title": "Proposal Maps",
+    "title": "Proposal Ranges",
     "fields": [
         {
             "key": "field_5d5c7888e8af9",
@@ -22,22 +22,6 @@
             "button_label": "Add Proposal Range",
             "sub_fields": [
                 {
-                    "key": "field_5d7174d3b25ec",
-                    "label": "Range Information",
-                    "name": "",
-                    "type": "tab",
-                    "instructions": "",
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "placement": "top",
-                    "endpoint": 0
-                },
-                {
                     "key": "field_5d5c78c3e8afa",
                     "label": "Proposal Range Title",
                     "name": "title",
@@ -46,7 +30,7 @@
                     "required": 1,
                     "conditional_logic": 0,
                     "wrapper": {
-                        "width": "",
+                        "width": "25",
                         "class": "",
                         "id": ""
                     },
@@ -65,7 +49,7 @@
                     "required": 1,
                     "conditional_logic": 0,
                     "wrapper": {
-                        "width": "50",
+                        "width": "25",
                         "class": "",
                         "id": ""
                     },
@@ -86,7 +70,7 @@
                     "required": 1,
                     "conditional_logic": 0,
                     "wrapper": {
-                        "width": "50",
+                        "width": "25",
                         "class": "",
                         "id": ""
                     },
@@ -107,7 +91,7 @@
                     "required": 0,
                     "conditional_logic": 0,
                     "wrapper": {
-                        "width": "",
+                        "width": "25",
                         "class": "",
                         "id": ""
                     },
@@ -116,22 +100,6 @@
                     "maxlength": "",
                     "rows": "",
                     "new_lines": ""
-                },
-                {
-                    "key": "field_5d7174eeb25ed",
-                    "label": "Range Contents",
-                    "name": "",
-                    "type": "tab",
-                    "instructions": "",
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "placement": "top",
-                    "endpoint": 0
                 },
                 {
                     "key": "field_5d5c796ae8afd",
@@ -162,7 +130,7 @@
             {
                 "param": "options_page",
                 "operator": "==",
-                "value": "acf-options-proposal-maps"
+                "value": "acf-options-proposal-ranges"
             }
         ]
     ],
@@ -174,5 +142,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1567721582
+    "modified": 1567791114
 }
