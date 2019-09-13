@@ -1,33 +1,18 @@
-/*
-*   Import libraries.
-*/
-
 import React from 'react';
-import { Link, Router } from '@reach/router';
+import PropTypes from 'prop-types';
 
-/*
-*   Imports components.
-*/
-
-import Bibliography from './Bibliography';
-import Credits from './Credits';
-import Feedback from './Feedback';
-
-const Header = () => (
-  <>
+export default function Header({ openModal }) {
+  return (
     <div>
-      <Link to="/bibliography">Bibliography</Link>
+      <button type="button" onClick={() => openModal('/bibliography')}>Bibliography</button>
       {' '}
-      <Link to="/credits">Credits</Link>
+      <button type="button" onClick={() => openModal('/credits')}>Credits</button>
       {' '}
-      <Link to="/feedback">Feedback</Link>
+      <button type="button" onClick={() => openModal('/feedback')}>Feedback</button>
     </div>
-    <Router>
-      <Bibliography path="/bibliography" />
-      <Credits path="/credits" />
-      <Feedback path="/feedback" />
-    </Router>
-  </>
-);
+  );
+}
 
-export default Header;
+Header.propTypes = {
+  openModal: PropTypes.func.isRequired,
+};
