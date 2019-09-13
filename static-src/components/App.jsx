@@ -2,17 +2,9 @@
 *   Imports libraries.
 */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { Location, navigate } from '@reach/router';
 import styled from 'styled-components';
-
-
-/*
-* Imports Redux action creators.
-*/
-
-import * as actions from '../state/actions';
 
 
 /*
@@ -23,6 +15,7 @@ import Header from './Header';
 import LeafletMap from './LeafletMap';
 import MapControls from './MapControls';
 import Panel from './Panel';
+import Modals from './Modals';
 
 const StyledDiv = styled.div`
   margin: 1em;
@@ -31,43 +24,36 @@ const StyledDiv = styled.div`
   color: ${({ theme }) => theme.textColor || '#aaa'};
 `;
 
-class App extends React.Component {
-  componentDidMount() {
-    const { mapsRequested, mapsReceived } = this.props;
-    mapsRequested();
-    setTimeout(() => {
-      mapsReceived(
-        { 1: 'sample map' }, // maps
-        ['sample proposal range'], // proposalRanges
-        [1], // basemaps
-      );
-    }, 5000);
-  }
+export default function App() {
+  const [panelLocation, setPanelLocation] = useState(null);
 
-  render() {
-    return (
-      <StyledDiv>
-      App Component
-        <Header />
+  //  Explicitly sets panel view when opening or switching modals
+  //  and returns to panel route when closing modal, allowing modals
+  //  to have routes.
+  const setModal = (modalPath, currentLocation) => {
+    if (modalPath) {
+      navigate(modalPath);
+      setPanelLocation(panelLocation || currentLocation);
+    } else {
+      navigate(panelLocation.pathname);
+      setPanelLocation(null);
+    }
+  };
+
+  return (
+    <Location>
+      {({ location }) => (
         <StyledDiv>
-          <LeafletMap />
-          <Panel />
-          <MapControls />
+          App Component
+          <Header openModal={(modalPath) => setModal(modalPath, location)} />
+          <StyledDiv>
+            <LeafletMap />
+            <Panel location={panelLocation} />
+            <MapControls />
+          </StyledDiv>
+          <Modals closeModal={() => setModal(null, location)} />
         </StyledDiv>
-      </StyledDiv>
-    );
-  }
+      )}
+    </Location>
+  );
 }
-
-App.propTypes = {
-  mapsRequested: PropTypes.func.isRequired,
-  mapsReceived: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = null;
-const mapDispatchToProps = {
-  mapsRequested: actions.mapsRequested,
-  mapsReceived: actions.mapsReceived,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
