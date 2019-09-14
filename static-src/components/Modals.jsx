@@ -1,11 +1,9 @@
 import React from 'react';
 import { Router } from '@reach/router';
-// import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import Modal from './Modal';
 
-export default function Modals({ closeModal }) {
+export default function Modals() {
   const {
     bibliography,
     credits,
@@ -19,13 +17,9 @@ export default function Modals({ closeModal }) {
 
   return (
     <Router>
-      <Modal path="/bibliography" content={bibliography} closeModal={closeModal} />
-      <Modal path="/credits" content={credits} closeModal={closeModal} />
-      <Modal path="/feedback" content={feedback} closeModal={closeModal} />
+      <Modal path="/bibliography" content={bibliography} />
+      <Modal path="/credits" content={credits} />
+      <Modal path="/feedback" content={feedback} />
     </Router>
   );
 }
-
-Modals.propTypes = {
-  closeModal: PropTypes.func.isRequired,
-};

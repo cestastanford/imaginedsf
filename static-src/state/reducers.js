@@ -9,26 +9,38 @@ import { combineReducers } from 'redux';
 * Imports action type constants.
 */
 
-import {
-  MAPS_REQUESTED,
-  MAPS_RECEIVED,
-  NARRATIVES_REQUESTED,
-  NARRATIVES_RECEIVED,
-  CONTENT_REQUESTED,
-  CONTENT_RECEIVED,
-} from './actions';
+import { CONTENT_RECEIVED } from './actions';
 
 
 /*
-* Sets state for map content requests.
+* Helper function to convert an array of ID'd objects into an object
+* mapping from ID to object.
 */
 
-const mapsLoading = (state = false, action) => {
+const mapIDsToObjectKeys = (arr) => {
+  const obj = {};
+  arr.forEach((item) => { obj[item.ID] = item; });
+  return obj;
+};
+
+
+/*
+* Sets state for content types.
+*/
+
+const contentLoaded = (state = false, action) => {
   switch (action.type) {
-    case MAPS_REQUESTED:
+    case CONTENT_RECEIVED:
       return true;
-    case MAPS_RECEIVED:
-      return false;
+    default:
+      return state;
+  }
+};
+
+const contentAreaContent = (state = {}, action) => {
+  switch (action.type) {
+    case CONTENT_RECEIVED:
+      return action.content.content_area_content;
     default:
       return state;
   }
@@ -36,95 +48,55 @@ const mapsLoading = (state = false, action) => {
 
 const maps = (state = {}, action) => {
   switch (action.type) {
-    case MAPS_RECEIVED:
-      return action.maps;
-    default:
-      return state;
-  }
-};
-
-const proposalRanges = (state = [], action) => {
-  switch (action.type) {
-    case MAPS_RECEIVED:
-      return action.proposalRanges;
-    default:
-      return state;
-  }
-};
-
-const basemaps = (state = [], action) => {
-  switch (action.type) {
-    case MAPS_RECEIVED:
-      return action.basemaps;
-    default:
-      return state;
-  }
-};
-
-
-/*
-* Sets state for narrative content requests.
-*/
-
-const narrativesLoading = (state = false, action) => {
-  switch (action.type) {
-    case NARRATIVES_REQUESTED:
-      return true;
-    case NARRATIVES_RECEIVED:
-      return false;
-    default:
-      return state;
-  }
-};
-
-const narratives = (state = [], action) => {
-  switch (action.type) {
-    case NARRATIVES_RECEIVED:
-      return action.narratives;
-    default:
-      return state;
-  }
-};
-
-
-/*
-* Sets state for content area content requests.
-*/
-
-const contentAreaLoading = (state = false, action) => {
-  switch (action.type) {
-    case CONTENT_REQUESTED:
-      return {
-        ...state.contentAreaLoading,
-        [action.contentArea]: true,
-      };
     case CONTENT_RECEIVED:
-      return false;
+      return mapIDsToObjectKeys(action.content.maps);
     default:
       return state;
   }
 };
 
-const contentAreaContent = (state = [], action) => {
+const mapGroups = (state = {}, action) => {
   switch (action.type) {
     case CONTENT_RECEIVED:
-      return {
-        ...state.contentAreaContent,
-        [action.contentArea]: action.content,
-      };
+      return mapIDsToObjectKeys(action.content.map_groups);
     default:
       return state;
   }
 };
 
+const narratives = (state = {}, action) => {
+  switch (action.type) {
+    case CONTENT_RECEIVED:
+      return mapIDsToObjectKeys(action.content.narratives);
+    default:
+      return state;
+  }
+};
+
+const proposalRanges = (state = {}, action) => {
+  switch (action.type) {
+    case CONTENT_RECEIVED:
+      return action.content.proposal_ranges;
+    default:
+      return state;
+  }
+};
+
+const basemaps = (state = {}, action) => {
+  switch (action.type) {
+    case CONTENT_RECEIVED:
+      return action.content.basemaps;
+    default:
+      return state;
+  }
+};
 
 export default combineReducers({
-  mapsLoading,
+  contentLoaded,
+  contentAreaContent,
   maps,
+  mapGroups,
+  narratives,
   proposalRanges,
   basemaps,
-  narrativesLoading,
-  narratives,
-  contentAreaLoading,
-  contentAreaContent,
 });
