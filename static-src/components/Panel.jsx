@@ -3,40 +3,54 @@
 */
 
 import React from 'react';
-import { Link, Router } from '@reach/router';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { Router } from '@reach/router';
 
 /*
 *   Imports components.
 */
 
-import Introduction from './Introduction';
-import ProposalMaps from './ProposalMaps';
-import Narratives from './Narratives';
+import RoutedPanelTabHandler from './RoutedPanelTabHandler';
+import PanelView from './PanelView';
 
-const Panel = ({ location }) => (
-  <>
-    <div>
-      <Link to="/">Introduction</Link>
-      {' '}
-      <Link to="/proposal-maps">Proposal Maps</Link>
-      {' '}
-      <Link to="/narratives">Narratives</Link>
-    </div>
-    <Router location={location || window.location}>
-      <Introduction path="/*" />
-      <ProposalMaps path="/proposal-maps" />
-      <Narratives path="/narratives" />
+
+/*
+* Panel component definition.  Defines the panel views that will
+* appear as tabs in the panel.
+*/
+
+export default function Panel() {
+  const introductionContent = useSelector((state) => state.contentAreaContent.introduction);
+
+  return (
+    <Router>
+      <RoutedPanelTabHandler
+        path="/*"
+        tabs={[
+
+          <PanelView
+            tabPath=""
+            tabTitle="Introduction"
+          >
+            <div dangerouslySetInnerHTML={{ __html: introductionContent }} /> {/* eslint-disable-line */}
+          </PanelView>,
+
+          <PanelView
+            tabPath="proposal-maps"
+            tabTitle="Proposal Maps"
+          >
+            Proposal Maps panel view content.
+          </PanelView>,
+
+          <PanelView
+            tabPath="narratives"
+            tabTitle="Narratives"
+          >
+            Narratives panel view content.
+          </PanelView>,
+
+        ]}
+      />
     </Router>
-  </>
-);
-
-Panel.propTypes = {
-  location: PropTypes.shape({}),
-};
-
-Panel.defaultProps = {
-  location: null,
-};
-
-export default Panel;
+  );
+}

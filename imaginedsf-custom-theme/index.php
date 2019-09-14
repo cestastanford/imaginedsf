@@ -13,7 +13,6 @@
 		<?php wp_head(); ?>
 	</head>
 	<body>
-		<div>This is static content from WordPress!</div>
 		<div id="react"></div>
 		<?php wp_footer(); ?>
 	</body>

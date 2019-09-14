@@ -1,18 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Link } from '@reach/router';
 
-export default function Header({ openModal }) {
+export default function Header() {
   return (
     <div>
-      <button type="button" onClick={() => openModal('/bibliography')}>Bibliography</button>
+      <Link to="/bibliography">Bibliography</Link>
       {' '}
-      <button type="button" onClick={() => openModal('/credits')}>Credits</button>
+      <Link to="/credits">Credits</Link>
       {' '}
-      <button type="button" onClick={() => openModal('/feedback')}>Feedback</button>
+      <Link to="/feedback">Feedback</Link>
     </div>
   );
 }
-
-Header.propTypes = {
-  openModal: PropTypes.func.isRequired,
-};
