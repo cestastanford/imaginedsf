@@ -12,84 +12,76 @@ remove_action( 'template_redirect', 'redirect_canonical' );
 
 
 /**
- * Adds ACF fields to maps, map groups and narratives.
- */
-function isf_register_rest_fields() {
-
-	register_rest_field(
-		array( MAP_POST_TYPE, MAP_GROUP_POST_TYPE, NARRATIVE_POST_TYPE ),
-		'fields',
-		array(
-			'get_callback' => function( $post ) {
-				return get_fields( $post['id'] );
-			},
-		)
-	);
-
-}
-
-add_action( 'rest_api_init', 'isf_register_rest_fields' );
-
-
-/**
  * Retrieves content for a content area.
- *
- * @param WP_REST_Request $request The request object.
  */
-function isf_get_content_area_content( $request ) {
+function isf_get_content_area_content() {
 
-	$content_area = $request['content-area'];
-	if ( in_array( $content_area, CONTENT_AREAS, true ) ) {
-		return get_field( $content_area, CONTENT_AREAS_OPTIONS );
-	} else {
-		return array( 'error' => 'No matching content area found' );
+	$content_area_content = array();
+	foreach ( CONTENT_AREAS as $content_area ) {
+		$content_area_content[ $content_area ] = get_field( $content_area, CONTENT_AREAS_OPTIONS );
 	}
 
+	return $content_area_content;
+
 }
 
 
 /**
- * Adds additional endpoints to retrieve content from Options pages.
+ * Retrieves all published posts of a post type, with ACF fields.
+ *
+ * @param string $post_type The post type constant.
  */
-function isf_register_rest_endpoints() {
+function isf_get_all_published_posts( $post_type ) {
 
-	register_rest_route(
-		'imaginedsf',
-		'/content-area-content',
-		array(
-			'methods'  => 'GET',
-			'callback' => 'isf_get_content_area_content',
-		)
+	$args = array(
+		'post_type'      => $post_type,
+		'posts_per_page' => -1,
 	);
 
-	register_rest_route(
-		'imaginedsf',
-		'/proposal-ranges',
-		array(
-			'methods'  => 'GET',
-			'callback' => function( $request ) {
-				return get_field(
-					'proposal_ranges',
-					PROPOSAL_RANGES_OPTIONS
-				);
-			},
-		)
+	$query             = new WP_Query( $args );
+	$posts             = $query->get_posts();
+	$posts_with_fields = array_map(
+		function( $post ) {
+			$post_array           = $post->to_array();
+			$post_array['fields'] = get_fields( $post->ID );
+			return $post_array;
+		},
+		$posts
 	);
 
-	register_rest_route(
-		'imaginedsf',
-		'/basemaps',
-		array(
-			'methods'  => 'GET',
-			'callback' => function( $request ) {
-				return get_field(
-					'basemaps',
-					BASEMAPS_OPTIONS
-				);
-			},
-		)
-	);
+	return $posts_with_fields;
 
 }
 
-add_action( 'rest_api_init', 'isf_register_rest_endpoints' );
+
+/**
+ * Retrieves all CMS content for the front-end application.
+ */
+function isf_get_all_content() {
+	return array(
+		'content_area_content' => isf_get_content_area_content(),
+		'maps'                 => isf_get_all_published_posts( MAP_POST_TYPE ),
+		'map_groups'           => isf_get_all_published_posts( MAP_GROUP_POST_TYPE ),
+		'narratives'           => isf_get_all_published_posts( NARRATIVE_POST_TYPE ),
+		'proposal_ranges'      => get_field( 'proposal_ranges', PROPOSAL_RANGES_OPTIONS ),
+		'basemaps'             => get_field( 'basemaps', BASEMAPS_OPTIONS ),
+	);
+}
+
+
+/**
+ * Adds endpoint to retrieve all CMS content.
+ */
+add_action(
+	'rest_api_init',
+	function() {
+		register_rest_route(
+			'imaginedsf',
+			'/content',
+			array(
+				'methods'  => 'GET',
+				'callback' => 'isf_get_all_content',
+			)
+		);
+	}
+);
