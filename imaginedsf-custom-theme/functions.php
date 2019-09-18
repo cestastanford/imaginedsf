@@ -38,3 +38,9 @@ require_once 'inc/static.php';
  */
 
 require_once 'inc/rest.php';
+
+
+/**
+ * Returns SPA template for all non-admin and non-REST requests.
+ */
+require_once 'inc/spa.php';

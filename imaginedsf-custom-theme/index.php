@@ -13,7 +13,7 @@
 		<?php wp_head(); ?>
 	</head>
 	<body>
-		<div id="react"></div>
+		<div id="react" style="width: 100vw; height: 100vh;"></div>
 		<?php wp_footer(); ?>
 	</body>
 </html>

@@ -4,8 +4,9 @@
   "description": "This is the repository for the WordPress-based Imagined San Francisco site.",
   "main": "index.js",
   "scripts": {
-    "dev-watch": "webpack --watch --mode=development --devtool=eval-source-map",
-    "lint": "eslint --ext .js,.jsx webpack.config.js static-src"
+    "dev-watch": "rm -rf imaginedsf-custom-theme/static && webpack --watch --mode=development --devtool=source-map",
+    "lint:js": "eslint --ext .js,.jsx webpack.config.js static-src",
+    "lint:css": "stylelint 'static-src/**/*.jsx'"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,9 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "file-loader": "^4.2.0",
+    "normalize.css": "^8.0.1",
+    "postcss": "^7.0.18",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
@@ -40,6 +44,11 @@
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "styled-components": "^4.3.2",
+    "stylelint": "^11.0.0",
+    "stylelint-config-recess-order": "^2.0.3",
+    "stylelint-config-standard": "^19.0.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-processor-styled-components": "^1.8.0",
     "webpack": "^4.39.2",
     "webpack-cli": "^3.3.6"
   }
