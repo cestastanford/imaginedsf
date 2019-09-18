@@ -6,12 +6,6 @@
  */
 
 /**
- * Disables automatic rewrite matching to posts.
- */
-remove_action( 'template_redirect', 'redirect_canonical' );
-
-
-/**
  * Retrieves content for a content area.
  */
 function isf_get_content_area_content() {
