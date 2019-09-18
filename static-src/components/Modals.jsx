@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Router } from '@reach/router';
 
 import Modal from './Modal';
@@ -8,12 +9,7 @@ export default function Modals() {
     bibliography,
     credits,
     feedback,
-  // } = useSelector((state) => state.content);
-  } = {
-    bibliography: 'sample bibliography text',
-    credits: 'sample credits text',
-    feedback: 'sample feedback text',
-  };
+  } = useSelector((state) => state.contentAreaContent);
 
   return (
     <Router>
