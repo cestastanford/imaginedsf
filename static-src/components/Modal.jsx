@@ -21,7 +21,9 @@ export default function Modal({ title, content }) {
       <StyledModalPanel>
         <StyledModalCloseLink to="/">×</StyledModalCloseLink>
         { title ? <StyledModalTitle>{title}</StyledModalTitle> : null }
-        { content }
+        <StyledModalContent>
+          { content }
+        </StyledModalContent>
       </StyledModalPanel>
     </StyledModal>
   );
@@ -65,7 +67,9 @@ const StyledModalBackgroundCloseLink = styled(Link)`
 const StyledModalPanel = styled.div`
   position: relative;
   z-index: 1;
-  width: 40em;
+  display: flex;
+  flex-direction: column;
+  width: 50em;
   max-height: 65%;
   padding: 3.5em 7em;
   overflow-y: scroll;
@@ -93,4 +97,10 @@ const StyledModalTitle = styled.h1`
   font-weight: lighter;
   color: ${({ theme }) => theme.colors.darkGrey};
   text-transform: uppercase;
+`;
+
+const StyledModalContent = styled.div`
+  flex-grow: 1;
+  margin-top: 1em;
+  overflow-y: scroll;
 `;

@@ -82,6 +82,7 @@ const IntroductionContent = styled(HTMLContent)`
   color: ${({ theme }) => theme.colors.darkerGrey};
 
   h2 {
+    margin-top: 0;
     color: ${({ theme }) => theme.colors.lightBlack};
   }
 
