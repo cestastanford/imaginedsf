@@ -79,3 +79,32 @@ add_action(
 		);
 	}
 );
+
+
+/**
+ * Parses body and saves it as a new Feedback post.
+ *
+ * @param WP_REST_Request $request The POST request.
+ */
+function isf_handle_feedback_submission( $request ) {
+	$message = $request->get_json_params()['message'];
+	isf_save_feedback( $message );
+}
+
+
+/**
+ * Adds endpoint to accept feedback.
+ */
+add_action(
+	'rest_api_init',
+	function() {
+		register_rest_route(
+			'imaginedsf',
+			'/feedback',
+			array(
+				'methods'  => 'POST',
+				'callback' => 'isf_handle_feedback_submission',
+			)
+		);
+	}
+);

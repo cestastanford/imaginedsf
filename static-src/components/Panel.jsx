@@ -72,8 +72,8 @@ const StyledPanel = styled.div`
   margin-right: 1.25em;
   overflow: hidden;
   background-color: ${({ theme }) => theme.colors.panelBackground};
-  box-shadow: ${({ theme }) => theme.shadows.Panel};
   border-radius: ${({ theme }) => theme.radii.standard};
+  box-shadow: ${({ theme }) => theme.shadows.Panel};
 `;
 
 const IntroductionContent = styled(HTMLContent)`
