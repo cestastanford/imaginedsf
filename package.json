@@ -35,7 +35,6 @@
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
     "file-loader": "^4.2.0",
-    "normalize.css": "^8.0.1",
     "postcss": "^7.0.18",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
@@ -50,6 +49,7 @@
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-processor-styled-components": "^1.8.0",
     "webpack": "^4.39.2",
-    "webpack-cli": "^3.3.6"
+    "webpack-cli": "^3.3.6",
+    "whatwg-fetch": "^3.0.0"
   }
 }

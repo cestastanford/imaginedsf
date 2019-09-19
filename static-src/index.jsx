@@ -1,10 +1,4 @@
 /*
-* Imports assets.
-*/
-
-import 'normalize.css';
-
-/*
 * Imports libraries.
 */
 

@@ -7,7 +7,7 @@ import { Link } from '@reach/router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import { HTMLContent, StyledLink } from './reusable-components';
+import { StyledLink } from './reusable-components';
 
 
 /*
@@ -20,15 +20,15 @@ export default function Modal({ title, content }) {
       <StyledModalBackgroundCloseLink to="/" />
       <StyledModalPanel>
         <StyledModalCloseLink to="/">×</StyledModalCloseLink>
-        { title ? <StyledModalTitle>{title}</StyledModalTitle> : null}
-        <HTMLContent content={content} />
+        { title ? <StyledModalTitle>{title}</StyledModalTitle> : null }
+        { content }
       </StyledModalPanel>
     </StyledModal>
   );
 }
 
 Modal.propTypes = {
-  content: PropTypes.string.isRequired,
+  content: PropTypes.node.isRequired,
   title: PropTypes.string,
 };
 

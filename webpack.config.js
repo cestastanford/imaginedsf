@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   entry: [
-    'normalize.css',
+    'whatwg-fetch',
     'babel-polyfill',
     './static-src/index.jsx',
   ],

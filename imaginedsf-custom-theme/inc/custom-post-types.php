@@ -113,6 +113,38 @@ function isf_create_custom_post_types() {
 		)
 	);
 
+	// Feedback.
+	register_post_type(
+		FEEDBACK_POST_TYPE,
+		array(
+			'labels'       => array(
+				'name'                  => 'Feedback',
+				'singular_name'         => 'Feedback',
+				'add_new'               => 'Add New',
+				'add_new_item'          => 'Add New Feedback',
+				'edit_item'             => 'Feedback',
+				'new_item'              => 'New Feedback',
+				'view_item'             => 'View Feedback',
+				'view_items'            => 'View Feedback',
+				'search_items'          => 'Search Feedback',
+				'not_found'             => 'No Feedback Found',
+				'not_found_in_trash'    => 'No Feedback found in Trash',
+				'all_items'             => 'All Feedback',
+				'archives'              => 'Feedback Archives',
+				'attributes'            => 'Feedback Attributes',
+				'insert_into_item'      => 'Insert into Feedback',
+				'uploaded_to_this_item' => 'Uploaded to this Feedback',
+			),
+			'public'       => true,
+			'menu_icon'    => 'dashicons-testimonial',
+			'supports'     => false,
+			'map_meta_cap' => true,
+			'capabilities' => array(
+				'create_posts' => false,
+			),
+		)
+	);
+
 }
 
 add_action( 'init', 'isf_create_custom_post_types' );
