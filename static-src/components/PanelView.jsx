@@ -4,6 +4,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 
 /*
@@ -13,10 +14,12 @@ import PropTypes from 'prop-types';
 
 export default function PanelView({ headerContent, children }) {
   return (
-    <div>
-      { headerContent ? <div>{headerContent}</div> : null }
-      { children }
-    </div>
+    <StyledPanelView>
+      { headerContent ? (
+        <StyledPanelViewHeader>{headerContent}</StyledPanelViewHeader>
+      ) : null }
+      <StyledPanelViewContent>{ children }</StyledPanelViewContent>
+    </StyledPanelView>
   );
 }
 
@@ -29,3 +32,24 @@ PanelView.defaultProps = {
   headerContent: null,
   children: null,
 };
+
+
+/*
+* Styles for PanelView component.
+*/
+
+const StyledPanelView = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledPanelViewHeader = styled.div`
+  padding: 1.25em;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+`;
+
+const StyledPanelViewContent = styled.div`
+  flex-grow: 1;
+  padding: 1.25em;
+  overflow-y: scroll;
+`;

@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import ContentLoader from './ContentLoader';
 import Header from './Header';
 import LeafletMap from './LeafletMap';
-import MapControls from './MapControls';
+import VisibleMapArea from './VisibleMapArea';
 import Panel from './Panel';
 import Modals from './Modals';
 
@@ -29,9 +29,9 @@ export default function App() {
         <StyledMainContainer>
           <Header />
           <StyledBody>
-            <Panel />
-            <MapControls />
             <LeafletMap />
+            <Panel />
+            <VisibleMapArea />
             <Modals />
           </StyledBody>
         </StyledMainContainer>
@@ -61,5 +61,8 @@ const StyledMainContainer = styled.div`
 `;
 
 const StyledBody = styled.div`
+  position: relative;
+  display: flex;
   flex-grow: 1;
+  padding: 1.25em;
 `;
