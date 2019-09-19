@@ -44,3 +44,9 @@ require_once 'inc/rest.php';
  * Returns SPA template for all non-admin and non-REST requests.
  */
 require_once 'inc/spa.php';
+
+
+/**
+ * Handles submission and viewing of feedback.
+ */
+require_once 'inc/feedback.php';

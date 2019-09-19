@@ -12,6 +12,7 @@
 define( 'MAP_POST_TYPE', 'isf_map' );
 define( 'MAP_GROUP_POST_TYPE', 'isf_map_group' );
 define( 'NARRATIVE_POST_TYPE', 'isf_narrative' );
+define( 'FEEDBACK_POST_TYPE', 'isf_feedback' );
 
 
 /**
