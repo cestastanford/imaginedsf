@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link } from '@reach/router';
 import styled from 'styled-components';
 
 import logoImg from '../img/logo.svg';
+
+import { StyledLink } from './reusable-components';
 
 export default function Header() {
   return (
@@ -20,29 +21,21 @@ export default function Header() {
 }
 
 const StyledHeader = styled.div`
+  position: relative;
+  z-index: ${({ theme }) => theme.zIndices.Header};
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  padding: 1em 1em 0.5em 1em;
-  box-shadow: 0 0 10px #ddd;
+  padding: 0.75em 0.75em 0.5em 0.75em;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
 
 const StyledLogo = styled.img`
-  height: 4em;
-`;
-
-const StyledLink = styled(Link)`
-  color: inherit;
-  text-decoration: none;
-  transition: opacity ${({ theme }) => theme.transitionDurations.linkHover};
-
-  &:hover {
-    opacity: ${({ theme }) => theme.opacities.linkHover};
-  }
+  height: 3em;
 `;
 
 const NavLinks = styled.div`
-  margin-bottom: 0.85em;
+  margin-bottom: 0.7em;
   color: ${({ theme }) => theme.colors.darkGrey};
   text-transform: lowercase;
 

@@ -3,8 +3,11 @@
 */
 
 import React, { useRef } from 'react';
-import { Link, navigate } from '@reach/router';
+import { navigate } from '@reach/router';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+import { StyledLink } from './reusable-components';
 
 
 /*
@@ -31,22 +34,24 @@ export default function RoutedPanelTabHandler(props) {
   previousPathTab.current = pathTab;
 
   return (
-    <div>
-      <div>
+    <StyledRoutedPanelTabHandler>
+      <StyledTabs>
         {
           tabs.map((tab) => (
-            <Link
+            <StyledTab
               to={`/${tab.props.tabPath}`}
-              style={{ color: tab === activeTab.current ? 'red' : 'inherit' }}
+              className={tab === activeTab.current ? 'active' : ''}
               key={tab.props.tabPath}
             >
               {tab.props.tabTitle}
-            </Link>
+            </StyledTab>
           ))
         }
-      </div>
-      <div>{activeTab.current}</div>
-    </div>
+      </StyledTabs>
+      <StyledRoutedActiveTabContent>
+        {activeTab.current}
+      </StyledRoutedActiveTabContent>
+    </StyledRoutedPanelTabHandler>
   );
 }
 
@@ -58,3 +63,51 @@ RoutedPanelTabHandler.propTypes = {
 RoutedPanelTabHandler.defaultProps = {
   '*': '',
 };
+
+
+/*
+* Styles for the RoutedPanelTabHandler component.
+*/
+
+const StyledRoutedPanelTabHandler = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledTabs = styled.div`
+  z-index: 1;
+  display: flex;
+  height: 2.75em;
+  background-color: ${({ theme }) => theme.colors.lightGrey};
+`;
+
+const StyledTab = styled(StyledLink)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 33.33%;
+  color: ${({ theme }) => theme.colors.darkGrey};
+  text-transform: lowercase;
+  background-color: ${({ theme }) => theme.colors.lightGrey};
+  border-top-left-radius: ${({ theme }) => theme.radii.standard};
+  border-top-right-radius: ${({ theme }) => theme.radii.standard};
+  transition: background-color ${({ theme }) => theme.transitionDurations.linkHover};
+
+  &.active {
+    font-weight: bolder;
+    background-color: ${({ theme }) => theme.colors.panelBackground};
+
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.panelBackground};
+    }
+  }
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.lighterGrey};
+    opacity: 1;
+  }
+`;
+
+const StyledRoutedActiveTabContent = styled.div`
+  flex-grow: 1;
+`;
