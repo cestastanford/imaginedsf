@@ -13,9 +13,9 @@ export default function Modals() {
 
   return (
     <Router>
-      <Modal path="/bibliography" content={bibliography} />
-      <Modal path="/credits" content={credits} />
-      <Modal path="/feedback" content={feedback} />
+      <Modal path="/bibliography" title="Bibliography" content={bibliography} />
+      <Modal path="/credits" title="Credits" content={credits} />
+      <Modal path="/feedback" title="Feedback" content={feedback} />
     </Router>
   );
 }
