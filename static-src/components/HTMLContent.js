@@ -4,7 +4,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from '@reach/router';
 import styled from 'styled-components';
 
 
@@ -13,7 +12,7 @@ import styled from 'styled-components';
 * from WordPress.
 */
 
-export function HTMLContent({ content, className }) {
+export default function HTMLContent({ content, className }) {
   return (
     <StyledHTMLContent
       className={className}
@@ -87,20 +86,5 @@ const StyledHTMLContent = styled.div`
     max-width: 100%;
     height: auto;
     margin: 1em 0;
-  }
-`;
-
-
-/*
-* Defines a styled version of Reach Router's `Link`.
-*/
-
-export const StyledLink = styled(Link)`
-  color: inherit;
-  text-decoration: none;
-  transition: opacity ${({ theme }) => theme.transitionDurations.linkHover};
-
-  &:hover {
-    opacity: ${({ theme }) => theme.opacities.linkHover};
   }
 `;

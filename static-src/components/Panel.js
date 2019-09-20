@@ -13,7 +13,7 @@ import styled from 'styled-components';
 
 import RoutedPanelTabHandler from './RoutedPanelTabHandler';
 import PanelView from './PanelView';
-import { HTMLContent } from './reusable-components';
+import HTMLContent from './HTMLContent';
 
 
 /*
