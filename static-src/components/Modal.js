@@ -7,8 +7,6 @@ import { Link } from '@reach/router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import { StyledLink } from './reusable-components';
-
 
 /*
 * Modal component definition.
@@ -78,7 +76,7 @@ const StyledModalPanel = styled.div`
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
 `;
 
-const StyledModalCloseLink = styled(StyledLink)`
+const StyledModalCloseLink = styled(Link)`
   position: absolute;
   top: 0;
   right: 0;
@@ -90,6 +88,12 @@ const StyledModalCloseLink = styled(StyledLink)`
   font-size: 1.5em;
   font-weight: lighter;
   color: ${({ theme }) => theme.colors.darkGrey};
+  text-decoration: none;
+  transition: ${({ theme }) => theme.transitionDurations.linkHover};
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.darkerGrey};
+  }
 `;
 
 const StyledModalTitle = styled.h1`

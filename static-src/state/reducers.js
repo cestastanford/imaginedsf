@@ -12,6 +12,7 @@ import {
 
 import {
   CONTENT_RECEIVED,
+  GEOJSON_REQUESTED,
   GEOJSON_RECEIVED,
   SET_DEFAULT_MAP_STATE,
   SET_MAP_STATE_FROM_HASH,
@@ -99,7 +100,7 @@ const normalizeMapContent = ({
   const geoJson = {};
   Object.entries(validatedMapsAndGroupsById).forEach(([id, item]) => {
     if (item.source_type === GEOJSON_MAP_TYPE) {
-      geoJson[id] = GEOJSON_NOT_REQUESTED;
+      geoJson[id] = GEOJSON_STATUS.NOT_REQUESTED;
     }
   });
 
