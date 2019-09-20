@@ -2,8 +2,8 @@
 * Imports libraries.
 */
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useRef, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 
@@ -11,11 +11,7 @@ import styled from 'styled-components';
 * Imports Redux action creators.
 */
 
-import {
-  fetchContent,
-  setDefaultMapState,
-  setMapStateFromHash,
-} from '../state/actions';
+import { fetchContent } from '../state/actions';
 
 
 /*
@@ -30,65 +26,24 @@ import Modals from './Modals';
 
 
 /*
-* Encapsulates the logic that synchronizes the map state and the
-* URL hash.
-*/
-
-function useHashMapState(loading) {
-  const dispatch = useDispatch();
-  const mapState = useSelector((state) => state.mapState);
-
-  //  Hash change handler
-  const handleHashChange = useCallback(() => {
-    dispatch(setMapStateFromHash(window.location.hash));
-  }, [dispatch]);
-
-  //  Adds hash change listener
-  useEffect(() => {
-    if (!loading) {
-      window.addEventListener('hashchange', handleHashChange);
-      return () => {
-        window.removeEventListener('hashchange', handleHashChange);
-      };
-    }
-
-    return undefined;
-  }, [loading, handleHashChange]);
-
-  //  Removes listener and updates hash on map state change
-  useEffect(() => {
-    if (!loading) {
-      window.removeEventListener('hashchange', handleHashChange);
-      window.location.hash = encodeURIComponent(JSON.stringify({ mapState }));
-      window.addEventListener('hashchange', handleHashChange);
-    }
-  }, [loading, mapState, handleHashChange]);
-}
-
-
-/*
 * Defines top-level App component, which contains all other app components
 * and starts initial data loading and state initialization.
 */
 
 export default function App() {
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+  const visibleMapArea = useRef();
+  const dispatch = useDispatch();
 
   //  Downloads initial content and sets initial state
   useEffect(() => {
     const initApp = async () => {
       await dispatch(fetchContent());
-      dispatch(setDefaultMapState());
-      dispatch(setMapStateFromHash(window.location.hash));
       setLoading(false);
     };
 
     initApp();
   }, [dispatch]);
-
-  //  Synchronizes mapState with URL hash
-  useHashMapState(loading);
 
   return (
     <StyledApp>
@@ -97,9 +52,9 @@ export default function App() {
         <StyledMainContainer>
           <Header />
           <StyledBody>
-            <LeafletMap />
+            <LeafletMap visibleMapAreaRef={visibleMapArea} />
             <Panel />
-            <VisibleMapArea />
+            <VisibleMapArea ref={visibleMapArea} />
             <Modals />
           </StyledBody>
         </StyledMainContainer>
