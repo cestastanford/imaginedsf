@@ -35,6 +35,7 @@
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
     "file-loader": "^4.2.0",
+    "leaflet": "^1.5.1",
     "postcss": "^7.0.18",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
