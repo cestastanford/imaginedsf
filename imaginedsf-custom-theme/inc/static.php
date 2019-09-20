@@ -20,6 +20,14 @@ function isf_enqueue_static_assets() {
 	);
 
 	wp_enqueue_script(
+		'leaflet-js',
+		'https://unpkg.com/leaflet@1.5.1/dist/leaflet.js',
+		array(),
+		1,
+		true
+	);
+
+	wp_enqueue_script(
 		'font-awesome',
 		'https://use.fontawesome.com/releases/v5.3.1/js/all.js',
 		array(),
@@ -27,7 +35,6 @@ function isf_enqueue_static_assets() {
 		true
 	);
 
-	$normalize_css_path = '/static/normalize.css';
 	wp_enqueue_style(
 		'bulma',
 		'https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css',
@@ -38,6 +45,13 @@ function isf_enqueue_static_assets() {
 	wp_enqueue_style(
 		'google-fonts',
 		'https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,700,700i&display=swap',
+		array(),
+		1
+	);
+
+	wp_enqueue_style(
+		'leaflet-css',
+		'https://unpkg.com/leaflet@1.5.1/dist/leaflet.css',
 		array(),
 		1
 	);
