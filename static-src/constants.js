@@ -28,6 +28,6 @@ export const GEOJSON_MAP_TYPE = 'wfs_geojson';
 */
 
 export const GEOJSON_STATUS = {
-  NOT_REQUESTED: 'GEOJSON_NOT_REQUESTED',
-  REQUESTED: 'GEOJSON_REQUESTED',
+  NOT_REQUESTED: 'not_requested',
+  REQUESTED: 'requested',
 };

@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev-watch": "rm -rf imaginedsf-custom-theme/static && webpack --watch --mode=development --devtool=source-map",
-    "lint:js": "eslint --ext .js,.jsx webpack.config.js static-src",
-    "lint:css": "stylelint 'static-src/**/*.jsx'"
+    "lint:js": "eslint webpack.config.js static-src",
+    "lint:css": "stylelint 'static-src/**/*.js'"
   },
   "repository": {
     "type": "git",

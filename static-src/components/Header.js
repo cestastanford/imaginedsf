@@ -1,9 +1,8 @@
 import React from 'react';
+import { Link } from '@reach/router';
 import styled from 'styled-components';
 
 import logoImg from '../img/logo.svg';
-
-import { StyledLink } from './reusable-components';
 
 export default function Header() {
   return (
@@ -32,6 +31,16 @@ const StyledHeader = styled.div`
 
 const StyledLogo = styled.img`
   height: 3em;
+`;
+
+const StyledLink = styled(Link)`
+  color: inherit;
+  text-decoration: none;
+  transition: opacity ${({ theme }) => theme.transitionDurations.linkHover};
+
+  &:hover {
+    opacity: ${({ theme }) => theme.opacities.linkHover};
+  }
 `;
 
 const NavLinks = styled.div`

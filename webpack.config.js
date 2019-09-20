@@ -4,21 +4,23 @@ module.exports = {
   entry: [
     'whatwg-fetch',
     'babel-polyfill',
-    './static-src/index.jsx',
+    './static-src/index.js',
   ],
+
   output: {
     filename: 'script.js',
     path: path.resolve(__dirname, 'imaginedsf-custom-theme/static'),
     publicPath: '/wp-content/themes/imaginedsf-custom-theme/static/',
   },
+
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-        resolve: { extensions: ['.js', '.jsx'] },
       },
+
       {
         test: /\.(css|svg)$/,
         loader: 'file-loader',

@@ -3,11 +3,9 @@
 */
 
 import React, { useRef } from 'react';
-import { navigate } from '@reach/router';
+import { Link, navigate } from '@reach/router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
-import { StyledLink } from './reusable-components';
 
 
 /*
@@ -81,12 +79,13 @@ const StyledTabs = styled.div`
   background-color: ${({ theme }) => theme.colors.lightGrey};
 `;
 
-const StyledTab = styled(StyledLink)`
+const StyledTab = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 33.33%;
   color: ${({ theme }) => theme.colors.darkGrey};
+  text-decoration: none;
   text-transform: lowercase;
   background-color: ${({ theme }) => theme.colors.lightGrey};
   border-top-left-radius: ${({ theme }) => theme.radii.standard};

@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { Router } from '@reach/router';
 
 import Modal from './Modal';
-import { HTMLContent } from './reusable-components';
+import HTMLContent from './HTMLContent';
 import FeedbackForm from './FeedbackForm';
 
 /*

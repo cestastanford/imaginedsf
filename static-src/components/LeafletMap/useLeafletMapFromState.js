@@ -2,12 +2,10 @@
 * Imports.
 */
 
-import React, { useRef, useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import { useRef, useState, useEffect } from 'react';
 import * as L from 'leaflet';
 
-import { fetchGeoJson } from '../state/actions';
+import { fetchGeoJson } from '../../state/actions';
 
 import {
   MAP_GROUP_POST_TYPE,
@@ -15,15 +13,15 @@ import {
   WMS_MAP_TYPE,
   GEOJSON_MAP_TYPE,
   GEOJSON_STATUS,
-} from '../constants';
+} from '../../constants';
 
 
 /*
-* Defines the LeafletMap component, which renders the Leaflet map
-* and updates it when Redux's mapState updates.
+* Custom hook that creates a Leaflet map and keeps it synchronized
+* with the Redux state.
 */
 
-export default function LeafletMap() {
+export default function useLeafletMapFromState(mapContent, mapState, dispatch) {
   const mapContainer = useRef();
   const leafletMap = useRef();
   const [leafletLayers, setLeafletLayers] = useState([]);
@@ -32,7 +30,7 @@ export default function LeafletMap() {
     proposalRanges,
     basemaps,
     geoJson,
-  } = useSelector((state) => state.mapContent);
+  } = mapContent;
 
   const {
     enabled,
@@ -40,9 +38,7 @@ export default function LeafletMap() {
     center,
     zoomLevel,
     bounds,
-  } = useSelector((state) => state.mapState);
-
-  const dispatch = useDispatch();
+  } = mapState;
 
   //  Creates Leaflet map
   useEffect(() => {
@@ -144,14 +140,5 @@ export default function LeafletMap() {
     });
   }, [leafletLayers, geoJson]);
 
-  return <StyledLeafletMap ref={mapContainer} />;
+  return mapContainer;
 }
-
-const StyledLeafletMap = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: ${({ theme }) => theme.zIndices.LeafletMap};
-  width: 100%;
-  height: 100%;
-`;
