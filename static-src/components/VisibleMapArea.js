@@ -12,13 +12,13 @@ import styled from 'styled-components';
 * of the map area not hidden behind panels.
 */
 
-export default function VisibleMapArea() {
-  return (
-    <StyledVisibleMapArea>
-      VisibleMapArea Component
-    </StyledVisibleMapArea>
-  );
-}
+const VisibleMapArea = React.forwardRef((props, ref) => (
+  <StyledVisibleMapArea ref={ref}>
+    VisibleMapArea Component
+  </StyledVisibleMapArea>
+));
+
+export default VisibleMapArea;
 
 
 /*
