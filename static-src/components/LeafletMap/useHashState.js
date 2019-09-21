@@ -15,7 +15,7 @@ import { latLngBoundsToArrays } from './leaflet';
 
 const getMapStateFromHash = (hash) => {
   try {
-    const hashObject = JSON.parse(decodeURIComponent(hash.substring(1)));
+    const hashObject = JSON.parse(atob(decodeURI(hash.substring(1))));
     const { enabled, opacity, bounds } = hashObject.mapState;
 
     return {
@@ -38,7 +38,7 @@ const getHashFromMapState = ({ enabled, opacity }, bounds) => {
     },
   };
 
-  return encodeURIComponent(JSON.stringify(hashObject));
+  return encodeURI(btoa(JSON.stringify(hashObject)));
 };
 
 /*

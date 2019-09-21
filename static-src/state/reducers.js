@@ -63,7 +63,7 @@ const mapState = (state = {}, action) => {
       return {
         ...state,
         center: action.center,
-        zoomLevel: action.zoomLevel,
+        zoom: action.zoom,
         bounds: action.bounds,
       };
 

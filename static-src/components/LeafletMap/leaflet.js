@@ -3,7 +3,6 @@
 */
 
 import {
-  Map,
   DivIcon,
   Marker,
   Popup,
@@ -26,19 +25,9 @@ export const latLngToArray = (latLng) => [latLng.lat, latLng.lng];
 */
 
 export const latLngBoundsToArrays = (latLngBounds) => [
-  latLngToArray(latLngBounds.getNorthEast()),
-  latLngToArray(latLngBounds.getSouthWest()),
+  latLngToArray(latLngBounds.getNorthWest()),
+  latLngToArray(latLngBounds.getSouthEast()),
 ];
-
-
-/*
-* Creates a Leaflet Map.
-*/
-
-export const createMap = (mapContainer) => new Map(
-  mapContainer,
-  { zoomControl: false },
-);
 
 
 /*

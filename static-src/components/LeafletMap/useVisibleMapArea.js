@@ -3,7 +3,7 @@
 */
 
 import { useRef, useEffect } from 'react';
-import { LatLngBounds } from 'leaflet';
+import { LatLngBounds, Point, Transformation, Rectangle } from 'leaflet';
 
 
 /*
@@ -30,17 +30,17 @@ class VisibleMapAreaProxy {
     } = this.areaElement.getBoundingClientRect();
 
     //  Get bounds of visible area in pixels relative to map container
-    const areaUpperLeftContainerPoint = [areaX - containerX, areaY - containerY];
-    const areaLowerRightContainerPoint = [
-      areaUpperLeftContainerPoint[0] + areaWidth,
-      areaUpperLeftContainerPoint[1] + areaHeight,
-    ];
+    const areaTopLeftContainerPoint = new Point(areaX - containerX, areaY - containerY);
+    const areaBottomRightContainerPoint = new Point(
+      areaTopLeftContainerPoint.x + areaWidth,
+      areaTopLeftContainerPoint.y + areaHeight,
+    );
 
     //  Convert to LatLngBounds
-    return new LatLngBounds([
-      this.map.containerPointToLatLng(areaUpperLeftContainerPoint),
-      this.map.containerPointToLatLng(areaLowerRightContainerPoint),
-    ]);
+    return new LatLngBounds(
+      this.map.containerPointToLatLng(areaTopLeftContainerPoint),
+      this.map.containerPointToLatLng(areaBottomRightContainerPoint),
+    );
   }
 
   getAreaCenterContainerPoint() {
@@ -58,10 +58,10 @@ class VisibleMapAreaProxy {
 
     //  Get center point of visible area in pixels relative to map
     //  container
-    return [
+    return new Point(
       areaX + (areaWidth / 2) - containerX,
       areaY + (areaHeight / 2) - containerY,
-    ];
+    );
   }
 
   getCenter() {
@@ -73,7 +73,13 @@ class VisibleMapAreaProxy {
 
   getZoom(...args) { return this.map.getZoom(...args); }
 
-  fitBounds(bounds) {
+  setView(newAreaCenterLatLng, newZoom) {
+    //  Zoom to specified level around the center of the visible
+    //  area.
+    this.map.setZoomAround(this.getAreaCenterContainerPoint(), newZoom, { animate: true });
+  }
+
+  fitBounds(areaBounds) {
     const {
       left: containerX,
       top: containerY,
@@ -89,52 +95,24 @@ class VisibleMapAreaProxy {
     } = this.areaElement.getBoundingClientRect();
 
     //  Get top-left and bottom-right coordinates of visible area
-    const areaUpperLeftContainerPoint = [areaX - containerX, areaY - containerY];
-    const areaLowerRightContainerPoint = [
-      areaUpperLeftContainerPoint[0] + areaWidth,
-      areaUpperLeftContainerPoint[1] + areaHeight,
-    ];
+    const areaTopLeftContainerPoint = new Point(areaX - containerX, areaY - containerY);
+    const areaBottomRightContainerPoint = new Point(
+      areaTopLeftContainerPoint.x + areaWidth,
+      areaTopLeftContainerPoint.y + areaHeight,
+    );
 
     //  Convert to padding values that Leaflet should fit bounds
     //  inside of, in pixels relative to map container
     return this.map.fitBounds(
-      bounds,
+      areaBounds,
       {
-        paddingTopLeft: areaUpperLeftContainerPoint,
-        paddingBottomRight: [
-          containerWidth - areaLowerRightContainerPoint[0],
-          containerHeight - areaLowerRightContainerPoint[1],
-        ],
+        paddingTopLeft: areaTopLeftContainerPoint,
+        paddingBottomRight: new Point(
+          containerWidth - areaBottomRightContainerPoint.x,
+          containerHeight - areaBottomRightContainerPoint.y,
+        ),
       },
     );
-  }
-
-  setView(newAreaCenterLatLng, newZoomLevel) {
-    const {
-      width: containerWidth,
-      height: containerHeight,
-    } = this.map.getContainer().getBoundingClientRect();
-
-    //  newAreaCenterLatLng is the LatLng that will be at the center
-    //  of the visible map area; convert to pixels relative to the
-    //  map container
-    const newAreaCenterContainerPoint = this.map.latLngToContainerPoint(newAreaCenterLatLng);
-
-    //  Find point that will be at the center of the map container
-    const areaCenterContainerPoint = this.getAreaCenterContainerPoint();
-    const newMapContainerPoint = [
-      newAreaCenterContainerPoint.x - areaCenterContainerPoint[0],
-      newAreaCenterContainerPoint.y - areaCenterContainerPoint[1],
-    ];
-
-    const newMapCenterContainerPoint = [
-      newMapContainerPoint[0] + containerWidth / 2,
-      newMapContainerPoint[1] + containerHeight / 2,
-    ];
-
-    //  Convert back to LatLng
-    const newMapCenterLatLng = this.map.containerPointToLatLng(newMapCenterContainerPoint);
-    return this.map.setView(newMapCenterLatLng, newZoomLevel);
   }
 
   hasLayer(...args) { return this.map.hasLayer(...args); }
