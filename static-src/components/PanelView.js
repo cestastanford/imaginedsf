@@ -12,25 +12,25 @@ import styled from 'styled-components';
 * with an optional static header as a tab on a Panel.
 */
 
-export default function PanelView({ headerContent, children }) {
+export default function PanelView({ headerContent, bodyContent }) {
   return (
     <StyledPanelView>
       { headerContent ? (
-        <StyledPanelViewHeader>{headerContent}</StyledPanelViewHeader>
+        <StyledPanelViewHeader>{ headerContent }</StyledPanelViewHeader>
       ) : null }
-      <StyledPanelViewContent>{ children }</StyledPanelViewContent>
+      <StyledPanelViewBody>{ bodyContent }</StyledPanelViewBody>
     </StyledPanelView>
   );
 }
 
 PanelView.propTypes = {
   headerContent: PropTypes.node,
-  children: PropTypes.node,
+  bodyContent: PropTypes.node,
 };
 
 PanelView.defaultProps = {
   headerContent: null,
-  children: null,
+  bodyContent: null,
 };
 
 
@@ -48,7 +48,7 @@ const StyledPanelViewHeader = styled.div`
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
 
-const StyledPanelViewContent = styled.div`
+const StyledPanelViewBody = styled.div`
   flex-grow: 1;
   padding: 1.25em;
   overflow-y: scroll;

@@ -2,17 +2,17 @@
 * Imports.
 */
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import useLeafletMap from './useLeafletMap';
 import useMapContent from './useMapContent';
 import useMapState from './useMapState';
 import useGeoJson from './useGeoJson';
 import useHashState from './useHashState';
 import useVisibleMapArea from './useVisibleMapArea';
 import VisibleMapArea from '../VisibleMapArea';
-import { createMap } from './leaflet';
 
 
 /*
@@ -22,12 +22,9 @@ import { createMap } from './leaflet';
 
 export default function LeafletMap({ visibleMapAreaRef }) {
   const mapContainer = useRef();
-  const leafletMap = useRef();
 
   //  Creates Leaflet map
-  useEffect(() => {
-    leafletMap.current = createMap(mapContainer.current);
-  }, [mapContainer, leafletMap]);
+  const leafletMap = useLeafletMap(mapContainer);
 
   //  Creates Leaflet map layers from downloaded map content
   const leafletLayers = useMapContent();

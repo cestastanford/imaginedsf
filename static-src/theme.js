@@ -35,7 +35,8 @@ const zIndices = {
 
 //  Shadows
 const shadows = {
-  Panel: '0 5px 20px rgba(0, 0, 0, 0.15)',
+  Panel: '0 5px 10px rgba(0, 0, 0, 0.15)',
+  Control: '2px 4px 6px rgba(0, 0, 0, 0.15)',
 };
 
 //  Radii

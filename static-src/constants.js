@@ -1,4 +1,11 @@
 /*
+* Imports
+*/
+
+import { LatLngBounds } from 'leaflet';
+
+
+/*
 * WordPress custom post types.
 */
 
@@ -7,11 +14,28 @@ export const MAP_GROUP_POST_TYPE = 'isf_map_group';
 
 
 /*
-* Initial San Francisco bounds.
+* Initial map bounds.
 */
 
-export const INITIAL_BOUNDS = [[37.833996, -122.539439], [37.682302, -122.278852]];
-export const PANNING_BOUNDS = [[37.933996, -122.639439], [37.582302, -122.178852]];
+export const INITIAL_BOUNDS = [
+  [37.6888, -122.5386], // NW
+  [37.8224, -122.3486], // SE
+];
+
+export const MAX_BOUNDS = [
+  [
+    INITIAL_BOUNDS[0][0] - (INITIAL_BOUNDS[1][0] - INITIAL_BOUNDS[0][0]) * 1.25, // North
+    INITIAL_BOUNDS[0][1] - (INITIAL_BOUNDS[1][1] - INITIAL_BOUNDS[0][1]) * 1.5, // West
+  ],
+  [
+    INITIAL_BOUNDS[1][0] - (INITIAL_BOUNDS[0][0] - INITIAL_BOUNDS[1][0]) * 1, // South
+    INITIAL_BOUNDS[1][1] - (INITIAL_BOUNDS[0][1] - INITIAL_BOUNDS[1][1]) * 1.25, // East
+  ],
+];
+
+export const INITIAL_CENTER = new LatLngBounds(INITIAL_BOUNDS).getCenter();
+export const INITIAL_ZOOM = 13;
+export const MIN_ZOOM = 12;
 
 
 /*

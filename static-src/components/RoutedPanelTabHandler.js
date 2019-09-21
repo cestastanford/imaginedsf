@@ -7,6 +7,8 @@ import { Link, navigate } from '@reach/router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import PanelView from './PanelView';
+
 
 /*
 * RoutedPanelTabHandler component definition.  Handles routing to
@@ -55,7 +57,12 @@ export default function RoutedPanelTabHandler(props) {
 
 RoutedPanelTabHandler.propTypes = {
   '*': PropTypes.string,
-  tabs: PropTypes.arrayOf(PropTypes.node).isRequired,
+  tabs: PropTypes.arrayOf(PropTypes.shape({
+    props: PropTypes.shape({
+      tabPath: PropTypes.string.isRequired,
+      tabTitle: PropTypes.string.isRequired,
+    }).isRequired,
+  })).isRequired,
 };
 
 RoutedPanelTabHandler.defaultProps = {
