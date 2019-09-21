@@ -20,7 +20,7 @@ export default function useMapState(leafletLayers, visibleMapAreaProxy) {
   const {
     opacity,
     center,
-    zoomLevel,
+    zoom,
     bounds,
   } = useSelector((state) => state.mapState);
 
@@ -50,7 +50,6 @@ export default function useMapState(leafletLayers, visibleMapAreaProxy) {
   //  Sends a position update to Redux's mapState
   const updateMapStatePosition = useCallback(() => {
     const { current: map } = visibleMapAreaProxy;
-
     dispatch(setPosition(
       map.getCenter(),
       map.getZoom(),
@@ -63,31 +62,31 @@ export default function useMapState(leafletLayers, visibleMapAreaProxy) {
   useEffect(() => {
     const { current: map } = visibleMapAreaProxy;
 
-    map.on('moveend zoomend', updateMapStatePosition);
+    map.on('moveend', updateMapStatePosition);
 
     return () => {
-      map.off('moveend zoomend', updateMapStatePosition);
+      map.off('moveend', updateMapStatePosition);
     };
   }, [visibleMapAreaProxy, updateMapStatePosition]);
 
   //  Updates map position to reflect Redux mapState.  On first update
   //  after map state set from defaults or from hash, `center` and
-  //  `zoomLevel` are `null` and map position is set based on `bounds`,
-  //  with the resultant `center` and `zoomLevel` set immediately
+  //  `zoom` are `null` and map position is set based on `bounds`,
+  //  with the resultant `center` and `zoom` set immediately
   //  after and `bounds` set to `null`.  For all future updates until
   //  map state is set from defaults or hash again, `bounds` will
-  //  be `null` and map position will reflect `center` and `zoomLevel`.
+  //  be `null` and map position will reflect `center` and `zoom`.
   useEffect(() => {
     const { current: map } = visibleMapAreaProxy;
 
-    map.off('moveend zoomend', updateMapStatePosition);
+    map.off('moveend', updateMapStatePosition);
 
     if (bounds) {
       map.fitBounds(bounds);
     } else {
-      map.setView(center, zoomLevel);
+      map.setView(center, zoom);
     }
 
-    map.on('moveend zoomend', updateMapStatePosition);
-  }, [visibleMapAreaProxy, updateMapStatePosition, center, zoomLevel, bounds]);
+    map.on('moveend', updateMapStatePosition);
+  }, [visibleMapAreaProxy, updateMapStatePosition, center, zoom, bounds]);
 }

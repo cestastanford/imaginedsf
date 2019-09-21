@@ -4,7 +4,11 @@
 
 import React from 'react';
 import styled from 'styled-components';
-
+import AddressSearchControl from './AddressSearchControl';
+import ZoomControl from './ZoomControl';
+import ZoomToExtentsControl from './ZoomToExtentsControl';
+import ZoomToLocationControl from './ZoomToLocationControl';
+import BasemapsControl from './BasemapsControl';
 
 /*
 * Component definition for VisibleMapArea, which contains the map
@@ -14,7 +18,11 @@ import styled from 'styled-components';
 
 const VisibleMapArea = React.forwardRef((props, ref) => (
   <StyledVisibleMapArea ref={ref}>
-    VisibleMapArea Component
+    <AddressSearchControl />
+    <ZoomControl />
+    <ZoomToExtentsControl />
+    <ZoomToLocationControl />
+    <BasemapsControl />
   </StyledVisibleMapArea>
 ));
 
@@ -28,6 +36,9 @@ export default VisibleMapArea;
 const StyledVisibleMapArea = styled.div`
   position: relative;
   z-index: ${({ theme }) => theme.zIndices.VisibleMapArea};
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
-  border: 1px solid #fff;
+  align-items: flex-start;
+  pointer-events: none;
 `;

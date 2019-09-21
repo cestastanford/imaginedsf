@@ -135,10 +135,10 @@ const getDefaultMapState = ({ mapsAndGroups }) => {
     enabled,
     opacity,
 
-    //  center and zoomLevel left blank; map will use
-    //  bounds to set center and zoomLevel on update.
+    //  center and zoom left blank; map will use
+    //  bounds to set center and zoom on update.
     center: null,
-    zoomLevel: null,
+    zoom: null,
     bounds: INITIAL_BOUNDS,
   };
 };
@@ -183,10 +183,10 @@ export const setOpacity = (id, opacity) => ({
   opacity,
 });
 
-export const setPosition = (center, zoomLevel, bounds) => ({
+export const setPosition = (center, zoom, bounds) => ({
   type: SET_POSITION,
   center,
-  zoomLevel,
+  zoom,
   bounds,
 });
 
