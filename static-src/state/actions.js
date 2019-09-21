@@ -57,14 +57,14 @@ const getNormalizedMapContent = ({
   const validatedMapsAndGroupsById = {};
 
   const validate = (id, POST_TYPE) => {
+    if (validatedMapsAndGroupsById[id]) {
+      throw new Error(`Map or map group referenced multiple times: ${id}`);
+    }
+
     const mapOrGroup = mapsAndGroupsById[id];
 
     if (!mapOrGroup) {
       throw new Error(`Map or map group not found: ${id}`);
-    }
-
-    if (validatedMapsAndGroupsById[id]) {
-      throw new Error(`Map or map group referenced multiple times: ${id}`);
     }
 
     if (POST_TYPE && mapOrGroup.post_type !== POST_TYPE) {
@@ -211,7 +211,7 @@ export const fetchContent = () => async (dispatch) => {
 
 //  Fetches GeoJSON
 export const fetchGeoJson = (id) => async (dispatch) => {
-  dispatch(geoJsonRequested, id);
+  dispatch(geoJsonRequested(id));
   const response = await fetch(`/wp-json/imaginedsf/geojson?layerId=${id}`);
   const parsedResponse = await response.json();
   dispatch(geoJsonReceived(id, parsedResponse));
