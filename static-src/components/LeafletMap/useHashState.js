@@ -2,7 +2,7 @@
 * Imports.
 */
 
-import { useCallback, useEffect } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setMapState } from '../../state/actions';
@@ -46,30 +46,44 @@ const getHashFromMapState = ({ enabled, opacity }, bounds) => {
 * URL hash.
 */
 
-export default function useHashState(visibleMapArea) {
-  const mapState = useSelector((state) => state.useSelector);
+export default function useHashState(visibleMapAreaProxy) {
+  const currentHash = useRef();
+  const mapState = useSelector((state) => state.mapState);
   const dispatch = useDispatch();
 
   //  Hash change handler
-  const handleHashChange = useCallback(() => {
-    const hashMapState = getMapStateFromHash(window.location.hash);
-    if (hashMapState) {
-      dispatch(setMapState(hashMapState));
+  const applyHashToMapState = useCallback(() => {
+    const { hash } = window.location;
+
+    //  Hash update is delayed, so this check makes sure the change
+    //  isn't one that we initiated  below.
+    if (hash !== currentHash.current) {
+      const hashMapState = getMapStateFromHash(hash);
+
+      if (hashMapState) {
+        dispatch(setMapState(hashMapState));
+      }
     }
   }, [dispatch]);
 
-  //  Adds hash change listener
+  //  Applies initial hash state, if present
   useEffect(() => {
-    window.addEventListener('hashchange', handleHashChange);
-    return () => {
-      window.removeEventListener('hashchange', handleHashChange);
-    };
-  }, [handleHashChange]);
+    applyHashToMapState();
+  }, [applyHashToMapState]);
 
-  //  Removes listener and updates hash on map state change
+  //  Updates map state on hash change
   useEffect(() => {
-    window.removeEventListener('hashchange', handleHashChange);
-    window.location.hash = getHashFromMapState(mapState, visibleMapArea.getBounds());
-    window.addEventListener('hashchange', handleHashChange);
-  }, [mapState, handleHashChange, visibleMapArea]);
+    window.addEventListener('hashchange', applyHashToMapState);
+    return () => {
+      window.removeEventListener('hashchange', applyHashToMapState);
+    };
+  }, [applyHashToMapState]);
+
+  //  Updates hash on map state change
+  useEffect(() => {
+    const { current: map } = visibleMapAreaProxy;
+
+    currentHash.current = `#${getHashFromMapState(mapState, map.getBounds())}`;
+    window.location.hash = currentHash.current;
+  }, [mapState, visibleMapAreaProxy]);
 }

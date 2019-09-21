@@ -36,9 +36,9 @@ function isf_get_all_published_posts( $post_type ) {
 	$posts             = $query->get_posts();
 	$posts_with_fields = array_map(
 		function( $post ) {
-			$post_array           = $post->to_array();
-			$post_array['fields'] = get_fields( $post->ID );
-			return $post_array;
+			$post_array   = $post->to_array();
+			$fields_array = get_fields( $post->ID );
+			return array_merge( $post_array, $fields_array );
 		},
 		$posts
 	);

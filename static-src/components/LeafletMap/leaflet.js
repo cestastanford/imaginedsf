@@ -36,7 +36,7 @@ export const latLngBoundsToArrays = (latLngBounds) => [
 */
 
 export const createMap = (mapContainer) => new Map(
-  mapContainer.current,
+  mapContainer,
   { zoomControl: false },
 );
 
