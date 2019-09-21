@@ -6,6 +6,7 @@ import { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setPosition } from '../../state/actions';
+import useMapEnabled from './useMapEnabled';
 
 
 /*
@@ -14,9 +15,9 @@ import { setPosition } from '../../state/actions';
 */
 
 export default function useMapState(leafletLayers, visibleMapAreaProxy) {
+  const getMapEnabled = useMapEnabled();
   const dispatch = useDispatch();
   const {
-    enabled,
     opacity,
     center,
     zoomLevel,
@@ -35,16 +36,18 @@ export default function useMapState(leafletLayers, visibleMapAreaProxy) {
   //  Updates which layers are added to the map on state change
   useEffect(() => {
     const { current: map } = visibleMapAreaProxy;
+    const mapEnabled = getMapEnabled();
 
     leafletLayers.forEach(({ id, layer }) => {
-      if (enabled[id]) {
+      if (mapEnabled[id]) {
         map.addLayer(layer);
       } else {
         map.removeLayer(layer);
       }
     });
-  }, [leafletLayers, visibleMapAreaProxy, enabled]);
+  }, [leafletLayers, visibleMapAreaProxy, getMapEnabled]);
 
+  //  Sends a position update to Redux's mapState
   const updateMapStatePosition = useCallback(() => {
     const { current: map } = visibleMapAreaProxy;
 

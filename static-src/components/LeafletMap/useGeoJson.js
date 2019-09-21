@@ -5,6 +5,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import useMapEnabled from './useMapEnabled';
 import { fetchGeoJson } from '../../state/actions';
 import { GEOJSON_STATUS } from '../../constants';
 
@@ -15,21 +16,22 @@ import { GEOJSON_STATUS } from '../../constants';
 */
 
 export default function useGeoJson(leafletLayers) {
+  const getMapEnabled = useMapEnabled();
   const { geoJson } = useSelector((state) => state.mapContent);
-  const { enabled } = useSelector((state) => state.mapState);
   const dispatch = useDispatch();
 
   //  Requests a vector layer's GeoJSON when enabled
   useEffect(() => {
+    const mapEnabled = getMapEnabled();
     leafletLayers.forEach(({ id }) => {
       if (
-        enabled[id]
+        mapEnabled[id]
         && geoJson[id] === GEOJSON_STATUS.NOT_REQUESTED
       ) {
         dispatch(fetchGeoJson(id));
       }
     });
-  }, [leafletLayers, enabled, geoJson, dispatch]);
+  }, [leafletLayers, getMapEnabled, geoJson, dispatch]);
 
   //  Updates a vector layer with received GeoJSON data
   useEffect(() => {

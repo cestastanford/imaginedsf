@@ -37,7 +37,7 @@ export default function LeafletMap({ visibleMapAreaRef }) {
   const visibleMapAreaProxy = useVisibleMapArea(leafletMap, visibleMapAreaRef);
 
   //  Synchronizes Leaflet map with Redux mapState
-  useMapState(leafletLayers, leafletMap, visibleMapAreaProxy);
+  useMapState(leafletLayers, visibleMapAreaProxy);
 
   //  Handles downloading GeoJSON for vector layers
   useGeoJson(leafletLayers);
