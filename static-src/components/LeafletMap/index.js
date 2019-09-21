@@ -2,7 +2,7 @@
 * Imports.
 */
 
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -12,6 +12,7 @@ import useGeoJson from './useGeoJson';
 import useHashState from './useHashState';
 import useVisibleMapArea from './useVisibleMapArea';
 import VisibleMapArea from '../VisibleMapArea';
+import { createMap } from './leaflet';
 
 
 /*
@@ -20,25 +21,29 @@ import VisibleMapArea from '../VisibleMapArea';
 */
 
 export default function LeafletMap({ visibleMapAreaRef }) {
-  //  Creates Leaflet map and layers
-  const [
-    mapContainer,
-    leafletMap,
-    leafletLayers,
-  ] = useMapContent();
+  const mapContainer = useRef();
+  const leafletMap = useRef();
+
+  //  Creates Leaflet map
+  useEffect(() => {
+    leafletMap.current = createMap(mapContainer.current);
+  }, [mapContainer, leafletMap]);
+
+  //  Creates Leaflet map layers from downloaded map content
+  const leafletLayers = useMapContent();
 
   //  Supports conversion between the visible map area and the full
   //  map canvas.
-  const visibleMapArea = useVisibleMapArea(leafletMap, visibleMapAreaRef);
+  const visibleMapAreaProxy = useVisibleMapArea(leafletMap, visibleMapAreaRef);
 
   //  Synchronizes Leaflet map with Redux mapState
-  useMapState(leafletLayers, leafletMap, visibleMapArea);
+  useMapState(leafletLayers, leafletMap, visibleMapAreaProxy);
 
   //  Handles downloading GeoJSON for vector layers
   useGeoJson(leafletLayers);
 
   //  Synchronizes hash state with Redux mapState
-  useHashState(visibleMapArea);
+  useHashState(visibleMapAreaProxy);
 
   return <StyledLeafletMap ref={mapContainer} />;
 }

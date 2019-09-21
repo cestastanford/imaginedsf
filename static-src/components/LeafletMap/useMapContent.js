@@ -2,18 +2,16 @@
 * Imports.
 */
 
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import {
-  createMap,
   createTileLayer,
   createWmsLayer,
   createGeoJsonLayer,
 } from './leaflet';
 
 import {
-  MAP_GROUP_POST_TYPE,
   TILE_SOURCE_TYPE,
   WMS_SOURCE_TYPE,
   GEOJSON_SOURCE_TYPE,
@@ -26,8 +24,6 @@ import {
 */
 
 export default function useMapContent() {
-  const mapContainer = useRef();
-  const leafletMap = useRef();
   const [leafletLayers, setLeafletLayers] = useState([]);
   const {
     mapsAndGroups,
@@ -35,39 +31,29 @@ export default function useMapContent() {
     basemaps,
   } = useSelector((state) => state.mapContent);
 
-  //  Creates Leaflet map
-  useEffect(() => {
-    leafletMap.current = createMap(mapContainer.current);
-  }, [mapContainer, leafletMap]);
-
   //  Creates Leaflet layers for each map
   useEffect(() => {
-    //  Recursively traverses hierarchies and returns a flattened
-    //  array of ordered maps.
-    const getMaps = (id) => {
-      const mapOrGroup = mapsAndGroups[id];
-
+    //  Returns a flattened array of all descendant maps
+    const getDescendantMaps = (parent) => [].concat(...parent.children.map((id) => {
       //  If group
-      if (mapOrGroup.post_type === MAP_GROUP_POST_TYPE) {
-        return [].concat(...mapOrGroup.fields.contents.map(getMaps));
+      if (mapsAndGroups[id].children) {
+        return getDescendantMaps(mapsAndGroups[id]);
       }
 
       //  If not group
-      return [mapOrGroup];
-    };
+      return [mapsAndGroups[id]];
+    }));
 
-    const maps = [].concat(
-      ...proposalRanges.map(
-        (range) => range.contents.map(getMaps),
-      ),
-      ...basemaps.map(getMaps),
-    );
+    const maps = [
+      ...[].concat(...proposalRanges.map(getDescendantMaps)),
+      ...getDescendantMaps({ children: basemaps }),
+    ];
 
     maps.reverse();
 
     //  Creates a Leaflet layer for each map
     const layers = maps.map((map, index) => {
-      switch (map.fields.source_type) {
+      switch (map.source_type) {
         //  Creates a TileLayer
         case TILE_SOURCE_TYPE:
           return { id: map.ID, layer: createTileLayer(map, index) };
@@ -81,12 +67,12 @@ export default function useMapContent() {
           return { id: map.ID, layer: createGeoJsonLayer(map) };
 
         default:
-          throw new Error(`Unrecognized source type: ${map.fields.source_type}`);
+          throw new Error(`Unrecognized source type: ${map.source_type}`);
       }
     });
 
     setLeafletLayers(layers);
   }, [proposalRanges, basemaps, mapsAndGroups]);
 
-  return [mapContainer, leafletMap, leafletLayers];
+  return leafletLayers;
 }

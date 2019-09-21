@@ -73,7 +73,7 @@ const getNormalizedMapContent = ({
 
     if (mapOrGroup.post_type === MAP_GROUP_POST_TYPE) {
       try {
-        mapOrGroup.fields.contents.forEach(
+        mapOrGroup.children.forEach(
           (childMapOrGroup) => validate(childMapOrGroup),
         );
       } catch (e) {
@@ -93,7 +93,7 @@ const getNormalizedMapContent = ({
 
   proposalRanges.forEach((range, index) => {
     try {
-      range.contents.forEach((id) => validate(id));
+      range.children.forEach((id) => validate(id));
     } catch (e) {
       throw new Error(`${e.message} (proposal range ${index})`);
     }
@@ -125,8 +125,8 @@ const getDefaultMapState = ({ mapsAndGroups }) => {
   const opacity = {};
 
   Object.entries(mapsAndGroups).forEach(([id, item]) => {
-    enabled[id] = item.fields.enabled_by_default;
-    if (item.fields.source_type !== GEOJSON_SOURCE_TYPE) {
+    enabled[id] = item.enabled_by_default;
+    if (item.source_type !== GEOJSON_SOURCE_TYPE) {
       opacity[id] = 1;
     }
   });

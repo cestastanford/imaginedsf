@@ -13,7 +13,7 @@ import { setPosition } from '../../state/actions';
 * from Redux for layer enabled status, layer opacity and map position.
 */
 
-export default function useMapState(leafletLayers, leafletMap, visibleMapArea) {
+export default function useMapState(leafletLayers, visibleMapAreaProxy) {
   const dispatch = useDispatch();
   const {
     enabled,
@@ -34,22 +34,38 @@ export default function useMapState(leafletLayers, leafletMap, visibleMapArea) {
 
   //  Updates which layers are added to the map on state change
   useEffect(() => {
+    const { current: map } = visibleMapAreaProxy;
+
     leafletLayers.forEach(({ id, layer }) => {
       if (enabled[id]) {
-        layer.addTo(leafletMap.current);
+        map.addLayer(layer);
       } else {
-        layer.removeFrom(leafletMap.current);
+        map.removeLayer(layer);
       }
     });
-  }, [leafletLayers, leafletMap, enabled]);
+  }, [leafletLayers, visibleMapAreaProxy, enabled]);
 
   const updateMapStatePosition = useCallback(() => {
+    const { current: map } = visibleMapAreaProxy;
+
     dispatch(setPosition(
-      visibleMapArea.getCenter(),
-      visibleMapArea.getZoom(),
+      map.getCenter(),
+      map.getZoom(),
       null, // Sets `bounds` to null
     ));
-  }, [dispatch, visibleMapArea]);
+  }, [dispatch, visibleMapAreaProxy]);
+
+  //  Adds a listener to update the Redux mapState to reflect map
+  //  position when moved.
+  useEffect(() => {
+    const { current: map } = visibleMapAreaProxy;
+
+    map.on('moveend zoomend', updateMapStatePosition);
+
+    return () => {
+      map.off('moveend zoomend', updateMapStatePosition);
+    };
+  }, [visibleMapAreaProxy, updateMapStatePosition]);
 
   //  Updates map position to reflect Redux mapState.  On first update
   //  after map state set from defaults or from hash, `center` and
@@ -57,23 +73,18 @@ export default function useMapState(leafletLayers, leafletMap, visibleMapArea) {
   //  with the resultant `center` and `zoomLevel` set immediately
   //  after and `bounds` set to `null`.  For all future updates until
   //  map state is set from defaults or hash again, `bounds` will
-  //  be `null` and map position will be in sync with `center` and `zoomLevel`.
+  //  be `null` and map position will reflect `center` and `zoomLevel`.
   useEffect(() => {
+    const { current: map } = visibleMapAreaProxy;
+
+    map.off('moveend zoomend', updateMapStatePosition);
+
     if (bounds) {
-      visibleMapArea.fitBounds(bounds);
-      updateMapStatePosition();
+      map.fitBounds(bounds);
     } else {
-      visibleMapArea.setView(center, zoomLevel);
+      map.setView(center, zoomLevel);
     }
-  }, [bounds, visibleMapArea, updateMapStatePosition, center, zoomLevel]);
 
-  //  Adds a listener to update the Redux mapState to reflect map
-  //  position when moved.
-  useEffect(() => {
-    leafletMap.on('moveend zoomend', updateMapStatePosition);
-
-    return () => {
-      leafletMap.off('moveend zoomend', updateMapStatePosition);
-    };
-  }, [leafletMap, updateMapStatePosition]);
+    map.on('moveend zoomend', updateMapStatePosition);
+  }, [visibleMapAreaProxy, updateMapStatePosition, center, zoomLevel, bounds]);
 }
