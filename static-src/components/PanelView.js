@@ -18,7 +18,11 @@ export default function PanelView({ headerContent, bodyContent }) {
       { headerContent ? (
         <StyledPanelViewHeader>{ headerContent }</StyledPanelViewHeader>
       ) : null }
-      <StyledPanelViewBody>{ bodyContent }</StyledPanelViewBody>
+      <div>
+        <StyledPanelViewBody>
+          { bodyContent }
+        </StyledPanelViewBody>
+      </div>
     </StyledPanelView>
   );
 }
@@ -41,15 +45,16 @@ PanelView.defaultProps = {
 const StyledPanelView = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
 `;
 
 const StyledPanelViewHeader = styled.div`
   padding: 1.25em;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
 `;
 
 const StyledPanelViewBody = styled.div`
-  flex-grow: 1;
+  height: 100%;
   padding: 1.25em;
   overflow-y: scroll;
 `;
