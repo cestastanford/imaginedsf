@@ -22,6 +22,9 @@ export const SET_MAP_STATE = 'SET_MAP_STATE';
 export const SET_ENABLED = 'SET_ENABLED';
 export const SET_OPACITY = 'SET_OPACITY';
 export const SET_POSITION = 'SET_POSITION';
+export const SET_ONLY_SHOW_PROPOSAL_MAPS_IN_VISIBLE_AREA = 'SET_ONLY_SHOW_PROPOSAL_MAPS_IN_VISIBLE_AREA';
+export const SET_CURRENT_NARRATIVE = 'SET_CURRENT_NARRATIVE';
+export const SET_NARRATIVE_SCROLL_POSITION = 'SET_NARRATIVE_SCROLL_POSITION';
 
 
 /*
@@ -120,7 +123,7 @@ const getNormalizedMapContent = ({
 * in WordPress.
 */
 
-const getDefaultMapState = ({ mapsAndGroups }) => {
+const getDefaultMapStateFromMapContent = ({ mapsAndGroups }) => {
   const enabled = {};
   const opacity = {};
 
@@ -134,11 +137,6 @@ const getDefaultMapState = ({ mapsAndGroups }) => {
   return {
     enabled,
     opacity,
-
-    //  center and zoom left blank; map will use
-    //  bounds to set center and zoom on update.
-    center: null,
-    zoom: null,
     bounds: INITIAL_BOUNDS,
   };
 };
@@ -148,21 +146,19 @@ const getDefaultMapState = ({ mapsAndGroups }) => {
 * Defines synchronous action creators.
 */
 
-export const contentReceived = (contentAreaContent, mapContent, narratives) => ({
+export const contentReceived = (content) => ({
   type: CONTENT_RECEIVED,
-  contentAreaContent,
-  mapContent,
-  narratives,
+  ...content,
 });
 
-export const geoJsonRequested = (id) => ({
+export const geoJsonRequested = (mapId) => ({
   type: GEOJSON_REQUESTED,
-  id,
+  mapId,
 });
 
-export const geoJsonReceived = (id, geoJson) => ({
+export const geoJsonReceived = (mapId, geoJson) => ({
   type: GEOJSON_RECEIVED,
-  id,
+  mapId,
   geoJson,
 });
 
@@ -171,15 +167,15 @@ export const setMapState = (mapState) => ({
   mapState,
 });
 
-export const setEnabled = (id, enabled) => ({
+export const setEnabled = (mapId, enabled) => ({
   type: SET_ENABLED,
-  id,
+  mapId,
   enabled,
 });
 
-export const setOpacity = (id, opacity) => ({
+export const setOpacity = (mapId, opacity) => ({
   type: SET_OPACITY,
-  id,
+  mapId,
   opacity,
 });
 
@@ -188,6 +184,21 @@ export const setPosition = (center, zoom, bounds) => ({
   center,
   zoom,
   bounds,
+});
+
+export const setOnlyShowProposalMapsInVisibleArea = (onlyShowProposalMapsInVisibleArea) => ({
+  type: SET_ONLY_SHOW_PROPOSAL_MAPS_IN_VISIBLE_AREA,
+  onlyShowProposalMapsInVisibleArea,
+});
+
+export const setCurrentNarrative = (narrativeId) => ({
+  type: SET_CURRENT_NARRATIVE,
+  narrativeId,
+});
+
+export const setNarrativeScrollPosition = (narrativeScrollPosition) => ({
+  type: SET_NARRATIVE_SCROLL_POSITION,
+  narrativeScrollPosition,
 });
 
 
@@ -202,10 +213,17 @@ export const fetchContent = () => async (dispatch) => {
 
   const contentAreaContent = parsedResponse.content_area_content;
   const mapContent = getNormalizedMapContent(parsedResponse);
-  const narratives = mapIdsToObjectKeys(parsedResponse.narratives);
+  const narratives = parsedResponse.narratives.map((n) => n.ID);
+  const narrativesById = mapIdsToObjectKeys(parsedResponse.narratives);
 
-  dispatch(contentReceived(contentAreaContent, mapContent, narratives));
-  dispatch(setMapState(getDefaultMapState(mapContent)));
+  dispatch(contentReceived({
+    contentAreaContent,
+    mapContent,
+    narratives,
+    narrativesById,
+  }));
+
+  dispatch(setMapState(getDefaultMapStateFromMapContent(mapContent)));
 };
 
 

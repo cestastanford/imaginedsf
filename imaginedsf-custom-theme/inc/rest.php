@@ -38,7 +38,11 @@ function isf_get_all_published_posts( $post_type ) {
 		function( $post ) {
 			$post_array   = $post->to_array();
 			$fields_array = get_fields( $post->ID );
-			return array_merge( $post_array, $fields_array );
+			if ( ! empty( $fields_array ) ) {
+				return array_merge( $post_array, $fields_array );
+			}
+
+			return $post_array;
 		},
 		$posts
 	);
