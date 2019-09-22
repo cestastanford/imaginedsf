@@ -87,9 +87,9 @@ const Panel = ({ location, children }) => {
           ))
         }
       </StyledTabs>
-      <StyledRoutedActiveTabContent>
+      <StyledActiveTabContent>
         {tabsByPath[activeTabPath]}
-      </StyledRoutedActiveTabContent>
+      </StyledActiveTabContent>
     </StyledPanel>
   ));
 };
@@ -114,7 +114,6 @@ const StyledPanel = styled.div`
   width: 35em;
   height: 100%;
   margin-right: 0.75em;
-  overflow: hidden;
   background-color: ${({ theme }) => theme.colors.panelBackground};
   border-radius: ${({ theme }) => theme.radii.standard};
   box-shadow: ${({ theme }) => theme.shadows.Panel};
@@ -123,8 +122,9 @@ const StyledPanel = styled.div`
 const StyledTabs = styled.div`
   z-index: 1;
   display: flex;
-  height: 2.75em;
+  min-height: 3em;
   background-color: ${({ theme }) => theme.colors.lightGrey};
+  border-radius: ${({ theme }) => theme.radii.standard};
 `;
 
 const StyledTabLink = styled(Link)`
@@ -132,7 +132,7 @@ const StyledTabLink = styled(Link)`
   align-items: center;
   justify-content: center;
   width: 33.33%;
-  height: 3em;
+  height: 100%;
   color: ${({ theme }) => theme.colors.darkGrey};
   text-decoration: none;
   text-transform: lowercase;
@@ -142,8 +142,10 @@ const StyledTabLink = styled(Link)`
   transition: background-color ${({ theme }) => theme.transitionDurations.linkHover};
 
   &.active {
+    z-index: 1;
     font-weight: bolder;
     background-color: ${({ theme }) => theme.colors.panelBackground};
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
 
     &:hover {
       background-color: ${({ theme }) => theme.colors.panelBackground};
@@ -156,6 +158,11 @@ const StyledTabLink = styled(Link)`
   }
 `;
 
-const StyledRoutedActiveTabContent = styled.div`
+const StyledActiveTabContent = styled.div`
+  position: relative;
+  z-index: 1;
   flex-grow: 1;
+  min-height: 0;
+  background-color: ${({ theme }) => theme.colors.panelBackground};
+  border-radius: 5px;
 `;
