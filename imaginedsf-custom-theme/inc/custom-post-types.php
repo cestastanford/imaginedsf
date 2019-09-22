@@ -58,7 +58,7 @@ function isf_create_custom_post_types() {
 	register_post_type(
 		MAP_GROUP_POST_TYPE,
 		array(
-			'labels'       => array(
+			'labels'    => array(
 				'name'                  => 'Map Groups',
 				'singular_name'         => 'Map Group',
 				'add_new'               => 'Add New',
@@ -76,11 +76,9 @@ function isf_create_custom_post_types() {
 				'insert_into_item'      => 'Insert into Map Group',
 				'uploaded_to_this_item' => 'Uploaded to this Map Group',
 			),
-			'public'       => true,
-			'menu_icon'    => 'dashicons-arrow-right',
-			'supports'     => array( 'title' ),
-			'show_in_rest' => true,
-			'rest_base'    => 'map_groups',
+			'public'    => true,
+			'menu_icon' => 'dashicons-arrow-right',
+			'supports'  => array( 'title' ),
 		)
 	);
 
@@ -88,7 +86,7 @@ function isf_create_custom_post_types() {
 	register_post_type(
 		NARRATIVE_POST_TYPE,
 		array(
-			'labels'       => array(
+			'labels'    => array(
 				'name'                  => 'Narratives',
 				'singular_name'         => 'Narrative',
 				'add_new'               => 'Add New',
@@ -106,10 +104,9 @@ function isf_create_custom_post_types() {
 				'insert_into_item'      => 'Insert into Narrative',
 				'uploaded_to_this_item' => 'Uploaded to this Narrative',
 			),
-			'public'       => true,
-			'menu_icon'    => 'dashicons-book-alt',
-			'show_in_rest' => true,
-			'rest_base'    => 'narratives',
+			'public'    => true,
+			'menu_icon' => 'dashicons-book-alt',
+			'rewrite'   => array( 'slug' => 'narratives' ),
 		)
 	);
 
