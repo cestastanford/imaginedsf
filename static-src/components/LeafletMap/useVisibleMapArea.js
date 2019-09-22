@@ -3,7 +3,7 @@
 */
 
 import { useRef, useEffect } from 'react';
-import { LatLngBounds, Point, Transformation, Rectangle } from 'leaflet';
+import { LatLngBounds, Point } from 'leaflet';
 
 
 /*

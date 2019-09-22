@@ -3,7 +3,8 @@
 */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
 
@@ -22,7 +23,14 @@ import Header from './Header';
 import LeafletMap from './LeafletMap';
 import VisibleMapArea from './VisibleMapArea';
 import Panel from './Panel';
-import Modals from './Modals';
+import PanelView from './PanelView';
+import HTMLContent from './HTMLContent';
+import ProposalMapsPanelViewHeader from './ProposalMapsPanelViewHeader';
+import ProposalMapsPanelViewBody from './ProposalMapsPanelViewBody';
+import NarrativesPanelViewHeader from './NarrativesPanelViewHeader';
+import NarrativesPanelViewBody from './NarrativesPanelViewBody';
+import Modal from './Modal';
+import FeedbackForm from './FeedbackForm';
 
 
 /*
@@ -34,6 +42,13 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const visibleMapArea = useRef();
   const dispatch = useDispatch();
+  const {
+    introduction,
+    bibliography,
+    credits,
+    feedback,
+  } = useSelector((state) => state.contentAreaContent);
+
 
   //  Downloads initial content and sets initial state
   useEffect(() => {
@@ -45,18 +60,83 @@ export default function App() {
     initApp();
   }, [dispatch]);
 
+  //  Modals
+  const modals = [
+
+    <Modal
+      path="/bibliography"
+      title="Bibliography"
+      content={<HTMLContent content={bibliography} />}
+    />,
+
+    <Modal
+      path="/credits"
+      title="Credits"
+      content={<HTMLContent content={credits} />}
+    />,
+
+    <Modal
+      path="/feedback"
+      title="Feedback"
+      content={(
+        <>
+          <HTMLContent content={feedback} />
+          <FeedbackForm />
+        </>
+      )}
+    />,
+
+  ];
+
   return (
     <StyledApp>
       <LoadingMessage visible={loading}>Loading...</LoadingMessage>
       { loading ? null : (
         <StyledMainContainer>
-          <Header />
-          <StyledBody>
-            <LeafletMap visibleMapAreaRef={visibleMapArea} />
-            <Panel />
-            <VisibleMapArea ref={visibleMapArea} />
-            <Modals />
-          </StyledBody>
+          <BrowserRouter>
+            <Header />
+            <StyledBody>
+              <LeafletMap visibleMapAreaRef={visibleMapArea} />
+              <Panel>
+
+                <PanelView
+                  path="/introduction"
+                  title="Introduction"
+                  bodyContent={<HTMLContent content={introduction} />}
+                />
+
+                <PanelView
+                  path="/proposal-maps"
+                  title="Proposal Maps"
+                  headerContent={<ProposalMapsPanelViewHeader />}
+                  bodyContent={<ProposalMapsPanelViewBody />}
+                />
+
+                <PanelView
+                  path="/narratives"
+                  title="Narratives"
+                  headerContent={<NarrativesPanelViewHeader pathPrefix="/narratives/" />}
+                  bodyContent={<NarrativesPanelViewBody />}
+                />
+
+              </Panel>
+              <VisibleMapArea ref={visibleMapArea} />
+              { modals.map((modal) => (
+                <Route
+                  path={modal.props.path}
+                  key={modal.props.path}
+                  render={() => modal}
+                />
+              )) }
+            </StyledBody>
+            <Route
+              path="/"
+              exact
+              render={({ location }) => (
+                <Redirect to={{ pathname: '/introduction', hash: location.hash }} />
+              )}
+            />
+          </BrowserRouter>
         </StyledMainContainer>
       )}
     </StyledApp>

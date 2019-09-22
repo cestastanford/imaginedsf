@@ -1,23 +1,37 @@
 import React from 'react';
-import { Link } from '@reach/router';
+import PropTypes from 'prop-types';
+import { withRouter, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import logoImg from '../img/logo.svg';
 
-export default function Header() {
-  return (
-    <StyledHeader>
-      <StyledLink to="/">
-        <StyledLogo src={logoImg} alt="Imagined San Francisco" />
-      </StyledLink>
-      <NavLinks>
-        <StyledLink to="/bibliography">Bibliography</StyledLink>
-        <StyledLink to="/credits">Credits</StyledLink>
-        <StyledLink to="/feedback">Feedback</StyledLink>
-      </NavLinks>
-    </StyledHeader>
-  );
-}
+const Header = ({ location }) => (
+  <StyledHeader>
+    <StyledLink to="/">
+      <StyledLogo src={logoImg} alt="Imagined San Francisco" />
+    </StyledLink>
+    <NavLinks>
+      { [
+        { pathname: '/bibliography', title: 'Bibliography' },
+        { pathname: '/credits', title: 'Credits' },
+        { pathname: '/feedback', title: 'Feedback' },
+      ].map(({ pathname, title }) => (
+        <StyledLink
+          key={pathname}
+          to={{ pathname, hash: location.hash }}
+        >
+          { title }
+        </StyledLink>
+      )) }
+    </NavLinks>
+  </StyledHeader>
+);
+
+Header.propTypes = {
+  location: PropTypes.shape({ hash: PropTypes.string.isRequired }).isRequired,
+};
+
+export default withRouter(Header);
 
 const StyledHeader = styled.div`
   position: relative;

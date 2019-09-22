@@ -2,68 +2,104 @@
 *   Import libraries.
 */
 
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Router } from '@reach/router';
+import React, { useRef, useCallback, useState } from 'react';
+import {
+  withRouter,
+  Link,
+  Route,
+  Redirect,
+} from 'react-router-dom';
+
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-/*
-*   Imports components.
-*/
-
-import PanelTabRouter from './PanelTabRouter';
 import PanelView from './PanelView';
-import HTMLContent from './HTMLContent';
-import ProposalMapsPanelViewHeader from './ProposalMapsPanelViewHeader';
-import ProposalMapsPanelViewBody from './ProposalMapsPanelViewBody';
-import NarrativesPanelViewHeader from './NarrativesPanelViewHeader';
-import NarrativesPanelViewBody from './NarrativesPanelViewBody';
 
 
 /*
-* Panel component definition.  Defines the panel views that will
-* appear as tabs in the panel.
+* Panel component definition.  Handles routing to
+* the correct tab depending on the URL path.  If no tab matches,
+* the last-matched tab is displayed.
 */
 
-export default function Panel() {
-  const introductionContent = useSelector((state) => state.contentAreaContent.introduction);
+const Panel = ({ location, children }) => {
+  const tabs = React.Children.toArray(children);
+  const previousPathWasTab = useRef(null);
+  const [activeTabPath, setActiveTabPath] = useState(tabs[0].props.path);
+  const tabsByPath = Object.assign(...tabs.map((tab) => ({ [tab.props.path]: tab })));
 
-  return (
+  const routePanelTabs = useCallback((childrenToRender) => (
+    <Route path={Object.keys(tabsByPath)}>
+      {({ match }) => {
+        // console.log('-----');
+        // console.log('match path:', match ? match.path : null);
+        // console.log('active tab path:', activeTabPath);
+        // console.log('previous path was tab:', previousPathWasTab.current);
+        // console.log('-----');
+        if (match) { // True if the current path matches a tab
+          const activePath = match.path;
+          if (activePath !== activeTabPath) {
+            if (previousPathWasTab.current || previousPathWasTab.current === null) {
+              //  If the previous path matched a tab and the current
+              //  path also matches a tab, user is switching tabs;
+              //  set active tab to the one matching the current
+              //  path if not already.
+              setActiveTabPath(activePath);
+            } else {
+              //  If the previous path didn't match a tab and the
+              //  current path does match a tab, and the current
+              //  path matches a different tab than the active one,
+              //  user is closing a modal; do not update active tab.
+              //  Instead, update route to the active tab's route.
+              return (
+                <Redirect
+                  to={{
+                    pathname: activeTabPath,
+                    hash: location.hash,
+                  }}
+                />
+              );
+            }
+          }
+
+          previousPathWasTab.current = true;
+        } else {
+          previousPathWasTab.current = false;
+        }
+
+        return childrenToRender;
+      }}
+    </Route>
+  ), [tabsByPath, activeTabPath, location.hash]);
+
+  return routePanelTabs((
     <StyledPanel>
-      <Router>
-        <PanelTabRouter
-          path="/*"
-          tabs={[
-
-            <PanelView
-              tabMatch="^$"
-              tabLink="/"
-              tabTitle="Introduction"
-              bodyContent={<HTMLContent content={introductionContent} />}
-            />,
-
-            <PanelView
-              tabMatch="proposal-maps"
-              tabLink="/proposal-maps"
-              tabTitle="Proposal Maps"
-              headerContent={<ProposalMapsPanelViewHeader />}
-              bodyContent={<ProposalMapsPanelViewBody />}
-            />,
-
-            <PanelView
-              tabMatch="narratives"
-              tabLink="/narratives"
-              tabTitle="Narratives"
-              headerContent={<NarrativesPanelViewHeader />}
-              bodyContent={<NarrativesPanelViewBody />}
-            />,
-
-          ]}
-        />
-      </Router>
+      <StyledTabs>
+        {
+          tabs.map((tab) => (
+            <StyledTabLink
+              to={{ pathname: tab.props.path, hash: location.hash }}
+              className={tab.props.path === activeTabPath ? 'active' : ''}
+              key={tab.props.path}
+            >
+              {tab.props.title}
+            </StyledTabLink>
+          ))
+        }
+      </StyledTabs>
+      <StyledRoutedActiveTabContent>
+        {tabsByPath[activeTabPath]}
+      </StyledRoutedActiveTabContent>
     </StyledPanel>
-  );
-}
+  ));
+};
+
+Panel.propTypes = {
+  location: PropTypes.shape({ hash: PropTypes.string.isRequired }).isRequired,
+  children: PropTypes.arrayOf(PropTypes.shape({ type: PanelView })).isRequired,
+};
+
+export default withRouter(Panel);
 
 
 /*
@@ -73,6 +109,8 @@ export default function Panel() {
 const StyledPanel = styled.div`
   position: relative;
   z-index: ${({ theme }) => theme.zIndices.Panel};
+  display: flex;
+  flex-direction: column;
   width: 35em;
   height: 100%;
   margin-right: 0.75em;
@@ -80,4 +118,44 @@ const StyledPanel = styled.div`
   background-color: ${({ theme }) => theme.colors.panelBackground};
   border-radius: ${({ theme }) => theme.radii.standard};
   box-shadow: ${({ theme }) => theme.shadows.Panel};
+`;
+
+const StyledTabs = styled.div`
+  z-index: 1;
+  display: flex;
+  height: 2.75em;
+  background-color: ${({ theme }) => theme.colors.lightGrey};
+`;
+
+const StyledTabLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 33.33%;
+  height: 3em;
+  color: ${({ theme }) => theme.colors.darkGrey};
+  text-decoration: none;
+  text-transform: lowercase;
+  background-color: ${({ theme }) => theme.colors.lightGrey};
+  border-top-left-radius: ${({ theme }) => theme.radii.standard};
+  border-top-right-radius: ${({ theme }) => theme.radii.standard};
+  transition: background-color ${({ theme }) => theme.transitionDurations.linkHover};
+
+  &.active {
+    font-weight: bolder;
+    background-color: ${({ theme }) => theme.colors.panelBackground};
+
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.panelBackground};
+    }
+  }
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.lighterGrey};
+    opacity: 1;
+  }
+`;
+
+const StyledRoutedActiveTabContent = styled.div`
+  flex-grow: 1;
 `;
