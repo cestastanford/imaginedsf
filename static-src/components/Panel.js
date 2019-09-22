@@ -74,6 +74,7 @@ const StyledPanel = styled.div`
   position: relative;
   z-index: ${({ theme }) => theme.zIndices.Panel};
   width: 35em;
+  height: 100%;
   margin-right: 0.75em;
   overflow: hidden;
   background-color: ${({ theme }) => theme.colors.panelBackground};

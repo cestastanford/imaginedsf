@@ -5,6 +5,7 @@
 import React, { useCallback } from 'react';
 import { Match, Link, navigate } from '@reach/router';
 import { useSelector, useDispatch } from 'react-redux';
+import styled from 'styled-components';
 
 import { setCurrentNarrative } from '../state/actions';
 
@@ -22,43 +23,80 @@ export default function NarrativesPanelViewHeader() {
     ...Object.values(narrativesById).map((n) => ({ [n.post_name]: n })),
   );
 
-  const handleSlug = useCallback((slug) => {
-    //  If slug exists and matches narrative
-    if (slug && narrativesBySlug[slug]) {
-      //  If slug narrative is not the current one in Redux state,
-      //  update Redux state narrative to slug narrative
-      if (narrativesBySlug[slug].ID !== currentNarrative) {
-        dispatch(setCurrentNarrative(narrativesBySlug[slug].ID));
-      }
-
-      //  If slug narrative is the current one, do nothing
-      return;
-    }
-
-    //  If slug does not exist or doesn't match a narrative, redirect
-    //  to the current narrative in Redux state
-    navigate(`/narratives/${narrativesById[currentNarrative].post_name}`);
-  }, [narrativesBySlug, narrativesById, currentNarrative, dispatch]);
-
-  return (
+  const routeNarratives = useCallback((children) => (
     <Match path="narratives/*">
+      {/* Receives { match } on every location change */}
       {({ match }) => {
         if (match) {
-          handleSlug(match['*']);
+          const slug = match['*'];
+          if (slug && narrativesBySlug[slug]) {
+            //  If slug in URL and matches narrative
+            if (narrativesBySlug[slug].ID !== currentNarrative) {
+              //  If slug narrative is not the current one in Redux state,
+              //  update Redux state narrative to slug narrative
+              dispatch(setCurrentNarrative(narrativesBySlug[slug].ID));
+            }
+          } else {
+            //  If slug not in URL or doesn't match a narrative, redirect
+            //  to the current narrative in Redux state
+            navigate(`/narratives/${narrativesById[currentNarrative].post_name}`);
+          }
         }
 
-        return narratives.map((id) => {
-          const narrative = narrativesById[id];
-          return (
-            <Link
-              key={id}
-              to={`/narratives/${narrative.post_name}`}
-            >
-              { narrative.post_title }
-            </Link>
-          );
-        });
+        return children;
       }}
     </Match>
-  );
+  ), [narrativesBySlug, narrativesById, currentNarrative, dispatch]);
+
+  return routeNarratives((
+    <>
+      <StyledTitle>Table of Contents</StyledTitle>
+      <StyledNarrativesList>
+        { narratives.map((id) => (
+          <StyledNarrativeLink
+            key={id}
+            to={`/narratives/${narrativesById[id].post_name}`}
+            className={currentNarrative === id ? 'current' : ''}
+          >
+            { narrativesById[id].post_title }
+          </StyledNarrativeLink>
+        ))}
+      </StyledNarrativesList>
+    </>
+  ));
 }
+
+
+/*
+* Styles.
+*/
+
+const StyledTitle = styled.div`
+  margin-bottom: 0.25em;
+  font-size: 1.15em;
+  font-weight: lighter;
+  color: ${({ theme }) => theme.colors.darkGrey};
+  text-transform: uppercase;
+`;
+
+const StyledNarrativesList = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledNarrativeLink = styled(Link)`
+  margin-top: 0.25em;
+  color: inherit;
+  transition: opacity ${({ theme }) => theme.transitionDurations.linkHover};
+
+  &:hover {
+    opacity: ${({ theme }) => theme.opacities.linkHover};
+  }
+
+  &.current,
+  &.current:hover {
+    font-weight: bolder;
+    color: ${({ theme }) => theme.colors.brightRed};
+    opacity: 1;
+  }
+`;

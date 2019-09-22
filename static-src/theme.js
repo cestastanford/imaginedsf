@@ -11,6 +11,7 @@ const colors = {
   lightGrey: '#cecece',
   lighterGrey: '#d8d8d8',
   panelBackground: '#efefef',
+  brightRed: '#ca504c',
 };
 
 //  Opacities
