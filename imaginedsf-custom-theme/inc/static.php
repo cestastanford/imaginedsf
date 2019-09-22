@@ -10,48 +10,47 @@
  */
 function isf_enqueue_static_assets() {
 
-	$script_path = '/static/script.js';
+	// Webpack JS bundle JS.
+	$theme_script_path = '/static/script.js';
 	wp_enqueue_script(
-		'theme-script',
-		get_template_directory_uri() . $script_path,
+		'theme_script',
+		get_template_directory_uri() . $theme_script_path,
 		array(),
-		filemtime( get_stylesheet_directory() . $script_path ),
+		filemtime( get_stylesheet_directory() . $theme_script_path ),
 		true
 	);
 
-	wp_enqueue_script(
-		'leaflet-js',
-		'https://unpkg.com/leaflet@1.5.1/dist/leaflet.js',
+	// Webpack-bundled Bulma CSS.
+	$bulma_path = '/static/bulma.min.css';
+	wp_enqueue_style(
+		'bulma',
+		get_template_directory_uri() . $bulma_path,
 		array(),
-		1,
-		true
+		filemtime( get_stylesheet_directory() . $bulma_path )
 	);
 
+	// Webpack-bundled Leaflet CSS.
+	$leaflet_css_path = '/static/leaflet.css';
+	wp_enqueue_style(
+		'leaflet_css',
+		get_template_directory_uri() . $leaflet_css_path,
+		array(),
+		filemtime( get_stylesheet_directory() . $leaflet_css_path )
+	);
+
+	// Remote FontAwesome JS.
 	wp_enqueue_script(
-		'font-awesome',
+		'font_awesome',
 		'https://use.fontawesome.com/releases/v5.3.1/js/all.js',
 		array(),
 		1,
 		true
 	);
 
+	// Remote Google Fonts.
 	wp_enqueue_style(
-		'bulma',
-		'https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css',
-		array(),
-		1
-	);
-
-	wp_enqueue_style(
-		'google-fonts',
+		'google_fonts',
 		'https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,700,700i&display=swap',
-		array(),
-		1
-	);
-
-	wp_enqueue_style(
-		'leaflet-css',
-		'https://unpkg.com/leaflet@1.5.1/dist/leaflet.css',
 		array(),
 		1
 	);

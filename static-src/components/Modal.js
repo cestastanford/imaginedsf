@@ -3,7 +3,7 @@
 */
 
 import React from 'react';
-import { Link } from '@reach/router';
+import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -12,22 +12,27 @@ import styled from 'styled-components';
 * Modal component definition.
 */
 
-export default function Modal({ title, content }) {
-  return (
-    <StyledModal>
-      <StyledModalBackgroundCloseLink to="/" />
-      <StyledModalPanel>
-        <StyledModalCloseLink to="/">×</StyledModalCloseLink>
-        { title ? <StyledModalTitle>{title}</StyledModalTitle> : null }
-        <StyledModalContent>
-          { content }
-        </StyledModalContent>
-      </StyledModalPanel>
-    </StyledModal>
-  );
-}
+const Modal = ({ location, title, content }) => (
+  <StyledModal>
+    <StyledModalBackgroundCloseLink
+      to={{ pathname: '/', hash: location.hash }}
+    />
+    <StyledModalPanel>
+      <StyledModalCloseLink
+        to={{ pathname: '/', hash: location.hash }}
+      >
+        ×
+      </StyledModalCloseLink>
+      { title ? <StyledModalTitle>{title}</StyledModalTitle> : null }
+      <StyledModalContent>
+        { content }
+      </StyledModalContent>
+    </StyledModalPanel>
+  </StyledModal>
+);
 
 Modal.propTypes = {
+  location: PropTypes.shape({ hash: PropTypes.string.isRequired }).isRequired,
   content: PropTypes.node.isRequired,
   title: PropTypes.string,
 };
@@ -35,6 +40,8 @@ Modal.propTypes = {
 Modal.defaultProps = {
   title: '',
 };
+
+export default withRouter(Modal);
 
 
 /*

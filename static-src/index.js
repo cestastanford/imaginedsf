@@ -1,4 +1,12 @@
 /*
+* Imports CSS.
+*/
+
+import 'bulma/css/bulma.min.css';
+import 'leaflet/dist/leaflet.css';
+
+
+/*
 * Imports libraries.
 */
 

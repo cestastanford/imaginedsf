@@ -3,7 +3,14 @@
 */
 
 import React, { useCallback } from 'react';
-import { Match, Link, navigate } from '@reach/router';
+import PropTypes from 'prop-types';
+import {
+  withRouter,
+  Route,
+  Link,
+  Redirect,
+} from 'react-router-dom';
+
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
@@ -14,7 +21,7 @@ import { setCurrentNarrative } from '../state/actions';
 * NarrativesPanelViewHeader component definition.
 */
 
-export default function NarrativesPanelViewHeader() {
+const NarrativesPanelViewHeader = ({ location, pathPrefix }) => {
   const narratives = useSelector((state) => state.narratives);
   const narrativesById = useSelector((state) => state.narrativesById);
   const currentNarrative = useSelector((state) => state.currentNarrative);
@@ -23,30 +30,46 @@ export default function NarrativesPanelViewHeader() {
     ...Object.values(narrativesById).map((n) => ({ [n.post_name]: n })),
   );
 
-  const routeNarratives = useCallback((children) => (
-    <Match path="narratives/*">
-      {/* Receives { match } on every location change */}
-      {({ match }) => {
-        if (match) {
-          const slug = match['*'];
-          if (slug && narrativesBySlug[slug]) {
-            //  If slug in URL and matches narrative
-            if (narrativesBySlug[slug].ID !== currentNarrative) {
-              //  If slug narrative is not the current one in Redux state,
-              //  update Redux state narrative to slug narrative
-              dispatch(setCurrentNarrative(narrativesBySlug[slug].ID));
+  const routeNarratives = useCallback(
+    (children) => (
+      <Route path={`${pathPrefix}:slug?`}>
+        {({ match }) => {
+          if (match) {
+            const narrative = narrativesBySlug[match.params.slug];
+            if (narrative) {
+              //  If slug in URL and matches narrative
+              if (narrative.ID !== currentNarrative) {
+                //  If slug narrative is not the current one in Redux state,
+                //  update Redux state narrative to slug narrative
+                dispatch(setCurrentNarrative(narrative.ID));
+              }
+            } else {
+              //  If slug not in URL or doesn't match a narrative, redirect
+              //  to the current narrative in Redux state
+              return (
+                <Redirect
+                  to={{
+                    pathname: `${pathPrefix}${narrativesById[currentNarrative].post_name}`,
+                    hash: location.hash,
+                  }}
+                />
+              );
             }
-          } else {
-            //  If slug not in URL or doesn't match a narrative, redirect
-            //  to the current narrative in Redux state
-            navigate(`/narratives/${narrativesById[currentNarrative].post_name}`);
           }
-        }
 
-        return children;
-      }}
-    </Match>
-  ), [narrativesBySlug, narrativesById, currentNarrative, dispatch]);
+          return children;
+        }}
+      </Route>
+    ),
+    [
+      narrativesBySlug,
+      narrativesById,
+      currentNarrative,
+      dispatch,
+      location.hash,
+      pathPrefix,
+    ],
+  );
 
   return routeNarratives((
     <>
@@ -55,8 +78,11 @@ export default function NarrativesPanelViewHeader() {
         { narratives.map((id) => (
           <StyledNarrativeLink
             key={id}
-            to={`/narratives/${narrativesById[id].post_name}`}
             className={currentNarrative === id ? 'current' : ''}
+            to={{
+              pathname: `${pathPrefix}${narrativesById[id].post_name}`,
+              hash: location.hash,
+            }}
           >
             { narrativesById[id].post_title }
           </StyledNarrativeLink>
@@ -64,7 +90,14 @@ export default function NarrativesPanelViewHeader() {
       </StyledNarrativesList>
     </>
   ));
-}
+};
+
+NarrativesPanelViewHeader.propTypes = {
+  location: PropTypes.shape({ hash: PropTypes.string.isRequired }).isRequired,
+  pathPrefix: PropTypes.string.isRequired,
+};
+
+export default withRouter(NarrativesPanelViewHeader);
 
 
 /*
