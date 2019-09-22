@@ -7,41 +7,39 @@ import { Link, navigate } from '@reach/router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import PanelView from './PanelView';
-
 
 /*
-* RoutedPanelTabHandler component definition.  Handles routing to
+* PanelTabRouter component definition.  Handles routing to
 * the correct tab depending on the URL path.  If no tab matches,
 * the last-matched tab is displayed.
 */
 
-export default function RoutedPanelTabHandler(props) {
+export default function PanelTabRouter(props) {
   const { '*': activePath, tabs } = props;
 
   const activeTab = useRef(tabs[0]);
   const previousPathTab = useRef(tabs[0]);
 
-  const pathTab = tabs.filter((tab) => tab.props.tabPath === activePath)[0];
+  const pathTab = tabs.filter((tab) => activePath.match(tab.props.tabMatch))[0];
   if (pathTab) {
     if (previousPathTab.current) {
       activeTab.current = pathTab;
     } else if (pathTab !== activeTab.current) {
-      navigate(`/${activeTab.current.props.tabPath}`);
+      navigate(activeTab.current.props.tabLink);
     }
   }
 
   previousPathTab.current = pathTab;
 
   return (
-    <StyledRoutedPanelTabHandler>
+    <StyledPanelTabRouter>
       <StyledTabs>
         {
           tabs.map((tab) => (
             <StyledTab
-              to={`/${tab.props.tabPath}`}
+              to={tab.props.tabLink}
               className={tab === activeTab.current ? 'active' : ''}
-              key={tab.props.tabPath}
+              key={tab.props.tabLink}
             >
               {tab.props.tabTitle}
             </StyledTab>
@@ -51,30 +49,31 @@ export default function RoutedPanelTabHandler(props) {
       <StyledRoutedActiveTabContent>
         {activeTab.current}
       </StyledRoutedActiveTabContent>
-    </StyledRoutedPanelTabHandler>
+    </StyledPanelTabRouter>
   );
 }
 
-RoutedPanelTabHandler.propTypes = {
+PanelTabRouter.propTypes = {
   '*': PropTypes.string,
   tabs: PropTypes.arrayOf(PropTypes.shape({
     props: PropTypes.shape({
-      tabPath: PropTypes.string.isRequired,
+      tabMatch: PropTypes.string.isRequired,
+      tabLink: PropTypes.string.isRequired,
       tabTitle: PropTypes.string.isRequired,
     }).isRequired,
   })).isRequired,
 };
 
-RoutedPanelTabHandler.defaultProps = {
+PanelTabRouter.defaultProps = {
   '*': '',
 };
 
 
 /*
-* Styles for the RoutedPanelTabHandler component.
+* Styles for the PanelTabRouter component.
 */
 
-const StyledRoutedPanelTabHandler = styled.div`
+const StyledPanelTabRouter = styled.div`
   display: flex;
   flex-direction: column;
 `;

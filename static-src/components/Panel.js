@@ -3,6 +3,7 @@
 */
 
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Router } from '@reach/router';
 import styled from 'styled-components';
 
@@ -10,13 +11,13 @@ import styled from 'styled-components';
 *   Imports components.
 */
 
-import RoutedPanelTabHandler from './RoutedPanelTabHandler';
+import PanelTabRouter from './PanelTabRouter';
 import PanelView from './PanelView';
-import IntroductionPanelViewBody from './IntroductionPanelViewBody';
+import HTMLContent from './HTMLContent';
 import ProposalMapsPanelViewHeader from './ProposalMapsPanelViewHeader';
 import ProposalMapsPanelViewBody from './ProposalMapsPanelViewBody';
 import NarrativesPanelViewHeader from './NarrativesPanelViewHeader';
-import NarrativersPanelViewBody from './NarrativersPanelViewBody';
+import NarrativesPanelViewBody from './NarrativesPanelViewBody';
 
 
 /*
@@ -25,31 +26,36 @@ import NarrativersPanelViewBody from './NarrativersPanelViewBody';
 */
 
 export default function Panel() {
+  const introductionContent = useSelector((state) => state.contentAreaContent.introduction);
+
   return (
     <StyledPanel>
       <Router>
-        <RoutedPanelTabHandler
+        <PanelTabRouter
           path="/*"
           tabs={[
 
             <PanelView
-              tabPath=""
+              tabMatch="^$"
+              tabLink="/"
               tabTitle="Introduction"
-              bodyContent={<IntroductionPanelViewBody />}
+              bodyContent={<HTMLContent content={introductionContent} />}
             />,
 
             <PanelView
-              tabPath="proposal-maps"
+              tabMatch="proposal-maps"
+              tabLink="/proposal-maps"
               tabTitle="Proposal Maps"
               headerContent={<ProposalMapsPanelViewHeader />}
               bodyContent={<ProposalMapsPanelViewBody />}
             />,
 
             <PanelView
-              tabPath="narratives"
+              tabMatch="narratives"
+              tabLink="/narratives"
               tabTitle="Narratives"
               headerContent={<NarrativesPanelViewHeader />}
-              bodyContent={<NarrativersPanelViewBody />}
+              bodyContent={<NarrativesPanelViewBody />}
             />,
 
           ]}
