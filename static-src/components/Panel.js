@@ -26,16 +26,11 @@ const Panel = ({ location, children }) => {
   const tabs = React.Children.toArray(children);
   const previousPathWasTab = useRef(null);
   const [activeTabPath, setActiveTabPath] = useState(tabs[0].props.path);
-  const tabsByPath = Object.assign(...tabs.map((tab) => ({ [tab.props.path]: tab })));
+  const tabsByPath = Object.assign({}, ...tabs.map((tab) => ({ [tab.props.path]: tab })));
 
   const routePanelTabs = useCallback((childrenToRender) => (
     <Route path={Object.keys(tabsByPath)}>
       {({ match }) => {
-        // console.log('-----');
-        // console.log('match path:', match ? match.path : null);
-        // console.log('active tab path:', activeTabPath);
-        // console.log('previous path was tab:', previousPathWasTab.current);
-        // console.log('-----');
         if (match) { // True if the current path matches a tab
           const activePath = match.path;
           if (activePath !== activeTabPath) {

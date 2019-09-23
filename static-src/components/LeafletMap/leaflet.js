@@ -3,9 +3,6 @@
 */
 
 import {
-  DivIcon,
-  Marker,
-  Popup,
   TileLayer,
   GeoJSON,
   CRS,
@@ -31,68 +28,18 @@ export const latLngBoundsToArrays = (latLngBounds) => [
 
 
 /*
-* Extends DivIcon to define a custom marker icon.
-*/
-
-const MarkerIcon = DivIcon.extend({
-  options: {
-    html: '<i class="fa fa-map-marker custom-marker-icon"></i>',
-    iconAnchor: [12, 48],
-  },
-});
-
-
-/*
-* Creates custom red and blue Marker subclasses from the custom
-* DivIcon.
-*/
-
-export const BlueMarker = Marker.extend({
-  options: { icon: new MarkerIcon({ className: 'blue-marker' }) },
-});
-
-export const RedMarker = Marker.extend({
-  options: { icon: new MarkerIcon({ className: 'red-marker' }) },
-});
-
-
-/*
-* Creates a popup for a vector feature marker.
-*/
-
-export const getFeaturePopup = (layer, feature) => {
-  const popup = new Popup({
-
-    offset: [0, -40],
-    maxWidth: 200,
-
-  });
-
-  const popupContents = `
-    <header>
-      <h3>${layer.label}</h3>
-      <h6>${layer.mapTitle}</h6>
-    </header>
-    <article>${JSON.stringify(feature.properties)}</article>
-  `;
-
-  return popup.setContent(popupContents);
-};
-
-
-/*
 * Creates a WMS layer.
 */
 
-export const createWmsLayer = (layer, index) => new TileLayer.WMS(
-  layer.wms_base_url,
+export const createWmsLayer = (map, index) => new TileLayer.WMS(
+  map.wms.url,
   {
     transparent: true,
     tiled: true,
     format: 'image/png',
-    layers: layer.wms_layers,
-    minNativeZoom: layer.wms_min_zoom ? +layer.wms_min_zoom : undefined,
-    maxNativeZoom: layer.wms_max_zoom ? +layer.wms_max_zoom : undefined,
+    layers: map.wms.layers,
+    minNativeZoom: map.tile_zoom.min_zoom ? +map.tile_zoom.min_zoom : undefined,
+    maxNativeZoom: map.tile_zoom.max_zoom ? +map.tile_zoom.max_zoom : undefined,
     zIndex: index,
   },
 );
@@ -102,16 +49,7 @@ export const createWmsLayer = (layer, index) => new TileLayer.WMS(
 * Creates a GeoJSON layer.
 */
 
-export const createGeoJsonLayer = (layer) => new GeoJSON(
-  null,
-  {
-    pointToLayer: (point, latLng) => {
-      const marker = new RedMarker(latLng);
-      const popup = getFeaturePopup(layer, point);
-      return marker.bindPopup(popup);
-    },
-  },
-);
+export const createGeoJsonLayer = () => new GeoJSON(null);
 
 
 /*
@@ -143,11 +81,11 @@ export const getCoordsToLatLngFn = (geoJson) => {
 * Creates a Tile layer.
 */
 
-export const createTileLayer = (layer, index) => new TileLayer(
-  layer.tile_url,
+export const createTileLayer = (map, index) => new TileLayer(
+  map.tile.url,
   {
     zIndex: index,
-    minNativeZoom: layer.min_tile_zoom ? +layer.min_tile_zoom : undefined,
-    maxNativeZoom: layer.max_tile_zoom ? +layer.max_tile_zoom : undefined,
+    minNativeZoom: map.tile_zoom.min_tile_zoom ? +map.tile_zoom.min_tile_zoom : undefined,
+    maxNativeZoom: map.tile_zoom.max_tile_zoom ? +map.tile_zoom.max_tile_zoom : undefined,
   },
 );

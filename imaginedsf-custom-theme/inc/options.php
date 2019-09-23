@@ -22,12 +22,12 @@ if ( function_exists( 'acf_add_options_page' ) ) {
 
 	acf_add_options_page(
 		array(
-			'page_title'      => 'Proposal Ranges',
+			'page_title'      => 'Proposal Eras',
 			'icon_url'        => 'dashicons-menu-alt',
 			'position'        => '27.1',
-			'update_button'   => 'Update Proposal Ranges',
+			'update_button'   => 'Update Proposal Eras',
 			'updated_message' => 'Proposal ranges updated.',
-			'post_id'         => PROPOSAL_RANGES_OPTIONS,
+			'post_id'         => PROPOSAL_ERAS_OPTIONS,
 		)
 	);
 
