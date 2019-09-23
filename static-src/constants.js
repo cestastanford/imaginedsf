@@ -18,17 +18,17 @@ export const MAP_GROUP_POST_TYPE = 'isf_map_group';
 */
 
 export const INITIAL_BOUNDS = [
-  [37.6888, -122.5386], // NW
-  [37.8224, -122.3486], // SE
+  [37.8224, -122.5386], // NW
+  [37.6888, -122.3486], // SE
 ];
 
 export const MAX_BOUNDS = [
   [
-    INITIAL_BOUNDS[0][0] - (INITIAL_BOUNDS[1][0] - INITIAL_BOUNDS[0][0]) * 1.25, // North
+    INITIAL_BOUNDS[0][0] - (INITIAL_BOUNDS[1][0] - INITIAL_BOUNDS[0][0]) * 1, // North
     INITIAL_BOUNDS[0][1] - (INITIAL_BOUNDS[1][1] - INITIAL_BOUNDS[0][1]) * 1.5, // West
   ],
   [
-    INITIAL_BOUNDS[1][0] - (INITIAL_BOUNDS[0][0] - INITIAL_BOUNDS[1][0]) * 1, // South
+    INITIAL_BOUNDS[1][0] - (INITIAL_BOUNDS[0][0] - INITIAL_BOUNDS[1][0]) * 1.25, // South
     INITIAL_BOUNDS[1][1] - (INITIAL_BOUNDS[0][1] - INITIAL_BOUNDS[1][1]) * 1.25, // East
   ],
 ];
@@ -55,3 +55,13 @@ export const GEOJSON_STATUS = {
   NOT_REQUESTED: 'not_requested',
   REQUESTED: 'requested',
 };
+
+
+/*
+* Coordinate locations of bounds of img/sf-outline.png.
+*/
+
+export const SF_OUTLINE_BOUNDS = [
+  [37.859997, -122.605627], // NW
+  [37.646911, -122.287359], // SE
+];

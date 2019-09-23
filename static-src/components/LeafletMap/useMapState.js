@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { setPosition } from '../../state/actions';
 import useMapEnabled from './useMapEnabled';
+import { latLngBoundsToArrays } from './leaflet';
 
 
 /*
@@ -53,7 +54,7 @@ export default function useMapState(leafletLayers, visibleMapAreaProxy) {
     dispatch(setPosition(
       map.getCenter(),
       map.getZoom(),
-      null, // Sets `bounds` to null
+      latLngBoundsToArrays(map.getBounds()),
     ));
   }, [dispatch, visibleMapAreaProxy]);
 
@@ -69,22 +70,16 @@ export default function useMapState(leafletLayers, visibleMapAreaProxy) {
     };
   }, [visibleMapAreaProxy, updateMapStatePosition]);
 
-  //  Updates map position to reflect Redux mapState.  On first update
-  //  after map state set from defaults or from hash, `center` and
-  //  `zoom` are `null` and map position is set based on `bounds`,
-  //  with the resultant `center` and `zoom` set immediately
-  //  after and `bounds` set to `null`.  For all future updates until
-  //  map state is set from defaults or hash again, `bounds` will
-  //  be `null` and map position will reflect `center` and `zoom`.
   useEffect(() => {
     const { current: map } = visibleMapAreaProxy;
 
     map.off('moveend', updateMapStatePosition);
 
-    if (bounds) {
-      map.fitBounds(bounds);
-    } else {
+    if (center && zoom) {
       map.setView(center, zoom);
+    } else {
+      //  If position being set from hash
+      map.fitBounds(bounds);
     }
 
     map.on('moveend', updateMapStatePosition);
