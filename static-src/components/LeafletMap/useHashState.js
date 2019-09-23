@@ -29,12 +29,15 @@ const getMapStateFromHash = (hash) => {
 };
 
 
-const getHashFromMapState = ({ enabled, opacity }, bounds) => {
+//  Saves bounds instead of center/zoom to ensure that if link is
+//  opened with a different browser window size, area will be fully
+//  within visible map area.
+const getHashFromMapState = ({ enabled, opacity, bounds }) => {
   const hashObject = {
     mapState: {
       enabled,
       opacity,
-      bounds: latLngBoundsToArrays(bounds),
+      bounds,
     },
   };
 
@@ -46,7 +49,7 @@ const getHashFromMapState = ({ enabled, opacity }, bounds) => {
 * URL hash.
 */
 
-export default function useHashState(visibleMapAreaProxy) {
+export default function useHashState() {
   const currentHash = useRef();
   const mapState = useSelector((state) => state.mapState);
   const dispatch = useDispatch();
@@ -81,9 +84,7 @@ export default function useHashState(visibleMapAreaProxy) {
 
   //  Updates hash on map state change
   useEffect(() => {
-    const { current: map } = visibleMapAreaProxy;
-
-    currentHash.current = `#${getHashFromMapState(mapState, map.getBounds())}`;
+    currentHash.current = `#${getHashFromMapState(mapState)}`;
     window.location.hash = currentHash.current;
-  }, [mapState, visibleMapAreaProxy]);
+  }, [mapState]);
 }

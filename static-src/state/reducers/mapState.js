@@ -54,14 +54,11 @@ const opacity = (state = {}, action) => {
 
 const center = (state = null, action) => {
   switch (action.type) {
-    //  Initial map state is set with bounds; leaflet map
-    //  then updates state with corresponding center and zoom
+    //  Setting initial map state using center/zoom not allowed...
     case SET_MAP_STATE:
-      return null;
+      return state;
 
-    //  For incremental map state updates after initial map state
-    //  is set, center and zoom are tracked and updated directly
-    //  and bounds is set to null
+    //  ...only updating position.
     case SET_POSITION:
       return action.center;
 
@@ -72,14 +69,11 @@ const center = (state = null, action) => {
 
 const zoom = (state = null, action) => {
   switch (action.type) {
-    //  Initial map state is set with bounds; leaflet map
-    //  then updates state with corresponding center and zoom
+    //  Setting initial map state using center/zoom not allowed...
     case SET_MAP_STATE:
-      return null;
+      return state;
 
-    //  For incremental map state updates after initial map state
-    //  is set, center and zoom are tracked and updated directly
-    //  and bounds is set to null
+    //  ...only updating position.
     case SET_POSITION:
       return action.zoom;
 
@@ -90,16 +84,15 @@ const zoom = (state = null, action) => {
 
 const bounds = (state = null, action) => {
   switch (action.type) {
-    //  Initial map state is set with bounds; leaflet map
-    //  then updates state with corresponding center and zoom
+    //  Setting initial map state using bounds is allowed
     case SET_MAP_STATE:
       return action.mapState.bounds;
 
-    //  For incremental map state updates after initial map state
-    //  is set, center and zoom are tracked and updated directly
-    //  and bounds is set to null
+    //  Saves bounds of position updates for other components' use,
+    //  but Leaflet map won't update to these unless center/zoom
+    //  are null
     case SET_POSITION:
-      return null;
+      return action.bounds;
 
     default:
       return state;
