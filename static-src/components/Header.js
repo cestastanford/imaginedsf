@@ -5,11 +5,16 @@ import styled from 'styled-components';
 
 import logoImg from '../img/logo.svg';
 
+const reset = () => {
+  window.location.hash = '';
+  window.location.pathname = '';
+};
+
 const Header = ({ location }) => (
   <StyledHeader>
-    <StyledLink to="/">
+    <StyledHeaderLink to="/" onClick={reset}>
       <StyledLogo src={logoImg} alt="Imagined San Francisco" />
-    </StyledLink>
+    </StyledHeaderLink>
     <NavLinks>
       { [
         { pathname: '/bibliography', title: 'Bibliography' },
@@ -54,6 +59,23 @@ const StyledLink = styled(Link)`
 
   &:hover {
     opacity: ${({ theme }) => theme.opacities.linkHover};
+  }
+`;
+
+const StyledHeaderLink = styled(StyledLink)`
+  display: flex;
+  align-items: center;
+
+  &::after {
+    margin-left: 1em;
+    color: #aaa;
+    content: 'click to reset';
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  &:hover::after {
+    opacity: 1;
   }
 `;
 

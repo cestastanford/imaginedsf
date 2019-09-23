@@ -8,7 +8,7 @@ import {
   SET_MAP_STATE,
   SET_ENABLED,
   SET_OPACITY,
-  SET_POSITION,
+  SET_BOUNDS,
 } from '../actions';
 
 
@@ -52,46 +52,14 @@ const opacity = (state = {}, action) => {
   }
 };
 
-const center = (state = null, action) => {
-  switch (action.type) {
-    //  Setting initial map state using center/zoom not allowed...
-    case SET_MAP_STATE:
-      return state;
-
-    //  ...only updating position.
-    case SET_POSITION:
-      return action.center;
-
-    default:
-      return state;
-  }
-};
-
-const zoom = (state = null, action) => {
-  switch (action.type) {
-    //  Setting initial map state using center/zoom not allowed...
-    case SET_MAP_STATE:
-      return state;
-
-    //  ...only updating position.
-    case SET_POSITION:
-      return action.zoom;
-
-    default:
-      return state;
-  }
-};
-
 const bounds = (state = null, action) => {
   switch (action.type) {
-    //  Setting initial map state using bounds is allowed
+    //  Replaces state
     case SET_MAP_STATE:
       return action.mapState.bounds;
 
-    //  Saves bounds of position updates for other components' use,
-    //  but Leaflet map won't update to these unless center/zoom
-    //  are null
-    case SET_POSITION:
+    //  Updates bounds
+    case SET_BOUNDS:
       return action.bounds;
 
     default:
@@ -102,7 +70,5 @@ const bounds = (state = null, action) => {
 export default combineReducers({
   enabled,
   opacity,
-  center,
-  zoom,
   bounds,
 });

@@ -2,7 +2,7 @@
 * Imports
 */
 
-import React, { useRef, useLayoutEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import {
@@ -28,7 +28,7 @@ export default function MiniMap() {
   const bounds = useSelector((state) => state.mapState.bounds);
   const [rectangleBounds, setRectangleBounds] = useState();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     //  Get image bounds as lat/lng coordinates projected to planar values
     const imgBounds = new LatLngBounds(SF_OUTLINE_BOUNDS);
     const imageBoundsCoordinatesTopLeft = CRS.EPSG3857.project(imgBounds.getNorthWest());

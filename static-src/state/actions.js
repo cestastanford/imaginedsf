@@ -21,7 +21,7 @@ export const GEOJSON_RECEIVED = 'GEOJSON_RECEIVED';
 export const SET_MAP_STATE = 'SET_MAP_STATE';
 export const SET_ENABLED = 'SET_ENABLED';
 export const SET_OPACITY = 'SET_OPACITY';
-export const SET_POSITION = 'SET_POSITION';
+export const SET_BOUNDS = 'SET_BOUNDS';
 export const SET_ONLY_SHOW_PROPOSAL_MAPS_IN_VISIBLE_AREA = 'SET_ONLY_SHOW_PROPOSAL_MAPS_IN_VISIBLE_AREA';
 export const SET_CURRENT_NARRATIVE = 'SET_CURRENT_NARRATIVE';
 export const SET_NARRATIVE_SCROLL_POSITION = 'SET_NARRATIVE_SCROLL_POSITION';
@@ -42,41 +42,41 @@ const mapIdsToObjectKeys = (arr) => {
 /*
 * Helper function to normalize and verify map content.  Excludes
 * maps and map groups that are not a basemap or part of a proposal
-* range and ensures that no maps or map groups are referenced  more
+* era and ensures that no maps or map groups are referenced  more
 * than once.
 */
 
 const getNormalizedMapContent = ({
   maps,
   map_groups: mapGroups,
-  proposal_ranges: proposalRanges,
+  proposal_eras: proposalEras,
   basemaps,
 }) => {
-  const mapsAndGroupsById = {
+  const mapItemsById = {
     ...mapIdsToObjectKeys(maps),
     ...mapIdsToObjectKeys(mapGroups),
   };
 
-  const validatedMapsAndGroupsById = {};
+  const validatedMapItemsById = {};
 
   const validate = (id, POST_TYPE) => {
-    if (validatedMapsAndGroupsById[id]) {
+    if (validatedMapItemsById[id]) {
       throw new Error(`Map or map group referenced multiple times: ${id}`);
     }
 
-    const mapOrGroup = mapsAndGroupsById[id];
+    const mapItem = mapItemsById[id];
 
-    if (!mapOrGroup) {
+    if (!mapItem) {
       throw new Error(`Map or map group not found: ${id}`);
     }
 
-    if (POST_TYPE && mapOrGroup.post_type !== POST_TYPE) {
+    if (POST_TYPE && mapItem.post_type !== POST_TYPE) {
       throw new Error(`Map or map group referenced where not allowed: ${id}`);
     }
 
-    if (mapOrGroup.post_type === MAP_GROUP_POST_TYPE) {
+    if (mapItem.post_type === MAP_GROUP_POST_TYPE) {
       try {
-        mapOrGroup.children.forEach(
+        mapItem.children.forEach(
           (childMapOrGroup) => validate(childMapOrGroup),
         );
       } catch (e) {
@@ -84,8 +84,8 @@ const getNormalizedMapContent = ({
       }
     }
 
-    delete mapsAndGroupsById[id];
-    validatedMapsAndGroupsById[id] = mapOrGroup;
+    delete mapItemsById[id];
+    validatedMapItemsById[id] = mapItem;
   };
 
   try {
@@ -94,24 +94,24 @@ const getNormalizedMapContent = ({
     throw new Error(`${e.message} (basemap)`);
   }
 
-  proposalRanges.forEach((range, index) => {
+  proposalEras.forEach((era, index) => {
     try {
-      range.children.forEach((id) => validate(id));
+      era.children.forEach((id) => validate(id));
     } catch (e) {
-      throw new Error(`${e.message} (proposal range ${index})`);
+      throw new Error(`${e.message} (proposal era ${index})`);
     }
   });
 
   const geoJson = {};
-  Object.entries(validatedMapsAndGroupsById).forEach(([id, item]) => {
+  Object.entries(validatedMapItemsById).forEach(([id, item]) => {
     if (item.source_type === GEOJSON_SOURCE_TYPE) {
       geoJson[id] = GEOJSON_STATUS.NOT_REQUESTED;
     }
   });
 
   return {
-    mapsAndGroups: validatedMapsAndGroupsById,
-    proposalRanges,
+    mapItems: validatedMapItemsById,
+    proposalEras,
     basemaps,
     geoJson,
   };
@@ -123,13 +123,16 @@ const getNormalizedMapContent = ({
 * in WordPress.
 */
 
-const getDefaultMapStateFromMapContent = ({ mapsAndGroups }) => {
+const getDefaultMapStateFromMapContent = ({ mapItems }) => {
   const enabled = {};
   const opacity = {};
 
-  Object.entries(mapsAndGroups).forEach(([id, item]) => {
-    enabled[id] = item.enabled_by_default;
-    if (item.source_type !== GEOJSON_SOURCE_TYPE) {
+  Object.entries(mapItems).forEach(([id, item]) => {
+    enabled[id] = item.metadata.enabled_by_default;
+    if (
+      item.post_type === MAP_POST_TYPE
+      && item.source_type !== GEOJSON_SOURCE_TYPE
+    ) {
       opacity[id] = 1;
     }
   });
@@ -179,10 +182,8 @@ export const setOpacity = (mapId, opacity) => ({
   opacity,
 });
 
-export const setPosition = (center, zoom, bounds) => ({
-  type: SET_POSITION,
-  center,
-  zoom,
+export const setBounds = (bounds) => ({
+  type: SET_BOUNDS,
   bounds,
 });
 

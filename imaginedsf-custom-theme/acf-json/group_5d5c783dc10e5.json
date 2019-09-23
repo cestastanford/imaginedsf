@@ -1,13 +1,13 @@
 {
     "key": "group_5d5c783dc10e5",
-    "title": "Proposal Ranges",
+    "title": "Proposal Eras",
     "fields": [
         {
             "key": "field_5d5c7888e8af9",
-            "label": "Proposal Ranges",
-            "name": "proposal_ranges",
+            "label": "Proposal Eras",
+            "name": "proposal_eras",
             "type": "repeater",
-            "instructions": "Add and organize the maps that will appear in the Proposal Maps panel here.  First, create the proposal ranges that will appear at the top level of the panel.  Then, add proposal maps and\/or groups of proposal maps to them.",
+            "instructions": "Add and organize the maps that will appear in the Proposal Maps panel here.  First, create the proposal eras that will appear at the top level of the panel.  Then, add proposal maps and\/or groups of proposal maps to the eras.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -16,21 +16,21 @@
                 "id": ""
             },
             "collapsed": "field_5d5c78c3e8afa",
-            "min": 0,
+            "min": 1,
             "max": 0,
             "layout": "block",
-            "button_label": "Add Proposal Range",
+            "button_label": "Add Proposal Era",
             "sub_fields": [
                 {
                     "key": "field_5d5c78c3e8afa",
-                    "label": "Proposal Range Title",
+                    "label": "Era Title",
                     "name": "title",
                     "type": "text",
-                    "instructions": "Enter the title of the date range of proposal maps.",
+                    "instructions": "Enter the title of the date range of the proposal era.",
                     "required": 1,
                     "conditional_logic": 0,
                     "wrapper": {
-                        "width": "25",
+                        "width": "33",
                         "class": "",
                         "id": ""
                     },
@@ -42,56 +42,73 @@
                 },
                 {
                     "key": "field_5d5c78eee8afb",
-                    "label": "Proposal Range Start Year",
-                    "name": "start_year",
-                    "type": "number",
-                    "instructions": "Enter the start year of the date range.",
+                    "label": "Era Years",
+                    "name": "years",
+                    "type": "group",
+                    "instructions": "Enter the start and end years of the proposal era.",
                     "required": 1,
                     "conditional_logic": 0,
                     "wrapper": {
-                        "width": "25",
+                        "width": "33",
                         "class": "",
                         "id": ""
                     },
-                    "default_value": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "min": 1000,
-                    "max": 3000,
-                    "step": 1
-                },
-                {
-                    "key": "field_5d716d90812ea",
-                    "label": "Proposal Range End Year",
-                    "name": "end_year",
-                    "type": "number",
-                    "instructions": "Enter the end year of the date range.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "25",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "min": 1000,
-                    "max": 3000,
-                    "step": 1
+                    "layout": "row",
+                    "sub_fields": [
+                        {
+                            "key": "field_5d8840d6b26fd",
+                            "label": "Start Year",
+                            "name": "start",
+                            "type": "number",
+                            "instructions": "",
+                            "required": 1,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "min": 1000,
+                            "max": 3000,
+                            "step": 1
+                        },
+                        {
+                            "key": "field_5d8840f4b26fe",
+                            "label": "End Year",
+                            "name": "end",
+                            "type": "number",
+                            "instructions": "",
+                            "required": 1,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "min": 1000,
+                            "max": 3000,
+                            "step": 1
+                        }
+                    ]
                 },
                 {
                     "key": "field_5d5c7944e8afc",
-                    "label": "Proposal Range Description",
+                    "label": "Era Description",
                     "name": "description",
                     "type": "textarea",
-                    "instructions": "Enter a short description of the proposal range.",
+                    "instructions": "Enter a short description of the proposal era.",
                     "required": 0,
                     "conditional_logic": 0,
                     "wrapper": {
-                        "width": "25",
+                        "width": "33",
                         "class": "",
                         "id": ""
                     },
@@ -130,7 +147,7 @@
             {
                 "param": "options_page",
                 "operator": "==",
-                "value": "acf-options-proposal-ranges"
+                "value": "acf-options-proposal-eras"
             }
         ]
     ],
@@ -142,5 +159,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1567791114
+    "modified": 1569210790
 }

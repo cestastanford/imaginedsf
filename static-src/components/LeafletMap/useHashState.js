@@ -6,7 +6,6 @@ import { useRef, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setMapState } from '../../state/actions';
-import { latLngBoundsToArrays } from './leaflet';
 
 
 /*

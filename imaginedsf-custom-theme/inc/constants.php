@@ -19,7 +19,7 @@ define( 'FEEDBACK_POST_TYPE', 'isf_feedback' );
  * Defines ACF Options page post ID constants for retrieving content.
  */
 define( 'CONTENT_AREAS_OPTIONS', 'content-areas' );
-define( 'PROPOSAL_RANGES_OPTIONS', 'proposal-ranges' );
+define( 'PROPOSAL_ERAS_OPTIONS', 'proposal-eras' );
 define( 'BASEMAPS_OPTIONS', 'basemaps' );
 
 
