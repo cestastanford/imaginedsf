@@ -27,6 +27,7 @@ const NarrativesPanelViewHeader = ({ location, pathPrefix }) => {
   const currentNarrative = useSelector((state) => state.currentNarrative);
   const dispatch = useDispatch();
   const narrativesBySlug = Object.assign(
+    {},
     ...Object.values(narrativesById).map((n) => ({ [n.post_name]: n })),
   );
 

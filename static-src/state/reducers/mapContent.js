@@ -16,11 +16,11 @@ import {
 * Reducers for the mapContent part of the Redux state.
 */
 
-const mapsAndGroups = (state = {}, action) => {
+const mapItems = (state = {}, action) => {
   switch (action.type) {
     //  Saves to state when received.
     case CONTENT_RECEIVED:
-      return action.mapContent.mapsAndGroups;
+      return action.mapContent.mapItems;
 
     default:
       return state;
@@ -28,11 +28,11 @@ const mapsAndGroups = (state = {}, action) => {
 };
 
 
-const proposalRanges = (state = [], action) => {
+const proposalEras = (state = [], action) => {
   switch (action.type) {
     //  Saves to state when received.
     case CONTENT_RECEIVED:
-      return action.mapContent.proposalRanges;
+      return action.mapContent.proposalEras;
 
     default:
       return state;
@@ -74,8 +74,8 @@ const geoJson = (state = {}, action) => {
 };
 
 export default combineReducers({
-  mapsAndGroups,
-  proposalRanges,
+  mapItems,
+  proposalEras,
   basemaps,
   geoJson,
 });

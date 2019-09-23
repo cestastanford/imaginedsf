@@ -16,7 +16,10 @@ export default function HTMLContent({ content, className, children }) {
   return (
     <StyledHTMLContent className={className}>
       { children }
-      <div dangerouslySetInnerHTML={{ __html: content }} /> {/* eslint-disable-line */}
+      <div
+        className="content"
+        dangerouslySetInnerHTML={{ __html: content }}  // eslint-disable-line
+      />
     </StyledHTMLContent>
   );
 }

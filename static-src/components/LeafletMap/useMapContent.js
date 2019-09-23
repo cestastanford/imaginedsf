@@ -26,8 +26,8 @@ import {
 export default function useMapContent() {
   const [leafletLayers, setLeafletLayers] = useState([]);
   const {
-    mapsAndGroups,
-    proposalRanges,
+    mapItems,
+    proposalEras,
     basemaps,
   } = useSelector((state) => state.mapContent);
 
@@ -36,20 +36,18 @@ export default function useMapContent() {
     //  Returns a flattened array of all descendant maps
     const getDescendantMaps = (parent) => [].concat(...parent.children.map((id) => {
       //  If group
-      if (mapsAndGroups[id].children) {
-        return getDescendantMaps(mapsAndGroups[id]);
+      if (mapItems[id].children) {
+        return getDescendantMaps(mapItems[id]);
       }
 
       //  If not group
-      return [mapsAndGroups[id]];
+      return [mapItems[id]];
     }));
 
     const maps = [
-      ...[].concat(...proposalRanges.map(getDescendantMaps)),
       ...getDescendantMaps({ children: basemaps }),
+      ...[].concat(...proposalEras.map(getDescendantMaps)),
     ];
-
-    maps.reverse();
 
     //  Creates a Leaflet layer for each map
     const layers = maps.map((map, index) => {
@@ -72,7 +70,7 @@ export default function useMapContent() {
     });
 
     setLeafletLayers(layers);
-  }, [proposalRanges, basemaps, mapsAndGroups]);
+  }, [proposalEras, basemaps, mapItems]);
 
   return leafletLayers;
 }

@@ -13,8 +13,8 @@ import { useSelector } from 'react-redux';
 
 export default function useMapEnabled() {
   const {
-    mapsAndGroups,
-    proposalRanges,
+    mapItems,
+    proposalEras,
     basemaps,
   } = useSelector((state) => state.mapContent);
 
@@ -30,8 +30,8 @@ export default function useMapEnabled() {
         //  If enabled
         if (enabled[id]) {
           //  If group
-          if (mapsAndGroups[id].children) {
-            return getEnabledDescendantMapIds(mapsAndGroups[id]);
+          if (mapItems[id].children) {
+            return getEnabledDescendantMapIds(mapItems[id]);
           }
 
           //  If not group
@@ -45,8 +45,8 @@ export default function useMapEnabled() {
 
     //  Creates object of IDs.
     return [
-      ...[].concat(...proposalRanges.map(getEnabledDescendantMapIds)),
+      ...[].concat(...proposalEras.map(getEnabledDescendantMapIds)),
       ...getEnabledDescendantMapIds({ children: basemaps }),
     ].reduce((accum, id) => ({ ...accum, [id]: true }), {});
-  }, [enabled, mapsAndGroups, proposalRanges, basemaps]);
+  }, [enabled, mapItems, proposalEras, basemaps]);
 }

@@ -5,7 +5,7 @@
 import { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { setPosition } from '../../state/actions';
+import { setBounds } from '../../state/actions';
 import useMapEnabled from './useMapEnabled';
 import { latLngBoundsToArrays } from './leaflet';
 
@@ -48,40 +48,28 @@ export default function useMapState(leafletLayers, visibleMapAreaProxy) {
     });
   }, [leafletLayers, visibleMapAreaProxy, getMapEnabled]);
 
-  //  Sends a position update to Redux's mapState
+  //  Sends a bounds update to Redux's mapState
   const updateMapStatePosition = useCallback(() => {
     const { current: map } = visibleMapAreaProxy;
-    dispatch(setPosition(
-      map.getCenter(),
-      map.getZoom(),
-      latLngBoundsToArrays(map.getBounds()),
-    ));
-  }, [dispatch, visibleMapAreaProxy]);
+    const currentBounds = map.getBounds();
+    if (!currentBounds.equals(bounds)) {
+      dispatch(setBounds(latLngBoundsToArrays(currentBounds)));
+    }
+  }, [dispatch, visibleMapAreaProxy, bounds]);
 
   //  Adds a listener to update the Redux mapState to reflect map
   //  position when moved.
   useEffect(() => {
     const { current: map } = visibleMapAreaProxy;
-
-    map.on('moveend', updateMapStatePosition);
-
+    map.on('moveend zoomend', updateMapStatePosition);
     return () => {
-      map.off('moveend', updateMapStatePosition);
+      map.off('moveend zoomend', updateMapStatePosition);
     };
   }, [visibleMapAreaProxy, updateMapStatePosition]);
 
+  //  Updates the map with new bounds from Redux
   useEffect(() => {
     const { current: map } = visibleMapAreaProxy;
-
-    map.off('moveend', updateMapStatePosition);
-
-    if (center && zoom) {
-      map.setView(center, zoom);
-    } else {
-      //  If position being set from hash
-      map.fitBounds(bounds);
-    }
-
-    map.on('moveend', updateMapStatePosition);
+    map.fitBounds(bounds);
   }, [visibleMapAreaProxy, updateMapStatePosition, center, zoom, bounds]);
 }
