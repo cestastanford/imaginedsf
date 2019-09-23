@@ -129,7 +129,7 @@ const StyledNarrativeLink = styled(Link)`
   &.current,
   &.current:hover {
     font-weight: bolder;
-    color: ${({ theme }) => theme.colors.brightRed};
+    color: ${({ theme }) => theme.colors.brightAccent};
     opacity: 1;
   }
 `;

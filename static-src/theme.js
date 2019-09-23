@@ -8,10 +8,13 @@ const colors = {
   lightBlack: '#333',
   darkerGrey: '#414042',
   darkGrey: '#58595b',
+  darkGrey25: 'rgba(88, 89, 91, 0.25)',
   lightGrey: '#cecece',
   lighterGrey: '#d8d8d8',
   panelBackground: '#efefef',
-  brightRed: '#ca504c',
+  brightAccent: '#d83a3a',
+  brightAccent25: 'rgba(216, 58, 58, 0.25)',
+  darkAccent: '#bf3333',
 };
 
 //  Opacities

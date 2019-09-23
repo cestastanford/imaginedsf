@@ -22,6 +22,25 @@
             "delay": 0
         },
         {
+            "key": "field_5d87d96d8e5fe",
+            "label": "Proposal Maps Introduction",
+            "name": "proposal_maps_intro",
+            "type": "textarea",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "maxlength": "",
+            "rows": "",
+            "new_lines": ""
+        },
+        {
             "key": "field_5d7294888e90d",
             "label": "Bibliography",
             "name": "bibliography",
@@ -96,5 +115,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1567790873
+    "modified": 1569184379
 }
