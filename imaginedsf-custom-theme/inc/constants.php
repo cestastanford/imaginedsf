@@ -23,7 +23,7 @@ define( 'PROPOSAL_ERAS_OPTIONS', 'proposal-eras' );
 define( 'BASEMAPS_OPTIONS', 'basemaps' );
 
 
-/*
+/**
  * Defines content area constants.  These should align with the
  * content areas the front-end application will be requesting (see
  * `static-src/constants.js`) and the content areas defined in
@@ -45,3 +45,9 @@ define(
 		FEEDBACK_CONTENT_AREA,
 	)
 );
+
+
+/**
+ * Defines the namespace for the REST API custom endpoints.
+ */
+define( 'REST_API_NAMESPACE', 'imaginedsf' );

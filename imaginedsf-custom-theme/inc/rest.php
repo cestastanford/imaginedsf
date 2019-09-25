@@ -74,7 +74,7 @@ add_action(
 	'rest_api_init',
 	function() {
 		register_rest_route(
-			'imaginedsf',
+			REST_API_NAMESPACE,
 			'/content',
 			array(
 				'methods'  => 'GET',
@@ -103,7 +103,7 @@ add_action(
 	'rest_api_init',
 	function() {
 		register_rest_route(
-			'imaginedsf',
+			REST_API_NAMESPACE,
 			'/feedback',
 			array(
 				'methods'  => 'POST',
@@ -166,11 +166,72 @@ add_action(
 	'rest_api_init',
 	function() {
 		register_rest_route(
-			'imaginedsf',
+			REST_API_NAMESPACE,
 			'/geojson',
 			array(
 				'methods'  => 'GET',
 				'callback' => 'get_map_layer_json',
+			)
+		);
+	}
+);
+
+
+/**
+ * Given an address, performs a forward-geocoding request to the
+ * MapQuest API to get full address matches and their respective
+ * lat/lng coordinates.  Attempts to find only results in San Francisco
+ * and returns the coordinates and normalized address of the first
+ * result.
+ *
+ * @param WP_REST_Request $request The WP REST request object.
+ */
+function isf_geocode( WP_REST_Request $request ) {
+
+	$input_address  = $request['address'];
+	$input_address .= ', San Francisco, CA USA';
+
+	// Performs request.
+	$url                  = 'http://www.mapquestapi.com/geocoding/v1/address';
+	$url                 .= '?key=' . MAPQUEST_API_KEY;
+	$url                 .= '&location=' . rawurlencode( $input_address );
+	$url                 .= '&maxResults=1';
+	$response             = wp_remote_get( $url );
+	$response_body        = wp_remote_retrieve_body( $response );
+	$parsed_response_body = json_decode( $response_body, true );
+	$locations            = $parsed_response_body['results'][0]['locations'];
+
+	if ( count( $locations ) > 0 ) {
+		return array(
+			'address'     => $locations[0]['street'],
+			'coordinates' => array(
+				$locations[0]['displayLatLng']['lat'],
+				$locations[0]['displayLatLng']['lng'],
+			),
+		);
+	} else {
+		return array(
+			'error'   => 'No matching locations found',
+			'address' => $input_address,
+		);
+	}
+}
+
+
+/*
+*	Adds endpoints for forward-geocoding addresses to coordinates
+*	with the MapQuest API.
+*/
+
+add_action(
+	'rest_api_init',
+	function() {
+		register_rest_route(
+			REST_API_NAMESPACE,
+			'/geocode',
+			array(
+				'methods'  => 'GET',
+				'callback' => 'isf_geocode',
 			)
 		);
 	}

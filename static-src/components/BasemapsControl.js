@@ -6,11 +6,10 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import StyledControl from './StyledControl';
+import Control from './Control';
 import MapListItem from './MapListItem';
 
 import basemapsIcon from '../img/basemaps.png';
-import closeIcon from '../img/close.png';
 
 /*
 * BasemapsControl component definition.
@@ -40,7 +39,7 @@ export default function BasemapsControl() {
 * Styles for BasemapsControl component.
 */
 
-const StyledBasemapsControl = styled(StyledControl)`
+const StyledBasemapsControl = styled(Control)`
   align-self: flex-end;
   padding: 0.5em 1em;
   margin-top: auto;

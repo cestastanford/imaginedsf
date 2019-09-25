@@ -5,7 +5,7 @@
 import {
   MAP_POST_TYPE,
   MAP_GROUP_POST_TYPE,
-  INITIAL_BOUNDS,
+  SF_BOUNDS,
   GEOJSON_SOURCE_TYPE,
   GEOJSON_STATUS,
 } from '../constants';
@@ -22,6 +22,7 @@ export const SET_MAP_STATE = 'SET_MAP_STATE';
 export const SET_ENABLED = 'SET_ENABLED';
 export const SET_OPACITY = 'SET_OPACITY';
 export const SET_BOUNDS = 'SET_BOUNDS';
+export const UPDATE_VIEW = 'UPDATE_VIEW';
 export const SET_ONLY_SHOW_PROPOSAL_MAPS_IN_VISIBLE_AREA = 'SET_ONLY_SHOW_PROPOSAL_MAPS_IN_VISIBLE_AREA';
 export const SET_CURRENT_NARRATIVE = 'SET_CURRENT_NARRATIVE';
 export const SET_NARRATIVE_SCROLL_POSITION = 'SET_NARRATIVE_SCROLL_POSITION';
@@ -140,7 +141,7 @@ const getDefaultMapStateFromMapContent = ({ mapItems }) => {
   return {
     enabled,
     opacity,
-    bounds: INITIAL_BOUNDS,
+    bounds: SF_BOUNDS,
   };
 };
 
@@ -182,9 +183,17 @@ export const setOpacity = (mapId, opacity) => ({
   opacity,
 });
 
-export const setBounds = (bounds) => ({
+export const setBounds = (bounds, center, zoom) => ({
   type: SET_BOUNDS,
   bounds,
+  center,
+  zoom,
+});
+
+export const updateView = (center, zoom) => ({
+  type: UPDATE_VIEW,
+  center,
+  zoom,
 });
 
 export const setOnlyShowProposalMapsInVisibleArea = (onlyShowProposalMapsInVisibleArea) => ({
