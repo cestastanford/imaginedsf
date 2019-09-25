@@ -45,9 +45,11 @@ export default function useMapContent() {
     }));
 
     const maps = [
-      ...getDescendantMaps({ children: basemaps }),
       ...[].concat(...proposalEras.map(getDescendantMaps)),
+      ...getDescendantMaps({ children: basemaps }),
     ];
+
+    maps.reverse();
 
     //  Creates a Leaflet layer for each map
     const layers = maps.map((map, index) => {

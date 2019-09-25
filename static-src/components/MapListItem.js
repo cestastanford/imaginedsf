@@ -116,18 +116,17 @@ MapListItem.defaultProps = {
 const StyledMapListItem = styled.li`
   display: flex;
   align-items: center;
-  min-height: 2em;
-  margin: 0.5em 0;
   line-height: 1.25;
 `;
 
 const StyledEnabled = styled.span`
-  margin-right: 1.2rem;
-  margin-bottom: 0.25em;
+  margin-right: 0.75rem;
+  margin-bottom: 0.15em;
 `;
 
 const StyledYear = styled.span`
-  margin-right: 1rem;
+  margin-right: 0.75rem;
+  margin-bottom: 0.1em;
   font-size: 1.1em;
   color: ${({ theme, isEnabled }) => (isEnabled ? theme.colors.brightAccent : '#888')};
   cursor: pointer;
@@ -145,11 +144,15 @@ const StyledTitle = styled.span`
 `;
 
 const StyledRange = styled.input`
-  width: 10em;
+  width: 8em;
 `;
 
 const StyledChildren = styled.ul`
-  padding-left: 1.75em;
+  padding: 0.1em 0 0.1em 0.9rem;
   margin-left: 0.25em;
   border-left: 1px solid #aaa;
+
+  & > li {
+    margin: 0.5em 0;
+  }
 `;

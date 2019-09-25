@@ -35,15 +35,9 @@ AccentCheckbox.defaultProps = {
 
 const StyledAccentCheckbox = styled.span`
   position: relative;
-  top: 2px;
-  left: -1px;
   display: inline-block;
-  width: 11px;
-  height: 11px;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: bold;
-  line-height: 1.25;
+  width: 9px;
+  height: 9px;
   user-select: none;
 
   input {
@@ -79,12 +73,14 @@ const StyledAccentCheckbox = styled.span`
 
   &::after {
     position: absolute;
-    top: -2px;
+    top: -1px;
     right: 0;
     bottom: 0;
-    left: 0.5px;
+    left: 0.25px;
     display: block;
-    font-size: 12px;
+    font-size: 9px;
+    font-style: normal;
+    font-weight: bold;
     color: white;
     content: '${({ isChecked }) => (isChecked ? '✓' : '')}';
   }

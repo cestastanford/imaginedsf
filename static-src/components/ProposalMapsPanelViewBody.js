@@ -144,7 +144,7 @@ const ProposalEraChildren = styled.ul`
   margin-top: 0.5em;
 
   & > li {
-    margin: 0.25em 0;
+    margin: 0.5em 0;
   }
 `;
 
