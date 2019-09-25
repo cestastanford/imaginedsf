@@ -10,8 +10,16 @@
  */
 function isf_get_content_area_content() {
 
+	$content_areas = array(
+		INTRODUCTION_CONTENT_AREA,
+		PROPOSAL_MAPS_INTRO_CONTENT_AREA,
+		BIBLIOGRAPHY_CONTENT_AREA,
+		CREDITS_CONTENT_AREA,
+		FEEDBACK_CONTENT_AREA,
+	);
+
 	$content_area_content = array();
-	foreach ( CONTENT_AREAS as $content_area ) {
+	foreach ( $content_areas as $content_area ) {
 		$content_area_content[ $content_area ] = get_field( $content_area, CONTENT_AREAS_OPTIONS );
 	}
 
