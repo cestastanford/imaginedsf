@@ -13,6 +13,12 @@ require_once 'inc/constants.php';
 
 
 /**
+ * Imports environmental variables.
+ */
+require_once 'inc/.env.php';
+
+
+/**
  * Updates post types.
  */
 
@@ -50,3 +56,5 @@ require_once 'inc/spa.php';
  * Handles submission and viewing of feedback.
  */
 require_once 'inc/feedback.php';
+
+

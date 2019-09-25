@@ -4,8 +4,10 @@
 
 import { useRef, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { LatLngBounds } from 'leaflet';
 
 import { setMapState } from '../../state/actions';
+import { latLngBoundsToArrays } from './leaflet';
 
 
 /*
@@ -20,7 +22,7 @@ const getMapStateFromHash = (hash) => {
     return {
       enabled,
       opacity,
-      bounds,
+      bounds: new LatLngBounds(bounds),
     };
   } catch (e) {
     return null;
@@ -36,7 +38,7 @@ const getHashFromMapState = ({ enabled, opacity, bounds }) => {
     mapState: {
       enabled,
       opacity,
-      bounds,
+      bounds: latLngBoundsToArrays(bounds),
     },
   };
 

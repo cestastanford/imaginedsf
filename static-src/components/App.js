@@ -7,18 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
-
-/*
-* Imports Redux action creators.
-*/
-
+import LeafletMapContext from './LeafletMapContext';
 import { fetchContent } from '../state/actions';
-
-
-/*
-* Imports components.
-*/
-
 import Header from './Header';
 import LeafletMap from './LeafletMap';
 import VisibleMapArea from './VisibleMapArea';
@@ -40,7 +30,8 @@ import FeedbackForm from './FeedbackForm';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const visibleMapArea = useRef();
+  const visibleMapAreaElementRef = useRef();
+  const leafletMapRef = useRef();
   const dispatch = useDispatch();
   const {
     introduction,
@@ -89,57 +80,62 @@ export default function App() {
   ];
 
   return (
-    <StyledApp>
-      <LoadingMessage visible={loading}>Loading...</LoadingMessage>
-      { loading ? null : (
-        <StyledMainContainer>
-          <BrowserRouter>
-            <Header />
-            <StyledBody>
-              <LeafletMap visibleMapAreaRef={visibleMapArea} />
-              <Panel>
-
-                <PanelView
-                  path="/introduction"
-                  title="Introduction"
-                  bodyContent={<HTMLContent content={introduction} />}
+    <LeafletMapContext.Provider value={leafletMapRef}>
+      <StyledApp>
+        <LoadingMessage visible={loading}>Loading...</LoadingMessage>
+        { loading ? null : (
+          <StyledMainContainer>
+            <BrowserRouter>
+              <Header />
+              <StyledBody>
+                <LeafletMap
+                  visibleMapAreaElementRef={visibleMapAreaElementRef}
+                  ref={leafletMapRef}
                 />
+                <Panel>
 
-                <PanelView
-                  path="/proposal-maps"
-                  title="Proposal Maps"
-                  headerContent={<ProposalMapsPanelViewHeader />}
-                  bodyContent={<ProposalMapsPanelViewBody />}
-                />
+                  <PanelView
+                    path="/introduction"
+                    title="Introduction"
+                    bodyContent={<HTMLContent content={introduction} />}
+                  />
 
-                <PanelView
-                  path="/narratives"
-                  title="Narratives"
-                  headerContent={<NarrativesPanelViewHeader pathPrefix="/narratives/" />}
-                  bodyContent={<NarrativesPanelViewBody />}
-                />
+                  <PanelView
+                    path="/proposal-maps"
+                    title="Proposal Maps"
+                    headerContent={<ProposalMapsPanelViewHeader />}
+                    bodyContent={<ProposalMapsPanelViewBody />}
+                  />
 
-              </Panel>
-              <VisibleMapArea ref={visibleMapArea} />
-              { modals.map((modal) => (
-                <Route
-                  path={modal.props.path}
-                  key={modal.props.path}
-                  render={() => modal}
-                />
-              )) }
-            </StyledBody>
-            <Route
-              path="/"
-              exact
-              render={({ location }) => (
-                <Redirect to={{ pathname: '/introduction', hash: location.hash }} />
-              )}
-            />
-          </BrowserRouter>
-        </StyledMainContainer>
-      )}
-    </StyledApp>
+                  <PanelView
+                    path="/narratives"
+                    title="Narratives"
+                    headerContent={<NarrativesPanelViewHeader pathPrefix="/narratives/" />}
+                    bodyContent={<NarrativesPanelViewBody />}
+                  />
+
+                </Panel>
+                <VisibleMapArea ref={visibleMapAreaElementRef} />
+                { modals.map((modal) => (
+                  <Route
+                    path={modal.props.path}
+                    key={modal.props.path}
+                    render={() => modal}
+                  />
+                )) }
+              </StyledBody>
+              <Route
+                path="/"
+                exact
+                render={({ location }) => (
+                  <Redirect to={{ pathname: '/introduction', hash: location.hash }} />
+                )}
+              />
+            </BrowserRouter>
+          </StyledMainContainer>
+        )}
+      </StyledApp>
+    </LeafletMapContext.Provider>
   );
 }
 

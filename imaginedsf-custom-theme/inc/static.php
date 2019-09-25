@@ -38,15 +38,6 @@ function isf_enqueue_static_assets() {
 		filemtime( get_stylesheet_directory() . $leaflet_css_path )
 	);
 
-	// Remote FontAwesome JS.
-	wp_enqueue_script(
-		'font_awesome',
-		'https://use.fontawesome.com/releases/v5.3.1/js/all.js',
-		array(),
-		1,
-		true
-	);
-
 	// Remote Google Fonts.
 	wp_enqueue_style(
 		'google_fonts',

@@ -25,14 +25,13 @@ import sfOutline from '../img/sf-outline.png';
 export default function MiniMap() {
   const imgRef = useRef();
   const rectangleAccent = useSelector((state) => state.onlyShowProposalMapsInVisibleArea);
-  const bounds = useSelector((state) => state.mapState.bounds);
+  const visibleBounds = useSelector((state) => state.mapState.bounds);
   const [rectangleBounds, setRectangleBounds] = useState();
 
   useEffect(() => {
     //  Get image bounds as lat/lng coordinates projected to planar values
-    const imgBounds = new LatLngBounds(SF_OUTLINE_BOUNDS);
-    const imageBoundsCoordinatesTopLeft = CRS.EPSG3857.project(imgBounds.getNorthWest());
-    const imageBoundsCoordinatesBottomRight = CRS.EPSG3857.project(imgBounds.getSouthEast());
+    const imageBoundsCoordinatesTopLeft = CRS.EPSG3857.project(SF_OUTLINE_BOUNDS.getNorthWest());
+    const imageBoundsCoordinatesBottomRight = CRS.EPSG3857.project(SF_OUTLINE_BOUNDS.getSouthEast());
 
     //  Get image bounds as pixel values
     const {
@@ -73,7 +72,6 @@ export default function MiniMap() {
 
     //  Get visible map area bounds as lat/lng coordinates projected
     //  to planar values
-    const visibleBounds = new LatLngBounds(bounds);
     const visibleBoundsCoordinatesTopLeft = CRS.EPSG3857.project(visibleBounds.getNorthWest());
     const visibleBoundsCoordinatesBottomRight = CRS.EPSG3857.project(visibleBounds.getSouthEast());
 
@@ -98,7 +96,7 @@ export default function MiniMap() {
       right: rectangleRight,
       bottom: rectangleBottom,
     });
-  }, [bounds]);
+  }, [visibleBounds]);
 
   return (
     <StyledMiniMap>

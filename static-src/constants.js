@@ -17,25 +17,25 @@ export const MAP_GROUP_POST_TYPE = 'isf_map_group';
 * Initial map bounds.
 */
 
-export const INITIAL_BOUNDS = [
+export const SF_BOUNDS = new LatLngBounds([
   [37.8224, -122.5386], // NW
   [37.6888, -122.3486], // SE
-];
+]);
 
-export const MAX_BOUNDS = [
+export const MAX_BOUNDS = new LatLngBounds([
   [
-    INITIAL_BOUNDS[0][0] - (INITIAL_BOUNDS[1][0] - INITIAL_BOUNDS[0][0]) * 1, // North
-    INITIAL_BOUNDS[0][1] - (INITIAL_BOUNDS[1][1] - INITIAL_BOUNDS[0][1]) * 1.5, // West
+    SF_BOUNDS.getNorth() - (SF_BOUNDS.getSouth() - SF_BOUNDS.getNorth()) * 1, // North
+    SF_BOUNDS.getWest() - (SF_BOUNDS.getEast() - SF_BOUNDS.getWest()) * 1.5, // West
   ],
   [
-    INITIAL_BOUNDS[1][0] - (INITIAL_BOUNDS[0][0] - INITIAL_BOUNDS[1][0]) * 1.25, // South
-    INITIAL_BOUNDS[1][1] - (INITIAL_BOUNDS[0][1] - INITIAL_BOUNDS[1][1]) * 1.25, // East
+    SF_BOUNDS.getSouth() - (SF_BOUNDS.getNorth() - SF_BOUNDS.getSouth()) * 1.25, // South
+    SF_BOUNDS.getEast() - (SF_BOUNDS.getWest() - SF_BOUNDS.getEast()) * 1.25, // East
   ],
-];
+]);
 
-export const INITIAL_CENTER = new LatLngBounds(INITIAL_BOUNDS).getCenter();
-export const INITIAL_ZOOM = 13;
 export const MIN_ZOOM = 12;
+export const MAX_ZOOM = 18;
+export const ZOOM_SNAP = 0.25;
 
 
 /*
@@ -61,7 +61,23 @@ export const GEOJSON_STATUS = {
 * Coordinate locations of bounds of img/sf-outline.png.
 */
 
-export const SF_OUTLINE_BOUNDS = [
+export const SF_OUTLINE_BOUNDS = new LatLngBounds([
   [37.859997, -122.605627], // NW
   [37.646911, -122.287359], // SE
-];
+]);
+
+
+/*
+* When zooming into a location, this is the amount of padding on
+* each size (in meters) that determines the zoom level.
+*/
+
+export const ZOOM_TO_LOCATION_PADDING = 500;
+
+
+/*
+* When determining if the map is zoomed into a location, this is
+* the tolerance in degrees of latitude/longitude.
+*/
+
+export const IS_ZOOMED_TO_LOCATION_TOLERANCE = 0.0001;

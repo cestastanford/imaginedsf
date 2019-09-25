@@ -3,3 +3,4 @@ static
 node_modules
 .DS_Store
 publicPath.prod.env
+.env*

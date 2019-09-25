@@ -5,9 +5,8 @@
 import { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { setBounds } from '../../state/actions';
-import useMapEnabled from './useMapEnabled';
-import { latLngBoundsToArrays } from './leaflet';
+import { setBounds, updateView } from '../../state/actions';
+import useMapEnabled from '../useMapEnabled';
 
 
 /*
@@ -18,12 +17,7 @@ import { latLngBoundsToArrays } from './leaflet';
 export default function useMapState(leafletLayers, visibleMapAreaProxy) {
   const getMapEnabled = useMapEnabled();
   const dispatch = useDispatch();
-  const {
-    opacity,
-    center,
-    zoom,
-    bounds,
-  } = useSelector((state) => state.mapState);
+  const { opacity, bounds } = useSelector((state) => state.mapState);
 
   //  Sets the opacity of each Leaflet layer on state change
   useEffect(() => {
@@ -53,7 +47,8 @@ export default function useMapState(leafletLayers, visibleMapAreaProxy) {
     const { current: map } = visibleMapAreaProxy;
     const currentBounds = map.getBounds();
     if (!currentBounds.equals(bounds)) {
-      dispatch(setBounds(latLngBoundsToArrays(currentBounds)));
+      dispatch(setBounds(currentBounds, map.getCenter(), map.getZoom()));
+      dispatch(updateView(map.getCenter(), map.getZoom()));
     }
   }, [dispatch, visibleMapAreaProxy, bounds]);
 
@@ -70,6 +65,7 @@ export default function useMapState(leafletLayers, visibleMapAreaProxy) {
   //  Updates the map with new bounds from Redux
   useEffect(() => {
     const { current: map } = visibleMapAreaProxy;
+    map.once('zoomend', () => dispatch(updateView(map.getCenter(), map.getZoom())));
     map.fitBounds(bounds);
-  }, [visibleMapAreaProxy, updateMapStatePosition, center, zoom, bounds]);
+  }, [visibleMapAreaProxy, updateMapStatePosition, bounds, dispatch]);
 }

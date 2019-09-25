@@ -23,13 +23,12 @@ const useProposalMapsInVisibleArea = () => {
   const visibleMapAreaBounds = useSelector((state) => state.mapState.bounds);
 
   return useMemo(() => {
-    const visibleMapAreaLatLngBounds = new LatLngBounds(visibleMapAreaBounds);
     const visibleAreaPolygon = polygon([[
-      visibleMapAreaLatLngBounds.getNorthWest(),
-      visibleMapAreaLatLngBounds.getNorthEast(),
-      visibleMapAreaLatLngBounds.getSouthEast(),
-      visibleMapAreaLatLngBounds.getSouthWest(),
-      visibleMapAreaLatLngBounds.getNorthWest(),
+      visibleMapAreaBounds.getNorthWest(),
+      visibleMapAreaBounds.getNorthEast(),
+      visibleMapAreaBounds.getSouthEast(),
+      visibleMapAreaBounds.getSouthWest(),
+      visibleMapAreaBounds.getNorthWest(),
     ].map((latLng) => [latLng.lng, latLng.lat])]);
 
     const proposalChildren = [].concat(
