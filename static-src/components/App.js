@@ -30,6 +30,7 @@ import FeedbackForm from './FeedbackForm';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
+  const [loadingError, setLoadingError] = useState(null);
   const visibleMapAreaElementRef = useRef();
   const leafletMapRef = useRef();
   const dispatch = useDispatch();
@@ -44,8 +45,12 @@ export default function App() {
   //  Downloads initial content and sets initial state
   useEffect(() => {
     const initApp = async () => {
-      await dispatch(fetchContent());
-      setLoading(false);
+      try {
+        await dispatch(fetchContent());
+        setLoading(false);
+      } catch (e) {
+        setLoadingError(e.message);
+      }
     };
 
     initApp();
@@ -82,7 +87,10 @@ export default function App() {
   return (
     <LeafletMapContext.Provider value={leafletMapRef}>
       <StyledApp>
-        <LoadingMessage visible={loading}>Loading...</LoadingMessage>
+        <LoadingMessage visible={loading}>
+          { loadingError ? 'Error' : 'Loading...' }
+          { loadingError ? <LoadingError>{ loadingError }</LoadingError> : null }
+        </LoadingMessage>
         { loading ? null : (
           <StyledMainContainer>
             <BrowserRouter>
@@ -150,6 +158,7 @@ const LoadingMessage = styled.div`
   left: 0;
   z-index: ${({ theme }) => theme.zIndices.LoadingMessage};
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -160,6 +169,11 @@ const LoadingMessage = styled.div`
   background-color: #fff;
   opacity: ${({ visible }) => (visible ? 1 : 0)};
   transition: opacity 0.5s, visibility 0s 0.5s;
+`;
+
+const LoadingError = styled.div`
+  margin-top: 1em;
+  font-size: 0.75em;
 `;
 
 const StyledApp = styled.div`

@@ -60,47 +60,51 @@ const getNormalizedMapContent = ({
 
   const validatedMapItemsById = {};
 
-  const validate = (id, POST_TYPE) => {
+  const validate = (id, mapsOnly) => {
     if (validatedMapItemsById[id]) {
-      throw new Error(`Map or map group referenced multiple times: ${id}`);
+      throw new Error(`Map or map group already used elsewhere: "${validatedMapItemsById[id].post_title}" [${id}]`);
     }
 
     const mapItem = mapItemsById[id];
 
     if (!mapItem) {
-      throw new Error(`Map or map group not found: ${id}`);
+      throw new Error(`Can't find map or map group: [${id}]`);
     }
 
-    if (POST_TYPE && mapItem.post_type !== POST_TYPE) {
-      throw new Error(`Map or map group referenced where not allowed: ${id}`);
+    if (mapsOnly && mapItem.post_type !== MAP_POST_TYPE) {
+      throw new Error(`Map groups not allowed: "${mapItem.post_title}" [${id}]`);
     }
 
     if (mapItem.post_type === MAP_GROUP_POST_TYPE) {
-      try {
-        mapItem.children.forEach(
-          (childMapOrGroup) => validate(childMapOrGroup),
-        );
-      } catch (e) {
-        throw new Error(`${e.message} (child of map group ${id})`);
-      }
+      mapItem.children.forEach((childMapItem, index) => {
+        try {
+          validate(childMapItem, index);
+        } catch (e) {
+          throw new Error(`${e.message} (child #${index + 1} of map group "${mapItem.post_title}" [${id}])`);
+        }
+      });
     }
 
     delete mapItemsById[id];
     validatedMapItemsById[id] = mapItem;
   };
 
-  try {
-    basemaps.forEach((id) => validate(id, MAP_POST_TYPE));
-  } catch (e) {
-    throw new Error(`${e.message} (basemap)`);
-  }
-
-  proposalEras.forEach((era, index) => {
+  basemaps.forEach((id, index) => {
     try {
-      era.children.forEach((id) => validate(id));
+      validate(id, true);
     } catch (e) {
-      throw new Error(`${e.message} (proposal era ${index})`);
+      throw new Error(`${e.message} (basemap #${index + 1})`);
     }
+  });
+
+  proposalEras.forEach((era, eraIndex) => {
+    era.children.forEach((id, eraChildIndex) => {
+      try {
+        validate(id);
+      } catch (e) {
+        throw new Error(`${e.message} (item #${eraChildIndex + 1} in proposal era #${eraIndex + 1})`);
+      }
+    });
   });
 
   const geoJson = {};
