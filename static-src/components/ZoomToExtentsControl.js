@@ -11,6 +11,7 @@ import useMapEnabled from './useMapEnabled';
 import useZoomToBounds from './useZoomToBounds';
 import Control, { useControlTooltip } from './Control';
 import extentsImg from '../img/extents.png';
+import extentsActiveImg from '../img/extents-active.png';
 
 /*
 * ZoomToExtentsControl component definition.
@@ -38,10 +39,11 @@ export default function ZoomToExtentsControl() {
   return (
     <Control tooltip={tooltip}>
       <StyledButton
+        className="button"
         onClick={zoomToBounds}
-        isZoomedToBounds={isZoomedToBounds}
+        disabled={!bounds.isValid()}
       >
-        <img src={extentsImg} alt="Zoom to full extents of active maps" />
+        <img src={isZoomedToBounds ? extentsActiveImg : extentsImg} alt="Zoom to full extents of active maps" />
       </StyledButton>
     </Control>
   );
@@ -52,6 +54,8 @@ export default function ZoomToExtentsControl() {
 * Styles
 */
 
-const StyledButton = styled.span`
-  color: ${({ theme, isZoomedToLocation }) => (isZoomedToLocation ? theme.colors.brightAccent : 'inherit')};
+const StyledButton = styled.button`
+  width: 2.25em;
+  height: 2.25em;
+  padding: 0.25em;
 `;
