@@ -23,11 +23,8 @@ export default function BasemapsControl() {
   return (
     <StyledBasemapsControl>
       <StyledHeader onClick={() => setCollapsed(!collapsed)}>
-        <StyledHeaderText>
-          Basemaps
-          <StyledIcon src={basemapsIcon} />
-        </StyledHeaderText>
-        { collapsed ? null : <StyledIcon src={closeIcon} /> }
+        Basemaps
+        <StyledIcon src={basemapsIcon} />
       </StyledHeader>
       { collapsed ? null : (
         <StyledBasemapsList>
@@ -52,16 +49,11 @@ const StyledBasemapsControl = styled(StyledControl)`
 const StyledHeader = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   font-size: 0.9em;
   font-weight: bold;
   text-transform: lowercase;
   cursor: pointer;
-`;
-
-const StyledHeaderText = styled.div`
-  display: flex;
-  flex-grow: 1;
-  align-items: center;
 `;
 
 const StyledIcon = styled.img`
@@ -71,7 +63,7 @@ const StyledIcon = styled.img`
 
 const StyledBasemapsList = styled.ul`
   width: 17.5em;
-  margin-top: 0.5em;
+  margin-top: 0.75em;
 
   & > li {
     margin: 0.25em 0;
