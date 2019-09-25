@@ -35,10 +35,9 @@ AccentDisclosureTriangle.defaultProps = {
 
 const StyledAccentDisclosureTriangle = styled.span`
   position: relative;
-  top: 2px;
   display: inline-block;
-  width: 11px;
-  height: 11px;
+  width: 9px;
+  height: 9px;
   user-select: none;
 
   input {
@@ -67,7 +66,7 @@ const StyledAccentDisclosureTriangle = styled.span`
     color: ${({ isExpanded, theme }) => (isExpanded ? theme.colors.brightAccent : '#444')};
     content: '▸';
     transition: transform 0.15s;
-    transform: ${({ isExpanded }) => (isExpanded ? 'rotate(90deg)' : 'rotate(0deg)')};
+    transform: ${({ isExpanded }) => (isExpanded ? 'rotate(90deg)' : 'rotate(0deg)')} scaleX(1.5);
   }
 
   &:active::before {
