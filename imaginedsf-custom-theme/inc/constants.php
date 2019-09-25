@@ -35,16 +35,6 @@ define( 'PROPOSAL_MAPS_INTRO_CONTENT_AREA', 'proposal_maps_intro' );
 define( 'BIBLIOGRAPHY_CONTENT_AREA', 'bibliography' );
 define( 'CREDITS_CONTENT_AREA', 'credits' );
 define( 'FEEDBACK_CONTENT_AREA', 'feedback' );
-define(
-	'CONTENT_AREAS',
-	array(
-		INTRODUCTION_CONTENT_AREA,
-		PROPOSAL_MAPS_INTRO_CONTENT_AREA,
-		BIBLIOGRAPHY_CONTENT_AREA,
-		CREDITS_CONTENT_AREA,
-		FEEDBACK_CONTENT_AREA,
-	)
-);
 
 
 /**
