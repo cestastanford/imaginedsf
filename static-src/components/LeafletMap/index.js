@@ -2,7 +2,7 @@
 * Imports.
 */
 
-import React, { useRef } from 'react';
+import React, { useRef, useImperativeHandle, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -20,7 +20,7 @@ import VisibleMapArea from '../VisibleMapArea';
 * and updates it when Redux's mapState updates.
 */
 
-export default function LeafletMap({ visibleMapAreaRef }) {
+const LeafletMap = React.forwardRef(({ visibleMapAreaElementRef }, ref) => {
   const mapContainer = useRef();
 
   //  Creates Leaflet map
@@ -31,7 +31,7 @@ export default function LeafletMap({ visibleMapAreaRef }) {
 
   //  Supports conversion between the visible map area and the full
   //  map canvas.
-  const visibleMapAreaProxy = useVisibleMapArea(leafletMap, visibleMapAreaRef);
+  const visibleMapAreaProxy = useVisibleMapArea(leafletMap, visibleMapAreaElementRef);
 
   //  Synchronizes Leaflet map with Redux mapState
   useMapState(leafletLayers, visibleMapAreaProxy);
@@ -40,13 +40,19 @@ export default function LeafletMap({ visibleMapAreaRef }) {
   useGeoJson(leafletLayers);
 
   //  Synchronizes hash state with Redux mapState
-  useHashState(visibleMapAreaProxy);
+  useHashState();
+
+  //  Exposes the map (via visibleMapAreaProxy) for other components that need
+  //  imperative access to the Leaflet map
+  useImperativeHandle(ref, () => visibleMapAreaProxy);
 
   return <StyledLeafletMap ref={mapContainer} />;
-}
+});
+
+export default LeafletMap;
 
 LeafletMap.propTypes = {
-  visibleMapAreaRef: PropTypes.shape({
+  visibleMapAreaElementRef: PropTypes.shape({
     current: PropTypes.instanceOf(VisibleMapArea),
   }).isRequired,
 };

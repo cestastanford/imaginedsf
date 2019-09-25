@@ -5,7 +5,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import useMapEnabled from './useMapEnabled';
+import useMapEnabled from '../useMapEnabled';
 import { fetchGeoJson } from '../../state/actions';
 import { GEOJSON_STATUS } from '../../constants';
 

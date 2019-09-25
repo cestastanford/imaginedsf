@@ -43,6 +43,23 @@ class VisibleMapAreaProxy {
     );
   }
 
+  getBoundsZoom(bounds) {
+    const {
+      width: containerWidth,
+      height: containerHeight,
+    } = this.map.getContainer().getBoundingClientRect();
+
+    const {
+      width: areaWidth,
+      height: areaHeight,
+    } = this.areaElement.getBoundingClientRect();
+
+    //  Get a padding value based on the difference in size between
+    //  the visible map area and the map container
+    const padding = new Point(containerWidth - areaWidth, containerHeight - areaHeight);
+    return this.map.getBoundsZoom(bounds, false, padding);
+  }
+
   getAreaCenterContainerPoint() {
     const {
       left: containerX,
@@ -71,9 +88,9 @@ class VisibleMapAreaProxy {
     return this.map.containerPointToLatLng(areaCenterContainerPoint);
   }
 
-  getZoom(...args) { return this.map.getZoom(...args); }
+  getZoom(...args) { console.log(this.map.getZoom()); return this.map.getZoom(...args); }
 
-  setView(newAreaCenterLatLng, newZoom) {
+  setZoom(newZoom) {
     //  Zoom to specified level around the center of the visible
     //  area.
     this.map.setZoomAround(this.getAreaCenterContainerPoint(), newZoom, { animate: true });
@@ -122,6 +139,8 @@ class VisibleMapAreaProxy {
   removeLayer(...args) { return this.map.removeLayer(...args); }
 
   on(...args) { return this.map.on(...args); }
+
+  once(...args) { return this.map.once(...args); }
 
   off(...args) { return this.map.off(...args); }
 }

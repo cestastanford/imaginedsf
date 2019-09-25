@@ -7,7 +7,9 @@ import { Map } from 'leaflet';
 
 import {
   MIN_ZOOM,
+  MAX_ZOOM,
   MAX_BOUNDS,
+  ZOOM_SNAP,
 } from '../../constants';
 
 
@@ -22,8 +24,9 @@ export default function useLeafletMap(mapContainer) {
     leafletMap.current = new Map(mapContainer.current, {
       zoomControl: false,
       minZoom: MIN_ZOOM,
+      maxZoom: MAX_ZOOM,
       maxBounds: MAX_BOUNDS,
-      zoomSnap: 0.25,
+      zoomSnap: ZOOM_SNAP,
     });
   }, [mapContainer]);
   return leafletMap;

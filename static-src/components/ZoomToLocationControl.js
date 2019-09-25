@@ -4,7 +4,7 @@
 
 import React from 'react';
 
-import StyledControl from './StyledControl';
+import Control from './Control';
 
 
 /*
@@ -12,5 +12,5 @@ import StyledControl from './StyledControl';
 */
 
 export default function ZoomToLocationControl() {
-  return <StyledControl>ZoomToLocationControl</StyledControl>;
+  return <Control>ZoomToLocationControl</Control>;
 }
