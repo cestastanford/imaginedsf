@@ -88,7 +88,7 @@ class VisibleMapAreaProxy {
     return this.map.containerPointToLatLng(areaCenterContainerPoint);
   }
 
-  getZoom(...args) { console.log(this.map.getZoom()); return this.map.getZoom(...args); }
+  getZoom(...args) { return this.map.getZoom(...args); }
 
   setZoom(newZoom) {
     //  Zoom to specified level around the center of the visible
@@ -143,6 +143,8 @@ class VisibleMapAreaProxy {
   once(...args) { return this.map.once(...args); }
 
   off(...args) { return this.map.off(...args); }
+
+  locate(...args) { return this.map.locate(...args); }
 }
 
 
