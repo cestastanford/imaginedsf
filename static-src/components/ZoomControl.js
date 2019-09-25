@@ -57,4 +57,17 @@ const StyledZoomControl = styled(Control)`
   flex-direction: column;
 `;
 
-const StyledZoomButton = styled.button``;
+const StyledZoomButton = styled.button`
+  width: 2.25em;
+  height: 2.25em;
+  color: #888;
+
+  &:first-child {
+    border-bottom: none;
+    border-radius: 4px 4px 0  0;
+  }
+
+  &:last-child {
+    border-radius: 0 0 4px 4px;
+  }
+`;

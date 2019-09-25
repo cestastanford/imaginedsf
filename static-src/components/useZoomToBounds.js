@@ -21,10 +21,9 @@ export default function useZoomToBounds(bounds) {
     zoom: mapZoom,
   } = useSelector((state) => state.mapState);
 
-  console.log(bounds);
-  const boundsCenter = bounds && bounds.getCenter();
+  const boundsCenter = bounds && bounds.isValid() && bounds.getCenter();
   const boundsZoom = useMemo(() => {
-    if (visibleMapAreaProxy && bounds) {
+    if (visibleMapAreaProxy && bounds && bounds.isValid()) {
       const { current: map } = visibleMapAreaProxy;
       const zoom = map.getBoundsZoom(bounds);
       return zoom;
@@ -36,11 +35,11 @@ export default function useZoomToBounds(bounds) {
     boundsCenter
     && boundsZoom
     && mapCenter.equals(boundsCenter, IS_ZOOMED_TO_LOCATION_TOLERANCE)
-    && mapZoom >= boundsZoom
+    && mapZoom === boundsZoom
   ), [boundsCenter, boundsZoom, mapCenter, mapZoom]);
 
   const zoomToBounds = useCallback(() => {
-    if (visibleMapAreaProxy && bounds) {
+    if (visibleMapAreaProxy && bounds && bounds.isValid()) {
       const { current: map } = visibleMapAreaProxy;
       map.fitBounds(bounds);
     }

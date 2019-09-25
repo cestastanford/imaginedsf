@@ -76,13 +76,13 @@ const StyledTooltip = styled.div`
   position: absolute;
   top: 50%;
   left: 100%;
-  width: 15em;
   padding: 0.5em 0.75em;
   margin-left: 1em;
   font-size: 0.8em;
   font-weight: bold;
   line-height: 1.25;
   color: white;
+  white-space: nowrap;
   visibility: ${({ alwaysVisible }) => (alwaysVisible ? 'visible' : 'hidden')};
   background-color: rgba(0, 0, 0, 0.65);
   border-radius: 4px;
