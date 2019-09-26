@@ -5,6 +5,8 @@
  * @package Imagined San Francisco Custom Theme
  */
 
+$admin_bar_class = is_admin_bar_showing() ? 'admin-bar-showing' : '';
+
 ?><!doctype html>
 <html <?php language_attributes(); ?>>
 	<head>
@@ -13,7 +15,7 @@
 		<?php wp_head(); ?>
 	</head>
 	<body>
-		<div id="react" style="width: 100vw; height: 100vh;"></div>
+		<main id="App" class="<?php echo esc_attr( $admin_bar_class ); ?>"></main>
 		<?php wp_footer(); ?>
 	</body>
 </html>
