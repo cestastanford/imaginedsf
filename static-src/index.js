@@ -53,6 +53,6 @@ window.addEventListener('DOMContentLoaded', () => {
         <App />
       </ThemeProvider>
     </Provider>,
-    document.getElementById('react'),
+    document.getElementById('App'),
   );
 });
