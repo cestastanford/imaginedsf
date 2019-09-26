@@ -31,17 +31,15 @@ import theme from './theme';
 * Creates Redux store.
 */
 
-/* eslint-disable no-underscore-dangle */
+const middleware = [
+  applyMiddleware(thunk),
+  ...(window.__REDUX_DEVTOOLS_EXTENSION__ ? [window.__REDUX_DEVTOOLS_EXTENSION__()] : []), // eslint-disable-line
+];
+
 const store = createStore(
   rootReducer,
-  compose(
-    applyMiddleware(thunk),
-    window.navigator.userAgent.includes('Chrome')
-      ? window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-      : compose,
-  ),
+  compose(...middleware),
 );
-/* eslint-enable */
 
 
 /*
