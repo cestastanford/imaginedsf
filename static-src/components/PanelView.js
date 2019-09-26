@@ -18,11 +18,9 @@ export default function PanelView({ headerContent, bodyContent }) {
       { headerContent ? (
         <StyledPanelViewHeader>{ headerContent }</StyledPanelViewHeader>
       ) : null }
-      <div>
-        <StyledPanelViewBody>
-          { bodyContent }
-        </StyledPanelViewBody>
-      </div>
+      <StyledPanelViewBody>
+        { bodyContent }
+      </StyledPanelViewBody>
     </StyledPanelView>
   );
 }
@@ -54,7 +52,6 @@ const StyledPanelViewHeader = styled.div`
 `;
 
 const StyledPanelViewBody = styled.div`
-  height: 100%;
   padding: 1.25em;
   overflow-y: scroll;
 `;

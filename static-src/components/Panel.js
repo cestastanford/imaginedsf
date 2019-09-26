@@ -117,7 +117,8 @@ const StyledPanel = styled.div`
 const StyledTabs = styled.div`
   z-index: 1;
   display: flex;
-  min-height: 3em;
+  flex-shrink: 0;
+  height: 3em;
   background-color: ${({ theme }) => theme.colors.lightGrey};
   border-radius: ${({ theme }) => theme.radii.standard};
 `;
@@ -157,6 +158,7 @@ const StyledActiveTabContent = styled.div`
   position: relative;
   z-index: 1;
   flex-grow: 1;
+  height: 0;
   min-height: 0;
   background-color: ${({ theme }) => theme.colors.panelBackground};
   border-radius: 5px;
