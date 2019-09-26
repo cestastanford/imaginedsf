@@ -177,10 +177,18 @@ const LoadingError = styled.div`
 `;
 
 const StyledApp = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   font-family: 'Muli', sans-serif;
   font-size: 16px;
+
+  .admin-bar-showing & {
+    height: calc(100vh - 32px);
+
+    @media screen and (max-width: 782px) {
+      height: calc(100vh - 46px);
+    }
+  }
 `;
 
 
