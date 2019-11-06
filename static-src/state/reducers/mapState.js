@@ -69,7 +69,7 @@ const bounds = (state = null, action) => {
 };
 
 //  LeafletMap will update this for other components to consume,
-//  but doesn't update itself when this value is change.
+//  but doesn't update itself when this value is changed.
 const center = (state = null, action) => {
   switch (action.type) {
     case SET_BOUNDS:
@@ -82,7 +82,7 @@ const center = (state = null, action) => {
 };
 
 //  LeafletMap will update this for other components to consume,
-//  but doesn't update itself when this value is change.
+//  but doesn't update itself when this value is changed.
 const zoom = (state = null, action) => {
   switch (action.type) {
     case SET_BOUNDS:
