@@ -11,23 +11,34 @@ import { latLngBoundsToArrays } from './leaflet';
 
 
 /*
-* Helper functions to convert between hash and state.
+* Custom hook that returns a helper functions to convert between hash and state.
 */
 
-const getMapStateFromHash = (hash) => {
-  try {
-    const hashObject = JSON.parse(atob(decodeURI(hash.substring(1))));
-    const { enabled, opacity, bounds } = hashObject.mapState;
+function useGetMapStateFromHash() {
+  const mapItems = useSelector((state) => state.mapContent.mapItems);
 
-    return {
-      enabled,
-      opacity,
-      bounds: new LatLngBounds(bounds),
-    };
-  } catch (e) {
-    return null;
-  }
-};
+  const removeMissingIds = useCallback((obj) => Object.assign(
+    {},
+    ...Object.entries(obj)
+      .filter(([id]) => Object.prototype.hasOwnProperty.call(mapItems, id))
+      .map(([id, v]) => ({ [id]: v })),
+  ), [mapItems]);
+
+  return useCallback((hash) => {
+    try {
+      const hashObject = JSON.parse(atob(decodeURI(hash.substring(1))));
+      const { enabled, opacity, bounds } = hashObject.mapState;
+
+      return {
+        enabled: removeMissingIds(enabled),
+        opacity: removeMissingIds(opacity),
+        bounds: new LatLngBounds(bounds),
+      };
+    } catch (e) {
+      return null;
+    }
+  }, [removeMissingIds]);
+}
 
 
 //  Saves bounds instead of center/zoom to ensure that if link is
@@ -54,6 +65,7 @@ export default function useHashState() {
   const currentHash = useRef();
   const mapState = useSelector((state) => state.mapState);
   const dispatch = useDispatch();
+  const getMapStateFromHash = useGetMapStateFromHash(mapState);
 
   //  Hash change handler
   const applyHashToMapState = useCallback(() => {
@@ -68,7 +80,7 @@ export default function useHashState() {
         dispatch(setMapState(hashMapState));
       }
     }
-  }, [dispatch]);
+  }, [dispatch, getMapStateFromHash]);
 
   //  Applies initial hash state, if present
   useEffect(() => {
