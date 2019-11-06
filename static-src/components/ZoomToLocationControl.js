@@ -47,9 +47,7 @@ export default function ZoomToLocationControl() {
         const foundLocation = e.latlng;
         if (!foundLocation) {
           showTooltipMessage('Unable to find current location');
-        }
-
-        if (SF_BOUNDS.contains(foundLocation)) {
+        } else if (SF_BOUNDS.contains(foundLocation)) {
           currentLocationFound.current = true;
           setCurrentLocation(foundLocation);
         } else {
