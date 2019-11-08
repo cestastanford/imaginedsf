@@ -20,14 +20,25 @@ import extentsActiveImg from '../img/extents-active.png';
 export default function ZoomToExtentsControl() {
   //  Retrieves IDs of enabled maps.
   const getMapEnabled = useMapEnabled();
-  const mapItems = useSelector((state) => state.mapContent.mapItems);
+  const {
+    mapItems,
+    permanentBasemap,
+    basemaps,
+  } = useSelector((state) => state.mapContent);
+
+  const basemapsSet = useMemo(
+    () => new Set(
+      [...basemaps, ...(permanentBasemap ? [permanentBasemap] : [])].map((v) => `${v}`),
+    ),
+    [basemaps, permanentBasemap],
+  );
 
   const allEnabledMapBoundingPoints = useMemo(() => {
     const mapEnabled = getMapEnabled();
     return [].concat(...Object.keys(mapEnabled)
-      .filter((id) => mapItems[id].metadata.has_bounds)
+      .filter((id) => !basemapsSet.has(id) && mapItems[id].metadata.has_bounds)
       .map((id) => mapItems[id].metadata.bounds));
-  }, [getMapEnabled, mapItems]);
+  }, [basemapsSet, getMapEnabled, mapItems]);
 
   const bounds = new LatLngBounds(allEnabledMapBoundingPoints);
   const [zoomToBounds, isZoomedToBounds] = useZoomToBounds(bounds);
