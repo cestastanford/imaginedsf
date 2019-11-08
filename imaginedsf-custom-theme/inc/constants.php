@@ -30,6 +30,7 @@ define( 'BASEMAPS_OPTIONS', 'basemaps' );
  * the WP Admin's Pages > Content Areas ACF Options page.
  */
 
+define( 'NARRATIVES_CONTENT_AREA', 'narratives' );
 define( 'INTRODUCTION_CONTENT_AREA', 'introduction' );
 define( 'PROPOSAL_MAPS_INTRO_CONTENT_AREA', 'proposal_maps_intro' );
 define( 'BIBLIOGRAPHY_CONTENT_AREA', 'bibliography' );

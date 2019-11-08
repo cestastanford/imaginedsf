@@ -235,10 +235,13 @@ export const fetchContent = () => async (dispatch) => {
   const response = await fetch('/wp-json/imaginedsf/content');
   const parsedResponse = await response.json();
 
-  const contentAreaContent = parsedResponse.content_area_content;
+  const {
+    narratives: narrativeObjects,
+    ...contentAreaContent
+  } = parsedResponse.content_area_content;
   const mapContent = getNormalizedMapContent(parsedResponse);
-  const narratives = parsedResponse.narratives.map((n) => n.ID);
-  const narrativesById = mapIdsToObjectKeys(parsedResponse.narratives);
+  const narratives = narrativeObjects.map((n) => n.ID);
+  const narrativesById = mapIdsToObjectKeys(narrativeObjects);
 
   dispatch(contentReceived({
     contentAreaContent,
