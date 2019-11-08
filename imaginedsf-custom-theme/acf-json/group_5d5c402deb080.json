@@ -3,6 +3,31 @@
     "title": "Content Areas",
     "fields": [
         {
+            "key": "field_5dc5fcb3c8a4a",
+            "label": "Narratives",
+            "name": "narratives",
+            "type": "relationship",
+            "instructions": "Add and reorder the Narratives that will appear in the Narratives panel.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "isf_narrative"
+            ],
+            "taxonomy": "",
+            "filters": [
+                "search"
+            ],
+            "elements": "",
+            "min": 1,
+            "max": "",
+            "return_format": "object"
+        },
+        {
             "key": "field_5d5c764bd6150",
             "label": "Introduction",
             "name": "introduction",
@@ -115,5 +140,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1569184379
+    "modified": 1573256444
 }
