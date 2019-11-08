@@ -70,6 +70,7 @@ function isf_get_all_content() {
 		'map_groups'           => isf_get_all_published_posts( MAP_GROUP_POST_TYPE ),
 		'narratives'           => isf_get_all_published_posts( NARRATIVE_POST_TYPE ),
 		'proposal_eras'        => get_field( 'proposal_eras', PROPOSAL_ERAS_OPTIONS ),
+		'permanent_basemap'    => get_field( 'permanent_basemap', BASEMAPS_OPTIONS ),
 		'basemaps'             => get_field( 'basemaps', BASEMAPS_OPTIONS ),
 	);
 }

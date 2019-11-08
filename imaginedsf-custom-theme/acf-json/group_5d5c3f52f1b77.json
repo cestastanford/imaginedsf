@@ -3,6 +3,28 @@
     "title": "Basemaps",
     "fields": [
         {
+            "key": "field_5dc5e989339ad",
+            "label": "Permanent Basemap",
+            "name": "permanent_basemap",
+            "type": "post_object",
+            "instructions": "Select a basemap that will appear as the always-on bottom layer of the map.  This map will not appear in the Basemaps list.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "isf_map"
+            ],
+            "taxonomy": "",
+            "allow_null": 1,
+            "multiple": 0,
+            "return_format": "id",
+            "ui": 1
+        },
+        {
             "key": "field_5d5c3f5f89bdf",
             "label": "Basemaps",
             "name": "basemaps",
@@ -60,5 +82,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1567721986
+    "modified": 1573251645
 }

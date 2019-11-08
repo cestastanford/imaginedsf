@@ -40,6 +40,18 @@ const proposalEras = (state = [], action) => {
 };
 
 
+const permanentBasemap = (state = null, action) => {
+  switch (action.type) {
+    //  Saves to state when received.
+    case CONTENT_RECEIVED:
+      return action.mapContent.permanentBasemap;
+
+    default:
+      return state;
+  }
+};
+
+
 const basemaps = (state = [], action) => {
   switch (action.type) {
     //  Saves to state when received.
@@ -76,6 +88,7 @@ const geoJson = (state = {}, action) => {
 export default combineReducers({
   mapItems,
   proposalEras,
+  permanentBasemap,
   basemaps,
   geoJson,
 });

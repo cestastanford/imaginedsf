@@ -2,7 +2,7 @@
 * Imports.
 */
 
-import React, { useRef, useImperativeHandle, forwardRef } from 'react';
+import React, { useRef, useImperativeHandle } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 

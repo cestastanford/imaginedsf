@@ -51,6 +51,7 @@ const getNormalizedMapContent = ({
   maps,
   map_groups: mapGroups,
   proposal_eras: proposalEras,
+  permanent_basemap: permanentBasemap,
   basemaps,
 }) => {
   const mapItemsById = {
@@ -89,6 +90,14 @@ const getNormalizedMapContent = ({
     validatedMapItemsById[id] = mapItem;
   };
 
+  if (permanentBasemap) {
+    try {
+      validate(permanentBasemap, true);
+    } catch (e) {
+      throw new Error(`${e.message} (permanent basemap)`);
+    }
+  }
+
   basemaps.forEach((id, index) => {
     try {
       validate(id, true);
@@ -117,6 +126,7 @@ const getNormalizedMapContent = ({
   return {
     mapItems: validatedMapItemsById,
     proposalEras,
+    permanentBasemap,
     basemaps,
     geoJson,
   };
