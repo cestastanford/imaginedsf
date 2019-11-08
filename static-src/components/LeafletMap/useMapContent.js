@@ -28,6 +28,7 @@ export default function useMapContent() {
   const {
     mapItems,
     proposalEras,
+    permanentBasemap,
     basemaps,
   } = useSelector((state) => state.mapContent);
 
@@ -47,6 +48,7 @@ export default function useMapContent() {
     const maps = [
       ...[].concat(...proposalEras.map(getDescendantMaps)),
       ...getDescendantMaps({ children: basemaps }),
+      ...(permanentBasemap ? [mapItems[permanentBasemap]] : []),
     ];
 
     maps.reverse();
@@ -72,7 +74,7 @@ export default function useMapContent() {
     });
 
     setLeafletLayers(layers);
-  }, [proposalEras, basemaps, mapItems]);
+  }, [proposalEras, basemaps, mapItems, permanentBasemap]);
 
   return leafletLayers;
 }

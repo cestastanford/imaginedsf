@@ -15,12 +15,11 @@ export default function useMapEnabled() {
   const {
     mapItems,
     proposalEras,
+    permanentBasemap,
     basemaps,
   } = useSelector((state) => state.mapContent);
 
-  const {
-    enabled,
-  } = useSelector((state) => state.mapState);
+  const { enabled } = useSelector((state) => state.mapState);
 
   return useCallback(() => {
     //  Recursively iterates trees to filter out all maps that are
@@ -47,6 +46,7 @@ export default function useMapEnabled() {
     return [
       ...[].concat(...proposalEras.map(getEnabledDescendantMapIds)),
       ...getEnabledDescendantMapIds({ children: basemaps }),
+      ...(permanentBasemap ? [permanentBasemap] : []),
     ].reduce((accum, id) => ({ ...accum, [id]: true }), {});
-  }, [enabled, mapItems, proposalEras, basemaps]);
+  }, [proposalEras, basemaps, permanentBasemap, enabled, mapItems]);
 }
