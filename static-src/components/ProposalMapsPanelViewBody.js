@@ -5,7 +5,6 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { LatLngBounds } from 'leaflet';
 import { polygon } from '@turf/helpers';
 import intersect from '@turf/intersect';
 
@@ -69,28 +68,37 @@ export default function ProposalMapsPanelViewBody() {
     <StyledProposalMapsPanelViewBody>
       {
         proposalEras.map((era) => {
+          const {
+            post_title: title,
+            start: startYear,
+            end: endYear,
+            description,
+            children,
+          } = era;
+
           const childrenInVisibleArea = onlyShowInVisibleArea
             ? era.children.filter((id) => proposalMapsInVisibleArea[id])
             : era.children;
+
           return (
-            <ProposalEra key={era.title}>
+            <ProposalEra key={title}>
               <ProposalEraTitleAndYear>
                 <ProposalEraYear>
-                  <span>{ era.years.start }</span>
+                  <span>{ startYear }</span>
                   <span>-</span>
-                  <span>{ era.years.end }</span>
+                  <span>{ endYear }</span>
                 </ProposalEraYear>
-                <ProposalEraTitle>{ era.title }</ProposalEraTitle>
+                <ProposalEraTitle>{ title }</ProposalEraTitle>
               </ProposalEraTitleAndYear>
-              <ProposalEraDescription>{ era.description }</ProposalEraDescription>
+              <ProposalEraDescription>{ description }</ProposalEraDescription>
               <ProposalEraChildren>
                 { childrenInVisibleArea.map((id) => <MapListItem key={id} id={id} showYear />) }
-                { childrenInVisibleArea.length === era.children.length ? null : (
+                { childrenInVisibleArea.length === children.length ? null : (
                   <ShowingMessage>
                     <span>Showing </span>
                     <span>{ childrenInVisibleArea.length }</span>
                     <span> of </span>
-                    <span>{ era.children.length }</span>
+                    <span>{ children.length }</span>
                     <span> plans</span>
                   </ShowingMessage>
                 ) }

@@ -16,7 +16,7 @@ import MiniMap from './MiniMap';
 */
 
 export default function ProposalMapsPanelViewHeader() {
-  const introContent = useSelector((state) => state.contentAreaContent.proposal_maps_intro);
+  const introContent = useSelector((state) => state.contentAreaContent.proposalMapsIntro);
   const checkboxValue = useSelector((state) => state.onlyShowProposalMapsInVisibleArea);
   const dispatch = useDispatch();
 

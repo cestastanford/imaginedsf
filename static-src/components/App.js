@@ -50,6 +50,7 @@ export default function App() {
         setLoading(false);
       } catch (e) {
         setLoadingError(e.message);
+        throw e;
       }
     };
 

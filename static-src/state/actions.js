@@ -49,9 +49,9 @@ const mapIdsToObjectKeys = (arr) => {
 
 const getNormalizedMapContent = ({
   maps,
-  map_groups: mapGroups,
-  proposal_eras: proposalEras,
-  permanent_basemap: permanentBasemap,
+  mapGroups,
+  proposalEras,
+  permanentBasemap,
   basemaps,
 }) => {
   const mapItemsById = {
@@ -116,6 +116,9 @@ const getNormalizedMapContent = ({
     });
   });
 
+  const sortedProposalEras = [...proposalEras];
+  sortedProposalEras.sort((a, b) => a.start - b.start);
+
   const geoJson = {};
   Object.entries(validatedMapItemsById).forEach(([id, item]) => {
     if (item.source_type === GEOJSON_SOURCE_TYPE) {
@@ -125,7 +128,7 @@ const getNormalizedMapContent = ({
 
   return {
     mapItems: validatedMapItemsById,
-    proposalEras,
+    proposalEras: sortedProposalEras,
     permanentBasemap,
     basemaps,
     geoJson,
@@ -235,13 +238,11 @@ export const fetchContent = () => async (dispatch) => {
   const response = await fetch('/wp-json/imaginedsf/content');
   const parsedResponse = await response.json();
 
-  const {
-    narratives: narrativeObjects,
-    ...contentAreaContent
-  } = parsedResponse.content_area_content;
+  const { contentAreaContent } = parsedResponse;
+  contentAreaContent.proposalMapsIntro = parsedResponse.proposalMapsIntro;
   const mapContent = getNormalizedMapContent(parsedResponse);
-  const narratives = narrativeObjects.map((n) => n.ID);
-  const narrativesById = mapIdsToObjectKeys(narrativeObjects);
+  const narratives = parsedResponse.narratives.map((n) => n.ID);
+  const narrativesById = mapIdsToObjectKeys(parsedResponse.narratives);
 
   dispatch(contentReceived({
     contentAreaContent,

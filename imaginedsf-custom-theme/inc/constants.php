@@ -11,6 +11,7 @@
 
 define( 'MAP_POST_TYPE', 'isf_map' );
 define( 'MAP_GROUP_POST_TYPE', 'isf_map_group' );
+define( 'PROPOSAL_ERA_POST_TYPE', 'isf_proposal_era' );
 define( 'NARRATIVE_POST_TYPE', 'isf_narrative' );
 define( 'FEEDBACK_POST_TYPE', 'isf_feedback' );
 
@@ -18,24 +19,11 @@ define( 'FEEDBACK_POST_TYPE', 'isf_feedback' );
 /**
  * Defines ACF Options page post ID constants for retrieving content.
  */
-define( 'CONTENT_AREAS_OPTIONS', 'content-areas' );
-define( 'PROPOSAL_ERAS_OPTIONS', 'proposal-eras' );
+
+define( 'CONTENT_AREAS_OPTIONS', 'content_areas' );
 define( 'BASEMAPS_OPTIONS', 'basemaps' );
-
-
-/**
- * Defines content area constants.  These should align with the
- * content areas the front-end application will be requesting (see
- * `static-src/constants.js`) and the content areas defined in
- * the WP Admin's Pages > Content Areas ACF Options page.
- */
-
-define( 'NARRATIVES_CONTENT_AREA', 'narratives' );
-define( 'INTRODUCTION_CONTENT_AREA', 'introduction' );
-define( 'PROPOSAL_MAPS_INTRO_CONTENT_AREA', 'proposal_maps_intro' );
-define( 'BIBLIOGRAPHY_CONTENT_AREA', 'bibliography' );
-define( 'CREDITS_CONTENT_AREA', 'credits' );
-define( 'FEEDBACK_CONTENT_AREA', 'feedback' );
+define( 'PROPOSAL_MAPS_INTRO_OPTIONS', 'proposal_maps_intro' );
+define( 'NARRATIVES_TOC_OPTIONS', 'narratives_toc' );
 
 
 /**

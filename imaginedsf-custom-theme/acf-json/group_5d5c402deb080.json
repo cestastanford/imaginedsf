@@ -3,31 +3,6 @@
     "title": "Content Areas",
     "fields": [
         {
-            "key": "field_5dc5fcb3c8a4a",
-            "label": "Narratives",
-            "name": "narratives",
-            "type": "relationship",
-            "instructions": "Add and reorder the Narratives that will appear in the Narratives panel.",
-            "required": 1,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "post_type": [
-                "isf_narrative"
-            ],
-            "taxonomy": "",
-            "filters": [
-                "search"
-            ],
-            "elements": "",
-            "min": 1,
-            "max": "",
-            "return_format": "object"
-        },
-        {
             "key": "field_5d5c764bd6150",
             "label": "Introduction",
             "name": "introduction",
@@ -45,25 +20,6 @@
             "toolbar": "full",
             "media_upload": 1,
             "delay": 0
-        },
-        {
-            "key": "field_5d87d96d8e5fe",
-            "label": "Proposal Maps Introduction",
-            "name": "proposal_maps_intro",
-            "type": "textarea",
-            "instructions": "",
-            "required": 1,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": "",
-            "maxlength": "",
-            "rows": "",
-            "new_lines": ""
         },
         {
             "key": "field_5d7294888e90d",
@@ -140,5 +96,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1573256444
+    "modified": 1573772917
 }

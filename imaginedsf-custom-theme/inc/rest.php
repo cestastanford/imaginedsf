@@ -9,23 +9,12 @@
  * Retrieves content for a content area.
  */
 function isf_get_content_area_content() {
-
-	$content_areas = array(
-		NARRATIVES_CONTENT_AREA,
-		INTRODUCTION_CONTENT_AREA,
-		PROPOSAL_MAPS_INTRO_CONTENT_AREA,
-		BIBLIOGRAPHY_CONTENT_AREA,
-		CREDITS_CONTENT_AREA,
-		FEEDBACK_CONTENT_AREA,
+	return array(
+		'introduction' => get_field( 'introduction', CONTENT_AREAS_OPTIONS ),
+		'bibliography' => get_field( 'bibliography', CONTENT_AREAS_OPTIONS ),
+		'credits'      => get_field( 'credits', CONTENT_AREAS_OPTIONS ),
+		'feedback'     => get_field( 'feedback', CONTENT_AREAS_OPTIONS ),
 	);
-
-	$content_area_content = array();
-	foreach ( $content_areas as $content_area ) {
-		$content_area_content[ $content_area ] = get_field( $content_area, CONTENT_AREAS_OPTIONS );
-	}
-
-	return $content_area_content;
-
 }
 
 
@@ -66,12 +55,14 @@ function isf_get_all_published_posts( $post_type ) {
  */
 function isf_get_all_content() {
 	return array(
-		'content_area_content' => isf_get_content_area_content(),
-		'maps'                 => isf_get_all_published_posts( MAP_POST_TYPE ),
-		'map_groups'           => isf_get_all_published_posts( MAP_GROUP_POST_TYPE ),
-		'proposal_eras'        => get_field( 'proposal_eras', PROPOSAL_ERAS_OPTIONS ),
-		'permanent_basemap'    => get_field( 'permanent_basemap', BASEMAPS_OPTIONS ),
-		'basemaps'             => get_field( 'basemaps', BASEMAPS_OPTIONS ),
+		'contentAreaContent' => isf_get_content_area_content(),
+		'maps'               => isf_get_all_published_posts( MAP_POST_TYPE ),
+		'mapGroups'          => isf_get_all_published_posts( MAP_GROUP_POST_TYPE ),
+		'proposalEras'       => isf_get_all_published_posts( PROPOSAL_ERA_POST_TYPE ),
+		'proposalMapsIntro'  => get_field( 'proposal_maps_intro', PROPOSAL_MAPS_INTRO_OPTIONS ),
+		'permanentBasemap'   => get_field( 'permanent_basemap', BASEMAPS_OPTIONS ),
+		'basemaps'           => get_field( 'basemaps', BASEMAPS_OPTIONS ),
+		'narratives'         => get_field( 'table_of_contents', NARRATIVES_TOC_OPTIONS ),
 	);
 }
 
