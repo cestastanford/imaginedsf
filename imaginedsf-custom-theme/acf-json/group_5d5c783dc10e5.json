@@ -3,11 +3,53 @@
     "title": "Proposal Eras",
     "fields": [
         {
-            "key": "field_5d5c7888e8af9",
-            "label": "Proposal Eras",
-            "name": "proposal_eras",
-            "type": "repeater",
-            "instructions": "Add and organize the maps that will appear in the Proposal Maps panel here.  First, create the proposal eras that will appear at the top level of the panel.  Then, add proposal maps and\/or groups of proposal maps to the eras.",
+            "key": "field_5d8840d6b26fd",
+            "label": "Start Year",
+            "name": "start",
+            "type": "number",
+            "instructions": "Enter the start year of the era.  Eras will be sorted in the Proposal Maps panel by ascending start year.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "min": 1000,
+            "max": 3000,
+            "step": 1
+        },
+        {
+            "key": "field_5d8840f4b26fe",
+            "label": "End Year",
+            "name": "end",
+            "type": "number",
+            "instructions": "Enter the end year of the era.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "min": 1000,
+            "max": 3000,
+            "step": 1
+        },
+        {
+            "key": "field_5d5c7944e8afc",
+            "label": "Era Description",
+            "name": "description",
+            "type": "textarea",
+            "instructions": "Enter a short description of the proposal era.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -15,139 +57,45 @@
                 "class": "",
                 "id": ""
             },
-            "collapsed": "field_5d5c78c3e8afa",
+            "default_value": "",
+            "placeholder": "",
+            "maxlength": "",
+            "rows": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_5dcdebc6896e7",
+            "label": "Maps & Map Groups",
+            "name": "children",
+            "type": "relationship",
+            "instructions": "Add child maps and\/or map groups to this era here.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "isf_map",
+                "isf_map_group"
+            ],
+            "taxonomy": "",
+            "filters": [
+                "search"
+            ],
+            "elements": "",
             "min": 1,
-            "max": 0,
-            "layout": "block",
-            "button_label": "Add Proposal Era",
-            "sub_fields": [
-                {
-                    "key": "field_5d5c78c3e8afa",
-                    "label": "Era Title",
-                    "name": "title",
-                    "type": "text",
-                    "instructions": "Enter the title of the date range of the proposal era.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "33",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "maxlength": ""
-                },
-                {
-                    "key": "field_5d5c78eee8afb",
-                    "label": "Era Years",
-                    "name": "years",
-                    "type": "group",
-                    "instructions": "Enter the start and end years of the proposal era.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "33",
-                        "class": "",
-                        "id": ""
-                    },
-                    "layout": "row",
-                    "sub_fields": [
-                        {
-                            "key": "field_5d8840d6b26fd",
-                            "label": "Start Year",
-                            "name": "start",
-                            "type": "number",
-                            "instructions": "",
-                            "required": 1,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": "",
-                            "min": 1000,
-                            "max": 3000,
-                            "step": 1
-                        },
-                        {
-                            "key": "field_5d8840f4b26fe",
-                            "label": "End Year",
-                            "name": "end",
-                            "type": "number",
-                            "instructions": "",
-                            "required": 1,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": "",
-                            "min": 1000,
-                            "max": 3000,
-                            "step": 1
-                        }
-                    ]
-                },
-                {
-                    "key": "field_5d5c7944e8afc",
-                    "label": "Era Description",
-                    "name": "description",
-                    "type": "textarea",
-                    "instructions": "Enter a short description of the proposal era.",
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "33",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "placeholder": "",
-                    "maxlength": "",
-                    "rows": "",
-                    "new_lines": ""
-                },
-                {
-                    "key": "field_5d5c796ae8afd",
-                    "label": "Maps & Map Groups",
-                    "name": "maps",
-                    "type": "clone",
-                    "instructions": "Add maps and\/or map groups.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "clone": [
-                        "field_5d71879a72a8b"
-                    ],
-                    "display": "seamless",
-                    "layout": "block",
-                    "prefix_label": 0,
-                    "prefix_name": 0
-                }
-            ]
+            "max": "",
+            "return_format": "id"
         }
     ],
     "location": [
         [
             {
-                "param": "options_page",
+                "param": "post_type",
                 "operator": "==",
-                "value": "acf-options-proposal-eras"
+                "value": "isf_proposal_era"
             }
         ]
     ],
@@ -159,5 +107,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1569210790
+    "modified": 1573777176
 }

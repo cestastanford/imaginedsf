@@ -58,25 +58,6 @@
                     "step": 1
                 },
                 {
-                    "key": "field_5d885c2da3735",
-                    "label": "Has Bounds",
-                    "name": "has_bounds",
-                    "type": "true_false",
-                    "instructions": "Select \"Yes\" to enter the four bounding corner points of this map as lat\/lng coordinate pairs.  If you do not enter bounding points, this map will not be included in the Proposal Maps list when a user selects \"only show plans affecting visible area\" if in the visible area and it will not be accounted for when the user clicks the \"zoom to full extents of active maps\" button.",
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "message": "",
-                    "default_value": 0,
-                    "ui": 1,
-                    "ui_on_text": "",
-                    "ui_off_text": ""
-                },
-                {
                     "key": "field_5d8842925cf9e",
                     "label": "Bounds",
                     "name": "bounds",
@@ -187,6 +168,25 @@
                     "multiple": 0,
                     "return_format": "id",
                     "ui": 1
+                },
+                {
+                    "key": "field_5d885c2da3735",
+                    "label": "Has Bounds",
+                    "name": "has_bounds",
+                    "type": "true_false",
+                    "instructions": "Select \"Yes\" to enter the four bounding corner points of this map as lat\/lng coordinate pairs.  If you do not enter bounding points, this map will not be included in the Proposal Maps list when a user selects \"only show plans affecting visible area\" if in the visible area and it will not be accounted for when the user clicks the \"zoom to full extent of active maps\" button.  Regardless of whether this setting is on or off, basemaps will not be included in any spatial analysis.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 1,
+                    "ui_on_text": "",
+                    "ui_off_text": ""
                 }
             ]
         },
@@ -477,5 +477,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1569217892
+    "modified": 1573772540
 }

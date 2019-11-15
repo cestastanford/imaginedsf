@@ -45,7 +45,7 @@
                 "search"
             ],
             "elements": "",
-            "min": "",
+            "min": 1,
             "max": "",
             "return_format": "id"
         }
@@ -82,5 +82,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1569224387
+    "modified": 1573772396
 }

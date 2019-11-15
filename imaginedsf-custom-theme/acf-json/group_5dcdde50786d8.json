@@ -1,0 +1,43 @@
+{
+    "key": "group_5dcdde50786d8",
+    "title": "Proposal Maps Introduction",
+    "fields": [
+        {
+            "key": "field_5d87d96d8e5fe",
+            "label": "Introduction",
+            "name": "proposal_maps_intro",
+            "type": "textarea",
+            "instructions": "Enter the text that will appear at the top of the Proposal Maps panel view.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "maxlength": "",
+            "rows": "",
+            "new_lines": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "acf-options-introduction"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "modified": 1573772968
+}

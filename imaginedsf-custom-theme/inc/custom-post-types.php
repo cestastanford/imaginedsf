@@ -82,6 +82,34 @@ function isf_create_custom_post_types() {
 		)
 	);
 
+	// Map Groups.
+	register_post_type(
+		PROPOSAL_ERA_POST_TYPE,
+		array(
+			'labels'    => array(
+				'name'                  => 'Proposal Eras',
+				'singular_name'         => 'Proposal Era',
+				'add_new'               => 'Add New',
+				'add_new_item'          => 'Add New Proposal Era',
+				'edit_item'             => 'Edit Proposal Era',
+				'new_item'              => 'New Proposal Era',
+				'view_item'             => 'View Proposal Era',
+				'view_items'            => 'View Proposal Eras',
+				'search_items'          => 'Search Proposal Eras',
+				'not_found'             => 'No Proposal Eras Found',
+				'not_found_in_trash'    => 'No Proposal Eras found in Trash',
+				'all_items'             => 'All Proposal Eras',
+				'archives'              => 'Proposal Era Archives',
+				'attributes'            => 'Proposal Era Attributes',
+				'insert_into_item'      => 'Insert into Proposal Era',
+				'uploaded_to_this_item' => 'Uploaded to this Proposal Era',
+			),
+			'public'    => true,
+			'menu_icon' => 'dashicons-menu-alt',
+			'supports'  => array( 'title' ),
+		)
+	);
+
 	// Narratives.
 	register_post_type(
 		NARRATIVE_POST_TYPE,
