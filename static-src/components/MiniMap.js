@@ -5,12 +5,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import {
-  CRS,
-  Transformation,
-  LatLngBounds,
-  Point,
-} from 'leaflet';
+import { CRS, Transformation, Point } from 'leaflet';
 
 import { SF_OUTLINE_BOUNDS } from '../constants';
 import sfOutline from '../img/sf-outline.png';
@@ -31,7 +26,9 @@ export default function MiniMap() {
   useEffect(() => {
     //  Get image bounds as lat/lng coordinates projected to planar values
     const imageBoundsCoordinatesTopLeft = CRS.EPSG3857.project(SF_OUTLINE_BOUNDS.getNorthWest());
-    const imageBoundsCoordinatesBottomRight = CRS.EPSG3857.project(SF_OUTLINE_BOUNDS.getSouthEast());
+    const imageBoundsCoordinatesBottomRight = CRS.EPSG3857.project(
+      SF_OUTLINE_BOUNDS.getSouthEast(),
+    );
 
     //  Get image bounds as pixel values
     const {
