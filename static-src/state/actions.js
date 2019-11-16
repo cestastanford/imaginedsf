@@ -239,7 +239,6 @@ export const fetchContent = () => async (dispatch) => {
   const parsedResponse = await response.json();
 
   const { contentAreaContent } = parsedResponse;
-  contentAreaContent.proposalMapsIntro = parsedResponse.proposalMapsIntro;
   const mapContent = getNormalizedMapContent(parsedResponse);
   const narratives = parsedResponse.narratives.map((n) => n.ID);
   const narrativesById = mapIdsToObjectKeys(parsedResponse.narratives);

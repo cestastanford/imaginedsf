@@ -21,8 +21,8 @@ define( 'FEEDBACK_POST_TYPE', 'isf_feedback' );
  */
 
 define( 'CONTENT_AREAS_OPTIONS', 'content_areas' );
+define( 'PERMANENT_BASEMAP_OPTIONS', 'permanent_basemap' );
 define( 'BASEMAPS_OPTIONS', 'basemaps' );
-define( 'PROPOSAL_MAPS_INTRO_OPTIONS', 'proposal_maps_intro' );
 define( 'NARRATIVES_TOC_OPTIONS', 'narratives_toc' );
 
 

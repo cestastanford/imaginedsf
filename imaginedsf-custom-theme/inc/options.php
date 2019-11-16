@@ -22,22 +22,21 @@ if ( function_exists( 'acf_add_options_page' ) ) {
 
 	acf_add_options_page(
 		array(
-			'page_title'      => 'Basemaps',
+			'page_title'      => 'Permanent Basemap',
 			'parent_slug'     => 'edit.php?post_type=isf_map',
-			'update_button'   => 'Update Basemaps',
-			'updated_message' => 'Basemaps updated.',
-			'post_id'         => BASEMAPS_OPTIONS,
+			'update_button'   => 'Update permanent basemap',
+			'updated_message' => 'Permanent basemap updated.',
+			'post_id'         => PERMANENT_BASEMAP_OPTIONS,
 		)
 	);
 
 	acf_add_options_page(
 		array(
-			'page_title'      => 'Proposal Maps Introduction',
-			'menu_title'      => 'Introduction',
-			'parent_slug'     => 'edit.php?post_type=isf_proposal_era',
-			'update_button'   => 'Update Introduction',
-			'updated_message' => 'Introduction updated.',
-			'post_id'         => PROPOSAL_MAPS_INTRO_OPTIONS,
+			'page_title'      => 'Basemaps',
+			'parent_slug'     => 'edit.php?post_type=isf_map',
+			'update_button'   => 'Update Basemaps',
+			'updated_message' => 'Basemaps updated.',
+			'post_id'         => BASEMAPS_OPTIONS,
 		)
 	);
 

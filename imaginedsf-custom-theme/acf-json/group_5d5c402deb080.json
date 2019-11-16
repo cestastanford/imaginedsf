@@ -3,6 +3,25 @@
     "title": "Content Areas",
     "fields": [
         {
+            "key": "field_5d87d96d8e5fe",
+            "label": "Proposal Maps Introduction",
+            "name": "proposal_maps_intro",
+            "type": "textarea",
+            "instructions": "Enter the text that will appear at the top of the Proposal Maps panel view.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "maxlength": "",
+            "rows": "",
+            "new_lines": ""
+        },
+        {
             "key": "field_5d5c764bd6150",
             "label": "Introduction",
             "name": "introduction",
@@ -96,5 +115,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1573772917
+    "modified": 1573940819
 }

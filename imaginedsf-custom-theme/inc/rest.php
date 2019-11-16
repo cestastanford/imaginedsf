@@ -10,10 +10,11 @@
  */
 function isf_get_content_area_content() {
 	return array(
-		'introduction' => get_field( 'introduction', CONTENT_AREAS_OPTIONS ),
-		'bibliography' => get_field( 'bibliography', CONTENT_AREAS_OPTIONS ),
-		'credits'      => get_field( 'credits', CONTENT_AREAS_OPTIONS ),
-		'feedback'     => get_field( 'feedback', CONTENT_AREAS_OPTIONS ),
+		'proposalMapsIntro' => get_field( 'proposal_maps_intro', CONTENT_AREAS_OPTIONS ),
+		'introduction'      => get_field( 'introduction', CONTENT_AREAS_OPTIONS ),
+		'bibliography'      => get_field( 'bibliography', CONTENT_AREAS_OPTIONS ),
+		'credits'           => get_field( 'credits', CONTENT_AREAS_OPTIONS ),
+		'feedback'          => get_field( 'feedback', CONTENT_AREAS_OPTIONS ),
 	);
 }
 
@@ -23,7 +24,7 @@ function isf_get_content_area_content() {
  *
  * @param string $post_type The post type constant.
  */
-function isf_get_all_published_posts( $post_type ) {
+function isf_get_published_posts( $post_type ) {
 
 	$args = array(
 		'post_type'      => $post_type,
@@ -51,18 +52,63 @@ function isf_get_all_published_posts( $post_type ) {
 
 
 /**
+ * Returns the permanent basemap ID if the corresponding post object
+ * is published.
+ */
+function isf_get_published_permanent_basemap() {
+	$permanent_basemap_id = get_field( 'permanent_basemap', PERMANENT_BASEMAP_OPTIONS );
+	if ( $permanent_basemap_id && 'publish' === get_post_status( $permanent_basemap_id ) ) {
+		return $permanent_basemap_id;
+	}
+}
+
+
+/**
+ * Returns the basemaps that are published.
+ */
+function isf_get_published_basemaps() {
+	$basemap_ids = get_field( 'basemaps', BASEMAPS_OPTIONS );
+	return array_values(
+		array_filter(
+			$basemap_ids,
+			function( $basemap_id ) {
+				return 'publish' === get_post_status( $basemap_id );
+			}
+		)
+	);
+}
+
+
+/**
+ * Returns the narratives defined in the Table of Contents that are
+ * published.
+ */
+function isf_get_published_narratives() {
+	$narrative_ids = get_field( 'table_of_contents', NARRATIVES_TOC_OPTIONS );
+	return array_values(
+		array_filter(
+			array_map( 'get_post', $narrative_ids ),
+			function( $basemap ) {
+				return 'publish' === get_post_status( $basemap );
+			}
+		)
+	);
+
+}
+
+
+/**
  * Retrieves all CMS content for the front-end application.
  */
 function isf_get_all_content() {
 	return array(
 		'contentAreaContent' => isf_get_content_area_content(),
-		'maps'               => isf_get_all_published_posts( MAP_POST_TYPE ),
-		'mapGroups'          => isf_get_all_published_posts( MAP_GROUP_POST_TYPE ),
-		'proposalEras'       => isf_get_all_published_posts( PROPOSAL_ERA_POST_TYPE ),
-		'proposalMapsIntro'  => get_field( 'proposal_maps_intro', PROPOSAL_MAPS_INTRO_OPTIONS ),
-		'permanentBasemap'   => get_field( 'permanent_basemap', BASEMAPS_OPTIONS ),
-		'basemaps'           => get_field( 'basemaps', BASEMAPS_OPTIONS ),
-		'narratives'         => get_field( 'table_of_contents', NARRATIVES_TOC_OPTIONS ),
+		'maps'               => isf_get_published_posts( MAP_POST_TYPE ),
+		'mapGroups'          => isf_get_published_posts( MAP_GROUP_POST_TYPE ),
+		'proposalEras'       => isf_get_published_posts( PROPOSAL_ERA_POST_TYPE ),
+		'permanentBasemap'   => isf_get_published_permanent_basemap(),
+		'basemaps'           => isf_get_published_basemaps(),
+		'narratives'         => isf_get_published_narratives(),
 	);
 }
 
