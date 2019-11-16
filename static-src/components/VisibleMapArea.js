@@ -6,7 +6,7 @@ import React from 'react';
 import styled from 'styled-components';
 import AddressSearchControl from './AddressSearchControl';
 import ZoomControl from './ZoomControl';
-import ZoomToExtentsControl from './ZoomToExtentsControl';
+import ZoomToExtentControl from './ZoomToExtentControl';
 import ZoomToLocationControl from './ZoomToLocationControl';
 import BasemapsControl from './BasemapsControl';
 
@@ -20,7 +20,7 @@ const VisibleMapArea = React.forwardRef((props, ref) => (
   <StyledVisibleMapArea ref={ref}>
     <AddressSearchControl />
     <ZoomControl />
-    <ZoomToExtentsControl />
+    <ZoomToExtentControl />
     <ZoomToLocationControl />
     <BasemapsControl />
   </StyledVisibleMapArea>

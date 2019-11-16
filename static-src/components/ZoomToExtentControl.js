@@ -10,14 +10,14 @@ import { LatLngBounds } from 'leaflet';
 import useMapEnabled from './useMapEnabled';
 import useZoomToBounds from './useZoomToBounds';
 import Control, { useControlTooltip } from './Control';
-import extentsImg from '../img/extents.png';
-import extentsActiveImg from '../img/extents-active.png';
+import extentImg from '../img/extent.png';
+import extentActiveImg from '../img/extent-active.png';
 
 /*
-* ZoomToExtentsControl component definition.
+* ZoomToExtentControl component definition.
 */
 
-export default function ZoomToExtentsControl() {
+export default function ZoomToExtentControl() {
   //  Retrieves IDs of enabled maps.
   const getMapEnabled = useMapEnabled();
   const {
@@ -44,7 +44,7 @@ export default function ZoomToExtentsControl() {
   const [zoomToBounds, isZoomedToBounds] = useZoomToBounds(bounds);
 
   const tooltip = useControlTooltip(
-    'Zoom to full extents of active maps',
+    'Zoom to full extent of active maps',
   )[1];
 
   return (
@@ -54,7 +54,7 @@ export default function ZoomToExtentsControl() {
         onClick={zoomToBounds}
         disabled={!bounds.isValid()}
       >
-        <img src={isZoomedToBounds ? extentsActiveImg : extentsImg} alt="Zoom to full extents of active maps" />
+        <img src={isZoomedToBounds ? extentActiveImg : extentImg} alt="Zoom to full extent of active maps" />
       </StyledButton>
     </Control>
   );
