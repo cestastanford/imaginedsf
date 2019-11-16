@@ -1,14 +1,14 @@
 {
-    "key": "group_5d5c3f52f1b77",
-    "title": "Basemaps",
+    "key": "group_5dd066988ccd1",
+    "title": "Permanent Basemap",
     "fields": [
         {
-            "key": "field_5d5c3f5f89bdf",
-            "label": "Basemaps",
-            "name": "basemaps",
-            "type": "relationship",
-            "instructions": "Select maps that will be basemaps, appearing in the Basemaps map control.",
-            "required": 1,
+            "key": "field_5dd066988f832",
+            "label": "Permanent Basemap",
+            "name": "permanent_basemap",
+            "type": "post_object",
+            "instructions": "Select a basemap that will appear as the always-on bottom layer of the map.  This map will not appear in the Basemaps list.",
+            "required": 0,
             "conditional_logic": 0,
             "wrapper": {
                 "width": "",
@@ -19,13 +19,10 @@
                 "isf_map"
             ],
             "taxonomy": "",
-            "filters": [
-                "search"
-            ],
-            "elements": "",
-            "min": "",
-            "max": "",
-            "return_format": "id"
+            "allow_null": 1,
+            "multiple": 0,
+            "return_format": "id",
+            "ui": 1
         }
     ],
     "location": [
@@ -33,7 +30,7 @@
             {
                 "param": "options_page",
                 "operator": "==",
-                "value": "acf-options-basemaps"
+                "value": "acf-options-permanent-basemap"
             }
         ]
     ],
@@ -60,5 +57,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1573938871
+    "modified": 1573938860
 }

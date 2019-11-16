@@ -8,43 +8,31 @@
  */
 
 /**
- * Returns array of IDs of maps and map groups that already in use
- * elsewhere.
+ * Returns array of maps and map groups that already in use elsewhere.
+ * Returned key is the ID and value is a string used for validation
+ * errors.
  *
- * @param bool $current_permanent_basemap Whether currently filtering
- *             for the permanent basemap, in which case the existing
- *             permanent basemap will not be returned.
- * @param bool $current_basemaps Whether currently filtering for
- *             basemaps, in which case the current basemaps will
- *             not be returned.
- * @param int  $current_map_group The current map group for which
- *             we're currently filtering the possible children of.
- *             If set, children of this map group will not be returned.
- * @param int  $current_proposal_era The current proposal era for
- *             which we're currently filtering the possible children
- *             of. If set, children of this proposal era will not
- *             be returned.
+ * @param int $current_post_id The ID of the current post for which
+ *            we're filtering the possible children of.  Children
+ *            of this post. will not be returned.
  */
-function isf_get_children_of_others(
-	$current_permanent_basemap = false,
-	$current_basemaps = false,
-	$current_map_group = null,
-	$current_proposal_era = null
-) {
+function isf_get_children_of_others( $current_post_id ) {
 
-	$ids = array();
+	$used = array( $current_post_id => 'as current post.' );
 
 	// Get permanent basemap.
-	if ( ! $current_permanent_basemap ) {
-		$permanent_basemap_id = get_field( 'permanent_basemap', BASEMAPS_OPTIONS );
-		if ( $permanent_basemap_id && $permanent_basemap_id !== $current_parent_id ) {
-			$ids[] = $permanent_basemap_id;
+	if ( PERMANENT_BASEMAP_OPTIONS !== $current_post_id ) {
+		$permanent_basemap_id = get_field( 'permanent_basemap', PERMANENT_BASEMAP_OPTIONS );
+		if ( $permanent_basemap_id ) {
+			$used[ $permanent_basemap_id ] = 'as permanent basemap.';
 		}
 	}
 
 	// Get other basemaps.
-	if ( ! $current_basemaps ) {
-		$ids = array_merge( $ids, get_field( 'basemaps', BASEMAPS_OPTIONS ) );
+	if ( BASEMAPS_OPTIONS !== $current_post_id ) {
+		foreach ( get_field( 'basemaps', BASEMAPS_OPTIONS ) as $basemap_id ) {
+			$used[ $basemap_id ] = 'as basemap.';
+		}
 	}
 
 	// Get children of map groups.
@@ -52,13 +40,15 @@ function isf_get_children_of_others(
 		array(
 			'post_type'      => MAP_GROUP_POST_TYPE,
 			'post_status'    => 'publish',
-			'post__not_in'   => array( $current_map_group ),
+			'post__not_in'   => array( $current_post_id ),
 			'posts_per_page' => -1,
 		)
 	);
 
 	foreach ( $map_groups_query->get_posts() as $map_group ) {
-		$ids = array_merge( $ids, get_field( 'children', $map_group ) );
+		foreach ( get_field( 'children', $map_group ) as $map_group_child_id ) {
+			$used[ $map_group_child_id ] = 'in map group "' . $map_group->post_title . '."';
+		}
 	}
 
 	// Get children of proposal eras.
@@ -66,71 +56,146 @@ function isf_get_children_of_others(
 		array(
 			'post_type'      => PROPOSAL_ERA_POST_TYPE,
 			'post_status'    => 'publish',
-			'post__not_in'   => array( $current_proposal_era ),
+			'post__not_in'   => array( $current_post_id ),
 			'posts_per_page' => -1,
 		)
 	);
 
 	foreach ( $proposal_eras_query->get_posts() as $proposal_era ) {
-		$ids = array_merge( $ids, get_field( 'children', $proposal_era ) );
+		foreach ( get_field( 'children', $proposal_era ) as $proposal_era_child_id ) {
+			$used[ $proposal_era_child_id ] = 'in proposal era "' . $proposal_era->post_title . '."';
+		}
 	}
 
-	return $ids;
+	return $used;
 
 }
 
 
-// Filters results for the permanent basemap.
-define( 'PERMANENT_BASEMAP_FIELD_KEY', 'field_5dc5e989339ad' );
+/**
+ * Filters options listed for a field.
+ *
+ * @param array $args The existing query arguments.
+ * @param array $field The field parameters.
+ * @param int   $post_id The post of the currently-edited post.
+ */
+function isf_filter_relationship_query( $args, $field, $post_id ) {
+	$args['post__not_in'] = array_keys( isf_get_children_of_others( $post_id ) );
+	return $args;
+}
+
+
+/**
+ * Validates posted value for a field.
+ *
+ * @param bool|string $valid Bool of whether the field value is valid.
+ * @param array|int   $value The value of the field.
+ */
+function isf_validate_relationship_value( $valid, $value ) {
+	if ( ! $valid ) {
+		return $valid;
+	}
+
+	if ( ! is_array( $value ) ) {
+		$value = array( $value );
+	}
+
+	$post_id = null;
+	if ( isset( $_POST['_acf_post_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$post_id = sanitize_text_field( wp_unslash( $_POST['_acf_post_id'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+	}
+
+	$children_of_others = isf_get_children_of_others( $post_id );
+	foreach ( $value as $child_id ) {
+		if ( isset( $children_of_others[ $child_id ] ) ) {
+			$valid = (
+				'"'
+				. get_post( $child_id )->post_title
+				. '" is already used '
+				. $children_of_others[ $child_id ]
+			);
+		}
+	}
+
+	return $valid;
+}
+
+
+/*
+* Filters and validates results for the permanent basemap.
+*/
+
+define( 'PERMANENT_BASEMAP_FIELD_KEY', 'field_5dd066988f832' );
 add_action(
 	'acf/fields/post_object/query/key=' . PERMANENT_BASEMAP_FIELD_KEY,
-	function( $args ) {
-		$args['post__not_in'] = isf_get_children_of_others( true, false, null, null );
-		$args['post_status']  = 'publish';
-		return $args;
-	},
+	'isf_filter_relationship_query',
 	10,
 	3
 );
 
+add_filter(
+	'acf/validate_value/key=' . PERMANENT_BASEMAP_FIELD_KEY,
+	'isf_validate_relationship_value',
+	10,
+	2
+);
 
-// Filters results for basemaps.
+
+/*
+* Filters and validates results for basemaps.
+*/
+
 define( 'BASEMAPS_FIELD_KEY', 'field_5d5c3f5f89bdf' );
 add_action(
 	'acf/fields/relationship/query/key=' . BASEMAPS_FIELD_KEY,
-	function( $args ) {
-		$args['post__not_in'] = isf_get_children_of_others( false, true, null, null );
-		$args['post_status']  = 'publish';
-		return $args;
-	},
+	'isf_filter_relationship_query',
 	10,
 	3
 );
 
+add_filter(
+	'acf/validate_value/key=' . BASEMAPS_FIELD_KEY,
+	'isf_validate_relationship_value',
+	10,
+	2
+);
 
-// Filters results for children of proposal eras.
+
+/*
+* Filters and validates results for children of proposal eras.
+*/
+
 define( 'MAP_GROUP_CHILDREN_FIELD_KEY', 'field_5d71879a72a8b' );
 add_action(
 	'acf/fields/relationship/query/key=' . MAP_GROUP_CHILDREN_FIELD_KEY,
-	function( $args, $field, $post_id ) {
-		$args['post__not_in'] = isf_get_children_of_others( false, false, $post_id, null );
-		$args['post_status']  = 'publish';
-		return $args;
-	},
+	'isf_filter_relationship_query',
 	10,
 	3
 );
 
+add_filter(
+	'acf/validate_value/key=' . MAP_GROUP_CHILDREN_FIELD_KEY,
+	'isf_validate_relationship_value',
+	10,
+	2
+);
 
-// Filters results for children of proposal eras.
+
+/*
+* Filters and validates results for children of proposal eras.
+*/
+
 define( 'PROPOSAL_ERA_CHILDREN_FIELD_KEY', 'field_5dcdebc6896e7' );
 add_action(
 	'acf/fields/relationship/query/key=' . PROPOSAL_ERA_CHILDREN_FIELD_KEY,
-	function( $args, $field, $post_id ) {
-		$args['post__not_in'] = isf_get_children_of_others( false, false, null, $post_id );
-		$args['post_status']  = 'publish';
-		return $args;
-	},
+	'isf_filter_relationship_query',
 	10,
 	3
+);
+
+add_filter(
+	'acf/validate_value/key=' . PROPOSAL_ERA_CHILDREN_FIELD_KEY,
+	'isf_validate_relationship_value',
+	10,
+	2
 );
