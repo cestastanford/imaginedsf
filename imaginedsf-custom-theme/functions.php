@@ -62,7 +62,8 @@ require_once 'inc/feedback.php';
 
 
 /**
- * Removes duplicates
+ * Applies extra configuration to Relationship fields so they don't
+ * allow an administrator to select invalid configurations.
  */
 
 require_once 'inc/relationships.php';
