@@ -2,6 +2,7 @@
 
 This is the repository for the WordPress-based Imagined San Francisco site.  It consists of a WordPress theme containing server-side configuration and code (`imaginedsf-custom-theme/`) and a Webpack project (`static-src/`) containing the front-end React app.
 
+
 ## Steps for Development Environment Setup
 
 1. Install [Node/NPM](https://nodejs.org/en/) and [Docker Desktop](https://www.docker.com/products/docker-desktop).
@@ -11,6 +12,12 @@ This is the repository for the WordPress-based Imagined San Francisco site.  It 
 5. Set up a development database.  Get a SQL database dump of the site's WordPress content, make sure it's named `db.sql`, and place it in `dev-env/dumps`.  Then, in a new shell, run `dev-rsc/apply-dump.sh'.`
 6. Get a copy of the live site's Uploads directory (`wp-content/uploads`) and add its contents to `dev-env/wp-uploads`.
 7. Visit http://localhost:12345 !  To log into the admin panel, visit http://localhost:12345/wp-admin and use the username `dev` and password `dev`.
+
+
+## Linting
+
+This project contains configuration for linting PHP, JS and CSS with [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer), [ESLint](https://eslint.org) and [stylelint](https://stylelint.io), respectively.  To lint PHP, you'll need to install [Composer](https://getcomposer.org) and then run `composer install` to install dependencies.  Dependencies for linting JS and CSS are installed as part of `npm install`.  To do a one-off lint, you can run `npm run lint:php`, `npm run lint:js` and `npm run lint:css` respectively.  However, your IDE likely has plugins to connect with the linters, automatically run them while editing, and display results in a GUI.  See your IDE's documentation for details.
+
 
 ## Steps for Deployment
 
@@ -23,6 +30,7 @@ This is the repository for the WordPress-based Imagined San Francisco site.  It 
    5. Click the `Add New` button at the top of the Themes screen.
    6. Click the `Upload Theme` button at the top of the Themes screen.  Navigate to your zip archive and click Install Now.
    7. Once it's finished installing, click the Activate button.
+
 
 ## Steps for resetting/updating the local development database
 
