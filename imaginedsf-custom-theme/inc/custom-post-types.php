@@ -28,7 +28,7 @@ function isf_create_custom_post_types() {
 	register_post_type(
 		MAP_POST_TYPE,
 		array(
-			'labels'       => array(
+			'labels'    => array(
 				'name'                  => 'Maps',
 				'singular_name'         => 'Map',
 				'add_new'               => 'Add New',
@@ -46,11 +46,10 @@ function isf_create_custom_post_types() {
 				'insert_into_item'      => 'Insert into Map',
 				'uploaded_to_this_item' => 'Uploaded to this Map',
 			),
-			'public'       => true,
-			'menu_icon'    => 'dashicons-location-alt',
-			'supports'     => array( 'title' ),
-			'show_in_rest' => true,
-			'rest_base'    => 'maps',
+			'public'    => false,
+			'show_ui'   => true,
+			'menu_icon' => 'dashicons-location-alt',
+			'supports'  => array( 'title' ),
 		)
 	);
 
@@ -76,13 +75,14 @@ function isf_create_custom_post_types() {
 				'insert_into_item'      => 'Insert into Map Group',
 				'uploaded_to_this_item' => 'Uploaded to this Map Group',
 			),
-			'public'    => true,
+			'public'    => false,
+			'show_ui'   => true,
 			'menu_icon' => 'dashicons-arrow-right',
 			'supports'  => array( 'title' ),
 		)
 	);
 
-	// Map Groups.
+	// Proposal Eras.
 	register_post_type(
 		PROPOSAL_ERA_POST_TYPE,
 		array(
@@ -104,7 +104,8 @@ function isf_create_custom_post_types() {
 				'insert_into_item'      => 'Insert into Proposal Era',
 				'uploaded_to_this_item' => 'Uploaded to this Proposal Era',
 			),
-			'public'    => true,
+			'public'    => false,
+			'show_ui'   => true,
 			'menu_icon' => 'dashicons-menu-alt',
 			'supports'  => array( 'title' ),
 		)
@@ -160,7 +161,8 @@ function isf_create_custom_post_types() {
 				'insert_into_item'      => 'Insert into Feedback',
 				'uploaded_to_this_item' => 'Uploaded to this Feedback',
 			),
-			'public'       => true,
+			'public'       => false,
+			'show_ui'      => true,
 			'menu_icon'    => 'dashicons-testimonial',
 			'supports'     => false,
 			'map_meta_cap' => true,
