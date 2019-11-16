@@ -16,7 +16,11 @@ This is the repository for the WordPress-based Imagined San Francisco site.  It 
 
 ## Linting
 
-This project contains configuration for linting PHP, JS and CSS with [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer), [ESLint](https://eslint.org) and [stylelint](https://stylelint.io), respectively.  To lint PHP, you'll need to install [Composer](https://getcomposer.org) and then run `composer install` to install dependencies.  Dependencies for linting JS and CSS are installed as part of `npm install`.  To do a one-off lint, you can run `npm run lint:php`, `npm run lint:js` and `npm run lint:css` respectively.  However, your IDE likely has plugins to connect with the linters, automatically run them while editing, and display results in a GUI.  See your IDE's documentation for details.
+This project contains configuration for linting PHP, JS and CSS with [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer), [ESLint](https://eslint.org) and [stylelint](https://stylelint.io), respectively.  To lint PHP, you'll need to install [Composer](https://getcomposer.org) and then run `composer install` to install dependencies.  Dependencies for linting JS and CSS are installed as part of `npm install`.
+
+To do a one-off lint, you can run `npm run lint:php`, `npm run lint:js` and `npm run lint:css` respectively.  However, your IDE likely has plugins to connect with the linters, automatically run them while editing, and display results in a GUI.  See your IDE's documentation for details.
+
+The project is configured to automatically lint as a pre-commit hook.  To bypass linting and allow committing with errors, use the --no-verify argument.
 
 
 ## Steps for Deployment
