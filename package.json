@@ -6,6 +6,7 @@
   "scripts": {
     "dev-watch": "rm -rf imaginedsf-custom-theme/static && webpack --watch --mode=development --devtool=source-map",
     "prod-build": "rm -rf imaginedsf-custom-theme/static && webpack --mode=production",
+    "lint:php": "vendor/bin/phpcs --extensions=php imaginedsf-custom-theme",
     "lint:js": "eslint webpack.config.js static-src",
     "lint:css": "stylelint 'static-src/**/*.js'"
   },
