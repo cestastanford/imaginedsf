@@ -5,22 +5,23 @@ This is the repository for the WordPress-based Imagined San Francisco site.  It 
 
 ## Steps for Development Environment Setup
 
-1. Install [Node/NPM](https://nodejs.org/en/) and [Docker Desktop](https://www.docker.com/products/docker-desktop).
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop), [Composer](https://getcomposer.org), and [Node/NPM](https://nodejs.org/en/).
 2. Open a shell and run `docker-compose up` to start the development WordPress server.  You'll know that it's finished setup and is active when you see a terminal output that looks like `wp_1  | [Thu Sep 05 23:42:54.868804 2019] [core:notice] [pid 1] AH00094: Command line: 'apache2 -D FOREGROUND'`.  Leave this process runnung in its shell.
-3. Open another shell and run `npm install` to install front-end dependencies.  Once it's done, run `npm run dev-watch` to start the development front-end asset bundler.  Leave this process running in its shell.
-4. Get the Advanced Custom Fields PRO plugin, unzip it, and move it to `dev-env/wp-plugins`.
-5. Set up a development database.  Get a SQL database dump of the site's WordPress content, make sure it's named `db.sql`, and place it in `dev-env/dumps`.  Then, in a new shell, run `dev-rsc/apply-dump.sh'.`
-6. Get a copy of the live site's Uploads directory (`wp-content/uploads`) and add its contents to `dev-env/wp-uploads`.
-7. Visit http://localhost:12345 !  To log into the admin panel, visit http://localhost:12345/wp-admin and use the username `dev` and password `dev`.
+3. Run `composer install` to install PHP dependencies (only used for linting).
+4. Open another shell and run `npm install` to install front-end dependencies.  Once it's done, run `npm run dev-watch` to start the development front-end asset bundler.  Leave this process running in its shell.
+5. Get the Advanced Custom Fields PRO plugin, unzip it, and move it to `dev-env/wp-plugins`.
+6. Set up a development database.  Get a SQL database dump of the site's WordPress content, make sure it's named `db.sql`, and place it in `dev-env/dumps`.  Then, in a new shell, run `dev-rsc/apply-dump.sh'.`
+7. Get a copy of the live site's Uploads directory (`wp-content/uploads`) and add its contents to `dev-env/wp-uploads`.
+8. Visit http://localhost:12345 !  To log into the admin panel, visit http://localhost:12345/wp-admin and use the username `dev` and password `dev`.
 
 
 ## Linting
 
-This project contains configuration for linting PHP, JS and CSS with [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer), [ESLint](https://eslint.org) and [stylelint](https://stylelint.io), respectively.  To lint PHP, you'll need to install [Composer](https://getcomposer.org) and then run `composer install` to install dependencies.  Dependencies for linting JS and CSS are installed as part of `npm install`.
-
-To do a one-off lint, you can run `npm run lint:php`, `npm run lint:js` and `npm run lint:css` respectively.  However, your IDE likely has plugins to connect with the linters, automatically run them while editing, and display results in a GUI.  See your IDE's documentation for details.
+This project contains configuration for linting PHP, JS and CSS with [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer), [ESLint](https://eslint.org) and [stylelint](https://stylelint.io), respectively.
 
 The project is configured to automatically lint as a pre-commit hook.  To bypass linting and allow committing with errors, use the --no-verify argument.
+
+To do a one-off lint, you can run `npm run lint:php`, `npm run lint:js` and `npm run lint:css` respectively.  However, your IDE likely has plugins to connect with the linters, automatically run them while editing, and display results in a GUI.  See your IDE's documentation for details.
 
 
 ## Steps for Deployment
