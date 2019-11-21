@@ -5,7 +5,8 @@
 import { combineReducers } from 'redux';
 
 import {
-  SET_MAP_STATE,
+  REPLACE_MAP_STATE,
+  APPLY_MAP_STATE,
   SET_ENABLED,
   SET_OPACITY,
   SET_BOUNDS,
@@ -20,8 +21,18 @@ import {
 const enabled = (state = {}, action) => {
   switch (action.type) {
     //  Replaces state
-    case SET_MAP_STATE:
+    case REPLACE_MAP_STATE:
       return action.mapState.enabled;
+
+    case APPLY_MAP_STATE:
+      if (action.mapState.enabled) {
+        return {
+          ...state,
+          ...action.mapState.enabled,
+        };
+      }
+
+      return state;
 
     //  Enables/disables single map
     case SET_ENABLED:
@@ -38,8 +49,18 @@ const enabled = (state = {}, action) => {
 const opacity = (state = {}, action) => {
   switch (action.type) {
     //  Replaces state
-    case SET_MAP_STATE:
+    case REPLACE_MAP_STATE:
       return action.mapState.opacity;
+
+    case APPLY_MAP_STATE:
+      if (action.mapState.opacity) {
+        return {
+          ...state,
+          ...action.mapState.opacity,
+        };
+      }
+
+      return state;
 
     //  Enables/disables single map
     case SET_OPACITY:
@@ -56,8 +77,15 @@ const opacity = (state = {}, action) => {
 const bounds = (state = null, action) => {
   switch (action.type) {
     //  Replaces state
-    case SET_MAP_STATE:
+    case REPLACE_MAP_STATE:
       return action.mapState.bounds;
+
+    case APPLY_MAP_STATE:
+      if (action.mapState.bounds) {
+        return action.mapState.bounds;
+      }
+
+      return state;
 
     //  Updates bounds
     case SET_BOUNDS:
