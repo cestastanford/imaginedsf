@@ -179,7 +179,9 @@ const LoadingError = styled.div`
 
 const StyledApp = styled.div`
   width: 100vw;
+  min-width: 57.75em;
   height: 100vh;
+  min-height: 800px;
   font-family: 'Muli', sans-serif;
   font-size: 16px;
 
