@@ -17,11 +17,10 @@ import { latLngBoundsToArrays } from './leaflet';
 function useGetMapStateFromHash() {
   const mapItems = useSelector((state) => state.mapContent.mapItems);
 
-  const removeMissingIds = useCallback((obj) => Object.assign(
+  const applyToMapContent = useCallback((obj, defaultValue) => Object.assign(
     {},
-    ...Object.entries(obj)
-      .filter(([id]) => Object.prototype.hasOwnProperty.call(mapItems, id))
-      .map(([id, v]) => ({ [id]: v })),
+    ...Object.keys(mapItems)
+      .map((id) => ({ [id]: Object.hasOwnProperty.call(obj, id) ? obj[id] : defaultValue })),
   ), [mapItems]);
 
   return useCallback((hash) => {
@@ -30,14 +29,14 @@ function useGetMapStateFromHash() {
       const { enabled, opacity, bounds } = hashObject.mapState;
 
       return {
-        enabled: removeMissingIds(enabled),
-        opacity: removeMissingIds(opacity),
+        enabled: applyToMapContent(enabled, false),
+        opacity: applyToMapContent(opacity, 1),
         bounds: new LatLngBounds(bounds),
       };
     } catch (e) {
       return null;
     }
-  }, [removeMissingIds]);
+  }, [applyToMapContent]);
 }
 
 

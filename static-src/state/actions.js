@@ -18,7 +18,8 @@ import {
 export const CONTENT_RECEIVED = 'CONTENT_RECEIVED';
 export const GEOJSON_REQUESTED = 'GEOJSON_REQUESTED';
 export const GEOJSON_RECEIVED = 'GEOJSON_RECEIVED';
-export const SET_MAP_STATE = 'SET_MAP_STATE';
+export const REPLACE_MAP_STATE = 'REPLACE_MAP_STATE';
+export const APPLY_MAP_STATE = 'APPLY_MAP_STATE';
 export const SET_ENABLED = 'SET_ENABLED';
 export const SET_OPACITY = 'SET_OPACITY';
 export const SET_BOUNDS = 'SET_BOUNDS';
@@ -184,7 +185,12 @@ export const geoJsonReceived = (mapId, geoJson) => ({
 });
 
 export const setMapState = (mapState) => ({
-  type: SET_MAP_STATE,
+  type: REPLACE_MAP_STATE,
+  mapState,
+});
+
+export const applyMapState = (mapState) => ({
+  type: APPLY_MAP_STATE,
   mapState,
 });
 

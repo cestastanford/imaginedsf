@@ -1,9 +1,14 @@
-import React, { useRef, useState, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React, {
+  useRef,
+  useState,
+  useMemo,
+  useCallback,
+} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import HTMLContent from './HTMLContent';
-
+import { applyMapState } from '../state/actions';
 
 /*
 * Custom hook that handles listening for hovers and determining whether
@@ -27,6 +32,16 @@ export default function useHoverDescriptionOverlay(id) {
   const recommendedBasemap = useSelector(
     (state) => (recommendedBasemapId ? state.mapContent.mapItems[recommendedBasemapId] : null),
   );
+
+  const basemaps = useSelector((state) => state.mapContent.basemaps);
+
+  const dispatch = useDispatch();
+  const enableOnlyRecommendedBasemap = useCallback(() => dispatch(applyMapState({
+    enabled: Object.assign(
+      {},
+      ...basemaps.map((basemapId) => ({ [basemapId]: basemapId === recommendedBasemapId })),
+    ),
+  })), [basemaps, dispatch, recommendedBasemapId]);
 
   //  Determines where the overlay should be positioned.
   const getOverlayPosition = () => {
@@ -77,13 +92,13 @@ export default function useHoverDescriptionOverlay(id) {
       { recommendedBasemap ? (
         <StyledRecommendedBasemap>
           Recommended Basemap:
-          <StyledStrong>
+          <StyledStrongLink onClick={enableOnlyRecommendedBasemap}>
             { recommendedBasemap.post_title }
-          </StyledStrong>
+          </StyledStrongLink>
         </StyledRecommendedBasemap>
       ) : null }
     </StyledHoverOverlay>
-  ) : null), [description, recommendedBasemap, showOverlayAt, title]);
+  ) : null), [description, enableOnlyRecommendedBasemap, recommendedBasemap, showOverlayAt, title]);
 
   return [{ onMouseEnter, onMouseLeave, ref: listItemRef }, overlayElement];
 }
@@ -121,7 +136,8 @@ const StyledRecommendedBasemap = styled.div`
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 `;
 
-const StyledStrong = styled.strong`
+const StyledStrongLink = styled.strong`
   margin-left: 0.5em;
   color: ${({ theme }) => theme.colors.brightAccent};
+  cursor: pointer;
 `;
