@@ -49,6 +49,7 @@ export default function useMapState(leafletLayers, visibleMapAreaProxy) {
     if (!currentBounds.equals(bounds)) {
       dispatch(setBounds(currentBounds, map.getCenter(), map.getZoom()));
       dispatch(updateView(map.getCenter(), map.getZoom()));
+      window.ZOOM_LEVEL = map.getZoom();
     }
   }, [dispatch, visibleMapAreaProxy, bounds]);
 
