@@ -4,10 +4,28 @@
 
 import {
   TileLayer,
+  GridLayer,
   GeoJSON,
   CRS,
   Point,
 } from 'leaflet';
+
+
+/*
+* Fixes lines lines between tiles (https://github.com/Leaflet/Leaflet/issues/3575#issuecomment-543138318).
+*/
+
+const originalInitTile = GridLayer.prototype._initTile; // eslint-disable-line no-underscore-dangle
+GridLayer.include({
+  _initTile(tile) { // eslint-disable-line no-underscore-dangle
+    originalInitTile.call(this, tile);
+
+    const tileSize = this.getTileSize();
+
+    tile.style.width = `${tileSize.x + 1}px`; // eslint-disable-line no-param-reassign
+    tile.style.height = `${tileSize.y + 1}px`; // eslint-disable-line no-param-reassign
+  },
+});
 
 
 /*
