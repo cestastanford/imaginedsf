@@ -56,8 +56,8 @@ export const createWmsLayer = (map, index) => new TileLayer.WMS(
     tiled: true,
     format: 'image/png',
     layers: map.wms.layers,
-    minNativeZoom: map.tile_zoom.min_zoom ? +map.tile_zoom.min_zoom : undefined,
-    maxNativeZoom: map.tile_zoom.max_zoom ? +map.tile_zoom.max_zoom : undefined,
+    minNativeZoom: map.tile_zoom.min_tile_zoom ? +map.tile_zoom.min_tile_zoom : undefined,
+    maxNativeZoom: map.tile_zoom.max_tile_zoom ? +map.tile_zoom.max_tile_zoom : undefined,
     zIndex: index,
   },
 );
