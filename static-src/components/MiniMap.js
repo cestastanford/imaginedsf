@@ -145,7 +145,5 @@ const StyledRectangle = styled.div`
   right: ${({ rectangleRight }) => rectangleRight}px;
   bottom: ${({ rectangleBottom }) => rectangleBottom}px;
   left: ${({ rectangleLeft }) => rectangleLeft}px;
-  background-color: ${({ rectangleAccent, theme }) => (rectangleAccent ? theme.colors.brightAccent25 : theme.colors.darkGrey25)};
-  border: 1.5px solid ${({ rectangleAccent, theme }) => (rectangleAccent ? theme.colors.brightAccent : theme.colors.darkGrey)};
-  border-radius: 2px;
+  background-color: ${({ rectangleAccent, theme }) => (rectangleAccent ? theme.colors.brightAccent25 : theme.colors.miniMapGrey)};
 `;

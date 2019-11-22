@@ -8,12 +8,12 @@ const colors = {
   lightBlack: '#333',
   darkerGrey: '#414042',
   darkGrey: '#58595b',
-  darkGrey25: 'rgba(88, 89, 91, 0.25)',
+  miniMapGrey: 'rgba(0, 0, 0, 0.43)',
   lightGrey: '#cecece',
   lighterGrey: '#d8d8d8',
   panelBackground: '#efefef',
   brightAccent: '#d83a3a',
-  brightAccent25: 'rgba(216, 58, 58, 0.25)',
+  brightAccent25: 'rgba(216, 58, 58, 0.53)',
   darkAccent: '#bf3333',
 };
 
