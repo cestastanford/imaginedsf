@@ -1,10 +1,9 @@
 import { useRef, useCallback } from 'react';
-import throttle from 'lodash.throttle';
 
 const DOWN = 'DOWN';
 const UP = 'UP';
 export const AUTO_CLICKED_CLASS = 'auto-clicked';
-const AUTO_CLICK_THROTTLE_WAIT = 500;
+const AUTO_CLICK_MIN_SCROLL = 100;
 
 export default function useLinkAutoClick() {
   const scrollingContainerRef = useRef();
@@ -13,19 +12,11 @@ export default function useLinkAutoClick() {
   const clickQueueRef = useRef(new Set());
   const alreadyClickedRef = useRef(new Set());
   const lastClickedRef = useRef();
+  const lastClickedScrollPositionRef = useRef();
 
-  const scrollHandlerRef = useRef(throttle(() => {
+  const scrollHandler = useCallback(() => {
     const scrollPosition = scrollingContainerRef.current.scrollTop;
     const scrollDirection = scrollPosition > lastScrollPositionRef.current ? DOWN : UP;
-    lastScrollPositionRef.current = scrollPosition;
-
-    //  Reset queue if scroll direction changed
-    if (scrollDirection !== lastScrollDirectionRef.current) {
-      clickQueueRef.current = new Set();
-      alreadyClickedRef.current = new Set();
-    }
-
-    lastScrollDirectionRef.current = scrollDirection;
 
     //  Get links that are in view
     const {
@@ -50,7 +41,7 @@ export default function useLinkAutoClick() {
       return false;
     });
 
-    //  Click links from top to bottom if scrolling down, bottom
+    //  Queue links from top to bottom if scrolling down, bottom
     //  top if scrolling up
     if (scrollDirection === UP) {
       visibleLinksArray.reverse();
@@ -58,9 +49,22 @@ export default function useLinkAutoClick() {
 
     const visibleLinks = new Set(visibleLinksArray);
 
+    //  Reset tracking of clicked links if scroll direction changed
+    if (scrollDirection !== lastScrollDirectionRef.current) {
+      clickQueueRef.current = new Set();
+      lastClickedScrollPositionRef.current = scrollPosition;
+      if (lastClickedRef.current && visibleLinks.has(lastClickedRef.current)) {
+        const alreadyClickedArray = [...visibleLinks];
+        alreadyClickedArray.splice(alreadyClickedArray.indexOf(lastClickedRef.current) + 1);
+        alreadyClickedRef.current = new Set(alreadyClickedArray);
+      } else {
+        alreadyClickedRef.current = new Set();
+      }
+    }
+
     //  Add links that are in view and not already clicked to the
     //  queue
-    [...visibleLinks].forEach((visibleLink) => {
+    visibleLinksArray.forEach((visibleLink) => {
       if (!alreadyClickedRef.current.has(visibleLink)) {
         clickQueueRef.current.add(visibleLink);
       }
@@ -75,14 +79,25 @@ export default function useLinkAutoClick() {
       }
     });
 
-    //  Pop link from queue and click
-    if (clickQueueRef.current.size) {
+    //  Pop link from queue and click if has scrolled far enough
+    //  since last auto click.
+    if (
+      clickQueueRef.current.size
+      && (
+        !lastClickedScrollPositionRef.current
+        || Math.abs(scrollPosition - lastClickedScrollPositionRef.current) > AUTO_CLICK_MIN_SCROLL
+      )
+    ) {
+      lastClickedScrollPositionRef.current = scrollPosition;
       const link = clickQueueRef.current.values().next().value;
       clickQueueRef.current.delete(link);
       alreadyClickedRef.current.add(link);
       link.click();
     }
-  }, AUTO_CLICK_THROTTLE_WAIT, { leading: false, trailing: false }));
+
+    lastScrollPositionRef.current = scrollPosition;
+    lastScrollDirectionRef.current = scrollDirection;
+  }, []);
 
   const clickHandler = useCallback((event) => {
     if (event.target !== lastClickedRef.current) {
@@ -95,5 +110,5 @@ export default function useLinkAutoClick() {
     }
   }, []);
 
-  return { ref: scrollingContainerRef, onScroll: scrollHandlerRef.current, onClick: clickHandler };
+  return { ref: scrollingContainerRef, onScroll: scrollHandler, onClick: clickHandler };
 }

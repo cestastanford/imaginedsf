@@ -41,7 +41,6 @@
     "bulma": "^0.7.5",
     "file-loader": "^4.2.0",
     "leaflet": "^1.5.1",
-    "lodash.throttle": "^4.1.1",
     "postcss": "^7.0.18",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
