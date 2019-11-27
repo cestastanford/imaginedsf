@@ -87,13 +87,19 @@ function isf_get_published_narratives() {
 	$narrative_ids = get_field( 'table_of_contents', NARRATIVES_TOC_OPTIONS );
 	return array_values(
 		array_filter(
-			array_map( 'get_post', $narrative_ids ),
+			array_map(
+				function( $narrative_id ) {
+					$post               = get_post( $narrative_id );
+					$post->post_content = apply_filters( 'the_content', $post->post_content );
+					return $post;
+				},
+				$narrative_ids,
+			),
 			function( $basemap ) {
 				return 'publish' === get_post_status( $basemap );
 			}
 		)
 	);
-
 }
 
 
