@@ -93,7 +93,7 @@ function isf_get_published_narratives() {
 					$post->post_content = apply_filters( 'the_content', $post->post_content );
 					return $post;
 				},
-				$narrative_ids,
+				$narrative_ids
 			),
 			function( $basemap ) {
 				return 'publish' === get_post_status( $basemap );
@@ -143,7 +143,8 @@ add_action(
  * @param WP_REST_Request $request The POST request.
  */
 function isf_handle_feedback_submission( $request ) {
-	$message = $request->get_json_params()['message'];
+	$params  = $request->get_json_params();
+	$message = $params['message'];
 	isf_save_feedback( $message );
 }
 
