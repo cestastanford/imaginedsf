@@ -10,7 +10,8 @@
 add_filter(
 	'init',
 	function() {
-		$site_url_scheme = wp_parse_url( get_option( 'siteurl' ) )['scheme'];
+		$site_url        = wp_parse_url( get_option( 'siteurl' ) );
+		$site_url_scheme = $site_url['scheme'];
 		if ( 'https' === $site_url_scheme && ! is_ssl() ) {
 			if ( isset( $_SERVER['HTTP_HOST'] ) && isset( $_SERVER['REQUEST_URI'] ) ) {
 				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput

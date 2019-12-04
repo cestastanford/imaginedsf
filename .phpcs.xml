@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <ruleset name="Imagined San Francisco">
-    <rule ref="Generic.PHP.Syntax"/>
-    <rule ref="WordPress"/>
+    <rule ref="Generic.PHP.Syntax" />
+    <rule ref="WordPress" />
+    <config name="testVersion" value="5.3-" />
+    <rule ref="PHPCompatibilityWP" />
 </ruleset>
