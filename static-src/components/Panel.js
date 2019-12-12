@@ -178,6 +178,7 @@ const StyledTabs = styled.div`
 `;
 
 const StyledTabLink = styled(Link)`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -208,7 +209,24 @@ const StyledTabLink = styled(Link)`
   }
 `;
 
-const StyledTabBadge = styled.span``;
+const StyledTabBadge = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.35em;
+  margin: 0.25em;
+  font-size: 0.65em;
+  font-weight: bold;
+  line-height: 1.25;
+  color: white;
+  letter-spacing: -0.1em;
+  background-color: red;
+  border-radius: 1em;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+`;
 
 const StyledActiveTabContent = styled.div`
   position: relative;
