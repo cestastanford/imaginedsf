@@ -2,7 +2,14 @@
 *   Import libraries.
 */
 
-import React, { useRef, useCallback, useState } from 'react';
+import React, {
+  useRef,
+  useCallback,
+  useState,
+  useMemo,
+} from 'react';
+
+import { useSelector } from 'react-redux';
 import {
   withRouter,
   Link,
@@ -14,6 +21,13 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import PanelView from './PanelView';
+import HTMLContent from './HTMLContent';
+import ProposalMapsPanelViewHeader from './ProposalMapsPanelViewHeader';
+import ProposalMapsPanelViewBody from './ProposalMapsPanelViewBody';
+import NarrativesPanelViewHeader from './NarrativesPanelViewHeader';
+import NarrativesPanelViewBody from './NarrativesPanelViewBody';
+import useMapEnabled from './useMapEnabled';
+import useProposalMapsInVisibleArea from './useProposalMapsInVisibleArea';
 
 
 /*
@@ -22,12 +36,52 @@ import PanelView from './PanelView';
 * the last-matched tab is displayed.
 */
 
-const Panel = ({ location, children }) => {
-  const tabs = React.Children.toArray(children);
+const Panel = ({ location }) => {
   const previousPathWasTab = useRef(null);
+  const { introduction } = useSelector((state) => state.contentAreaContent);
+  const onlyShowProposalMapsInVisibleArea = useSelector(
+    (state) => state.onlyShowProposalMapsInVisibleArea,
+  );
+
+  const mapEnabled = useMapEnabled(false);
+  const proposalMapsInVisibleArea = useProposalMapsInVisibleArea();
+  const nActiveProposalMaps = useMemo(() => (
+    Object.keys(mapEnabled())
+      .filter((id) => (
+        onlyShowProposalMapsInVisibleArea ? proposalMapsInVisibleArea[id] : true
+      ))
+      .length
+  ), [mapEnabled, onlyShowProposalMapsInVisibleArea, proposalMapsInVisibleArea]);
+
+  //  Tabs
+  const tabs = [
+    <PanelView
+      path="/introduction"
+      title="Introduction"
+      bodyContent={<HTMLContent content={introduction} />}
+      key="introduction"
+    />,
+
+    <PanelView
+      path="/proposal-maps"
+      title="Proposal Maps"
+      badge={nActiveProposalMaps}
+      headerContent={<ProposalMapsPanelViewHeader />}
+      bodyContent={<ProposalMapsPanelViewBody />}
+      key="proposal-maps"
+    />,
+
+    <PanelView
+      path="/narratives"
+      title="Narratives"
+      headerContent={<NarrativesPanelViewHeader pathPrefix="/narratives/" />}
+      bodyContent={<NarrativesPanelViewBody />}
+      key="narratives"
+    />,
+  ];
+
   const [activeTabPath, setActiveTabPath] = useState(tabs[0].props.path);
   const tabsByPath = Object.assign({}, ...tabs.map((tab) => ({ [tab.props.path]: tab })));
-
   const routePanelTabs = useCallback((childrenToRender) => (
     <Route path={Object.keys(tabsByPath)}>
       {({ match }) => {
@@ -78,6 +132,7 @@ const Panel = ({ location, children }) => {
               key={tab.props.path}
             >
               {tab.props.title}
+              {tab.props.badge ? <StyledTabBadge>{tab.props.badge}</StyledTabBadge> : null}
             </StyledTabLink>
           ))
         }
@@ -91,7 +146,6 @@ const Panel = ({ location, children }) => {
 
 Panel.propTypes = {
   location: PropTypes.shape({ hash: PropTypes.string.isRequired }).isRequired,
-  children: PropTypes.arrayOf(PropTypes.shape({ type: PanelView })).isRequired,
 };
 
 export default withRouter(Panel);
@@ -153,6 +207,8 @@ const StyledTabLink = styled(Link)`
     opacity: 1;
   }
 `;
+
+const StyledTabBadge = styled.span``;
 
 const StyledActiveTabContent = styled.div`
   position: relative;

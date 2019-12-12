@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 * maps, excluding map groups and maps with a disabled ancestor.
 */
 
-export default function useMapEnabled() {
+export default function useMapEnabled(includeBasemaps = true) {
   const {
     mapItems,
     proposalEras,
@@ -45,8 +45,8 @@ export default function useMapEnabled() {
     //  Creates object of IDs.
     return [
       ...[].concat(...proposalEras.map(getEnabledDescendantMapIds)),
-      ...getEnabledDescendantMapIds({ children: basemaps }),
-      ...(permanentBasemap ? [permanentBasemap] : []),
+      ...(includeBasemaps ? getEnabledDescendantMapIds({ children: basemaps }) : []),
+      ...(includeBasemaps && permanentBasemap ? [permanentBasemap] : []),
     ].reduce((accum, id) => ({ ...accum, [id]: true }), {});
-  }, [proposalEras, basemaps, permanentBasemap, enabled, mapItems]);
+  }, [proposalEras, includeBasemaps, basemaps, permanentBasemap, enabled, mapItems]);
 }
