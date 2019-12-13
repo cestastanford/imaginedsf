@@ -137,9 +137,9 @@ const StyledTabs = styled.div`
 const StyledTabLink = styled(Link)`
   position: relative;
   display: flex;
+  flex-grow: 1;
   align-items: center;
   justify-content: center;
-  width: 33.33%;
   height: 100%;
   color: ${({ theme }) => theme.colors.darkGrey};
   text-decoration: none;
@@ -175,7 +175,7 @@ const StyledTabBadge = styled.div`
   justify-content: center;
   padding: 0 0.35em;
   margin: 0.5em;
-  font-size: 0.65em;
+  font-size: 0.75em;
   font-weight: bold;
   line-height: 1.25;
   color: white;

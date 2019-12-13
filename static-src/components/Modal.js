@@ -12,7 +12,7 @@ import styled from 'styled-components';
 * Modal component definition.
 */
 
-export default function Modal({ title, children }) {
+export default function Modal({ title, children, footerContent }) {
   const location = useLocation();
   const closeLocation = { ...location, pathname: '/' };
 
@@ -25,6 +25,7 @@ export default function Modal({ title, children }) {
         <StyledModalContent>
           {children}
         </StyledModalContent>
+        {footerContent ? <StyledModalFooter>{ footerContent }</StyledModalFooter> : null}
       </StyledModalPanel>
     </StyledModal>
   );
@@ -33,10 +34,12 @@ export default function Modal({ title, children }) {
 Modal.propTypes = {
   title: PropTypes.string,
   children: PropTypes.node.isRequired,
+  footerContent: PropTypes.node,
 };
 
 Modal.defaultProps = {
   title: null,
+  footerContent: null,
 };
 
 
@@ -110,4 +113,8 @@ const StyledModalContent = styled.div`
   flex-grow: 1;
   margin-top: 1em;
   overflow-y: scroll;
+`;
+
+const StyledModalFooter = styled.div`
+  margin-top: 1em;
 `;

@@ -28,7 +28,6 @@ export default function App() {
   const leafletMapRef = useRef();
   const dispatch = useDispatch();
 
-
   //  Downloads initial content and sets initial state
   useEffect(() => {
     const initApp = async () => {
