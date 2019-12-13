@@ -50,7 +50,7 @@
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "styled-components": "^4.3.2",
-    "webpack": "^4.39.2",
+    "webpack": "^4.41.2",
     "webpack-cli": "^3.3.6",
     "whatwg-fetch": "^3.0.0"
   },
