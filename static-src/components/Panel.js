@@ -217,13 +217,13 @@ const StyledTabBadge = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0 0.35em;
-  margin: 0.25em;
+  margin: 0.5em;
   font-size: 0.65em;
   font-weight: bold;
   line-height: 1.25;
   color: white;
   letter-spacing: -0.1em;
-  background-color: red;
+  background-color: ${({ theme }) => theme.colors.brightAccent};
   border-radius: 1em;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 `;
