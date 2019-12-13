@@ -4,7 +4,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { BrowserRouter, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import LeafletMapContext from './LeafletMapContext';
@@ -64,13 +64,6 @@ export default function App() {
                 <VisibleMapArea ref={visibleMapAreaElementRef} />
                 <Modals />
               </StyledBody>
-              <Route
-                path="/"
-                exact
-                render={({ location }) => (
-                  <Redirect to={{ pathname: '/introduction', hash: location.hash }} />
-                )}
-              />
             </BrowserRouter>
           </StyledMainContainer>
         )}

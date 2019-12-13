@@ -15,8 +15,8 @@ import useLinkAutoClick, { AUTO_CLICKED_CLASS } from './useLinkAutoClick';
 */
 
 export default function NarrativesPanelViewBody() {
-  const currentNarrativeId = useSelector((state) => state.currentNarrative);
-  const currentNarrative = useSelector((state) => state.narrativesById[currentNarrativeId]);
+  const currentNarrativeSlug = useSelector((state) => state.currentNarrative);
+  const currentNarrative = useSelector((state) => state.narrativesBySlug[currentNarrativeSlug]);
   const containerProps = useLinkAutoClick();
 
   return (

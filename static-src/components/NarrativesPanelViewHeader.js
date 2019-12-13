@@ -2,11 +2,11 @@
 * Imports.
 */
 
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  withRouter,
-  Route,
+  useRouteMatch,
+  useLocation,
   Link,
   Redirect,
 } from 'react-router-dom';
@@ -21,84 +21,43 @@ import { setCurrentNarrative } from '../state/actions';
 * NarrativesPanelViewHeader component definition.
 */
 
-const NarrativesPanelViewHeader = ({ location, pathPrefix }) => {
+export default function NarrativesPanelViewHeader({ tabPath }) {
   const narratives = useSelector((state) => state.narratives);
-  const narrativesById = useSelector((state) => state.narrativesById);
+  const narrativesBySlug = useSelector((state) => state.narrativesBySlug);
   const currentNarrative = useSelector((state) => state.currentNarrative);
   const dispatch = useDispatch();
-  const narrativesBySlug = Object.assign(
-    {},
-    ...Object.values(narrativesById).map((n) => ({ [n.post_name]: n })),
-  );
+  const match = useRouteMatch(`${tabPath}/:slug?`);
+  const location = useLocation();
 
-  const routeNarratives = useCallback(
-    (children) => (
-      <Route path={`${pathPrefix}:slug?`}>
-        {({ match }) => {
-          if (match) {
-            const narrative = narrativesBySlug[match.params.slug];
-            if (narrative) {
-              //  If slug in URL and matches narrative
-              if (narrative.ID !== currentNarrative) {
-                //  If slug narrative is not the current one in Redux state,
-                //  update Redux state narrative to slug narrative
-                dispatch(setCurrentNarrative(narrative.ID));
-              }
-            } else {
-              //  If slug not in URL or doesn't match a narrative, redirect
-              //  to the current narrative in Redux state
-              return (
-                <Redirect
-                  to={{
-                    pathname: `${pathPrefix}${narrativesById[currentNarrative].post_name}`,
-                    hash: location.hash,
-                  }}
-                />
-              );
-            }
-          }
+  if (match && match.params.slug !== currentNarrative) {
+    if (narrativesBySlug[match.params.slug]) {
+      dispatch(setCurrentNarrative(match.params.slug));
+    } else {
+      return <Redirect to={{ ...location, pathname: `${tabPath}/${currentNarrative}` }} />;
+    }
+  }
 
-          return children;
-        }}
-      </Route>
-    ),
-    [
-      narrativesBySlug,
-      narrativesById,
-      currentNarrative,
-      dispatch,
-      location.hash,
-      pathPrefix,
-    ],
-  );
-
-  return routeNarratives((
+  return (
     <>
       <StyledTitle>Table of Contents</StyledTitle>
       <StyledNarrativesList>
-        { narratives.map((id) => (
+        { narratives.map((slug) => (
           <StyledNarrativeLink
-            key={id}
-            className={currentNarrative === id ? 'current' : ''}
-            to={{
-              pathname: `${pathPrefix}${narrativesById[id].post_name}`,
-              hash: location.hash,
-            }}
+            key={slug}
+            className={currentNarrative === slug ? 'current' : ''}
+            to={{ ...location, pathname: `${tabPath}/${slug}` }}
           >
-            { narrativesById[id].post_title }
+            { narrativesBySlug[slug].post_title }
           </StyledNarrativeLink>
         ))}
       </StyledNarrativesList>
     </>
-  ));
-};
+  );
+}
 
 NarrativesPanelViewHeader.propTypes = {
-  location: PropTypes.shape({ hash: PropTypes.string.isRequired }).isRequired,
-  pathPrefix: PropTypes.string.isRequired,
+  tabPath: PropTypes.string.isRequired,
 };
-
-export default withRouter(NarrativesPanelViewHeader);
 
 
 /*

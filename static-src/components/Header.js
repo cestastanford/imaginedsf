@@ -1,42 +1,34 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withRouter, Link } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import logoImg from '../img/logo.svg';
 
-const reset = () => {
-  window.location.hash = '';
-  window.location.pathname = '';
-};
+const HEADER_LINKS = [
+  { pathname: '/introduction', title: 'Introduction' },
+  { pathname: '/bibliography', title: 'Bibliography' },
+  { pathname: '/credits', title: 'Credits' },
+  { pathname: '/feedback', title: 'Feedback' },
+];
 
-const Header = ({ location }) => (
-  <StyledHeader>
-    <StyledHeaderLink to="/" onClick={reset}>
-      <StyledLogo src={logoImg} alt="Imagined San Francisco" />
-    </StyledHeaderLink>
-    <NavLinks>
-      { [
-        { pathname: '/bibliography', title: 'Bibliography' },
-        { pathname: '/credits', title: 'Credits' },
-        { pathname: '/feedback', title: 'Feedback' },
-      ].map(({ pathname, title }) => (
-        <StyledLink
-          key={pathname}
-          to={{ pathname, hash: location.hash }}
-        >
-          { title }
-        </StyledLink>
-      )) }
-    </NavLinks>
-  </StyledHeader>
-);
+export default function Header() {
+  const location = useLocation();
 
-Header.propTypes = {
-  location: PropTypes.shape({ hash: PropTypes.string.isRequired }).isRequired,
-};
-
-export default withRouter(Header);
+  return (
+    <StyledHeader>
+      <StyledHeaderLink to={{ pathname: '', hash: '' }}>
+        <StyledLogo src={logoImg} alt="Imagined San Francisco" />
+      </StyledHeaderLink>
+      <NavLinks>
+        {HEADER_LINKS.map(({ pathname, title }) => (
+          <StyledLink key={pathname} to={{ ...location, pathname }}>
+            { title }
+          </StyledLink>
+        )) }
+      </NavLinks>
+    </StyledHeader>
+  );
+}
 
 const StyledHeader = styled.div`
   position: relative;

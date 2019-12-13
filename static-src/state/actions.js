@@ -26,7 +26,6 @@ export const SET_BOUNDS = 'SET_BOUNDS';
 export const UPDATE_VIEW = 'UPDATE_VIEW';
 export const SET_ONLY_SHOW_PROPOSAL_MAPS_IN_VISIBLE_AREA = 'SET_ONLY_SHOW_PROPOSAL_MAPS_IN_VISIBLE_AREA';
 export const SET_CURRENT_NARRATIVE = 'SET_CURRENT_NARRATIVE';
-export const SET_NARRATIVE_SCROLL_POSITION = 'SET_NARRATIVE_SCROLL_POSITION';
 
 
 /*
@@ -34,9 +33,9 @@ export const SET_NARRATIVE_SCROLL_POSITION = 'SET_NARRATIVE_SCROLL_POSITION';
 * mapping from ID to object.
 */
 
-const mapIdsToObjectKeys = (arr) => {
+const mapToObject = (arr, idField = 'ID') => {
   const obj = {};
-  arr.forEach((item) => { obj[item.ID] = item; });
+  arr.forEach((item) => { obj[item[idField]] = item; });
   return obj;
 };
 
@@ -56,8 +55,8 @@ const getNormalizedMapContent = ({
   basemaps,
 }) => {
   const mapItemsById = {
-    ...mapIdsToObjectKeys(maps),
-    ...mapIdsToObjectKeys(mapGroups),
+    ...mapToObject(maps),
+    ...mapToObject(mapGroups),
   };
 
   const validatedMapItemsById = {};
@@ -229,11 +228,6 @@ export const setCurrentNarrative = (narrativeId) => ({
   narrativeId,
 });
 
-export const setNarrativeScrollPosition = (narrativeScrollPosition) => ({
-  type: SET_NARRATIVE_SCROLL_POSITION,
-  narrativeScrollPosition,
-});
-
 
 /*
 * Defines async action creators.
@@ -246,14 +240,14 @@ export const fetchContent = () => async (dispatch) => {
 
   const { contentAreaContent } = parsedResponse;
   const mapContent = getNormalizedMapContent(parsedResponse);
-  const narratives = parsedResponse.narratives.map((n) => n.ID);
-  const narrativesById = mapIdsToObjectKeys(parsedResponse.narratives);
+  const narratives = parsedResponse.narratives.map((n) => n.post_name);
+  const narrativesBySlug = mapToObject(parsedResponse.narratives, 'post_name');
 
   dispatch(contentReceived({
     contentAreaContent,
     mapContent,
     narratives,
-    narrativesById,
+    narrativesBySlug,
   }));
 
   dispatch(setMapState(getDefaultMapStateFromMapContent(mapContent)));
