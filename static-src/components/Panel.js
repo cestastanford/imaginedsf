@@ -137,7 +137,7 @@ const StyledTabs = styled.div`
 const StyledTabLink = styled(Link)`
   position: relative;
   display: flex;
-  flex-grow: 1;
+  flex: 1;
   align-items: center;
   justify-content: center;
   height: 100%;
