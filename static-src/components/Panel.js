@@ -2,26 +2,16 @@
 *   Import libraries.
 */
 
-import React, {
-  useRef,
-  useCallback,
-  useState,
-  useMemo,
-} from 'react';
-
+import React, { useRef, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  withRouter,
   Link,
-  Route,
   Redirect,
+  useRouteMatch,
+  useLocation,
 } from 'react-router-dom';
-
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import PanelView from './PanelView';
-import HTMLContent from './HTMLContent';
 import ProposalMapsPanelViewHeader from './ProposalMapsPanelViewHeader';
 import ProposalMapsPanelViewBody from './ProposalMapsPanelViewBody';
 import NarrativesPanelViewHeader from './NarrativesPanelViewHeader';
@@ -30,15 +20,44 @@ import useMapEnabled from './useMapEnabled';
 import useProposalMapsInVisibleArea from './useProposalMapsInVisibleArea';
 
 
+const PROPOSAL_MAPS_PATH = '/proposal-maps';
+const NARRATIVES_PATH = '/narratives';
+const TAB_PATHS = [PROPOSAL_MAPS_PATH, NARRATIVES_PATH];
+const TABS_BY_PATH = {
+
+  [PROPOSAL_MAPS_PATH]: {
+    title: 'Proposal Maps',
+    HeaderComponent: ProposalMapsPanelViewHeader,
+    BodyComponent: ProposalMapsPanelViewBody,
+  },
+
+  [NARRATIVES_PATH]: {
+    title: 'Narratives',
+    HeaderComponent: NarrativesPanelViewHeader,
+    BodyComponent: NarrativesPanelViewBody,
+  },
+
+};
+
+
 /*
 * Panel component definition.  Handles routing to
 * the correct tab depending on the URL path.  If no tab matches,
 * the last-matched tab is displayed.
 */
 
-const Panel = ({ location }) => {
-  const previousPathWasTab = useRef(null);
-  const { introduction } = useSelector((state) => state.contentAreaContent);
+export default function Panel() {
+  const activeTabPath = useRef(PROPOSAL_MAPS_PATH);
+  const match = useRouteMatch(TAB_PATHS);
+  const location = useLocation();
+
+  //  If path matches a different tab, switch to that tab.
+  if (match && match.path !== activeTabPath.current) {
+    activeTabPath.current = match.path;
+  }
+
+  const { HeaderComponent, BodyComponent } = TABS_BY_PATH[activeTabPath.current];
+
   const onlyShowProposalMapsInVisibleArea = useSelector(
     (state) => state.onlyShowProposalMapsInVisibleArea,
   );
@@ -53,102 +72,40 @@ const Panel = ({ location }) => {
       .length
   ), [mapEnabled, onlyShowProposalMapsInVisibleArea, proposalMapsInVisibleArea]);
 
-  //  Tabs
-  const tabs = [
-    <PanelView
-      path="/introduction"
-      title="Introduction"
-      bodyContent={<HTMLContent content={introduction} />}
-      key="introduction"
-    />,
+  //  If route is '/', redirect to the active tab path
+  if (location.pathname === '/') {
+    return <Redirect to={{ ...location, pathname: activeTabPath.current }} />;
+  }
 
-    <PanelView
-      path="/proposal-maps"
-      title="Proposal Maps"
-      badge={nActiveProposalMaps}
-      headerContent={<ProposalMapsPanelViewHeader />}
-      bodyContent={<ProposalMapsPanelViewBody />}
-      key="proposal-maps"
-    />,
-
-    <PanelView
-      path="/narratives"
-      title="Narratives"
-      headerContent={<NarrativesPanelViewHeader pathPrefix="/narratives/" />}
-      bodyContent={<NarrativesPanelViewBody />}
-      key="narratives"
-    />,
-  ];
-
-  const [activeTabPath, setActiveTabPath] = useState(tabs[0].props.path);
-  const tabsByPath = Object.assign({}, ...tabs.map((tab) => ({ [tab.props.path]: tab })));
-  const routePanelTabs = useCallback((childrenToRender) => (
-    <Route path={Object.keys(tabsByPath)}>
-      {({ match }) => {
-        if (match) { // True if the current path matches a tab
-          const activePath = match.path;
-          if (activePath !== activeTabPath) {
-            if (previousPathWasTab.current || previousPathWasTab.current === null) {
-              //  If the previous path matched a tab and the current
-              //  path also matches a tab, user is switching tabs;
-              //  set active tab to the one matching the current
-              //  path if not already.
-              setActiveTabPath(activePath);
-            } else {
-              //  If the previous path didn't match a tab and the
-              //  current path does match a tab, and the current
-              //  path matches a different tab than the active one,
-              //  user is closing a modal; do not update active tab.
-              //  Instead, update route to the active tab's route.
-              return (
-                <Redirect
-                  to={{
-                    pathname: activeTabPath,
-                    hash: location.hash,
-                  }}
-                />
-              );
-            }
-          }
-
-          previousPathWasTab.current = true;
-        } else {
-          previousPathWasTab.current = false;
-        }
-
-        return childrenToRender;
-      }}
-    </Route>
-  ), [tabsByPath, activeTabPath, location.hash]);
-
-  return routePanelTabs((
+  return (
     <StyledPanel>
       <StyledTabs>
-        {
-          tabs.map((tab) => (
-            <StyledTabLink
-              to={{ pathname: tab.props.path, hash: location.hash }}
-              className={tab.props.path === activeTabPath ? 'active' : ''}
-              key={tab.props.path}
-            >
-              {tab.props.title}
-              {tab.props.badge ? <StyledTabBadge>{tab.props.badge}</StyledTabBadge> : null}
-            </StyledTabLink>
-          ))
-        }
+        {TAB_PATHS.map((tabPath) => (
+          <StyledTabLink
+            to={{ ...location, pathname: tabPath }}
+            className={tabPath === activeTabPath.current ? 'active' : ''}
+            key={tabPath}
+          >
+            {TABS_BY_PATH[tabPath].title}
+            {tabPath === PROPOSAL_MAPS_PATH
+              ? <StyledTabBadge>{nActiveProposalMaps}</StyledTabBadge>
+              : null}
+          </StyledTabLink>
+        ))}
       </StyledTabs>
       <StyledActiveTabContent>
-        {tabsByPath[activeTabPath]}
+        <StyledPanelView>
+          <StyledPanelViewHeader>
+            <HeaderComponent tabPath={activeTabPath.current} />
+          </StyledPanelViewHeader>
+          <StyledPanelViewBody>
+            <BodyComponent />
+          </StyledPanelViewBody>
+        </StyledPanelView>
       </StyledActiveTabContent>
     </StyledPanel>
-  ));
-};
-
-Panel.propTypes = {
-  location: PropTypes.shape({ hash: PropTypes.string.isRequired }).isRequired,
-};
-
-export default withRouter(Panel);
+  );
+}
 
 
 /*
@@ -236,4 +193,20 @@ const StyledActiveTabContent = styled.div`
   min-height: 0;
   background-color: ${({ theme }) => theme.colors.panelBackground};
   border-radius: 5px;
+`;
+
+const StyledPanelView = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
+const StyledPanelViewHeader = styled.div`
+  padding: 1.25em;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
+`;
+
+const StyledPanelViewBody = styled.div`
+  padding: 1.25em;
+  overflow-y: scroll;
 `;

@@ -11,7 +11,6 @@ import {
   CONTENT_RECEIVED,
   SET_ONLY_SHOW_PROPOSAL_MAPS_IN_VISIBLE_AREA,
   SET_CURRENT_NARRATIVE,
-  SET_NARRATIVE_SCROLL_POSITION,
 } from '../actions';
 
 
@@ -43,11 +42,11 @@ const narratives = (state = [], action) => {
 };
 
 
-const narrativesById = (state = {}, action) => {
+const narrativesBySlug = (state = {}, action) => {
   switch (action.type) {
     //  Saves narrative content when received
     case CONTENT_RECEIVED:
-      return action.narrativesById;
+      return action.narrativesBySlug;
 
     default:
       return state;
@@ -70,24 +69,10 @@ const currentNarrative = (state = null, action) => {
   switch (action.type) {
     //  Set to first Narrative when narratives received
     case CONTENT_RECEIVED:
-      return action.narratives[0] || state;
+      return action.narratives[0];
 
     case SET_CURRENT_NARRATIVE:
       return action.narrativeId;
-
-    default:
-      return state;
-  }
-};
-
-const narrativeScrollPosition = (state = 0, action) => {
-  switch (action.type) {
-    //  Reset scroll position when a narrative is selected
-    case SET_CURRENT_NARRATIVE:
-      return 0;
-
-    case SET_NARRATIVE_SCROLL_POSITION:
-      return narrativeScrollPosition;
 
     default:
       return state;
@@ -99,9 +84,8 @@ export default combineReducers({
   contentAreaContent,
   mapContent,
   narratives,
-  narrativesById,
+  narrativesBySlug,
   mapState,
   onlyShowProposalMapsInVisibleArea,
   currentNarrative,
-  narrativeScrollPosition,
 });

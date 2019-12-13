@@ -3,7 +3,7 @@
 */
 
 import React from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -12,36 +12,32 @@ import styled from 'styled-components';
 * Modal component definition.
 */
 
-const Modal = ({ location, title, content }) => (
-  <StyledModal>
-    <StyledModalBackgroundCloseLink
-      to={{ pathname: '/', hash: location.hash }}
-    />
-    <StyledModalPanel>
-      <StyledModalCloseLink
-        to={{ pathname: '/', hash: location.hash }}
-      >
-        ×
-      </StyledModalCloseLink>
-      { title ? <StyledModalTitle>{title}</StyledModalTitle> : null }
-      <StyledModalContent>
-        { content }
-      </StyledModalContent>
-    </StyledModalPanel>
-  </StyledModal>
-);
+export default function Modal({ title, children }) {
+  const location = useLocation();
+  const closeLocation = { ...location, pathname: '/' };
+
+  return (
+    <StyledModal>
+      <StyledModalBackgroundCloseLink to={closeLocation} />
+      <StyledModalPanel>
+        <StyledModalCloseLink to={closeLocation}>×</StyledModalCloseLink>
+        {title ? <StyledModalTitle>{title}</StyledModalTitle> : null}
+        <StyledModalContent>
+          {children}
+        </StyledModalContent>
+      </StyledModalPanel>
+    </StyledModal>
+  );
+}
 
 Modal.propTypes = {
-  location: PropTypes.shape({ hash: PropTypes.string.isRequired }).isRequired,
-  content: PropTypes.node.isRequired,
   title: PropTypes.string,
+  children: PropTypes.node.isRequired,
 };
 
 Modal.defaultProps = {
-  title: '',
+  title: null,
 };
-
-export default withRouter(Modal);
 
 
 /*
