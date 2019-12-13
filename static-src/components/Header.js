@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import logoImg from '../img/logo.svg';
 
+
 const HEADER_LINKS = [
   { pathname: '/introduction', title: 'Introduction' },
   { pathname: '/bibliography', title: 'Bibliography' },
@@ -11,12 +12,16 @@ const HEADER_LINKS = [
   { pathname: '/feedback', title: 'Feedback' },
 ];
 
+const reset = () => {
+  window.location = '/';
+};
+
 export default function Header() {
   const location = useLocation();
 
   return (
     <StyledHeader>
-      <StyledHeaderLink to={{ pathname: '', hash: '' }}>
+      <StyledHeaderLink to={location} onClick={reset}>
         <StyledLogo src={logoImg} alt="Imagined San Francisco" />
       </StyledHeaderLink>
       <NavLinks>
