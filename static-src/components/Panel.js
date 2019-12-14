@@ -87,7 +87,7 @@ export default function Panel() {
             key={tabPath}
           >
             {TABS_BY_PATH[tabPath].title}
-            {tabPath === PROPOSAL_MAPS_PATH
+            {tabPath === PROPOSAL_MAPS_PATH && nActiveProposalMaps
               ? <StyledTabBadge>{nActiveProposalMaps}</StyledTabBadge>
               : null}
           </StyledTabLink>
@@ -179,7 +179,6 @@ const StyledTabBadge = styled.div`
   font-weight: bold;
   line-height: 1.25;
   color: white;
-  letter-spacing: -0.1em;
   background-color: ${({ theme }) => theme.colors.brightAccent};
   border-radius: 1em;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
