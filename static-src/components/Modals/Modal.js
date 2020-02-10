@@ -2,10 +2,12 @@
 * Imports.
 */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+
+import PreviousLocationContext from './PreviousLocationContext';
 
 
 /*
@@ -18,10 +20,10 @@ export default function Modal({
   footerContent,
   isSideModal,
 }) {
-  const location = useLocation();
+  const previousLocation = useContext(PreviousLocationContext);
   const history = useHistory();
 
-  const closeModal = () => history.push({ ...location, pathname: '/' });
+  const closeModal = () => history.push(previousLocation);
 
   return (
     <StyledModal>
@@ -85,7 +87,8 @@ const StyledModalPanel = styled.div`
   width: ${(props) => (props.isSideModal ? '18em' : '50em')};
   max-height: 65%;
   padding: ${(props) => (props.isSideModal ? '1.25em 1.5em' : '4em')};
-  margin: ${(props) => (props.isSideModal ? '1em' : 'initial')};
+  margin-top: ${(props) => (props.isSideModal ? '1.5em' : 'initial')};
+  margin-right: ${(props) => (props.isSideModal ? '1.5em' : 'initial')};
   margin-left: ${(props) => (props.isSideModal ? 'auto' : 'initial')};
   overflow-y: scroll;
   background-color: ${({ theme }) => theme.colors.panelBackground};

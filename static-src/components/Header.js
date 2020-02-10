@@ -8,8 +8,8 @@ import shareImg from '../img/share.svg';
 
 const StyledShareIcon = styled.img`
   position: relative;
-  top: 0.25em;
-  height: 2.5em;
+  top: -0.15em;
+  height: 1.75em;
 `;
 
 const HEADER_LINKS = [
@@ -92,6 +92,6 @@ const NavLinks = styled.div`
   text-transform: lowercase;
 
   > a {
-    margin: 0 1em;
+    margin: 0 0.75em;
   }
 `;
