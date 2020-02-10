@@ -6,7 +6,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import MapListItem from './MapListItem';
+import MapListItem from '../MapListItem';
 import useProposalMapsInVisibleArea from './useProposalMapsInVisibleArea';
 
 

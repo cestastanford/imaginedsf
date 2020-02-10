@@ -14,7 +14,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { setCurrentNarrative } from '../state/actions';
+import { setCurrentNarrative } from '../../state/actions';
 
 
 /*

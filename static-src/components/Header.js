@@ -3,13 +3,21 @@ import { useLocation, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import logoImg from '../img/logo.svg';
+import shareImg from '../img/share.svg';
 
+
+const StyledShareIcon = styled.img`
+  position: relative;
+  top: 0.25em;
+  height: 2.5em;
+`;
 
 const HEADER_LINKS = [
-  { pathname: '/introduction', title: 'Introduction' },
-  { pathname: '/bibliography', title: 'Bibliography' },
-  { pathname: '/credits', title: 'Credits' },
-  { pathname: '/feedback', title: 'Feedback' },
+  { pathname: '/introduction', content: 'Introduction' },
+  { pathname: '/bibliography', content: 'Bibliography' },
+  { pathname: '/credits', content: 'Credits' },
+  { pathname: '/feedback', content: 'Feedback' },
+  { pathname: '/share', content: <StyledShareIcon src={shareImg} alt="share" /> },
 ];
 
 const reset = () => {
@@ -21,13 +29,13 @@ export default function Header() {
 
   return (
     <StyledHeader>
-      <StyledHeaderLink to={location} onClick={reset}>
+      <StyledLogoLink to={location} onClick={reset}>
         <StyledLogo src={logoImg} alt="Imagined San Francisco" />
-      </StyledHeaderLink>
+      </StyledLogoLink>
       <NavLinks>
-        {HEADER_LINKS.map(({ pathname, title }) => (
+        {HEADER_LINKS.map(({ pathname, content }) => (
           <StyledLink key={pathname} to={{ ...location, pathname }}>
-            { title }
+            { content }
           </StyledLink>
         )) }
       </NavLinks>
@@ -39,9 +47,10 @@ const StyledHeader = styled.div`
   position: relative;
   z-index: ${({ theme }) => theme.zIndices.Header};
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  padding: 0.75em 0.75em 0.5em 0.75em;
+  padding: 0.75em;
+  padding-bottom: 0.5em;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
 
@@ -59,7 +68,7 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const StyledHeaderLink = styled(StyledLink)`
+const StyledLogoLink = styled(StyledLink)`
   display: flex;
   align-items: center;
 
@@ -77,11 +86,12 @@ const StyledHeaderLink = styled(StyledLink)`
 `;
 
 const NavLinks = styled.div`
-  margin-bottom: 0.7em;
+  display: flex;
+  align-items: center;
   color: ${({ theme }) => theme.colors.darkGrey};
   text-transform: lowercase;
 
-  ${StyledLink} {
+  > a {
     margin: 0 1em;
   }
 `;

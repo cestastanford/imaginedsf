@@ -3,8 +3,8 @@
 */
 
 import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useLocation, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 
@@ -12,15 +12,21 @@ import styled from 'styled-components';
 * Modal component definition.
 */
 
-export default function Modal({ title, children, footerContent }) {
+export default function Modal({
+  title,
+  children,
+  footerContent,
+  isSideModal,
+}) {
   const location = useLocation();
-  const closeLocation = { ...location, pathname: '/' };
+  const history = useHistory();
+
+  const closeModal = () => history.push({ ...location, pathname: '/' });
 
   return (
     <StyledModal>
-      <StyledModalBackgroundCloseLink to={closeLocation} />
-      <StyledModalPanel>
-        <StyledModalCloseLink to={closeLocation}>×</StyledModalCloseLink>
+      <StyledModalCloseBackground onClick={closeModal} />
+      <StyledModalPanel isSideModal={isSideModal}>
         {title ? <StyledModalTitle>{title}</StyledModalTitle> : null}
         <StyledModalContent>
           {children}
@@ -35,11 +41,13 @@ Modal.propTypes = {
   title: PropTypes.string,
   children: PropTypes.node.isRequired,
   footerContent: PropTypes.node,
+  isSideModal: PropTypes.bool,
 };
 
 Modal.defaultProps = {
   title: null,
   footerContent: null,
+  isSideModal: false,
 };
 
 
@@ -59,7 +67,7 @@ const StyledModal = styled.div`
   height: 100%;
 `;
 
-const StyledModalBackgroundCloseLink = styled(Link)`
+const StyledModalCloseBackground = styled.a`
   position: absolute;
   top: 0;
   left: 0;
@@ -73,40 +81,22 @@ const StyledModalPanel = styled.div`
   z-index: 1;
   display: flex;
   flex-direction: column;
-  width: 50em;
+  align-self: ${(props) => (props.isSideModal ? 'flex-start' : 'initial')};
+  width: ${(props) => (props.isSideModal ? '18em' : '50em')};
   max-height: 65%;
-  padding: 3.5em 7em;
+  padding: ${(props) => (props.isSideModal ? '1.25em 1.5em' : '4em')};
+  margin: ${(props) => (props.isSideModal ? '1em' : 'initial')};
+  margin-left: ${(props) => (props.isSideModal ? 'auto' : 'initial')};
   overflow-y: scroll;
   background-color: ${({ theme }) => theme.colors.panelBackground};
   border-radius: ${({ theme }) => theme.radii.standard};
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
 `;
 
-const StyledModalCloseLink = styled(Link)`
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.5em;
-  height: 1.5em;
-  font-size: 1.5em;
-  font-weight: lighter;
-  color: ${({ theme }) => theme.colors.darkGrey};
-  text-decoration: none;
-  transition: ${({ theme }) => theme.transitionDurations.linkHover};
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.darkerGrey};
-  }
-`;
-
 const StyledModalTitle = styled.h1`
-  font-size: 1.25em;
-  font-weight: lighter;
+  font-size: 1.15em;
+  font-weight: bold;
   color: ${({ theme }) => theme.colors.darkGrey};
-  text-transform: uppercase;
 `;
 
 const StyledModalContent = styled.div`

@@ -11,7 +11,7 @@ import styled from 'styled-components';
 * when the feedback form is submitted.
 */
 
-export default function FeedbackFrom() {
+export default function FeedbackForm() {
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);

@@ -13,9 +13,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationArrow } from '@fortawesome/free-solid-svg-icons';
 
 import useZoomToLocation from './useZoomToLocation';
-import LeafletMapContext from './LeafletMapContext';
+import LeafletMapContext from '../LeafletMapContext';
 import Control, { useControlTooltip } from './Control';
-import { SF_BOUNDS } from '../constants';
+import { SF_BOUNDS } from '../../constants';
 
 
 /*

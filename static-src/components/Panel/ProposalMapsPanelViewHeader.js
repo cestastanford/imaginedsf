@@ -6,9 +6,9 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { setOnlyShowProposalMapsInVisibleArea } from '../state/actions';
-import AccentCheckbox from './AccentCheckbox';
-import MiniMap from './MiniMap';
+import { setOnlyShowProposalMapsInVisibleArea } from '../../state/actions';
+import AccentCheckbox from '../AccentCheckbox';
+import MiniMap from '../MiniMap';
 
 
 /*
