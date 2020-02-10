@@ -1,25 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import HTMLContent from '../HTMLContent';
 import Modal from './Modal';
+import PreviousLocationContext from './PreviousLocationContext';
 
 
 export default function IntroductionModal() {
   const introduction = useSelector((state) => state.contentAreaContent.introduction);
-  const location = useLocation();
-  const history = useHistory();
-
-  const closeModal = () => history.push({ ...location, pathname: '/' });
+  const previousLocation = useContext(PreviousLocationContext);
 
   return (
     <Modal
       title="Introduction"
       footerContent={(
         <StyledBeginButtonContainer>
-          <StyledBeginButton onClick={closeModal}>Begin</StyledBeginButton>
+          <StyledBeginButton to={previousLocation}>Begin</StyledBeginButton>
         </StyledBeginButtonContainer>
       )}
     >
@@ -35,7 +33,7 @@ const StyledBeginButtonContainer = styled.div`
 `;
 
 
-const StyledBeginButton = styled.a`
+const StyledBeginButton = styled(Link)`
   display: block;
   padding: 0.35em 0.75em;
   font-size: 1.4em;

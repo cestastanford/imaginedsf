@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   useRouteMatch,
   useLocation,
@@ -10,6 +10,7 @@ import BibliographyModal from './BibliographyModal';
 import CreditsModal from './CreditsModal';
 import FeedbackModal from './FeedbackModal';
 import ShareModal from './ShareModal';
+import PreviousLocationContext from './PreviousLocationContext';
 
 
 const ROUTED_MODALS_BY_PATH = {
@@ -21,13 +22,25 @@ const ROUTED_MODALS_BY_PATH = {
 };
 
 export default function Modals() {
-  const match = useRouteMatch(Object.keys(ROUTED_MODALS_BY_PATH));
   const location = useLocation();
+  const previousLocationRef = useRef({ ...location, pathname: '/' });
+  const match = useRouteMatch(Object.keys(ROUTED_MODALS_BY_PATH));
+
+  if (!previousLocationRef.current.hash && location.hash) {
+    previousLocationRef.current = { ...previousLocationRef.current, hash: location.hash };
+  }
 
   if (match) {
     const ModalComponent = ROUTED_MODALS_BY_PATH[match.path];
-    return <ModalComponent />;
+    return (
+      <PreviousLocationContext.Provider value={previousLocationRef.current}>
+        <ModalComponent />
+      </PreviousLocationContext.Provider>
+    );
   }
+
+  //  Saves the last non-modal route location
+  previousLocationRef.current = location;
 
   if (!location.hash) {
     return <Redirect to={{ ...location, pathname: '/introduction' }} />;

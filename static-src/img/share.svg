@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="48px" height="70px" viewBox="0 0 48 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 62 (91390) - https://sketch.com -->
     <title>Share</title>
     <desc>Created with Sketch.</desc>
     <g id="Share" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
-        <path d="M56,28 L69,28 C70.6568542,28 72,29.3431458 72,31 L72,69 C72,70.6568542 70.6568542,72 69,72 L31,72 C29.3431458,72 28,70.6568542 28,69 L28,31 C28,29.3431458 29.3431458,28 31,28 L44,28" id="Path" stroke="#7A7A7A" stroke-width="4"></path>
-        <path d="M61,18 L50.7371541,6.80416815 C50.3639617,6.39704916 49.7313944,6.36954623 49.3242754,6.74273864 C49.3029187,6.76231561 49.2824228,6.78281145 49.2628459,6.80416815 L39,18 L39,18 M50,50 L50,7" id="Shape" stroke="#7A7A7A" stroke-width="4"></path>
+        <path d="M30,24 L43,24 C44.6568542,24 46,25.3431458 46,27 L46,65 C46,66.6568542 44.6568542,68 43,68 L5,68 C3.34314575,68 2,66.6568542 2,65 L2,27 C2,25.3431458 3.34314575,24 5,24 L18,24" id="Path" stroke="#7A7A7A" stroke-width="4"></path>
+        <path d="M35,14 L24.7371541,2.80416815 C24.3639617,2.39704916 23.7313944,2.36954623 23.3242754,2.74273864 C23.3029187,2.76231561 23.2824228,2.78281145 23.2628459,2.80416815 L13,14 L13,14 M24,46 L24,3" id="Shape" stroke="#7A7A7A" stroke-width="4"></path>
     </g>
 </svg>
