@@ -5,11 +5,11 @@
 import { useMemo, useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
 
-import LeafletMapContext from './LeafletMapContext';
+import LeafletMapContext from '../LeafletMapContext';
 import {
   ZOOM_TO_LOCATION_PADDING,
   IS_ZOOMED_TO_LOCATION_TOLERANCE,
-} from '../constants';
+} from '../../constants';
 
 
 /*

@@ -7,9 +7,9 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import Control from './Control';
-import MapListItem from './MapListItem';
+import MapListItem from '../MapListItem';
 
-import basemapsIcon from '../img/basemaps.png';
+import basemapsIcon from '../../img/basemaps.png';
 
 /*
 * BasemapsControl component definition.

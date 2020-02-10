@@ -16,7 +16,7 @@ import ProposalMapsPanelViewHeader from './ProposalMapsPanelViewHeader';
 import ProposalMapsPanelViewBody from './ProposalMapsPanelViewBody';
 import NarrativesPanelViewHeader from './NarrativesPanelViewHeader';
 import NarrativesPanelViewBody from './NarrativesPanelViewBody';
-import useMapEnabled from './useMapEnabled';
+import useMapEnabled from '../useMapEnabled';
 import useProposalMapsInVisibleArea from './useProposalMapsInVisibleArea';
 
 

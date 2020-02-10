@@ -8,9 +8,9 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
-import LeafletMapContext from './LeafletMapContext';
+import LeafletMapContext from '../LeafletMapContext';
 import Control from './Control';
-import { MIN_ZOOM, MAX_ZOOM, ZOOM_SNAP } from '../constants';
+import { MIN_ZOOM, MAX_ZOOM, ZOOM_SNAP } from '../../constants';
 
 
 /*

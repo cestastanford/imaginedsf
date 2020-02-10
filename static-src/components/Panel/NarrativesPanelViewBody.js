@@ -6,7 +6,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import HTMLContent from './HTMLContent';
+import HTMLContent from '../HTMLContent';
 import useLinkAutoClick, { AUTO_CLICKED_CLASS } from './useLinkAutoClick';
 
 

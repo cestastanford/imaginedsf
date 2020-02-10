@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 62 (91390) - https://sketch.com -->
+    <title>Share</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Share" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
+        <path d="M56,28 L69,28 C70.6568542,28 72,29.3431458 72,31 L72,69 C72,70.6568542 70.6568542,72 69,72 L31,72 C29.3431458,72 28,70.6568542 28,69 L28,31 C28,29.3431458 29.3431458,28 31,28 L44,28" id="Path" stroke="#7A7A7A" stroke-width="4"></path>
+        <path d="M61,18 L50.7371541,6.80416815 C50.3639617,6.39704916 49.7313944,6.36954623 49.3242754,6.74273864 C49.3029187,6.76231561 49.2824228,6.78281145 49.2628459,6.80416815 L39,18 L39,18 M50,50 L50,7" id="Shape" stroke="#7A7A7A" stroke-width="4"></path>
+    </g>
+</svg>

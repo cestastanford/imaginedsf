@@ -5,8 +5,8 @@
 import { useMemo, useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
 
-import LeafletMapContext from './LeafletMapContext';
-import { IS_ZOOMED_TO_LOCATION_TOLERANCE } from '../constants';
+import LeafletMapContext from '../LeafletMapContext';
+import { IS_ZOOMED_TO_LOCATION_TOLERANCE } from '../../constants';
 
 
 /*

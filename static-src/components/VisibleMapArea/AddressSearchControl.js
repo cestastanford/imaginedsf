@@ -10,7 +10,7 @@ import { faArrowRight, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import useZoomToLocation from './useZoomToLocation';
 import Control, { useControlTooltip } from './Control';
-import { SF_BOUNDS } from '../constants';
+import { SF_BOUNDS } from '../../constants';
 
 
 /*
