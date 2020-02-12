@@ -67,6 +67,7 @@ const StyledModal = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
+  padding-left: ${({ theme }) => theme.widths.panel};
 `;
 
 const StyledModalCloseBackground = styled.a`
@@ -104,7 +105,7 @@ const StyledModalTitle = styled.h1`
 
 const StyledModalContent = styled.div`
   flex-grow: 1;
-  margin-top: 1em;
+  margin-top: 0.25em;
   overflow-y: scroll;
 `;
 

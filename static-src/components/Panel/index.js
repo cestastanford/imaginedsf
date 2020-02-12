@@ -117,7 +117,7 @@ const StyledPanel = styled.div`
   z-index: ${({ theme }) => theme.zIndices.Panel};
   display: flex;
   flex-direction: column;
-  width: 35em;
+  width: ${({ theme }) => theme.widths.panel};
   height: 100%;
   margin-right: 0.75em;
   background-color: ${({ theme }) => theme.colors.panelBackground};

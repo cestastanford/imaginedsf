@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import Modal from './Modal';
 import PreviousLocationContext from './PreviousLocationContext';
+import StyledButton from '../shared';
 import facebookIcon from '../../img/facebook-icon.png';
 import twitterIcon from '../../img/twitter-icon.png';
 
@@ -40,7 +41,7 @@ export default function ShareModal() {
           value={shareUrl}
           readOnly
         />
-        <StyledCopyButton onClick={copyUrl}>Copy Link</StyledCopyButton>
+        <StyledButton onClick={copyUrl}>Copy Link</StyledButton>
       </StyledCopyUrl>
     </Modal>
   );
@@ -91,30 +92,9 @@ const StyledTextarea = styled.textarea`
   width: 100%;
   height: 25em;
   padding: 0.75em 1em;
-  margin: 0.5em 0;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
   font-size: 0.9em;
   font-style: italic;
   color: #999;
-`;
-
-const StyledCopyButton = styled.a`
-  padding: 0.35em 0.85em;
-  margin-top: 0.5em;
-  font-weight: bold;
-  color: #fff;
-  text-transform: uppercase;
-  background-color: #bbb;
-  border-radius: 3px;
-  box-shadow: 0 0 4px inset rgba(0, 0, 0, 0.25);
-  transition: background-color 0.15s;
-
-  &:hover {
-    color: #fff;
-    background-color: #aaa;
-  }
-
-  &:active {
-    background-color: #999;
-    transition: none;
-  }
 `;
