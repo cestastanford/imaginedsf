@@ -3,17 +3,18 @@
 */
 
 import React, { useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { useRouteMatch, useLocation, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import AccentCheckbox from './AccentCheckbox';
 import AccentDisclosureTriangle from './AccentDisclosureTriangle';
-import useHoverDescriptionOverlay from './useHoverDescriptionOverlay';
 import { setEnabled, setOpacity } from '../state/actions';
 import {
   MAP_GROUP_POST_TYPE,
   GEOJSON_SOURCE_TYPE,
+  DESCRIPTION_ROUTE,
 } from '../constants';
 
 
@@ -43,15 +44,16 @@ export default function MapListItem({ id, showYear }) {
     [dispatch, id],
   );
 
-  const [overlayListItemProps, overlayElement] = useHoverDescriptionOverlay(id);
-
   const isGroup = postType === MAP_GROUP_POST_TYPE;
   const isRaster = !isGroup && sourceType !== GEOJSON_SOURCE_TYPE;
+
+  const descriptionActive = useRouteMatch(`${DESCRIPTION_ROUTE}/${id}`);
+  const descriptionLocation = { ...useLocation(), pathname: `${DESCRIPTION_ROUTE}/${id}` };
 
   return (
     <>
 
-      <StyledMapListItem {...overlayListItemProps}> {/* eslint-disable-line */}
+      <StyledMapListItem>
 
         <StyledEnabled>
           { isGroup ? (
@@ -95,7 +97,12 @@ export default function MapListItem({ id, showYear }) {
           />
         ) : null }
 
-        { overlayElement }
+        <StyledDescriptionButton
+          to={descriptionLocation}
+          active={descriptionActive}
+        >
+          𝒊
+        </StyledDescriptionButton>
 
       </StyledMapListItem>
 
@@ -128,6 +135,10 @@ const StyledMapListItem = styled.li`
   display: flex;
   align-items: center;
   line-height: 1.25;
+
+  > * {
+    flex-shrink: 0;
+  }
 `;
 
 const StyledEnabled = styled.span`
@@ -146,6 +157,7 @@ const StyledYear = styled.span`
 
 const StyledTitle = styled.a`
   flex-grow: 1;
+  flex-shrink: 1;
   margin-right: 1rem;
   font-size: 0.9em;
   font-weight: ${({ isEnabled }) => (isEnabled ? 'bold' : 'normal')};
@@ -163,6 +175,23 @@ const StyledTitle = styled.a`
 
 const StyledRange = styled.input`
   width: 8em;
+`;
+
+const StyledDescriptionButton = styled(Link)`
+  width: 1.25em;
+  height: 1.25em;
+  margin-left: 0.35rem;
+  font-size: 0.75em;
+  line-height: 1;
+  color: ${(props) => (props.active ? props.theme.colors.brightAccent : '#444')};
+  text-align: center;
+  border: 1px solid ${(props) => (props.active ? props.theme.colors.brightAccent : '#444')};
+  border-radius: 1.25em;
+  transition: color 0.15s, border-color 0.15s, opacity 0.15s;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 const StyledChildren = styled.ul`

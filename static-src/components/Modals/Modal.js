@@ -67,7 +67,8 @@ const StyledModal = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
-  padding-left: ${({ theme }) => theme.widths.panel};
+  padding-right: 1.25em;
+  padding-left: calc(${({ theme }) => theme.widths.panel} + 1.25em + 0.75em);
 `;
 
 const StyledModalCloseBackground = styled.a`
