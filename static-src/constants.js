@@ -81,3 +81,17 @@ export const ZOOM_TO_LOCATION_PADDING = 500;
 */
 
 export const IS_ZOOMED_TO_LOCATION_TOLERANCE = 0.0001;
+
+
+/*
+* Routes used in the app.
+*/
+
+export const INTRODUCTION_ROUTE = '/introduction';
+export const BIBLIOGRAPHY_ROUTE = '/bibliography';
+export const CREDITS_ROUTE = '/credits';
+export const FEEDBACK_ROUTE = '/feedback';
+export const SHARE_ROUTE = '/share';
+export const DESCRIPTION_ROUTE = '/description';
+export const PROPOSAL_MAPS_ROUTE = '/proposal-maps';
+export const NARRATIVES_ROUTE = '/narratives';

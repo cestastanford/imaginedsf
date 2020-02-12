@@ -5,20 +5,31 @@ import {
   Redirect,
 } from 'react-router-dom';
 
+import {
+  INTRODUCTION_ROUTE,
+  BIBLIOGRAPHY_ROUTE,
+  CREDITS_ROUTE,
+  FEEDBACK_ROUTE,
+  SHARE_ROUTE,
+  DESCRIPTION_ROUTE,
+} from '../../constants';
+
 import IntroductionModal from './IntroductionModal';
 import BibliographyModal from './BibliographyModal';
 import CreditsModal from './CreditsModal';
 import FeedbackModal from './FeedbackModal';
 import ShareModal from './ShareModal';
+import DescriptionModal from './DescriptionModal';
 import PreviousLocationContext from './PreviousLocationContext';
 
 
 const ROUTED_MODALS_BY_PATH = {
-  '/introduction': IntroductionModal,
-  '/bibliography': BibliographyModal,
-  '/credits': CreditsModal,
-  '/feedback': FeedbackModal,
-  '/share': ShareModal,
+  [INTRODUCTION_ROUTE]: IntroductionModal,
+  [BIBLIOGRAPHY_ROUTE]: BibliographyModal,
+  [CREDITS_ROUTE]: CreditsModal,
+  [FEEDBACK_ROUTE]: FeedbackModal,
+  [SHARE_ROUTE]: ShareModal,
+  [`${DESCRIPTION_ROUTE}/:mapId`]: DescriptionModal,
 };
 
 export default function Modals() {
@@ -34,7 +45,7 @@ export default function Modals() {
     const ModalComponent = ROUTED_MODALS_BY_PATH[match.path];
     return (
       <PreviousLocationContext.Provider value={previousLocationRef.current}>
-        <ModalComponent />
+        <ModalComponent {...match.params} />
       </PreviousLocationContext.Provider>
     );
   }

@@ -18,20 +18,19 @@ import NarrativesPanelViewHeader from './NarrativesPanelViewHeader';
 import NarrativesPanelViewBody from './NarrativesPanelViewBody';
 import useMapEnabled from '../useMapEnabled';
 import useProposalMapsInVisibleArea from './useProposalMapsInVisibleArea';
+import { PROPOSAL_MAPS_ROUTE, NARRATIVES_ROUTE } from '../../constants';
 
 
-const PROPOSAL_MAPS_PATH = '/proposal-maps';
-const NARRATIVES_PATH = '/narratives';
-const TAB_PATHS = [PROPOSAL_MAPS_PATH, NARRATIVES_PATH];
+const TAB_PATHS = [PROPOSAL_MAPS_ROUTE, NARRATIVES_ROUTE];
 const TABS_BY_PATH = {
 
-  [PROPOSAL_MAPS_PATH]: {
+  [PROPOSAL_MAPS_ROUTE]: {
     title: 'Proposal Maps',
     HeaderComponent: ProposalMapsPanelViewHeader,
     BodyComponent: ProposalMapsPanelViewBody,
   },
 
-  [NARRATIVES_PATH]: {
+  [NARRATIVES_ROUTE]: {
     title: 'Narratives',
     HeaderComponent: NarrativesPanelViewHeader,
     BodyComponent: NarrativesPanelViewBody,
@@ -47,7 +46,7 @@ const TABS_BY_PATH = {
 */
 
 export default function Panel() {
-  const activeTabPath = useRef(PROPOSAL_MAPS_PATH);
+  const activeTabPath = useRef(PROPOSAL_MAPS_ROUTE);
   const match = useRouteMatch(TAB_PATHS);
   const location = useLocation();
 
@@ -87,7 +86,7 @@ export default function Panel() {
             key={tabPath}
           >
             {TABS_BY_PATH[tabPath].title}
-            {tabPath === PROPOSAL_MAPS_PATH && nActiveProposalMaps
+            {tabPath === PROPOSAL_MAPS_ROUTE && nActiveProposalMaps
               ? <StyledTabBadge>{nActiveProposalMaps}</StyledTabBadge>
               : null}
           </StyledTabLink>
