@@ -48,6 +48,11 @@ const radii = {
   standard: '5px',
 };
 
+//  Widths
+const widths = {
+  panel: '35em',
+};
+
 export default {
   colors,
   opacities,
@@ -55,4 +60,5 @@ export default {
   zIndices,
   shadows,
   radii,
+  widths,
 };

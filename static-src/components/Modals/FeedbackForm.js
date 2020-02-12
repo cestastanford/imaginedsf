@@ -5,6 +5,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import StyledButton from '../shared';
+
 
 /*
 * Defines the FeedbackForm component, which creates a new WP post
@@ -51,13 +53,12 @@ export default function FeedbackForm() {
         onChange={(e) => setMessage(e.target.value)}
         disabled={submitting || submitted}
       />
-      <button
-        className={`button ${submitting ? ' is-loading' : ''}`}
+      <StyledButton
         type="submit"
         disabled={!message || submitting || submitted}
       >
         {submitButtonText}
-      </button>
+      </StyledButton>
     </form>
   );
 }
