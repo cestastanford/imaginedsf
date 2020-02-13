@@ -105,9 +105,11 @@ const StyledModalTitle = styled.h1`
 `;
 
 const StyledModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
+  min-height: 0;
   margin-top: 0.25em;
-  overflow-y: scroll;
 `;
 
 const StyledModalFooter = styled.div`

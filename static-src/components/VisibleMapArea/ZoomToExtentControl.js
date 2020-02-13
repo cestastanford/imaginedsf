@@ -8,8 +8,9 @@ import styled from 'styled-components';
 import { LatLngBounds } from 'leaflet';
 
 import useMapEnabled from '../useMapEnabled';
-import useZoomToBounds from './useZoomToBounds';
+import useZoomToBounds from '../useZoomToBounds';
 import Control, { useControlTooltip } from './Control';
+
 import extentImg from '../../img/extent.png';
 import extentActiveImg from '../../img/extent-active.png';
 

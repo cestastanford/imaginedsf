@@ -21,10 +21,14 @@ export default function IntroductionModal() {
         </StyledBeginButtonContainer>
       )}
     >
-      <HTMLContent content={introduction} />
+      <StyledModalContent content={introduction} />
     </Modal>
   );
 }
+
+const StyledModalContent = styled(HTMLContent)`
+  overflow: scroll;
+`;
 
 const StyledBeginButtonContainer = styled.div`
   display: flex;
