@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 import { setOnlyShowProposalMapsInVisibleArea } from '../../state/actions';
 import AccentCheckbox from '../AccentCheckbox';
-import MiniMap from '../MiniMap';
+import MiniMap from './MiniMap';
 
 
 /*
@@ -26,15 +26,17 @@ export default function ProposalMapsPanelViewHeader() {
 
   return (
     <StyledHeader>
-      <StyledIntroContent>{introContent}</StyledIntroContent>
-      <StyledCheckboxLabel isChecked={checkboxValue}>
-        <StyledAccentCheckbox
-          type="checkbox"
-          checked={checkboxValue}
-          onChange={(e) => handleCheckboxUpdate(e.target.checked)}
-        />
-        Only show plans affecting visible area
-      </StyledCheckboxLabel>
+      <StyledHeaderLeft>
+        <StyledIntroContent>{introContent}</StyledIntroContent>
+        <StyledCheckboxLabel isChecked={checkboxValue}>
+          <StyledAccentCheckbox
+            type="checkbox"
+            checked={checkboxValue}
+            onChange={(e) => handleCheckboxUpdate(e.target.checked)}
+          />
+          Only show maps affecting visible area
+        </StyledCheckboxLabel>
+      </StyledHeaderLeft>
       <StyledMiniMap>
         <MiniMap />
       </StyledMiniMap>
@@ -49,21 +51,22 @@ export default function ProposalMapsPanelViewHeader() {
 
 const StyledHeader = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-items: stretch;
+  justify-content: space-between;
 `;
+
+const StyledHeaderLeft = styled.div``;
 
 const StyledIntroContent = styled.div`
   flex-grow: 1;
+  max-width: 22em;
   font-size: 0.85em;
 `;
 
 const StyledCheckboxLabel = styled.label`
-  z-index: 1;
-  width: 40em;
-  margin-bottom: 0.2em;
-  margin-left: 2em;
-  font-size: 0.75em;
-  font-weight: ${({ isChecked }) => (isChecked ? 'bold' : 'normal')};
+  display: block;
+  margin-top: 1em;
+  font-size: 0.85em;
   line-height: 1.25;
   color: ${({ theme, isChecked }) => (isChecked ? theme.colors.brightAccent : 'inherit')};
   text-transform: lowercase;
@@ -76,6 +79,5 @@ const StyledAccentCheckbox = styled(AccentCheckbox)`
 
 const StyledMiniMap = styled.div`
   flex-shrink: 0;
-  align-self: stretch;
   margin: -1.25em -1.25em -1.25em 0;
 `;

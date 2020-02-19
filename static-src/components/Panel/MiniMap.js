@@ -7,8 +7,8 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { CRS, Transformation, Point } from 'leaflet';
 
-import { SF_OUTLINE_BOUNDS } from '../constants';
-import sfOutline from '../img/sf-outline.png';
+import { SF_OUTLINE_BOUNDS } from '../../constants';
+import sfOutline from '../../img/sf-outline.png';
 
 
 /*
@@ -121,7 +121,7 @@ export default function MiniMap() {
 const StyledMiniMap = styled.div`
   position: relative;
   width: 175px;
-  height: 160px;
+  height: 100%;
   overflow: hidden;
 `;
 
