@@ -67,7 +67,9 @@ const StyledModal = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
+  padding-top: 1.25em;
   padding-right: 1.25em;
+  padding-bottom: 1.25em;
   padding-left: calc(${({ theme }) => theme.widths.panel} + 1.25em + 0.75em);
 `;
 
@@ -89,8 +91,6 @@ const StyledModalPanel = styled.div`
   width: ${(props) => (props.isSideModal ? '18em' : '50em')};
   max-height: 65%;
   padding: ${(props) => (props.isSideModal ? '1.25em 1.5em' : '4em')};
-  margin-top: ${(props) => (props.isSideModal ? '1.5em' : 'initial')};
-  margin-right: ${(props) => (props.isSideModal ? '1.5em' : 'initial')};
   margin-left: ${(props) => (props.isSideModal ? 'auto' : 'initial')};
   overflow-y: scroll;
   background-color: ${({ theme }) => theme.colors.panelBackground};

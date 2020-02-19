@@ -14,7 +14,8 @@ import { faLocationArrow } from '@fortawesome/free-solid-svg-icons';
 
 import useZoomToLocation from './useZoomToLocation';
 import LeafletMapContext from '../LeafletMapContext';
-import Control, { useControlTooltip } from './Control';
+import Control from './Control';
+import useTooltip from '../useTooltip';
 import { SF_BOUNDS } from '../../constants';
 
 
@@ -30,7 +31,7 @@ export default function ZoomToLocationControl() {
 
   //  Adds a tooltip on hover and enables showing a temporary tooltip
   //  message.
-  const [showTooltipMessage, tooltip] = useControlTooltip(
+  const [tooltip, showTooltipMessage] = useTooltip(
     'Zoom to your current location',
   );
 
