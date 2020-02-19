@@ -3,11 +3,12 @@
 */
 
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import MapListItem from '../MapListItem';
 import useProposalMapsInVisibleArea from './useProposalMapsInVisibleArea';
+import { setOnlyShowProposalMapsInVisibleArea } from '../../state/actions';
 
 
 /*
@@ -20,6 +21,9 @@ export default function ProposalMapsPanelViewBody() {
 
   //  Determines which children of proposal eras should be visible
   const proposalMapsInVisibleArea = useProposalMapsInVisibleArea();
+
+  const dispatch = useDispatch();
+  const showAllMaps = () => dispatch(setOnlyShowProposalMapsInVisibleArea(false));
 
   return (
     <StyledProposalMapsPanelViewBody>
@@ -37,6 +41,8 @@ export default function ProposalMapsPanelViewBody() {
             ? era.children.filter((id) => proposalMapsInVisibleArea[id])
             : era.children;
 
+          const nHiddenMaps = children.length - childrenInVisibleArea.length;
+
           return (
             <ProposalEra key={title}>
               <ProposalEraTitleAndYear>
@@ -50,15 +56,13 @@ export default function ProposalMapsPanelViewBody() {
               <ProposalEraDescription>{ description }</ProposalEraDescription>
               <ProposalEraChildren>
                 { childrenInVisibleArea.map((id) => <MapListItem key={id} id={id} showYear />) }
-                { childrenInVisibleArea.length === children.length ? null : (
-                  <ShowingMessage>
-                    <span>Showing </span>
-                    <span>{ childrenInVisibleArea.length }</span>
-                    <span> of </span>
-                    <span>{ children.length }</span>
-                    <span> plans</span>
-                  </ShowingMessage>
-                ) }
+                { nHiddenMaps ? (
+                  <li>
+                    <ShowHiddenLink onClick={showAllMaps}>
+                      {`Show ${nHiddenMaps} hidden map${nHiddenMaps === 1 ? '' : 's'} outside of visible area`}
+                    </ShowHiddenLink>
+                  </li>
+                ) : null }
               </ProposalEraChildren>
             </ProposalEra>
           );
@@ -111,11 +115,19 @@ const ProposalEraChildren = styled.ul`
   margin-left: 1.5em;
 
   & > li {
+    min-height: 1.5em;
     margin: 0.2em 0;
   }
 `;
 
-const ShowingMessage = styled.li`
+const ShowHiddenLink = styled.a`
+  font-size: 0.9em;
   font-style: italic;
-  color: #888;
+  color: ${({ theme }) => theme.colors.brightAccent};
+  transition: opacity 0.15s;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.brightAccent};
+    opacity: 0.85;
+  }
 `;
