@@ -9,7 +9,8 @@ import { LatLngBounds } from 'leaflet';
 
 import useMapEnabled from '../useMapEnabled';
 import useZoomToBounds from '../useZoomToBounds';
-import Control, { useControlTooltip } from './Control';
+import Control from './Control';
+import useTooltip from '../useTooltip';
 
 import extentImg from '../../img/extent.png';
 import extentActiveImg from '../../img/extent-active.png';
@@ -44,9 +45,9 @@ export default function ZoomToExtentControl() {
   const bounds = new LatLngBounds(allEnabledMapBoundingPoints);
   const [zoomToBounds, isZoomedToBounds] = useZoomToBounds(bounds);
 
-  const tooltip = useControlTooltip(
+  const [tooltip] = useTooltip(
     'Zoom to full extent of active maps',
-  )[1];
+  );
 
   return (
     <Control tooltip={tooltip}>

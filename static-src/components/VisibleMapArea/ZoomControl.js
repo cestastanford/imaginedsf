@@ -10,6 +10,7 @@ import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 import LeafletMapContext from '../LeafletMapContext';
 import Control from './Control';
+import useTooltip from '../useTooltip';
 import { MIN_ZOOM, MAX_ZOOM, ZOOM_SNAP } from '../../constants';
 
 
@@ -28,6 +29,8 @@ export default function ZoomControl() {
     }
   };
 
+  const [zoomInTooltip] = useTooltip('Zoom in');
+
   const zoomOut = () => {
     if (visibleMapAreaProxy && zoom > MIN_ZOOM) {
       const { current: map } = visibleMapAreaProxy;
@@ -35,15 +38,21 @@ export default function ZoomControl() {
     }
   };
 
+  const [zoomOutTooltip] = useTooltip('Zoom out');
+
   return (
-    <StyledZoomControl>
-      <StyledZoomButton onClick={zoomIn} disabled={zoom >= MAX_ZOOM} className="button">
-        <FontAwesomeIcon icon={faPlus} />
-      </StyledZoomButton>
-      <StyledZoomButton onClick={zoomOut} disabled={zoom <= MIN_ZOOM} className="button">
-        <FontAwesomeIcon icon={faMinus} />
-      </StyledZoomButton>
-    </StyledZoomControl>
+    <>
+      <StyledZoomInControl tooltip={zoomInTooltip}>
+        <StyledZoomButton onClick={zoomIn} disabled={zoom >= MAX_ZOOM} className="button">
+          <FontAwesomeIcon icon={faPlus} />
+        </StyledZoomButton>
+      </StyledZoomInControl>
+      <StyledZoomOutControl tooltip={zoomOutTooltip}>
+        <StyledZoomButton onClick={zoomOut} disabled={zoom <= MIN_ZOOM} className="button">
+          <FontAwesomeIcon icon={faMinus} />
+        </StyledZoomButton>
+      </StyledZoomOutControl>
+    </>
   );
 }
 
@@ -52,22 +61,29 @@ export default function ZoomControl() {
 * Styles
 */
 
-const StyledZoomControl = styled(Control)`
-  display: flex;
-  flex-direction: column;
-`;
-
 const StyledZoomButton = styled.button`
   width: 2.25em;
   height: 2.25em;
   color: #888;
+`;
 
-  &:first-child {
-    border-bottom: none;
-    border-radius: 4px 4px 0  0;
+const StyledZoomInControl = styled(Control)`
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+
+  && {
+    margin-bottom: 0;
   }
 
-  &:last-child {
+  ${StyledZoomButton} {
+    border-radius: 4px 4px 0  0;
+  }
+`;
+
+const StyledZoomOutControl = styled(Control)`
+  border-radius: 0 0 4px 4px;
+
+  ${StyledZoomButton} {
     border-radius: 0 0 4px 4px;
   }
 `;

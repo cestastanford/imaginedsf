@@ -2,22 +2,23 @@ import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import logoImg from '../img/logo.svg';
-import shareImg from '../img/share.svg';
+import ShareButton from './ShareButton';
+import {
+  INTRODUCTION_ROUTE,
+  BIBLIOGRAPHY_ROUTE,
+  CREDITS_ROUTE,
+  FEEDBACK_ROUTE,
+  SHARE_ROUTE,
+} from '../../constants';
 
-
-const StyledShareIcon = styled.img`
-  position: relative;
-  top: -0.15em;
-  height: 1.75em;
-`;
+import logoImg from '../../img/logo.svg';
 
 const HEADER_LINKS = [
-  { pathname: '/introduction', content: 'Introduction' },
-  { pathname: '/bibliography', content: 'Bibliography' },
-  { pathname: '/credits', content: 'Credits' },
-  { pathname: '/feedback', content: 'Feedback' },
-  { pathname: '/share', content: <StyledShareIcon src={shareImg} alt="share" /> },
+  { pathname: INTRODUCTION_ROUTE, content: 'Introduction' },
+  { pathname: BIBLIOGRAPHY_ROUTE, content: 'Bibliography' },
+  { pathname: CREDITS_ROUTE, content: 'Credits' },
+  { pathname: FEEDBACK_ROUTE, content: 'Feedback' },
+  { pathname: SHARE_ROUTE, content: <ShareButton /> },
 ];
 
 const reset = () => {

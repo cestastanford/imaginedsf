@@ -9,7 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import useZoomToLocation from './useZoomToLocation';
-import Control, { useControlTooltip } from './Control';
+import Control from './Control';
+import useTooltip from '../useTooltip';
 import { SF_BOUNDS } from '../../constants';
 
 
@@ -25,8 +26,8 @@ export default function AddressSearchControl() {
 
   //  Adds a tooltip on hover and enables showing a temporary tooltip
   //  message.
-  const [showTooltipMessage, tooltip] = useControlTooltip(
-    'Enter an address to zoom in to that location',
+  const [tooltip, showTooltipMessage] = useTooltip(
+    'Enter an address to zoom to that location',
   );
 
   //  Handles zooming the map to a location and whether the map is
