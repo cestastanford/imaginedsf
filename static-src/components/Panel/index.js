@@ -131,6 +131,8 @@ const StyledTabs = styled.div`
   height: 3em;
   background-color: ${({ theme }) => theme.colors.lightGrey};
   border-radius: ${({ theme }) => theme.radii.standard};
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
 `;
 
 const StyledTabLink = styled(Link)`
@@ -156,6 +158,16 @@ const StyledTabLink = styled(Link)`
 
     &:hover {
       background-color: ${({ theme }) => theme.colors.panelBackground};
+    }
+
+    &::after {
+      position: absolute;
+      right: 1.5em;
+      bottom: 0;
+      left: 1.5em;
+      height: 1px;
+      content: '';
+      background-color: #ddd;
     }
   }
 
@@ -191,6 +203,8 @@ const StyledActiveTabContent = styled.div`
   min-height: 0;
   background-color: ${({ theme }) => theme.colors.panelBackground};
   border-radius: 5px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 `;
 
 const StyledPanelView = styled.div`
@@ -205,6 +219,6 @@ const StyledPanelViewHeader = styled.div`
 `;
 
 const StyledPanelViewBody = styled.div`
-  padding: 1.25em;
+  padding: 0.75em 1.25em;
   overflow-y: scroll;
 `;
