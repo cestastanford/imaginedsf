@@ -77,38 +77,41 @@ const StyledProposalMapsPanelViewBody = styled.ul``;
 
 const ProposalEra = styled.li`
   &:not(:last-child) {
-    padding-bottom: 1.25em;
+    padding-bottom: 0.75em;
     margin-bottom: 1.25em;
     border-bottom: 1px solid #bbb;
   }
 `;
 
 const ProposalEraTitleAndYear = styled.div`
-  margin-bottom: 0.25em;
   line-height: 1.25;
 `;
 
 const ProposalEraYear = styled.span`
-  font-size: 1.5em;
+  font-size: 1.25em;
   color: #888;
 `;
 
 const ProposalEraTitle = styled.span`
   margin-left: 0.25em;
-  font-size: 1.25em;
+  font-size: 1.1em;
   font-weight: bold;
 `;
 
 const ProposalEraDescription = styled.div`
+  font-size: 0.9em;
   font-style: italic;
+  line-height: 1.25;
   color: #666;
+  letter-spacing: -0.05em;
 `;
 
 const ProposalEraChildren = styled.ul`
-  margin-top: 0.5em;
+  margin-top: 0.75em;
+  margin-left: 1.5em;
 
   & > li {
-    margin: 0.5em 0;
+    margin: 0.2em 0;
   }
 `;
 

@@ -142,14 +142,12 @@ const StyledMapListItem = styled.li`
 `;
 
 const StyledEnabled = styled.span`
-  margin-right: 0.75rem;
+  margin-right: 0.65rem;
   margin-bottom: 0.15em;
 `;
 
 const StyledYear = styled.span`
-  margin-right: 0.75rem;
-  margin-bottom: 0.1em;
-  font-size: 1.1em;
+  margin-right: 0.65rem;
   color: ${({ theme, isEnabled }) => (isEnabled ? theme.colors.brightAccent : '#888')};
   cursor: pointer;
   user-select: none;
@@ -159,7 +157,6 @@ const StyledTitle = styled.a`
   flex-grow: 1;
   flex-shrink: 1;
   margin-right: 1rem;
-  font-size: 0.9em;
   font-weight: ${({ isEnabled }) => (isEnabled ? 'bold' : 'normal')};
   color: ${({ theme, isEnabled }) => (isEnabled ? theme.colors.brightAccent : '#444')};
   cursor: pointer;
