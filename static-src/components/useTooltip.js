@@ -40,9 +40,9 @@ export const StyledTooltip = styled.div`
   position: absolute;
   top: 50%;
   left: 100%;
-  padding: 0.5em 0.75em;
-  margin-left: 1em;
-  font-size: 0.8em;
+  padding: 0.35em 0.7em;
+  margin-left: 0.5em;
+  font-size: 0.75em;
   font-weight: bold;
   line-height: 1.25;
   color: white;

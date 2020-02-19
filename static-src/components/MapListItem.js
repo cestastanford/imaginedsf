@@ -191,15 +191,15 @@ const StyledRange = styled.input`
 `;
 
 const StyledDescriptionButton = styled(Link)`
-  width: 1.15rem;
-  height: 1.15rem;
+  width: 1.2rem;
+  height: 1.2rem;
   margin-left: 0.35rem;
-  font-size: 0.9em;
-  line-height: 1.1;
+  font-size: 1.15em;
+  line-height: 0.85;
   color: ${(props) => (props.active ? props.theme.colors.brightAccent : '#888')};
   text-align: center;
   border: 1px solid ${(props) => (props.active ? props.theme.colors.brightAccent : '#888')};
-  border-radius: 1.15rem;
+  border-radius: 1.2rem;
   transition: color 0.15s, border-color 0.15s, opacity 0.15s;
 
   &:hover {
