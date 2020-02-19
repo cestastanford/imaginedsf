@@ -152,7 +152,7 @@ const StyledMapControls = styled.div`
 const StyledMapControl = styled.div`
   display: flex;
   align-items: center;
-  margin: 1em 3em 1em 0;
+  margin: 0.5em 3em 1em 0;
   cursor: pointer;
 
   &:last-child {
@@ -173,6 +173,8 @@ const StyledButtonTitle = styled.div`
 
   strong {
     display: block;
+    font-weight: normal;
+    line-height: 1.3;
     color: ${({ theme }) => theme.colors.brightAccent};
   }
 `;
