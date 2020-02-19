@@ -142,6 +142,7 @@ const StyledTabLink = styled(Link)`
   align-items: center;
   justify-content: center;
   height: 100%;
+  font-size: 1.1em;
   color: ${({ theme }) => theme.colors.darkGrey};
   text-decoration: none;
   text-transform: lowercase;

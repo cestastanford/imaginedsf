@@ -20,7 +20,7 @@ export default function BasemapsControl() {
   const basemaps = useSelector((state) => state.mapContent.basemaps);
 
   return (
-    <StyledBasemapsControl>
+    <StyledBasemapsControl collapsed={collapsed}>
       <StyledHeader onClick={() => setCollapsed(!collapsed)}>
         Basemaps
         <StyledIcon src={basemapsIcon} />
@@ -41,7 +41,7 @@ export default function BasemapsControl() {
 
 const StyledBasemapsControl = styled(Control)`
   align-self: flex-end;
-  padding: 0.5em 1em;
+  padding: ${({ collapsed }) => (collapsed ? '0.3em 0.5em' : '0.5em 0.5em 0.5em 1em')};
   margin-top: auto;
 `;
 
@@ -49,22 +49,23 @@ const StyledHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 0.9em;
+  font-size: 1.1em;
   font-weight: bold;
+  color: ${({ theme }) => theme.colors.darkGrey};
   text-transform: lowercase;
   cursor: pointer;
 `;
 
 const StyledIcon = styled.img`
-  width: 1.5em;
-  margin-left: 0.75em;
+  width: 1.2em;
+  margin: -0.1em 0 0 0.75em;
 `;
 
 const StyledBasemapsList = styled.ul`
-  width: 17.5em;
-  margin-top: 0.75em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 
   & > li {
-    margin: 0.25em 0;
+    margin: 0.15em 0;
   }
 `;
