@@ -171,19 +171,22 @@ const StyledTitle = styled.a`
 `;
 
 const StyledRange = styled.input`
-  width: 8em;
+  width: 6em;
+  margin-right: 1.5em;
+  transform: scale(1.25);
+  transform-origin: left;
 `;
 
 const StyledDescriptionButton = styled(Link)`
-  width: 1.25em;
-  height: 1.25em;
+  width: 1.15rem;
+  height: 1.15rem;
   margin-left: 0.35rem;
-  font-size: 0.75em;
-  line-height: 1;
-  color: ${(props) => (props.active ? props.theme.colors.brightAccent : '#444')};
+  font-size: 0.9em;
+  line-height: 1.1;
+  color: ${(props) => (props.active ? props.theme.colors.brightAccent : '#888')};
   text-align: center;
-  border: 1px solid ${(props) => (props.active ? props.theme.colors.brightAccent : '#444')};
-  border-radius: 1.25em;
+  border: 1px solid ${(props) => (props.active ? props.theme.colors.brightAccent : '#888')};
+  border-radius: 1.15rem;
   transition: color 0.15s, border-color 0.15s, opacity 0.15s;
 
   &:hover {
