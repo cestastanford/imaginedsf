@@ -58,77 +58,6 @@
                     "step": 1
                 },
                 {
-                    "key": "field_5d8842925cf9e",
-                    "label": "Bounds",
-                    "name": "bounds",
-                    "type": "repeater",
-                    "instructions": "Enter the four lat\/lng bounding coordinate points for the four corners of the map.  Enter corners in clockwise order, starting with any corner.",
-                    "required": 1,
-                    "conditional_logic": [
-                        [
-                            {
-                                "field": "field_5d885c2da3735",
-                                "operator": "==",
-                                "value": "1"
-                            }
-                        ]
-                    ],
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "collapsed": "",
-                    "min": 4,
-                    "max": 4,
-                    "layout": "table",
-                    "button_label": "Add Coordinates",
-                    "sub_fields": [
-                        {
-                            "key": "field_5d884573d4185",
-                            "label": "Latitude",
-                            "name": "lat",
-                            "type": "number",
-                            "instructions": "",
-                            "required": 1,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "placeholder": "37.7749",
-                            "prepend": "",
-                            "append": "",
-                            "min": -90,
-                            "max": 90,
-                            "step": "0.0000000000001"
-                        },
-                        {
-                            "key": "field_5d8845a4d4186",
-                            "label": "Longitude",
-                            "name": "lng",
-                            "type": "number",
-                            "instructions": "",
-                            "required": 1,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "placeholder": "-122.4194",
-                            "prepend": "",
-                            "append": "",
-                            "min": -180,
-                            "max": 180,
-                            "step": "0.0000000000001"
-                        }
-                    ]
-                },
-                {
                     "key": "field_5d7185a38c832",
                     "label": "Enabled by Default",
                     "name": "enabled_by_default",
@@ -168,25 +97,6 @@
                     "multiple": 0,
                     "return_format": "id",
                     "ui": 1
-                },
-                {
-                    "key": "field_5d885c2da3735",
-                    "label": "Has Bounds",
-                    "name": "has_bounds",
-                    "type": "true_false",
-                    "instructions": "Select \"Yes\" to enter the four bounding corner points of this map as lat\/lng coordinate pairs.  If you do not enter bounding points, this map will not be included in the Proposal Maps list when a user selects \"only show plans affecting visible area\" if in the visible area and it will not be accounted for when the user clicks the \"zoom to full extent of active maps\" button.  Regardless of whether this setting is on or off, basemaps will not be included in any spatial analysis.",
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "message": "",
-                    "default_value": 0,
-                    "ui": 1,
-                    "ui_on_text": "",
-                    "ui_off_text": ""
                 }
             ]
         },
@@ -378,6 +288,169 @@
             ]
         },
         {
+            "key": "field_5eb4651f92d1c",
+            "label": "Bounds",
+            "name": "bounds",
+            "type": "group",
+            "instructions": "Specify visible bounds for the map here.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_5eb48c0efd8ad",
+                    "label": "Has Bounds",
+                    "name": "has_bounds",
+                    "type": "true_false",
+                    "instructions": "If no bounds are specified, this map will always appear in the Proposal Maps list whether the user has selected \"only show plans affecting visible area\" or not, and this map will be ignored when the user clicks the \"zoom to full extent of active maps\" button.  Basemaps always behave as if no bounds have been specified.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 1,
+                    "ui_on_text": "",
+                    "ui_off_text": ""
+                },
+                {
+                    "key": "field_5d885c2da3735",
+                    "label": "Retrieve Automatically from GeoBlacklight JSON",
+                    "name": "from_geoblacklight",
+                    "type": "true_false",
+                    "instructions": "If the map source's metadata is remotely-accessible as GeoBlacklight JSON, such as for maps hosted on Earthworks, enable this option to automatically retrieve this metadata and use the bounds contained within.  To specify bounds manually, leave this box unchecked.",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_5eb48c0efd8ad",
+                                "operator": "==",
+                                "value": "1"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 1,
+                    "ui_on_text": "",
+                    "ui_off_text": ""
+                },
+                {
+                    "key": "field_5eb4440668265",
+                    "label": "GeoBlacklight JSON URL",
+                    "name": "geoblacklight_url",
+                    "type": "url",
+                    "instructions": "Enter the URL that the GeoBlacklight JSON metadata file is accessible at.  For EarthWorks-hosted maps, this is usually the URL of the EarthWorks listing with \"\/raw\" appended to the end.  JSON object must contain a \"solr_geom\" key with a value in the format \"ENVELOPE(-122.582789, -122.299847, 37.870143, 37.552887)\".\r\n\r\nExample: https:\/\/earthworks.stanford.edu\/catalog\/harvard-g4362-s223-1869-u5\/raw",
+                    "required": 1,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_5eb48c0efd8ad",
+                                "operator": "==",
+                                "value": "1"
+                            },
+                            {
+                                "field": "field_5d885c2da3735",
+                                "operator": "==",
+                                "value": "1"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": ""
+                },
+                {
+                    "key": "field_5d8842925cf9e",
+                    "label": "Bounding Box Coordinates",
+                    "name": "coordinates",
+                    "type": "repeater",
+                    "instructions": "Enter the lng\/lat coordinates of the four corners of the bounding box for the map.  Add corners in clockwise order, starting with any corner.  These values will be populated automatically if \"Retrieve Automatically from GeoBlacklight JSON\" is enabled.",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_5eb48c0efd8ad",
+                                "operator": "==",
+                                "value": "1"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "collapsed": "",
+                    "min": 4,
+                    "max": 4,
+                    "layout": "table",
+                    "button_label": "Add Coordinates",
+                    "sub_fields": [
+                        {
+                            "key": "field_5d8845a4d4186",
+                            "label": "Longitude",
+                            "name": "lng",
+                            "type": "number",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "-122...",
+                            "prepend": "",
+                            "append": "",
+                            "min": -180,
+                            "max": 180,
+                            "step": "0.0000000000001"
+                        },
+                        {
+                            "key": "field_5d884573d4185",
+                            "label": "Latitude",
+                            "name": "lat",
+                            "type": "number",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "37...",
+                            "prepend": "",
+                            "append": "",
+                            "min": -90,
+                            "max": 90,
+                            "step": "0.0000000000001"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "key": "field_5d88543cf3df8",
             "label": "Tile Zoom Settings",
             "name": "tile_zoom",
@@ -477,5 +550,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1573772540
+    "modified": 1588893835
 }

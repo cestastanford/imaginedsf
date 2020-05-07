@@ -29,10 +29,10 @@ export default function useProposalMapsInVisibleArea() {
 
     return Object.assign({}, ...proposalChildren.map((item) => {
       let itemInVisibleArea = true;
-      if (item.metadata.has_bounds) {
+      if (item.bounds) {
         const itemBoundsPolygon = polygon([[0, 1, 2, 3, 0].map((index) => [
-          +item.metadata.bounds[index].lng,
-          +item.metadata.bounds[index].lat,
+          item.bounds[index].lng,
+          item.bounds[index].lat,
         ])]);
 
         if (!intersect(visibleAreaPolygon, itemBoundsPolygon)) {

@@ -38,8 +38,8 @@ export default function ZoomToExtentControl() {
   const allEnabledMapBoundingPoints = useMemo(() => {
     const mapEnabled = getMapEnabled();
     return [].concat(...Object.keys(mapEnabled)
-      .filter((id) => !basemapsSet.has(id) && mapItems[id].metadata.has_bounds)
-      .map((id) => mapItems[id].metadata.bounds));
+      .filter((id) => !basemapsSet.has(id) && mapItems[id].bounds)
+      .map((id) => mapItems[id].bounds));
   }, [basemapsSet, getMapEnabled, mapItems]);
 
   const bounds = new LatLngBounds(allEnabledMapBoundingPoints);
