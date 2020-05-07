@@ -124,6 +124,11 @@ const getNormalizedMapContent = ({
     if (item.source_type === GEOJSON_SOURCE_TYPE) {
       geoJson[id] = GEOJSON_STATUS.NOT_REQUESTED;
     }
+
+    if (item.bounds) {
+      // eslint-disable-next-line no-param-reassign
+      item.bounds = item.bounds.validated_coordinates || null;
+    }
   });
 
   return {

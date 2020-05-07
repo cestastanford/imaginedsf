@@ -67,3 +67,10 @@ require_once 'inc/feedback.php';
  */
 
 require_once 'inc/relationships.php';
+
+
+/**
+ * Downloads remote map bounds and prepares map bounds for REST response.
+ */
+
+require_once 'inc/bounds.php';

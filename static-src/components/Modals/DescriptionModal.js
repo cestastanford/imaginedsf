@@ -21,7 +21,7 @@ import basemapsImg from '../../img/basemaps.png';
 
 function ZoomToMapExtentButton({ mapId, closeModal }) {
   const map = useSelector((state) => state.mapContent.mapItems[mapId]);
-  const bounds = new LatLngBounds(map.metadata.bounds);
+  const bounds = new LatLngBounds(map.bounds);
   const [zoomToBounds] = useZoomToBounds(bounds);
 
   const handleButtonClick = () => {
@@ -106,9 +106,9 @@ export default function DescriptionModal({ mapId }) {
     post_title: title,
     metadata: {
       description,
-      has_bounds: hasBounds,
       recommended_basemap: recommendedBasemap,
     },
+    bounds,
   } = map;
 
   const closeModal = () => history.push(previousLocation);
@@ -119,7 +119,7 @@ export default function DescriptionModal({ mapId }) {
         <StyledMapControls>
 
           {/* Zoom to map extent button */}
-          { hasBounds ? (
+          { bounds ? (
             <ZoomToMapExtentButton mapId={mapId} closeModal={closeModal} />
           ) : null }
 
