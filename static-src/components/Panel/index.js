@@ -56,8 +56,6 @@ export default function Panel() {
     activeTabPath.current = match.path;
   }
 
-  const { HeaderComponent, BodyComponent } = TABS_BY_PATH[activeTabPath.current];
-
   const onlyShowProposalMapsInVisibleArea = useSelector(
     (state) => state.onlyShowProposalMapsInVisibleArea,
   );
@@ -93,19 +91,26 @@ export default function Panel() {
           </StyledTabLink>
         ))}
       </StyledTabs>
-      <StyledActiveTabContent>
-        <StyledPanelView>
-          <StyledPanelViewHeader>
-            <HeaderComponent tabPath={activeTabPath.current} />
-            <StyledMiniMap>
-              <MiniMap />
-            </StyledMiniMap>
-          </StyledPanelViewHeader>
-          <StyledPanelViewBody>
-            <BodyComponent />
-          </StyledPanelViewBody>
-        </StyledPanelView>
-      </StyledActiveTabContent>
+      {Object.entries(TABS_BY_PATH).map(
+        ([tabPath, { HeaderComponent, BodyComponent }]) => (
+          <StyledTabContent
+            key={tabPath}
+            activeTab={tabPath === activeTabPath.current}
+          >
+            <StyledPanelView>
+              <StyledPanelViewHeader>
+                <HeaderComponent tabPath={activeTabPath.current} />
+                <StyledMiniMap>
+                  <MiniMap />
+                </StyledMiniMap>
+              </StyledPanelViewHeader>
+              <StyledPanelViewBody>
+                <BodyComponent />
+              </StyledPanelViewBody>
+            </StyledPanelView>
+          </StyledTabContent>
+        ),
+      )}
     </StyledPanel>
   );
 }
@@ -200,9 +205,10 @@ const StyledTabBadge = styled.div`
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 `;
 
-const StyledActiveTabContent = styled.div`
+const StyledTabContent = styled.div`
   position: relative;
   z-index: 1;
+  display: ${({ activeTab }) => (activeTab ? 'block' : 'none')};
   flex-grow: 1;
   height: 0;
   min-height: 0;
