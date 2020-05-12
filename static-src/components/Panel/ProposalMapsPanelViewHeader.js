@@ -8,7 +8,6 @@ import styled from 'styled-components';
 
 import { setOnlyShowProposalMapsInVisibleArea } from '../../state/actions';
 import AccentCheckbox from '../AccentCheckbox';
-import MiniMap from './MiniMap';
 
 
 /*
@@ -26,20 +25,15 @@ export default function ProposalMapsPanelViewHeader() {
 
   return (
     <StyledHeader>
-      <StyledHeaderLeft>
-        <StyledIntroContent>{introContent}</StyledIntroContent>
-        <StyledCheckboxLabel isChecked={checkboxValue}>
-          <StyledAccentCheckbox
-            type="checkbox"
-            checked={checkboxValue}
-            onChange={(e) => handleCheckboxUpdate(e.target.checked)}
-          />
-          Only show maps affecting visible area
-        </StyledCheckboxLabel>
-      </StyledHeaderLeft>
-      <StyledMiniMap>
-        <MiniMap />
-      </StyledMiniMap>
+      <StyledIntroContent>{introContent}</StyledIntroContent>
+      <StyledCheckboxLabel isChecked={checkboxValue}>
+        <StyledAccentCheckbox
+          type="checkbox"
+          checked={checkboxValue}
+          onChange={(e) => handleCheckboxUpdate(e.target.checked)}
+        />
+        Only show maps affecting visible area
+      </StyledCheckboxLabel>
     </StyledHeader>
   );
 }
@@ -50,12 +44,8 @@ export default function ProposalMapsPanelViewHeader() {
 */
 
 const StyledHeader = styled.div`
-  display: flex;
-  align-items: stretch;
-  justify-content: space-between;
+  padding: 1.25em;
 `;
-
-const StyledHeaderLeft = styled.div``;
 
 const StyledIntroContent = styled.div`
   flex-grow: 1;
@@ -75,9 +65,4 @@ const StyledCheckboxLabel = styled.label`
 
 const StyledAccentCheckbox = styled(AccentCheckbox)`
   margin-right: 0.5em;
-`;
-
-const StyledMiniMap = styled.div`
-  flex-shrink: 0;
-  margin: -1.25em -1.25em -1.25em 0;
 `;

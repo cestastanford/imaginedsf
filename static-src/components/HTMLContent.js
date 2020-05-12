@@ -79,7 +79,7 @@ const StyledHTMLContent = styled.div`
   h5,
   h6 {
     margin: 1.25em 0 0.25em 0;
-    line-height: inherit;
+    line-height: 1.5;
 
     &:first-child {
       margin-top: 0.25em;

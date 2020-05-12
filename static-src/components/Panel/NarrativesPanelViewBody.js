@@ -30,6 +30,7 @@ export default function NarrativesPanelViewBody() {
 
 const StyledScrollingContainer = styled.div`
   height: 100%;
+  padding: 0.25em 0;
   overflow-y: scroll;
 
   a[href^="#"] {
