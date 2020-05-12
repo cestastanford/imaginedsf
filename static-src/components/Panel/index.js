@@ -99,7 +99,7 @@ export default function Panel() {
           >
             <StyledPanelView>
               <StyledPanelViewHeader>
-                <HeaderComponent tabPath={activeTabPath.current} />
+                <HeaderComponent />
                 <StyledMiniMap>
                   <MiniMap />
                 </StyledMiniMap>

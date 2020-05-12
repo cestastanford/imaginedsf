@@ -21,9 +21,13 @@ export default function NarrativesPanelViewBody() {
 
   return (
     <StyledScrollingContainer {...containerProps}>
-      <HTMLContent content={currentNarrative.post_content}>
-        <h2>{currentNarrative.post_title}</h2>
-      </HTMLContent>
+      { currentNarrative ? (
+        <HTMLContent content={currentNarrative.post_content}>
+          <h2>{currentNarrative.post_title}</h2>
+        </HTMLContent>
+      ) : (
+        <em>Select a narrative from the Table of Contents above.</em>
+      ) }
     </StyledScrollingContainer>
   );
 }

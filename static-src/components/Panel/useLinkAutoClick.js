@@ -1,4 +1,5 @@
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const DOWN = 'DOWN';
 const UP = 'UP';
@@ -109,6 +110,20 @@ export default function useLinkAutoClick() {
       lastClickedRef.current = event.target;
     }
   }, []);
+
+  //  Auto-click first link when new narrative is selected
+  const currentNarrative = useSelector((state) => state.currentNarrative);
+  useEffect(() => {
+    const firstLink = [
+      ...scrollingContainerRef.current.querySelectorAll('a'),
+    ].find(
+      (link) => link.getAttribute('href') && link.getAttribute('href')[0] === '#',
+    );
+
+    if (firstLink) {
+      firstLink.click();
+    }
+  }, [currentNarrative]);
 
   return { ref: scrollingContainerRef, onScroll: scrollHandler, onClick: clickHandler };
 }

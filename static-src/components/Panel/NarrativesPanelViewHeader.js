@@ -3,7 +3,6 @@
 */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   useRouteMatch,
   useLocation,
@@ -15,25 +14,26 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { setCurrentNarrative } from '../../state/actions';
+import { NARRATIVES_ROUTE } from '../../constants';
 
 
 /*
 * NarrativesPanelViewHeader component definition.
 */
 
-export default function NarrativesPanelViewHeader({ tabPath }) {
+export default function NarrativesPanelViewHeader() {
   const narratives = useSelector((state) => state.narratives);
   const narrativesBySlug = useSelector((state) => state.narrativesBySlug);
   const currentNarrative = useSelector((state) => state.currentNarrative);
   const dispatch = useDispatch();
-  const match = useRouteMatch(`${tabPath}/:slug?`);
+  const match = useRouteMatch(`${NARRATIVES_ROUTE}/:slug?`);
   const location = useLocation();
 
   if (match && match.params.slug !== currentNarrative) {
     if (narrativesBySlug[match.params.slug]) {
       dispatch(setCurrentNarrative(match.params.slug));
-    } else {
-      return <Redirect to={{ ...location, pathname: `${tabPath}/${currentNarrative}` }} />;
+    } else if (currentNarrative) {
+      return <Redirect to={{ ...location, pathname: `${NARRATIVES_ROUTE}/${currentNarrative}` }} />;
     }
   }
 
@@ -45,7 +45,7 @@ export default function NarrativesPanelViewHeader({ tabPath }) {
           <StyledNarrativeLink
             key={slug}
             className={currentNarrative === slug ? 'current' : ''}
-            to={{ ...location, pathname: `${tabPath}/${slug}` }}
+            to={{ ...location, pathname: `${NARRATIVES_ROUTE}/${slug}` }}
           >
             { narrativesBySlug[slug].post_title }
           </StyledNarrativeLink>
@@ -54,10 +54,6 @@ export default function NarrativesPanelViewHeader({ tabPath }) {
     </StyledHeader>
   );
 }
-
-NarrativesPanelViewHeader.propTypes = {
-  tabPath: PropTypes.string.isRequired,
-};
 
 
 /*
