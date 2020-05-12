@@ -67,10 +67,6 @@ const onlyShowProposalMapsInVisibleArea = (state = false, action) => {
 
 const currentNarrative = (state = null, action) => {
   switch (action.type) {
-    //  Set to first Narrative when narratives received
-    case CONTENT_RECEIVED:
-      return action.narratives[0];
-
     case SET_CURRENT_NARRATIVE:
       return action.narrativeId;
 
