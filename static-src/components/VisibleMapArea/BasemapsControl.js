@@ -2,14 +2,18 @@
 * Imports.
 */
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Control from './Control';
 import MapListItem from '../MapListItem';
 
 import basemapsIcon from '../../img/basemaps.png';
+import { PROPOSAL_MAPS_ROUTE, NARRATIVES_ROUTE } from '../../constants';
+
+const TAB_PATHS = [PROPOSAL_MAPS_ROUTE, NARRATIVES_ROUTE];
 
 /*
 * BasemapsControl component definition.
@@ -18,6 +22,16 @@ import basemapsIcon from '../../img/basemaps.png';
 export default function BasemapsControl() {
   const [collapsed, setCollapsed] = useState(false);
   const basemaps = useSelector((state) => state.mapContent.basemaps);
+  const match = useRouteMatch(TAB_PATHS);
+  const activeTabPath = useRef(null);
+
+  //  If route is that of a different tab, expand/collapse appropriately
+  useEffect(() => {
+    if (match && match.path !== activeTabPath.current) {
+      activeTabPath.current = match.path;
+      setCollapsed(match.path === NARRATIVES_ROUTE);
+    }
+  }, [match]);
 
   return (
     <StyledBasemapsControl collapsed={collapsed}>
