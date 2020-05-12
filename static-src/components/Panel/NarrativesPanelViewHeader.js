@@ -38,7 +38,7 @@ export default function NarrativesPanelViewHeader({ tabPath }) {
   }
 
   return (
-    <>
+    <StyledHeader>
       <StyledTitle>Table of Contents</StyledTitle>
       <StyledNarrativesList>
         { narratives.map((slug) => (
@@ -51,7 +51,7 @@ export default function NarrativesPanelViewHeader({ tabPath }) {
           </StyledNarrativeLink>
         ))}
       </StyledNarrativesList>
-    </>
+    </StyledHeader>
   );
 }
 
@@ -64,9 +64,14 @@ NarrativesPanelViewHeader.propTypes = {
 * Styles.
 */
 
+const StyledHeader = styled.div`
+  padding: 1.25em;
+  overflow-y: scroll;
+`;
+
 const StyledTitle = styled.div`
   margin-bottom: 0.25em;
-  font-size: 1.15em;
+  font-size: 1.1em;
   font-weight: lighter;
   color: ${({ theme }) => theme.colors.darkGrey};
   text-transform: uppercase;
@@ -78,7 +83,8 @@ const StyledNarrativesList = styled.div`
 `;
 
 const StyledNarrativeLink = styled(Link)`
-  margin-top: 0.25em;
+  margin-top: 0.5em;
+  line-height: 1.25;
   color: inherit;
   transition: opacity ${({ theme }) => theme.transitionDurations.linkHover};
 

@@ -16,6 +16,7 @@ import ProposalMapsPanelViewHeader from './ProposalMapsPanelViewHeader';
 import ProposalMapsPanelViewBody from './ProposalMapsPanelViewBody';
 import NarrativesPanelViewHeader from './NarrativesPanelViewHeader';
 import NarrativesPanelViewBody from './NarrativesPanelViewBody';
+import MiniMap from './MiniMap';
 import useMapEnabled from '../useMapEnabled';
 import useProposalMapsInVisibleArea from './useProposalMapsInVisibleArea';
 import { PROPOSAL_MAPS_ROUTE, NARRATIVES_ROUTE } from '../../constants';
@@ -96,6 +97,9 @@ export default function Panel() {
         <StyledPanelView>
           <StyledPanelViewHeader>
             <HeaderComponent tabPath={activeTabPath.current} />
+            <StyledMiniMap>
+              <MiniMap />
+            </StyledMiniMap>
           </StyledPanelViewHeader>
           <StyledPanelViewBody>
             <BodyComponent />
@@ -215,8 +219,15 @@ const StyledPanelView = styled.div`
 `;
 
 const StyledPanelViewHeader = styled.div`
-  padding: 1.25em;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  max-height: 12em;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
+`;
+
+const StyledMiniMap = styled.div`
+  flex-shrink: 0;
 `;
 
 const StyledPanelViewBody = styled.div`
