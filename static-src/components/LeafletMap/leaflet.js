@@ -9,6 +9,7 @@ import {
   CRS,
   Point,
 } from 'leaflet';
+import { MIN_ZOOM, MAX_ZOOM } from '../../constants';
 
 
 /*
@@ -56,6 +57,8 @@ export const createWmsLayer = (map, index) => new TileLayer.WMS(
     tiled: true,
     format: 'image/png',
     layers: map.wms.layers,
+    minZoom: MIN_ZOOM,
+    maxZoom: MAX_ZOOM,
     minNativeZoom: map.tile_zoom.min_tile_zoom ? +map.tile_zoom.min_tile_zoom : undefined,
     maxNativeZoom: map.tile_zoom.max_tile_zoom ? +map.tile_zoom.max_tile_zoom : undefined,
     zIndex: index,
@@ -103,6 +106,8 @@ export const createTileLayer = (map, index) => new TileLayer(
   map.tile.url,
   {
     zIndex: index,
+    minZoom: MIN_ZOOM,
+    maxZoom: MAX_ZOOM,
     minNativeZoom: map.tile_zoom.min_tile_zoom ? +map.tile_zoom.min_tile_zoom : undefined,
     maxNativeZoom: map.tile_zoom.max_tile_zoom ? +map.tile_zoom.max_tile_zoom : undefined,
   },
