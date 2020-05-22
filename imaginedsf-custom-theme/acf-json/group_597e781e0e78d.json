@@ -77,6 +77,25 @@
                     "ui_off_text": ""
                 },
                 {
+                    "key": "field_5ec850543376e",
+                    "label": "Indented",
+                    "name": "indented",
+                    "type": "true_false",
+                    "instructions": "Select if the map should be indented, making it appear as if it were the child of the item above it.  Indented items behave the same as non-indented items do; the effect is only visual.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 1,
+                    "ui_on_text": "",
+                    "ui_off_text": ""
+                },
+                {
                     "key": "field_5d7186d4a67a7",
                     "label": "Recommended Basemap",
                     "name": "recommended_basemap",
@@ -654,8 +673,8 @@
                         "class": "",
                         "id": ""
                     },
-                    "default_value": "direction",
-                    "placeholder": "",
+                    "default_value": "",
+                    "placeholder": "pin_direction",
                     "prepend": "",
                     "append": "",
                     "maxlength": ""
@@ -673,8 +692,8 @@
                         "class": "",
                         "id": ""
                     },
-                    "default_value": "images",
-                    "placeholder": "",
+                    "default_value": "",
+                    "placeholder": "popup_images",
                     "prepend": "",
                     "append": "",
                     "maxlength": ""
@@ -693,7 +712,7 @@
                         "id": ""
                     },
                     "default_value": "",
-                    "placeholder": "",
+                    "placeholder": "popup_text",
                     "prepend": "",
                     "append": "",
                     "maxlength": ""
@@ -733,5 +752,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1590171458
+    "modified": 1590186625
 }

@@ -22,8 +22,8 @@ export default function useMapState(leafletLayers, visibleMapAreaProxy) {
   //  Sets the opacity of each Leaflet layer on state change
   useEffect(() => {
     leafletLayers.forEach(({ id, layer }) => {
-      if (opacity[id]) { // Vector layers aren't in `opacity`
-        layer.setOpacity(opacity[id]); // This would fail on a vector layer
+      if (layer.setOpacity) { // Vector layers don't have a setOpacity method
+        layer.setOpacity(opacity[id]);
       }
     });
   }, [leafletLayers, opacity]);
