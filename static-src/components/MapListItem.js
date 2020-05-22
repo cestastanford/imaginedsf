@@ -30,7 +30,7 @@ export default function MapListItem({ id, showYear }) {
     post_type: postType,
     post_title: title,
     source_type: sourceType,
-    metadata: { year },
+    metadata: { year, indented },
     children,
   } = useSelector((state) => state.mapContent.mapItems[id]);
 
@@ -57,7 +57,7 @@ export default function MapListItem({ id, showYear }) {
   return (
     <>
 
-      <StyledMapListItem>
+      <StyledMapListItem indented={indented}>
 
         <StyledEnabled>
           { isGroup ? (
@@ -73,7 +73,7 @@ export default function MapListItem({ id, showYear }) {
           ) }
         </StyledEnabled>
 
-        { showYear ? (
+        { !indented && showYear ? (
           <StyledYear
             isEnabled={enabled}
             onClick={handleEnabledUpdate}
@@ -137,6 +137,9 @@ const StyledMapListItem = styled.li`
   position: relative;
   display: flex;
   align-items: center;
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  margin-left: ${({ indented }) => (indented ? '1.5em' : '0')};
   line-height: 1.25;
 
   > * {
@@ -212,11 +215,8 @@ const StyledDescriptionButton = styled(Link)`
 `;
 
 const StyledChildren = styled.ul`
-  padding: 0.1em 0 0.1em 0.9rem;
-  margin-left: 0.25em;
+  padding-left: 1.25em;
+  margin-bottom: 0.75em;
+  margin-left: 0.15em;
   border-left: 1px solid #aaa;
-
-  & > li {
-    margin: 0.5em 0;
-  }
 `;

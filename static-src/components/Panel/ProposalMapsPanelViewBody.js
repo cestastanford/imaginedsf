@@ -111,12 +111,11 @@ const ProposalEraDescription = styled.div`
 `;
 
 const ProposalEraChildren = styled.ul`
-  margin-top: 0.75em;
   margin-left: 1.5em;
 
   & > li {
-    min-height: 1.5em;
-    margin: 0.2em 0;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
   }
 `;
 
