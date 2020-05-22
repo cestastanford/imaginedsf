@@ -13,7 +13,8 @@ import AccentDisclosureTriangle from './AccentDisclosureTriangle';
 import { setEnabled, setOpacity } from '../state/actions';
 import {
   MAP_GROUP_POST_TYPE,
-  GEOJSON_SOURCE_TYPE,
+  RASTER_WMS_SOURCE_TYPE,
+  RASTER_TILE_SOURCE_TYPE,
   DESCRIPTION_ROUTE,
 } from '../constants';
 
@@ -45,7 +46,10 @@ export default function MapListItem({ id, showYear }) {
   );
 
   const isGroup = postType === MAP_GROUP_POST_TYPE;
-  const isRaster = !isGroup && sourceType !== GEOJSON_SOURCE_TYPE;
+  const isRaster = !isGroup && (
+    sourceType === RASTER_WMS_SOURCE_TYPE
+    || sourceType === RASTER_TILE_SOURCE_TYPE
+  );
 
   const descriptionActive = useRouteMatch(`${DESCRIPTION_ROUTE}/${id}`);
   const descriptionLocation = { ...useLocation(), pathname: `${DESCRIPTION_ROUTE}/${id}` };

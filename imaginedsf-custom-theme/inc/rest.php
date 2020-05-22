@@ -168,7 +168,7 @@ add_action(
 
 
 /**
- * Retrieves GeoJSON vector layer data for a Map.
+ * Retrieves WFS GeoJSON vector layer data for a Map.
  *
  * @param WP_REST_Request $request The REST request object.
  */
@@ -178,18 +178,18 @@ function get_map_layer_json( $request ) {
 
 	// Check for correct layer type.
 	$layer_type = get_field( 'source_type', $layer_id );
-	if ( 'wfs_geojson' !== $layer_type ) {
+	if ( VECTOR_WFS_SOURCE_TYPE !== $layer_type ) {
 
 		return array(
-			'error'    => 'Layer of type WFS/GeoJSON not found for id',
+			'error'    => 'Layer with source type WFS not found for id',
 			'layer_id' => $layer_id,
 		);
 
 	}
 
 	// Compose WFS request URL.
-	$wfs_base_url     = get_field( 'wfs_base_url', $layer_id );
-	$wfs_typenames    = get_field( 'wfs_typenames', $layer_id );
+	$wfs_base_url     = get_field( 'wfs', $layer_id )['base_url'];
+	$wfs_typenames    = get_field( 'wfs', $layer_id )['typenames'];
 	$wfs_query_string = '?service=wfs&version=2.0.0&request=GetFeature&outputFormat=application/json&typeNames=' . $wfs_typenames;
 	$url              = $wfs_base_url . $wfs_query_string;
 

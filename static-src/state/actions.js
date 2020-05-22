@@ -6,7 +6,8 @@ import {
   MAP_POST_TYPE,
   MAP_GROUP_POST_TYPE,
   SF_BOUNDS,
-  GEOJSON_SOURCE_TYPE,
+  VECTOR_WFS_SOURCE_TYPE,
+  VECTOR_GEOJSON_SOURCE_TYPE,
   GEOJSON_STATUS,
 } from '../constants';
 
@@ -121,7 +122,10 @@ const getNormalizedMapContent = ({
 
   const geoJson = {};
   Object.entries(validatedMapItemsById).forEach(([id, item]) => {
-    if (item.source_type === GEOJSON_SOURCE_TYPE) {
+    if (
+      item.source_type === VECTOR_WFS_SOURCE_TYPE
+      || item.source_type === VECTOR_GEOJSON_SOURCE_TYPE
+    ) {
       geoJson[id] = GEOJSON_STATUS.NOT_REQUESTED;
     }
 
@@ -152,10 +156,7 @@ const getDefaultMapStateFromMapContent = ({ mapItems }) => {
 
   Object.entries(mapItems).forEach(([id, item]) => {
     enabled[id] = item.metadata.enabled_by_default;
-    if (
-      item.post_type === MAP_POST_TYPE
-      && item.source_type !== GEOJSON_SOURCE_TYPE
-    ) {
+    if (item.post_type === MAP_POST_TYPE) {
       opacity[id] = 1;
     }
   });
@@ -258,11 +259,17 @@ export const fetchContent = () => async (dispatch) => {
   dispatch(setMapState(getDefaultMapStateFromMapContent(mapContent)));
 };
 
-
 //  Fetches GeoJSON
-export const fetchGeoJson = (id) => async (dispatch) => {
+export const fetchGeoJson = (id) => async (dispatch, getState) => {
   dispatch(geoJsonRequested(id));
-  const response = await fetch(`/wp-json/imaginedsf/geojson?layerId=${id}`);
+  const { source_type: sourceType, geojson } = getState().mapContent.mapItems[id];
+  const url = (
+    sourceType === VECTOR_GEOJSON_SOURCE_TYPE
+      ? geojson.file
+      : `/wp-json/imaginedsf/geojson?layerId=${id}`
+  );
+
+  const response = await fetch(url);
   const parsedResponse = await response.json();
   dispatch(geoJsonReceived(id, parsedResponse));
 };
