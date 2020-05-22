@@ -8,11 +8,12 @@
     "prod-build": "rm -rf imaginedsf-custom-theme/static && webpack --mode=production",
     "lint:php": "vendor/bin/phpcs --extensions=php imaginedsf-custom-theme",
     "lint:js": "eslint webpack.config.js static-src",
-    "lint:css": "stylelint 'static-src/**/*.js'"
+    "lint:css": "stylelint 'static-src/**/*.js'",
+    "lint": "npm-run-all --parallel lint:*"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm-run-all --parallel lint:*"
+      "pre-commit": "npm run lint"
     }
   },
   "repository": {

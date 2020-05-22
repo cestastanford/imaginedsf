@@ -42,9 +42,10 @@ export const ZOOM_SNAP = 0.25;
 * Map types.
 */
 
-export const TILE_SOURCE_TYPE = 'tiles';
-export const WMS_SOURCE_TYPE = 'wms_png';
-export const GEOJSON_SOURCE_TYPE = 'wfs_geojson';
+export const RASTER_WMS_SOURCE_TYPE = 'wms';
+export const RASTER_TILE_SOURCE_TYPE = 'tile';
+export const VECTOR_WFS_SOURCE_TYPE = 'wfs';
+export const VECTOR_GEOJSON_SOURCE_TYPE = 'geojson';
 
 
 /*

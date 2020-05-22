@@ -29,4 +29,13 @@ define( 'NARRATIVES_TOC_OPTIONS', 'narratives_toc' );
 /**
  * Defines the namespace for the REST API custom endpoints.
  */
+
 define( 'REST_API_NAMESPACE', 'imaginedsf' );
+
+
+/**
+ * Defines source type constants.
+ */
+
+define( 'VECTOR_WFS_SOURCE_TYPE', 'wfs' );
+define( 'VECTOR_GEOJSON_SOURCE_TYPE', 'geojson' );

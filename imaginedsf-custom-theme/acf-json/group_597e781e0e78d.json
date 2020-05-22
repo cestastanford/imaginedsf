@@ -114,21 +114,22 @@
                 "id": ""
             },
             "choices": {
-                "wms_png": "WMS\/PNG",
-                "wfs_geojson": "WFS\/GeoJSON",
-                "tiles": "Raster Tiles"
+                "wms": "Raster from WMS server",
+                "tile": "Raster from tile server",
+                "wfs": "Vector from WFS server",
+                "geojson": "Vector from GeoJSON upload"
             },
             "default_value": [],
             "allow_null": 0,
             "multiple": 0,
             "ui": 0,
-            "ajax": 0,
             "return_format": "value",
+            "ajax": 0,
             "placeholder": ""
         },
         {
             "key": "field_5d88489c05305",
-            "label": "WMS Source Parameters",
+            "label": "Source WMS Server",
             "name": "wms",
             "type": "group",
             "instructions": "",
@@ -138,7 +139,7 @@
                     {
                         "field": "field_598e78513ac38",
                         "operator": "==",
-                        "value": "wms_png"
+                        "value": "wms"
                     }
                 ]
             ],
@@ -187,8 +188,49 @@
             ]
         },
         {
+            "key": "field_5d885430f3df0",
+            "label": "Source Tile Server",
+            "name": "tile",
+            "type": "group",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_598e78513ac38",
+                        "operator": "==",
+                        "value": "tile"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_5d885430f3df5",
+                    "label": "Tile URL",
+                    "name": "url",
+                    "type": "url",
+                    "instructions": "Enter the URL that raster tiles can be accessed at.  For formatting instructions, see Leaflet's URL template syntax: https:\/\/leafletjs.com\/reference-1.5.0.html#tilelayer.\r\n\r\nExample: https:\/\/{s}.tile.openstreetmap.org\/{z}\/{x}\/{y}.png",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": ""
+                }
+            ]
+        },
+        {
             "key": "field_5d885419f3de8",
-            "label": "WFS Source Parameters",
+            "label": "Source WFS Server",
             "name": "wfs",
             "type": "group",
             "instructions": "",
@@ -198,7 +240,7 @@
                     {
                         "field": "field_598e78513ac38",
                         "operator": "==",
-                        "value": "wfs_geojson"
+                        "value": "wfs"
                     }
                 ]
             ],
@@ -212,7 +254,7 @@
                 {
                     "key": "field_5d885419f3deb",
                     "label": "WFS Base URL",
-                    "name": "url",
+                    "name": "base_url",
                     "type": "url",
                     "instructions": "Enter the base URL of the WFS server.  This URL should not contain any URL parameters: if there is a question mark in the URL, remove it and everything following it.  The WFS server must support WFS 2.2.0, the GetFeature request, the GeoJSON output format and query by \"typeNames\".\r\n\r\nExample: https:\/\/geoservices.lib.berkeley.edu\/geoserver\/wfs",
                     "required": 1,
@@ -247,9 +289,9 @@
             ]
         },
         {
-            "key": "field_5d885430f3df0",
-            "label": "Tile Source Parameters",
-            "name": "tile",
+            "key": "field_5ec80550eba3e",
+            "label": "Source GeoJSON Upload",
+            "name": "geojson",
             "type": "group",
             "instructions": "",
             "required": 1,
@@ -258,7 +300,7 @@
                     {
                         "field": "field_598e78513ac38",
                         "operator": "==",
-                        "value": "tiles"
+                        "value": "geojson_upload"
                     }
                 ]
             ],
@@ -270,11 +312,11 @@
             "layout": "block",
             "sub_fields": [
                 {
-                    "key": "field_5d885430f3df5",
-                    "label": "Tile URL",
-                    "name": "url",
-                    "type": "url",
-                    "instructions": "Enter the URL that raster tiles can be accessed at.  For formatting instructions, see Leaflet's URL template syntax: https:\/\/leafletjs.com\/reference-1.5.0.html#tilelayer.\r\n\r\nExample: https:\/\/{s}.tile.openstreetmap.org\/{z}\/{x}\/{y}.png",
+                    "key": "field_5ec80550eba3f",
+                    "label": "GeoJSON File",
+                    "name": "file",
+                    "type": "file",
+                    "instructions": "Upload the GeoJSON file containing the vector data.  The uploaded GeoJSON should consist of a single FeatureCollection with child Features with geometry type Point.",
                     "required": 1,
                     "conditional_logic": 0,
                     "wrapper": {
@@ -282,19 +324,37 @@
                         "class": "",
                         "id": ""
                     },
-                    "default_value": "",
-                    "placeholder": ""
+                    "return_format": "url",
+                    "library": "all",
+                    "min_size": "",
+                    "max_size": "",
+                    "mime_types": ".geojson, .json"
                 }
             ]
         },
         {
             "key": "field_5eb4651f92d1c",
-            "label": "Bounds",
+            "label": "Raster Bounds",
             "name": "bounds",
             "type": "group",
             "instructions": "Specify visible bounds for the map here.",
             "required": 0,
-            "conditional_logic": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_598e78513ac38",
+                        "operator": "==",
+                        "value": "wms"
+                    }
+                ],
+                [
+                    {
+                        "field": "field_598e78513ac38",
+                        "operator": "==",
+                        "value": "tile"
+                    }
+                ]
+            ],
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -452,7 +512,7 @@
         },
         {
             "key": "field_5d88543cf3df8",
-            "label": "Tile Zoom Settings",
+            "label": "Raster Tile Zoom",
             "name": "tile_zoom",
             "type": "group",
             "instructions": "",
@@ -461,8 +521,15 @@
                 [
                     {
                         "field": "field_598e78513ac38",
-                        "operator": "!=",
-                        "value": "wfs_geojson"
+                        "operator": "==",
+                        "value": "wms"
+                    }
+                ],
+                [
+                    {
+                        "field": "field_598e78513ac38",
+                        "operator": "==",
+                        "value": "tile"
                     }
                 ]
             ],
@@ -516,6 +583,122 @@
                     "step": 1
                 }
             ]
+        },
+        {
+            "key": "field_5ec806d0eba41",
+            "label": "Vector Point Properties",
+            "name": "points",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_598e78513ac38",
+                        "operator": "==",
+                        "value": "wfs"
+                    }
+                ],
+                [
+                    {
+                        "field": "field_598e78513ac38",
+                        "operator": "==",
+                        "value": "geojson"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_5ec807e1eba43",
+                    "label": "Directional Pins",
+                    "name": "directional_pins",
+                    "type": "true_false",
+                    "instructions": "Select whether map pins for points should indicate a direction on the map.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 1,
+                    "ui_on_text": "",
+                    "ui_off_text": ""
+                },
+                {
+                    "key": "field_5ec8088deba44",
+                    "label": "Pin Direction Property Key",
+                    "name": "pin_direction_property_key",
+                    "type": "text",
+                    "instructions": "Specify the key of the GeoJSON Feature property that specifies the points' directions.  Feature property values for this key must be numbers between 0 and 360 indicating the degrees from north (e.g. North is 0º, East is 90º, South is 180º and West is 270º).",
+                    "required": 1,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_5ec807e1eba43",
+                                "operator": "==",
+                                "value": "1"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "direction",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_5ec809dceba45",
+                    "label": "Popup Images Property Key",
+                    "name": "popup_images_property_key",
+                    "type": "text",
+                    "instructions": "Specify the key of the GeoJSON Feature property that specifies the images for the points' popups.  Property values for this key must be in the format of comma-separated image URLs (e.g. https:\/\/imaginedsf.stanford.edu\/wp-content\/uploads\/24th-section.jpg, https:\/\/imaginedsf.stanford.edu\/wp-content\/uploads\/24th-elevation.jpg).  Leave blank if points do not have associated images in their popups.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "images",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_5ec80b21eba46",
+                    "label": "Popup Text Property Key",
+                    "name": "popup_text_property_key",
+                    "type": "text",
+                    "instructions": "Specify the key of the GeoJSON Feature property that specifies the text for the points' popups.  Property values for this key can be plain text or Markdown.  Leave blank if points do not have associated text in popups.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                }
+            ]
         }
     ],
     "location": [
@@ -550,5 +733,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1588893835
+    "modified": 1590171458
 }
