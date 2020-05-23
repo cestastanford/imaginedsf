@@ -13,6 +13,10 @@ import useGeoJson from './useGeoJson';
 import useHashState from './useHashState';
 import useVisibleMapArea from './useVisibleMapArea';
 import VisibleMapArea from '../VisibleMapArea';
+import pinIcon from '../../img/pin.png';
+import selectedPinIcon from '../../img/pin-selected.png';
+import directionalPinIcon from '../../img/pin-directional.png';
+import selectedDirectionalPinIcon from '../../img/pin-directional-selected.png';
 
 
 /*
@@ -64,4 +68,23 @@ const StyledLeafletMap = styled.div`
   z-index: ${({ theme }) => theme.zIndices.LeafletMap};
   width: 100%;
   height: 100%;
+
+  & .vector-point-pin {
+    width: 100%;
+    height: 100%;
+    background-image: url(${pinIcon});
+    background-size: cover;
+
+    &.vector-point-pin-selected {
+      background-image: url(${selectedPinIcon});
+    }
+
+    &.vector-point-pin-directional {
+      background-image: url(${directionalPinIcon});
+
+      &.vector-point-pin-selected {
+        background-image: url(${selectedDirectionalPinIcon});
+      }
+    }
+  }
 `;
