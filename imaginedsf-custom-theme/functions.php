@@ -20,6 +20,13 @@ require_once 'inc/.env.php';
 
 
 /**
+ * Adds support for GeoJSON uploads.
+ */
+
+require_once 'inc/mimes.php';
+
+
+/**
  * Updates post types.
  */
 

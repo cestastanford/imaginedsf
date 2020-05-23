@@ -90,28 +90,48 @@ export const createGeoJsonLayer = ({
       iconElement.style.transform = `rotate(${point.properties[directionKey]}deg)`;
     }
 
-    let markdownContent = (textKey && point.properties[textKey]) || '';
+    const marker = new Marker(latLng, {
+      icon: new DivIcon({
+        className: 'vector-point-pin-container',
+        iconSize: [28, 28],
+        html: iconElement,
+      }),
+    });
+
+    let hasImages = false;
+    let markdownPopupContent = (textKey && point.properties[textKey]) || '';
     const imagesProperty = imagesKey && point.properties[imagesKey];
     if (imagesProperty) {
       imagesProperty.split(/\s*,\s*/)
         .filter((s) => s)
         .forEach((imageUrl) => {
           if (imageUrl) {
-            markdownContent = `![](${imageUrl})\n${markdownContent}`;
+            markdownPopupContent = `![](${imageUrl})\n${markdownPopupContent}`;
+            hasImages = true;
           }
         });
     }
 
-    return new Marker(latLng, {
-      icon: new DivIcon({
-        className: 'vector-point-pin-container',
-        iconSize: [28, 28],
-        html: iconElement,
-      }),
-    })
-      .on('popupopen', () => iconElement.classList.add('vector-point-pin-selected'))
-      .on('popupclose', () => iconElement.classList.remove('vector-point-pin-selected'))
-      .bindPopup(marked(markdownContent));
+    if (markdownPopupContent) {
+      const popupContent = `
+        <div class="vector-point-popup-content content">
+          ${marked(markdownPopupContent)}
+        </div>
+      `;
+
+      marker.bindPopup(popupContent, {
+        offset: [0, -16],
+        minWidth: hasImages ? 500 : 250,
+        maxWidth: 500,
+        autoPanPaddingTopLeft: [592, 20],
+        autoPanPaddingBottomRight: [20, 20],
+        className: 'vector-point-popup-container',
+      })
+        .on('popupopen', () => iconElement.classList.add('vector-point-pin-selected'))
+        .on('popupclose', () => iconElement.classList.remove('vector-point-pin-selected'));
+    }
+
+    return marker;
   },
 });
 

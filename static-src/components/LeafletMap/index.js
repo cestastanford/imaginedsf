@@ -73,18 +73,43 @@ const StyledLeafletMap = styled.div`
     width: 100%;
     height: 100%;
     background-image: url(${pinIcon});
-    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: contain;
 
     &.vector-point-pin-selected {
       background-image: url(${selectedPinIcon});
     }
 
     &.vector-point-pin-directional {
+      position: relative;
+      top: -100%;
+      height: 300%;
       background-image: url(${directionalPinIcon});
 
       &.vector-point-pin-selected {
         background-image: url(${selectedDirectionalPinIcon});
       }
     }
+  }
+
+  & .vector-point-popup-container {
+    & .leaflet-popup-content-wrapper,
+    & .leaflet-popup-tip {
+      background-color: ${({ theme }) => theme.colors.panelBackground};
+      border-radius: ${({ theme }) => theme.radii.standard};
+      box-shadow: ${({ theme }) => theme.shadows.Control};
+    }
+
+    & .leaflet-popup-tip-container {
+      transform: scaleY(2) translateY(25%);
+    }
+  }
+
+  & .vector-point-popup-content {
+    max-height: 500px;
+    margin: -10px;
+    overflow-y: scroll;
+    font-family: 'Muli', sans-serif;
+    font-size: 0.8rem;
   }
 `;
