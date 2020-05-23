@@ -13,7 +13,7 @@ import {
 } from 'leaflet';
 import marked from 'marked';
 
-import { MIN_ZOOM, MAX_ZOOM } from '../../constants';
+import { MIN_ZOOM, MAX_ZOOM, IMAGE_ROUTE } from '../../constants';
 
 
 /*
@@ -81,8 +81,18 @@ export const createGeoJsonLayer = ({
     popup_images_property_key: imagesKey,
     popup_text_property_key: textKey,
   },
-}) => new GeoJSON(null, {
+}, history) => new GeoJSON(null, {
   pointToLayer(point, latLng) {
+    const images = (
+      imagesKey
+      && point.properties[imagesKey]
+      && point.properties[imagesKey].split(/\s*,\s*/)
+        .filter((imageUrl) => imageUrl)
+        .map((imageUrl) => `<img class="vector-point-popup-image" src="${imageUrl}">`)
+        .join('')
+    ) || '';
+
+    const text = marked((textKey && point.properties[textKey]) || '');
     const iconElement = document.createElement('div');
     iconElement.classList.add('vector-point-pin');
     if (directional) {
@@ -92,36 +102,27 @@ export const createGeoJsonLayer = ({
 
     const marker = new Marker(latLng, {
       icon: new DivIcon({
-        className: 'vector-point-pin-container',
         iconSize: [28, 28],
         html: iconElement,
+        className: (images || text) ? null : 'vector-point-pin-container-no-marker',
       }),
     });
 
-    let hasImages = false;
-    let markdownPopupContent = (textKey && point.properties[textKey]) || '';
-    const imagesProperty = imagesKey && point.properties[imagesKey];
-    if (imagesProperty) {
-      imagesProperty.split(/\s*,\s*/)
-        .filter((s) => s)
-        .forEach((imageUrl) => {
-          if (imageUrl) {
-            markdownPopupContent = `![](${imageUrl})\n${markdownPopupContent}`;
-            hasImages = true;
-          }
-        });
-    }
-
-    if (markdownPopupContent) {
-      const popupContent = `
-        <div class="vector-point-popup-content content">
-          ${marked(markdownPopupContent)}
-        </div>
-      `;
+    if (images || text) {
+      const popupContent = document.createElement('div');
+      popupContent.className = 'vector-point-popup-content content';
+      popupContent.innerHTML = `${images}${text}`;
+      popupContent.querySelectorAll('.vector-point-popup-image').forEach(
+        (img) => img.addEventListener('click', ({ target: { src } }) => {
+          history.push(
+            `${IMAGE_ROUTE}/${btoa(src)}${history.location.hash}`,
+          );
+        }),
+      );
 
       marker.bindPopup(popupContent, {
         offset: [0, -16],
-        minWidth: hasImages ? 500 : 250,
+        minWidth: images ? 500 : 250,
         maxWidth: 500,
         autoPanPaddingTopLeft: [592, 20],
         autoPanPaddingBottomRight: [20, 20],

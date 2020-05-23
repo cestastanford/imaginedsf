@@ -6,7 +6,15 @@ import PreviousLocationContext from './PreviousLocationContext';
 import StyledButton from '../shared';
 import facebookIcon from '../../img/facebook-icon.png';
 import twitterIcon from '../../img/twitter-icon.png';
+import StyledModalPanel from './StyledModalPanel';
 
+
+const StyledShareModalPanel = styled(StyledModalPanel)`
+  align-self: flex-start;
+  width: 18em;
+  padding: 1.25em 1.5em;
+  margin-left: auto;
+`;
 
 export default function ShareModal() {
   const textAreaRef = useRef();
@@ -21,7 +29,7 @@ export default function ShareModal() {
   };
 
   return (
-    <Modal title="Share current view" isSideModal>
+    <Modal title="Share current view" ModalPanel={StyledShareModalPanel}>
       <StyledSocialLinks>
         <StyledSocialLink href={facebookShareUrl} target="_share">
           <img src={facebookIcon} alt="Facebook" />

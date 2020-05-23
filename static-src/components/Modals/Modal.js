@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import PreviousLocationContext from './PreviousLocationContext';
+import StyledModalPanel from './StyledModalPanel';
 
 
 /*
@@ -18,7 +19,7 @@ export default function Modal({
   title,
   children,
   footerContent,
-  isSideModal,
+  ModalPanel,
 }) {
   const previousLocation = useContext(PreviousLocationContext);
   const history = useHistory();
@@ -28,14 +29,14 @@ export default function Modal({
   return (
     <StyledModal>
       <StyledModalCloseBackground onClick={closeModal} />
-      <StyledModalPanel isSideModal={isSideModal}>
+      <ModalPanel>
         <StyledModalCloseLink onClick={closeModal}>×</StyledModalCloseLink>
         {title ? <StyledModalTitle>{title}</StyledModalTitle> : null}
         <StyledModalContent>
           {children}
         </StyledModalContent>
         {footerContent ? <StyledModalFooter>{ footerContent }</StyledModalFooter> : null}
-      </StyledModalPanel>
+      </ModalPanel>
     </StyledModal>
   );
 }
@@ -44,13 +45,13 @@ Modal.propTypes = {
   title: PropTypes.string,
   children: PropTypes.node.isRequired,
   footerContent: PropTypes.node,
-  isSideModal: PropTypes.bool,
+  ModalPanel: PropTypes.elementType,
 };
 
 Modal.defaultProps = {
   title: null,
   footerContent: null,
-  isSideModal: false,
+  ModalPanel: StyledModalPanel,
 };
 
 
@@ -68,10 +69,7 @@ const StyledModal = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
-  padding-top: 1.25em;
-  padding-right: 1.25em;
-  padding-bottom: 1.25em;
-  padding-left: calc(${({ theme }) => theme.widths.panel} + 1.25em + 0.75em);
+  padding: 1.25em;
 `;
 
 const StyledModalCloseBackground = styled.a`
@@ -81,22 +79,6 @@ const StyledModalCloseBackground = styled.a`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-`;
-
-const StyledModalPanel = styled.div`
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-self: ${(props) => (props.isSideModal ? 'flex-start' : 'initial')};
-  width: ${(props) => (props.isSideModal ? '18em' : '50em')};
-  max-height: 65%;
-  padding: ${(props) => (props.isSideModal ? '1.25em 1.5em' : '4em')};
-  margin-left: ${(props) => (props.isSideModal ? 'auto' : 'initial')};
-  overflow-y: scroll;
-  background-color: ${({ theme }) => theme.colors.panelBackground};
-  border-radius: ${({ theme }) => theme.radii.standard};
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
 `;
 
 const StyledModalCloseLink = styled.a`

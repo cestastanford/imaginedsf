@@ -4,6 +4,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import {
   createTileLayer,
@@ -25,6 +26,7 @@ import {
 */
 
 export default function useMapContent() {
+  const history = useHistory();
   const [leafletLayers, setLeafletLayers] = useState([]);
   const {
     mapItems,
@@ -67,11 +69,11 @@ export default function useMapContent() {
 
         //  Creates a WFS-sourced GeoJSON layer
         case VECTOR_WFS_SOURCE_TYPE:
-          return { id: map.ID, layer: createGeoJsonLayer(map) };
+          return { id: map.ID, layer: createGeoJsonLayer(map, history) };
 
         //  Creates a GeoJSON-upload-sourced GeoJSON layer
         case VECTOR_GEOJSON_SOURCE_TYPE:
-          return { id: map.ID, layer: createGeoJsonLayer(map) };
+          return { id: map.ID, layer: createGeoJsonLayer(map, history) };
 
         default:
           throw new Error(`Unrecognized source type: ${map.source_type}`);
@@ -79,7 +81,7 @@ export default function useMapContent() {
     });
 
     setLeafletLayers(layers);
-  }, [proposalEras, basemaps, mapItems, permanentBasemap]);
+  }, [proposalEras, basemaps, mapItems, permanentBasemap, history]);
 
   return leafletLayers;
 }

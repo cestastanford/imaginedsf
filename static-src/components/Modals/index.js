@@ -12,6 +12,7 @@ import {
   FEEDBACK_ROUTE,
   SHARE_ROUTE,
   DESCRIPTION_ROUTE,
+  IMAGE_ROUTE,
 } from '../../constants';
 
 import IntroductionModal from './IntroductionModal';
@@ -21,6 +22,7 @@ import FeedbackModal from './FeedbackModal';
 import ShareModal from './ShareModal';
 import DescriptionModal from './DescriptionModal';
 import PreviousLocationContext from './PreviousLocationContext';
+import ImageModal from './ImageModal';
 
 
 const ROUTED_MODALS_BY_PATH = {
@@ -30,6 +32,7 @@ const ROUTED_MODALS_BY_PATH = {
   [FEEDBACK_ROUTE]: FeedbackModal,
   [SHARE_ROUTE]: ShareModal,
   [`${DESCRIPTION_ROUTE}/:mapId`]: DescriptionModal,
+  [`${IMAGE_ROUTE}/:imageUrl`]: ImageModal,
 };
 
 export default function Modals() {
