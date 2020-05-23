@@ -66,6 +66,10 @@ const basemaps = (state = [], action) => {
 
 const geoJson = (state = {}, action) => {
   switch (action.type) {
+    //  Saves initial state for GeoJSON layers
+    case CONTENT_RECEIVED:
+      return action.mapContent.geoJson;
+
     //  Records that a GeoJSON download was started
     case GEOJSON_REQUESTED:
       return {

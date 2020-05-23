@@ -8,7 +8,11 @@ import {
   GeoJSON,
   CRS,
   Point,
+  Marker,
+  DivIcon,
 } from 'leaflet';
+import marked from 'marked';
+
 import { MIN_ZOOM, MAX_ZOOM } from '../../constants';
 
 
@@ -70,7 +74,46 @@ export const createWmsLayer = (map, index) => new TileLayer.WMS(
 * Creates a GeoJSON layer.
 */
 
-export const createGeoJsonLayer = () => new GeoJSON(null);
+export const createGeoJsonLayer = ({
+  points: {
+    directional_pins: directional,
+    pin_direction_property_key: directionKey,
+    popup_images_property_key: imagesKey,
+    popup_text_property_key: textKey,
+  },
+}) => new GeoJSON(null, {
+  pointToLayer(point, latLng) {
+    const iconElement = document.createElement('div');
+    iconElement.classList.add('vector-point-pin');
+    if (directional) {
+      iconElement.classList.add('vector-point-pin-directional');
+      iconElement.style.transform = `rotate(${point.properties[directionKey]}deg)`;
+    }
+
+    let markdownContent = (textKey && point.properties[textKey]) || '';
+    const imagesProperty = imagesKey && point.properties[imagesKey];
+    if (imagesProperty) {
+      imagesProperty.split(/\s*,\s*/)
+        .filter((s) => s)
+        .forEach((imageUrl) => {
+          if (imageUrl) {
+            markdownContent = `![](${imageUrl})\n${markdownContent}`;
+          }
+        });
+    }
+
+    return new Marker(latLng, {
+      icon: new DivIcon({
+        className: 'vector-point-pin-container',
+        iconSize: [28, 28],
+        html: iconElement,
+      }),
+    })
+      .on('popupopen', () => iconElement.classList.add('vector-point-pin-selected'))
+      .on('popupclose', () => iconElement.classList.remove('vector-point-pin-selected'))
+      .bindPopup(marked(markdownContent));
+  },
+});
 
 
 /*

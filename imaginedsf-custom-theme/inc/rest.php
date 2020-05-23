@@ -195,7 +195,7 @@ function get_map_layer_json( $request ) {
 
 	// Request WFS payload.
 	$response = wp_remote_get( $url );
-	if ( $response ) {
+	if ( $response && is_array( $response ) ) {
 
 		return json_decode( $response['body'] );
 
