@@ -319,7 +319,7 @@
                     {
                         "field": "field_598e78513ac38",
                         "operator": "==",
-                        "value": "geojson_upload"
+                        "value": "geojson"
                     }
                 ]
             ],
@@ -347,7 +347,7 @@
                     "library": "all",
                     "min_size": "",
                     "max_size": "",
-                    "mime_types": ".geojson, .json"
+                    "mime_types": "json, geojson"
                 }
             ]
         },
@@ -752,5 +752,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1590186625
+    "modified": 1590201810
 }
