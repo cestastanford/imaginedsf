@@ -96,3 +96,4 @@ export const SHARE_ROUTE = '/share';
 export const DESCRIPTION_ROUTE = '/description';
 export const PROPOSAL_MAPS_ROUTE = '/proposal-maps';
 export const NARRATIVES_ROUTE = '/narratives';
+export const IMAGE_ROUTE = '/image';

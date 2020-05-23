@@ -271,5 +271,7 @@ export const fetchGeoJson = (id) => async (dispatch, getState) => {
 
   const response = await fetch(url);
   const parsedResponse = await response.json();
-  dispatch(geoJsonReceived(id, parsedResponse));
+  if (parsedResponse.type === 'FeatureCollection') {
+    dispatch(geoJsonReceived(id, parsedResponse));
+  }
 };

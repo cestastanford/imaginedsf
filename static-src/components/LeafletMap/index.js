@@ -69,6 +69,10 @@ const StyledLeafletMap = styled.div`
   width: 100%;
   height: 100%;
 
+  & .vector-point-pin-container-no-marker {
+    cursor: inherit;
+  }
+
   & .vector-point-pin {
     width: 100%;
     height: 100%;
@@ -107,9 +111,32 @@ const StyledLeafletMap = styled.div`
 
   & .vector-point-popup-content {
     max-height: 500px;
-    margin: -10px;
+    margin: 20px 0;
     overflow-y: scroll;
     font-family: 'Muli', sans-serif;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
+    font-weight: lighter;
+
+    & .vector-point-popup-image {
+      display: block;
+      cursor: pointer;
+      transition: opacity 0.25s;
+
+      &:hover {
+        opacity: 0.9;
+      }
+
+      & + .vector-point-popup-image {
+        margin-top: 1em;
+      }
+    }
+
+    & > p:first-child {
+      margin-top: 0;
+    }
+
+    & > p:last-child {
+      margin-bottom: 0;
+    }
   }
 `;
