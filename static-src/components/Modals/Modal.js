@@ -111,6 +111,7 @@ const StyledModalContent = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  height: 100%;
   min-height: 0;
   margin-top: 0.25em;
 `;
