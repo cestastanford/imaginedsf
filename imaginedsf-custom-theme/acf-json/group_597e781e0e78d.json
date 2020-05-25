@@ -353,27 +353,12 @@
         },
         {
             "key": "field_5eb4651f92d1c",
-            "label": "Raster Bounds",
+            "label": "Bounds",
             "name": "bounds",
             "type": "group",
             "instructions": "Specify visible bounds for the map here.",
             "required": 0,
-            "conditional_logic": [
-                [
-                    {
-                        "field": "field_598e78513ac38",
-                        "operator": "==",
-                        "value": "wms"
-                    }
-                ],
-                [
-                    {
-                        "field": "field_598e78513ac38",
-                        "operator": "==",
-                        "value": "tile"
-                    }
-                ]
-            ],
+            "conditional_logic": 0,
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -752,5 +737,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1590201810
+    "modified": 1590431909
 }
