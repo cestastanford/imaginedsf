@@ -91,13 +91,13 @@ export default function Panel() {
           </StyledTabLink>
         ))}
       </StyledTabs>
-      {Object.entries(TABS_BY_PATH).map(
-        ([tabPath, { HeaderComponent, BodyComponent }]) => (
-          <StyledTabContent
-            key={tabPath}
-            activeTab={tabPath === activeTabPath.current}
-          >
-            <StyledPanelView>
+      <StyledTabContent>
+        {Object.entries(TABS_BY_PATH).map(
+          ([tabPath, { HeaderComponent, BodyComponent }]) => (
+            <StyledPanelView
+              key={tabPath}
+              activeTab={tabPath === activeTabPath.current}
+            >
               <StyledPanelViewHeader>
                 <HeaderComponent />
                 <StyledMiniMap>
@@ -108,9 +108,9 @@ export default function Panel() {
                 <BodyComponent />
               </StyledPanelViewBody>
             </StyledPanelView>
-          </StyledTabContent>
-        ),
-      )}
+          ),
+        )}
+      </StyledTabContent>
     </StyledPanel>
   );
 }
@@ -208,7 +208,6 @@ const StyledTabBadge = styled.div`
 const StyledTabContent = styled.div`
   position: relative;
   z-index: 1;
-  display: ${({ activeTab }) => (activeTab ? 'block' : 'none')};
   flex-grow: 1;
   height: 0;
   min-height: 0;
@@ -219,14 +218,16 @@ const StyledTabContent = styled.div`
 `;
 
 const StyledPanelView = styled.div`
+  position: absolute;
   display: flex;
   flex-direction: column;
   height: 100%;
+  visibility: ${({ activeTab }) => (activeTab ? 'visible' : 'hidden')};
 `;
 
 const StyledPanelViewHeader = styled.div`
   display: flex;
-  align-items: stretch;
+  flex-shrink: 0;
   justify-content: space-between;
   max-height: 12em;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
@@ -234,6 +235,7 @@ const StyledPanelViewHeader = styled.div`
 
 const StyledMiniMap = styled.div`
   flex-shrink: 0;
+  align-self: stretch;
 `;
 
 const StyledPanelViewBody = styled.div`
