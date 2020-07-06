@@ -26,7 +26,7 @@ const TAB_PATHS = [PROPOSAL_MAPS_ROUTE, NARRATIVES_ROUTE];
 const TABS_BY_PATH = {
 
   [PROPOSAL_MAPS_ROUTE]: {
-    title: 'Proposal Maps',
+    title: 'Maps and Plans',
     HeaderComponent: ProposalMapsPanelViewHeader,
     BodyComponent: ProposalMapsPanelViewBody,
   },
