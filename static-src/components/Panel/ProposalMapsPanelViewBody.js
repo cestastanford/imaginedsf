@@ -7,8 +7,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import MapListItem from '../MapListItem';
-import useProposalMapsInVisibleArea from './useProposalMapsInVisibleArea';
+import useProposalMapsOutsideVisibleArea from './useProposalMapsOutsideVisibleArea';
 import { setOnlyShowProposalMapsInVisibleArea } from '../../state/actions';
+import useGetDescendantMaps from '../useGetDescendantMaps';
 
 
 /*
@@ -19,11 +20,11 @@ export default function ProposalMapsPanelViewBody() {
   const proposalEras = useSelector((state) => state.mapContent.proposalEras);
   const onlyShowInVisibleArea = useSelector((state) => state.onlyShowProposalMapsInVisibleArea);
 
-  //  Determines which children of proposal eras should be visible
-  const proposalMapsInVisibleArea = useProposalMapsInVisibleArea();
-
   const dispatch = useDispatch();
   const showAllMaps = () => dispatch(setOnlyShowProposalMapsInVisibleArea(false));
+
+  const getDescendantMaps = useGetDescendantMaps();
+  const proposalMapsOutsideVisibleArea = useProposalMapsOutsideVisibleArea();
 
   return (
     <StyledProposalMapsPanelViewBody>
@@ -37,11 +38,17 @@ export default function ProposalMapsPanelViewBody() {
             children,
           } = era;
 
-          const childrenInVisibleArea = onlyShowInVisibleArea
-            ? era.children.filter((id) => proposalMapsInVisibleArea[id])
-            : era.children;
+          const descendantMaps = getDescendantMaps(era).map(({ ID }) => ID);
+          const visibleDescendantMaps = onlyShowInVisibleArea
+            ? descendantMaps.filter((id) => !proposalMapsOutsideVisibleArea[id])
+            : descendantMaps;
 
-          const nHiddenMaps = children.length - childrenInVisibleArea.length;
+          const nHiddenMaps = descendantMaps.length - visibleDescendantMaps.length;
+          const visibleChildren = (
+            children && children.filter((childId) => (
+              !onlyShowInVisibleArea || !proposalMapsOutsideVisibleArea[childId]
+            ))
+          );
 
           return (
             <ProposalEra key={title}>
@@ -55,7 +62,7 @@ export default function ProposalMapsPanelViewBody() {
               </ProposalEraTitleAndYear>
               <ProposalEraDescription>{ description }</ProposalEraDescription>
               <ProposalEraChildren>
-                { childrenInVisibleArea.map((id) => <MapListItem key={id} id={id} showYear />) }
+                { visibleChildren.map((id) => <MapListItem key={id} id={id} showYear />) }
                 { nHiddenMaps ? (
                   <li>
                     <ShowHiddenLink onClick={showAllMaps}>

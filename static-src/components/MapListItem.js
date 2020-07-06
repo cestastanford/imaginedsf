@@ -17,6 +17,7 @@ import {
   RASTER_TILE_SOURCE_TYPE,
   DESCRIPTION_ROUTE,
 } from '../constants';
+import useProposalMapsOutsideVisibleArea from './Panel/useProposalMapsOutsideVisibleArea';
 
 
 /*
@@ -53,6 +54,14 @@ export default function MapListItem({ id, showYear }) {
 
   const descriptionActive = useRouteMatch(`${DESCRIPTION_ROUTE}/${id}`);
   const descriptionLocation = { ...useLocation(), pathname: `${DESCRIPTION_ROUTE}/${id}` };
+
+  const onlyShowInVisibleArea = useSelector((state) => state.onlyShowProposalMapsInVisibleArea);
+  const proposalMapsOutsideVisibleArea = useProposalMapsOutsideVisibleArea();
+  const visibleChildren = (
+    children && children.filter((childId) => (
+      !onlyShowInVisibleArea || !proposalMapsOutsideVisibleArea[childId]
+    ))
+  );
 
   return (
     <>
@@ -112,7 +121,7 @@ export default function MapListItem({ id, showYear }) {
 
       { isGroup && enabled ? (
         <StyledChildren>
-          { children.map((childId) => <MapListItem key={childId} id={childId} />) }
+          { visibleChildren.map((childId) => <MapListItem key={childId} id={childId} />) }
         </StyledChildren>
       ) : null }
 

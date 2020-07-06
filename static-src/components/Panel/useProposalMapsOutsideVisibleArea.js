@@ -2,17 +2,18 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { polygon } from '@turf/helpers';
 import intersect from '@turf/intersect';
+import useGetDescendantMaps from '../useGetDescendantMaps';
 
 
 /*
 * Custom hook returning a memoized object of id/bool pairs for which
-* children of proposal eras are within the visible area.
+* descendent maps of proposal eras are outside the visible area.
 */
 
-export default function useProposalMapsInVisibleArea() {
+export default function useProposalMapsOutsideVisibleArea() {
   const proposalEras = useSelector((state) => state.mapContent.proposalEras);
-  const mapItems = useSelector((state) => state.mapContent.mapItems);
   const visibleMapAreaBounds = useSelector((state) => state.mapState.bounds);
+  const getDescendantMaps = useGetDescendantMaps();
 
   return useMemo(() => {
     const visibleAreaPolygon = polygon([[
@@ -23,12 +24,9 @@ export default function useProposalMapsInVisibleArea() {
       visibleMapAreaBounds.getNorthWest(),
     ].map((latLng) => [latLng.lng, latLng.lat])]);
 
-    const proposalChildren = [].concat(
-      ...proposalEras.map((era) => [...era.children.map((id) => mapItems[id])]),
-    );
-
-    return Object.assign({}, ...proposalChildren.map((item) => {
-      let itemInVisibleArea = true;
+    const proposalMaps = [].concat(...proposalEras.map(getDescendantMaps));
+    const proposalMapsOutsideVisibleArea = Object.assign({}, ...proposalMaps.map((item) => {
+      let itemOutsideVisibleArea = false;
       if (item.bounds) {
         const itemBoundsPolygon = polygon([[0, 1, 2, 3, 0].map((index) => [
           item.bounds[index].lng,
@@ -36,11 +34,13 @@ export default function useProposalMapsInVisibleArea() {
         ])]);
 
         if (!intersect(visibleAreaPolygon, itemBoundsPolygon)) {
-          itemInVisibleArea = false;
+          itemOutsideVisibleArea = true;
         }
       }
 
-      return { [item.ID]: itemInVisibleArea };
+      return { [item.ID]: itemOutsideVisibleArea };
     }));
-  }, [mapItems, proposalEras, visibleMapAreaBounds]);
+
+    return proposalMapsOutsideVisibleArea;
+  }, [getDescendantMaps, proposalEras, visibleMapAreaBounds]);
 }

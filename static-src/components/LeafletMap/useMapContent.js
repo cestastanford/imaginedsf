@@ -18,6 +18,7 @@ import {
   VECTOR_WFS_SOURCE_TYPE,
   VECTOR_GEOJSON_SOURCE_TYPE,
 } from '../../constants';
+import useGetDescendantMaps from '../useGetDescendantMaps';
 
 
 /*
@@ -34,20 +35,10 @@ export default function useMapContent() {
     permanentBasemap,
     basemaps,
   } = useSelector((state) => state.mapContent);
+  const getDescendantMaps = useGetDescendantMaps();
 
   //  Creates Leaflet layers for each map
   useEffect(() => {
-    //  Returns a flattened array of all descendant maps
-    const getDescendantMaps = (parent) => [].concat(...parent.children.map((id) => {
-      //  If group
-      if (mapItems[id].children) {
-        return getDescendantMaps(mapItems[id]);
-      }
-
-      //  If not group
-      return [mapItems[id]];
-    }));
-
     const maps = [
       ...[].concat(...proposalEras.map(getDescendantMaps)),
       ...getDescendantMaps({ children: basemaps }),
@@ -81,7 +72,7 @@ export default function useMapContent() {
     });
 
     setLeafletLayers(layers);
-  }, [proposalEras, basemaps, mapItems, permanentBasemap, history]);
+  }, [proposalEras, basemaps, mapItems, permanentBasemap, history, getDescendantMaps]);
 
   return leafletLayers;
 }

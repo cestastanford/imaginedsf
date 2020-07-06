@@ -18,7 +18,7 @@ import NarrativesPanelViewHeader from './NarrativesPanelViewHeader';
 import NarrativesPanelViewBody from './NarrativesPanelViewBody';
 import MiniMap from './MiniMap';
 import useMapEnabled from '../useMapEnabled';
-import useProposalMapsInVisibleArea from './useProposalMapsInVisibleArea';
+import useProposalMapsOutsideVisibleArea from './useProposalMapsOutsideVisibleArea';
 import { PROPOSAL_MAPS_ROUTE, NARRATIVES_ROUTE } from '../../constants';
 
 
@@ -61,14 +61,14 @@ export default function Panel() {
   );
 
   const mapEnabled = useMapEnabled(false);
-  const proposalMapsInVisibleArea = useProposalMapsInVisibleArea();
+  const proposalMapsOutsideVisibleArea = useProposalMapsOutsideVisibleArea();
   const nActiveProposalMaps = useMemo(() => (
     Object.keys(mapEnabled())
       .filter((id) => (
-        onlyShowProposalMapsInVisibleArea ? proposalMapsInVisibleArea[id] : true
+        onlyShowProposalMapsInVisibleArea ? !proposalMapsOutsideVisibleArea[id] : true
       ))
       .length
-  ), [mapEnabled, onlyShowProposalMapsInVisibleArea, proposalMapsInVisibleArea]);
+  ), [mapEnabled, onlyShowProposalMapsInVisibleArea, proposalMapsOutsideVisibleArea]);
 
   //  If route is '/', redirect to the active tab path
   if (location.pathname === '/') {
