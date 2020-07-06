@@ -109,6 +109,7 @@ export default function DescriptionModal({ mapId }) {
       recommended_basemap: recommendedBasemap,
     },
     bounds,
+    children,
   } = map;
 
   const closeModal = () => history.push(previousLocation);
@@ -116,19 +117,21 @@ export default function DescriptionModal({ mapId }) {
   return (
     <Modal title={title}>
       <StyledModalContent>
-        <StyledMapControls>
+        { children ? null : (
+          <StyledMapControls>
 
-          {/* Zoom to map extent button */}
-          { bounds ? (
-            <ZoomToMapExtentButton mapId={mapId} closeModal={closeModal} />
-          ) : null }
+            {/* Zoom to map extent button */}
+            { bounds ? (
+              <ZoomToMapExtentButton mapId={mapId} closeModal={closeModal} />
+            ) : null }
 
-          {/* Show recommended basemap button */}
-          { recommendedBasemap ? (
-            <ShowRecommendedBasemapButton mapId={mapId} closeModal={closeModal} />
-          ) : null }
+            {/* Show recommended basemap button */}
+            { recommendedBasemap ? (
+              <ShowRecommendedBasemapButton mapId={mapId} closeModal={closeModal} />
+            ) : null }
 
-        </StyledMapControls>
+          </StyledMapControls>
+        ) }
         <StyledDescription content={description} />
       </StyledModalContent>
     </Modal>
