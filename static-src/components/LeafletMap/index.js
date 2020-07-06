@@ -120,11 +120,6 @@ const StyledLeafletMap = styled.div`
     & .vector-point-popup-image {
       display: block;
       cursor: pointer;
-      transition: opacity 0.25s;
-
-      &:hover {
-        opacity: 0.9;
-      }
 
       & + .vector-point-popup-image {
         margin-top: 1em;
