@@ -96,6 +96,10 @@ const StyledHTMLContent = styled.div`
     max-width: 100%;
     height: auto;
     margin: 1em 0;
+
+    &.alignnone {
+      margin: initial;
+    }
   }
 
   strong {
