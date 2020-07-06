@@ -110,7 +110,7 @@ const StyledLeafletMap = styled.div`
   }
 
   & .vector-point-popup-content {
-    max-height: 500px;
+    max-height: calc(100vh - 12rem);
     margin: 20px 0;
     overflow-y: scroll;
     font-family: 'Muli', sans-serif;
