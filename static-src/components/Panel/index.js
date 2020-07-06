@@ -195,14 +195,15 @@ const StyledTabBadge = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 0.35em;
+  min-width: 1.45em;
+  padding: 0 0.25em 0 0.25em;
   margin: 0.5em;
-  font-size: 0.75em;
+  font-size: 0.7em;
   font-weight: bold;
-  line-height: 1.25;
+  line-height: 1.5;
   color: white;
   background-color: ${({ theme }) => theme.colors.brightAccent};
-  border-radius: 1em;
+  border-radius: 0.75em;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 `;
 
