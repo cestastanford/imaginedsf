@@ -24,7 +24,7 @@ export const SF_BOUNDS = new LatLngBounds([
 
 export const MAX_BOUNDS = new LatLngBounds([
   [
-    SF_BOUNDS.getNorth() - (SF_BOUNDS.getSouth() - SF_BOUNDS.getNorth()) * 1, // North
+    SF_BOUNDS.getNorth() - (SF_BOUNDS.getSouth() - SF_BOUNDS.getNorth()) * 2, // North
     SF_BOUNDS.getWest() - (SF_BOUNDS.getEast() - SF_BOUNDS.getWest()) * 1.5, // West
   ],
   [
