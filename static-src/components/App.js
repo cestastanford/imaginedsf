@@ -5,7 +5,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 import LeafletMapContext from './LeafletMapContext';
 import { fetchContent } from '../state/actions';
@@ -45,6 +45,7 @@ export default function App() {
 
   return (
     <LeafletMapContext.Provider value={leafletMapRef}>
+      <GlobalStyle />
       <StyledApp>
         <LoadingMessage visible={loading}>
           { loadingError ? 'Error' : 'Loading...' }
@@ -76,6 +77,12 @@ export default function App() {
 * Defines styled components used in app.
 */
 
+const GlobalStyle = createGlobalStyle`
+  html {
+    overflow-x: scroll;
+  }
+`;
+
 const LoadingMessage = styled.div`
   position: absolute;
   top: 0;
@@ -105,6 +112,7 @@ const StyledApp = styled.div`
   min-width: 57.75em;
   height: 100vh;
   min-height: 800px;
+  overflow-x: hidden;
   font-family: 'Muli', sans-serif;
   font-size: 16px;
 
