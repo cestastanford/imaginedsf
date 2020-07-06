@@ -90,8 +90,9 @@ const StyledNarrativeLink = styled(Link)`
 
   &.current,
   &.current:hover {
-    font-weight: bolder;
+    font-weight: bold;
     color: ${({ theme }) => theme.colors.brightAccent};
+    letter-spacing: -0.015em;
     opacity: 1;
   }
 `;
