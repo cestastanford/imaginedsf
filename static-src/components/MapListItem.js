@@ -85,8 +85,9 @@ export default function MapListItem({ id, showYear }) {
         <StyledTitle
           isEnabled={enabled}
           onClick={handleEnabledUpdate}
-          titleText={title}
-        />
+        >
+          {title}
+        </StyledTitle>
 
         { isRaster ? (
           <StyledRange
@@ -160,10 +161,12 @@ const StyledYear = styled.span`
 `;
 
 const StyledTitle = styled.a`
-  position: relative;
   flex-grow: 1;
   flex-shrink: 1;
   margin-right: 1rem;
+  font-weight: ${({ isEnabled }) => (isEnabled ? 'bold' : 'normal')};
+  color: ${({ theme, isEnabled }) => (isEnabled ? theme.colors.brightAccent : '#444')};
+  letter-spacing: ${({ isEnabled }) => (isEnabled ? '-0.015em' : 'inherit')};
   cursor: pointer;
   user-select: none;
   opacity: 1;
@@ -172,21 +175,6 @@ const StyledTitle = styled.a`
   &:hover {
     color: ${({ theme, isEnabled }) => (isEnabled ? theme.colors.brightAccent : '#444')};
     opacity: 0.75;
-  }
-
-  &::before {
-    font-weight: bold;
-    visibility: hidden;
-    content: "${({ titleText }) => titleText}";
-  }
-
-  &::after {
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-weight: ${({ isEnabled }) => (isEnabled ? 'bold' : 'normal')};
-    color: ${({ theme, isEnabled }) => (isEnabled ? theme.colors.brightAccent : '#444')};
-    content: "${({ titleText }) => titleText}";
   }
 `;
 

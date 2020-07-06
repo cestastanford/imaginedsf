@@ -162,7 +162,8 @@ const StyledTabLink = styled(Link)`
 
   &.active {
     z-index: 1;
-    font-weight: bolder;
+    font-weight: bold;
+    letter-spacing: -0.015em;
     background-color: ${({ theme }) => theme.colors.panelBackground};
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
 

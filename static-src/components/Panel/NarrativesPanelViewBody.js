@@ -43,6 +43,7 @@ const StyledScrollingContainer = styled.div`
     &.${AUTO_CLICKED_CLASS} {
       font-weight: bold;
       color: ${({ theme }) => theme.colors.brightAccent};
+      letter-spacing: -0.025em;
     }
   }
 `;
