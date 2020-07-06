@@ -107,7 +107,7 @@ const ProposalEraDescription = styled.div`
   font-style: italic;
   line-height: 1.25;
   color: #666;
-  letter-spacing: -0.05em;
+  letter-spacing: 0.05em;
 `;
 
 const ProposalEraChildren = styled.ul`
