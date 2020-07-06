@@ -99,7 +99,7 @@ export default function MapListItem({ id, showYear }) {
             value={opacity}
             onChange={(e) => handleOpacityUpdate(+e.target.value)}
           />
-        ) : null }
+        ) : <StyledRule /> }
 
         <StyledDescriptionButton
           to={descriptionLocation}
@@ -183,6 +183,15 @@ const StyledRange = styled.input`
   margin-right: 1.5em;
   transform: scale(1.25);
   transform-origin: left;
+`;
+
+const StyledRule = styled.hr`
+  width: 5.95em;
+  height: 1px;
+  margin-top: 0;
+  margin-right: 0.15em;
+  margin-bottom: 0;
+  background-color: #aaa;
 `;
 
 const StyledDescriptionButton = styled(Link)`
