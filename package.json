@@ -42,7 +42,7 @@
     "bulma": "^0.7.5",
     "file-loader": "^4.3.0",
     "leaflet": "^1.6.0",
-    "marked": "^1.1.0",
+    "marked": "^4.0.10",
     "postcss": "^7.0.26",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
